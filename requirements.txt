@@ -1,0 +1,4 @@
+# Only needed for tools/verify_evidence_chain.py (Ed25519 envelope check).
+# The evaluator and held-out runners use only the Python standard library
+# plus a local Ollama endpoint serving qwen2.5:7b.
+cryptography>=41

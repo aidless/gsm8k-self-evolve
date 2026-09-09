@@ -1,0 +1,95 @@
+# GSM8K Self-Evolve: direct → concise-reason → step-calc
+
+Two rounds of evaluation-gated prompt-policy evolution on GSM8K-style math,
+run on cloud (Qwen2.5:7b via Ollama, temperature 0), ending in a **stable**
+`step-calc` policy backed by a merged 200-question blind held-out set and an
+Ed25519-signed evidence bundle. Every number below is recomputable from this
+repo — run `python tools/verify_evidence_chain.py`.
+
+## Result
+
+| Stage | Policy | Train (40) | Held-out |
+|---|---|---|---|
+| seed baseline | `direct` (number only) | 0.15 | 0.125 (40 q) |
+| round 1 (provisional) | `concise-reason` (≤2 sentences + `Answer:`) | 0.65 | 0.780 (200 q) |
+| round 2 (**stable**) | `step-calc` (one arithmetic step per line + `Answer:`) | 0.95 | **0.925 (200 q)** |
+
+Head-to-head on the merged blind held-out (200 q):
+
+- step-calc **185/200 (0.925)** vs concise-reason **156/200 (0.780)**
+- paired discordant **better:worse = 33:4**, exact two-sided binomial McNemar **p = 1.08e-06**
+- ledger identity holds: 185−156 = 33−4 = 29
+
+Key IDs: stable version `eecacc0312d7` · bundle `step-calc@ad35903f5cb4`
+(`sha256 = ad35903f5cb4…f2edbc685d1`).
+
+## Method (what actually happened)
+
+1. **Round 1** — incumbent `direct` vs mutations `{concise-reason, double-check,
+   reworded-direct}` on train-40. `concise-reason` won (0.65 vs 0.15,
+   McNemar better=20/worse=0, p≈1.9e-06) → provisional.
+   `double-check` scored *below* baseline (0.10): a bare "re-check" instruction
+   with a number-only output constraint hurts.
+2. **Round 2** — incumbent `concise-reason`, mutations `{step-calc,
+   rounding-aware, rectify}` (designed against round-1 failure modes:
+   merged mental arithmetic, rounding traps, truncated outputs).
+   `step-calc` won train 38/40 vs 30/40 (better=9/worse=1, p≈0.022) → provisional.
+3. **Blind held-out** — two disjoint batches (40 + 160), both disjoint from
+   train and from each other, never touched by the evolve loop. Batch-1 alone
+   (better=3/worse=0, p=0.25) was *underpowered*, not negative; batch-2
+   (better=30/worse=4, p≈6.2e-06) settled it. Merged p = 1.08e-06.
+4. **Stable promotion** — 5 evidence keys re-derived in
+   `scripts/promote_to_stable.py`: statistics, hidden-set disjointness,
+   zero safety violations, rollback availability, valid bundle signature →
+   `step-calc` transitioned provisional → stable in `registry/`.
+
+## Honest semantics (read before citing)
+
+- The bundle signature is **self-signed** (`signer=agent-self`). It gives
+  **integrity + auditability** (tamper-evident, key-attributed), **not**
+  independent third-party endorsement.
+- Held-out batch-2 stores authoritative paired counts (per-question details
+  were not persisted for that batch); batch-1 stores full per-question pairs.
+  The verifier recomputes batch-1 pairs from scratch and asserts the global
+  ledger identity, so a miscount in either batch would break verification.
+- 40-question single runs carry ≈±10% noise on this setup (observed baseline
+  drift 0.65→0.75 on re-runs). The `min_gain=0.02` gate in `evo.json` is
+  therefore meaningful only with the large-sample held-out backstop used here.
+
+## Reproduce
+
+```bash
+# 1. verify the whole chain (stdlib + cryptography only)
+pip install -r requirements.txt
+python tools/verify_evidence_chain.py   # expect ALL CHECKS PASSED
+
+# 2. re-run evaluation (needs Ollama + qwen2.5:7b; engine paths are cloud-local)
+# single held-out pass, e.g. step-calc on batch-1 (see scripts/run_heldout_round2.py)
+```
+
+The evolve loop itself ran under the `evoagent` engine
+(auditable, evaluation-gated self-improvement loop), which is **not** part of
+this repo; `scripts/run_evolve_round2.py` documents the exact invocation.
+`examples/gsm8k_evaluator.py` + `scripts/run_heldout*.py` are self-contained
+given an Ollama endpoint (`EVO_OLLAMA_URL`, `EVO_MODEL` env overrides).
+
+## Layout
+
+```
+evo.json / seed.json / active.json      evolve config, seed, promoted candidate
+examples/                               evaluator (6 policies) + train/held1/held2 sets
+scripts/                                evolve / held-out / stable-promotion runners
+results/runs/                           full round-1 + round-2 evolve reports
+results/heldout-*.json                  blind held-out results (batches 1+2)
+results/rollback-before-round2/         round-1 originals (rollback available)
+results/history/                        incumbent history snapshots
+registry/version-registry.json          provisional → stable transitions with evidence
+signed/bundle.json                      manifest + sha256 + held-out evidence
+signed/*.envelope.json                  Ed25519 self-signed envelope
+signed/agent-self.pub.hex               trusted public key (hex; private key never published)
+tools/verify_evidence_chain.py          independent 5-check re-verification
+```
+
+## License
+
+MIT — see `LICENSE`.

@@ -1,0 +1,196 @@
+{
+  "versions": {
+    "81f31ce4443a": {
+      "version_id": "81f31ce4443a",
+      "component": "agent_strategy",
+      "level": "provisional",
+      "evidence": {
+        "run_id": "20260907-135728",
+        "development_passed": true,
+        "rollback_available": true,
+        "statistical_decision": {
+          "promote": true,
+          "reasons": [],
+          "n": 40,
+          "mean_gain": 0.5,
+          "bootstrap_ci": [
+            0.35,
+            0.65
+          ],
+          "mcnemar": {
+            "better": 20,
+            "worse": 0,
+            "p_value": 1.9073486328125e-06
+          },
+          "cost_increase": 0,
+          "latency_increase": 0.669407146786012,
+          "safety_violations": 0,
+          "capability_deltas": {}
+        },
+        "version_level": "provisional"
+      },
+      "created_at": "2026-09-07T13:57:29"
+    },
+    "eecacc0312d7": {
+      "version_id": "eecacc0312d7",
+      "component": "agent_strategy",
+      "level": "stable",
+      "evidence": {
+        "run_id": "20260908-235617",
+        "development_passed": true,
+        "rollback_available": true,
+        "statistical_decision": {
+          "n": 200,
+          "concise_reason_passed": 156,
+          "step_calc_passed": 185,
+          "concise_score": 0.78,
+          "step_score": 0.925,
+          "paired_better": 33,
+          "paired_worse": 4,
+          "mcnemar_p_value": 1.0843941709026694e-06,
+          "note": "merged batch1(40)+batch2(160), exact two-sided binomial McNemar on discordant pairs"
+        },
+        "version_level": "provisional",
+        "statistical_passed": true,
+        "hidden_passed": true,
+        "safety_passed": true,
+        "bundle_signature_valid": true,
+        "disjoint_check": {
+          "train_n": 40,
+          "held1_n": 40,
+          "held2_n": 160,
+          "pairwise_disjoint": true
+        },
+        "bundle_id": "step-calc@ad35903f5cb4",
+        "bundle_sha256": "ad35903f5cb45a3061516f8d27ee6603fad1aa29de0d9e303fa87f2edbc685d1",
+        "envelope_path": "/root/exp-gsm8k/.evo/signed-bundles/step-calc@ad35903f5cb4.envelope.json",
+        "safety_violations": 0,
+        "signer": "agent-self"
+      },
+      "created_at": "2026-09-08T23:56:17"
+    }
+  },
+  "history": [
+    {
+      "action": "register",
+      "version_id": "81f31ce4443a",
+      "component": "agent_strategy",
+      "level": "experimental",
+      "evidence": {
+        "run_id": "20260907-135728"
+      },
+      "created_at": "2026-09-07T13:57:29"
+    },
+    {
+      "action": "transition",
+      "version_id": "81f31ce4443a",
+      "from": "experimental",
+      "to": "provisional",
+      "evidence": {
+        "development_passed": true,
+        "rollback_available": true,
+        "statistical_decision": {
+          "promote": true,
+          "reasons": [],
+          "n": 40,
+          "mean_gain": 0.5,
+          "bootstrap_ci": [
+            0.35,
+            0.65
+          ],
+          "mcnemar": {
+            "better": 20,
+            "worse": 0,
+            "p_value": 1.9073486328125e-06
+          },
+          "cost_increase": 0,
+          "latency_increase": 0.669407146786012,
+          "safety_violations": 0,
+          "capability_deltas": {}
+        },
+        "version_level": "provisional"
+      },
+      "reason": "evolve promotion",
+      "at": "2026-09-07T13:57:29"
+    },
+    {
+      "action": "register",
+      "version_id": "eecacc0312d7",
+      "component": "agent_strategy",
+      "level": "experimental",
+      "evidence": {
+        "run_id": "20260908-235617"
+      },
+      "created_at": "2026-09-08T23:56:17"
+    },
+    {
+      "action": "transition",
+      "version_id": "eecacc0312d7",
+      "from": "experimental",
+      "to": "provisional",
+      "evidence": {
+        "development_passed": true,
+        "rollback_available": true,
+        "statistical_decision": {
+          "promote": true,
+          "reasons": [],
+          "n": 40,
+          "mean_gain": 0.2,
+          "bootstrap_ci": [
+            0.05,
+            0.35
+          ],
+          "mcnemar": {
+            "better": 9,
+            "worse": 1,
+            "p_value": 0.021484375
+          },
+          "cost_increase": 0,
+          "latency_increase": 0.09396552074839613,
+          "safety_violations": 0,
+          "capability_deltas": {}
+        },
+        "version_level": "provisional"
+      },
+      "reason": "evolve promotion",
+      "at": "2026-09-08T23:56:17"
+    },
+    {
+      "action": "transition",
+      "version_id": "eecacc0312d7",
+      "from": "provisional",
+      "to": "stable",
+      "evidence": {
+        "statistical_passed": true,
+        "hidden_passed": true,
+        "safety_passed": true,
+        "rollback_available": true,
+        "bundle_signature_valid": true,
+        "statistical_decision": {
+          "n": 200,
+          "concise_reason_passed": 156,
+          "step_calc_passed": 185,
+          "concise_score": 0.78,
+          "step_score": 0.925,
+          "paired_better": 33,
+          "paired_worse": 4,
+          "mcnemar_p_value": 1.0843941709026694e-06,
+          "note": "merged batch1(40)+batch2(160), exact two-sided binomial McNemar on discordant pairs"
+        },
+        "disjoint_check": {
+          "train_n": 40,
+          "held1_n": 40,
+          "held2_n": 160,
+          "pairwise_disjoint": true
+        },
+        "bundle_id": "step-calc@ad35903f5cb4",
+        "bundle_sha256": "ad35903f5cb45a3061516f8d27ee6603fad1aa29de0d9e303fa87f2edbc685d1",
+        "envelope_path": "/root/exp-gsm8k/.evo/signed-bundles/step-calc@ad35903f5cb4.envelope.json",
+        "safety_violations": 0,
+        "signer": "agent-self"
+      },
+      "reason": "stable promotion: merged held-out 200 exact McNemar p=1.08e-06; Ed25519 self-signed bundle verified",
+      "at": "2026-09-09T01:23:30"
+    }
+  ]
+}

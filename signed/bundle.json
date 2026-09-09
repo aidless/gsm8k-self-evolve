@@ -1,0 +1,32 @@
+{
+  "bundle_id": "step-calc@ad35903f5cb4",
+  "sha256": "ad35903f5cb45a3061516f8d27ee6603fad1aa29de0d9e303fa87f2edbc685d1",
+  "manifest": {
+    "name": "step-calc",
+    "files": {
+      "/root/exp-gsm8k/.evo/active.json": "bcaecf98990534ad957d9a6c7f1cbaa1ca63f0ea73b9d49051fb5e63dbeb8b43",
+      "/root/exp-gsm8k/examples/gsm8k_evaluator.py": "4a23f69463293b380bfd7a52be5f9e616af3d02f6e822f7be721b95015eb400e",
+      "/root/exp-gsm8k/examples/gsm8k40.json": "4636ead0aca47c36643fdfa51a3843c51a400f6d7415b73341d79f395f9e03c4",
+      "/root/exp-gsm8k/examples/heldout40.json": "7469b89a33f0d0c3ed00232ba4de40eee4259a162856c75c2d71e03cd00a0cf3",
+      "/root/exp-gsm8k/examples/heldout-batch2-160.json": "1f1030ff2733292cc3514cc9fb726c19d9155cee6e3928191ffedb2804461d63"
+    },
+    "heldout_evidence": {
+      "n": 200,
+      "concise_reason_passed": 156,
+      "step_calc_passed": 185,
+      "concise_score": 0.78,
+      "step_score": 0.925,
+      "paired_better": 33,
+      "paired_worse": 4,
+      "mcnemar_p_value": 1.0843941709026694e-06,
+      "note": "merged batch1(40)+batch2(160), exact two-sided binomial McNemar on discordant pairs"
+    },
+    "disjoint_check": {
+      "train_n": 40,
+      "held1_n": 40,
+      "held2_n": 160,
+      "pairwise_disjoint": true
+    },
+    "signer_note": "self-signed by agent-self; provides integrity + audit, not independent third-party endorsement"
+  }
+}

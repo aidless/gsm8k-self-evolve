@@ -1,0 +1,9 @@
+{
+  "bundle_id": "step-calc@ad35903f5cb4",
+  "bundle_sha256": "ad35903f5cb45a3061516f8d27ee6603fad1aa29de0d9e303fa87f2edbc685d1",
+  "signer": "agent-self",
+  "signed_at": "2026-09-08T17:23:30.150876+00:00",
+  "expires_at": "2027-09-08T17:23:30.150835+00:00",
+  "signature": "NsL74a2cpiHOo6YPt7MGUOVD1aH3QFI98m4EflR+ylMEX2NkTb11KnBVWREmJNLh1NUhJxQMW5CL38AozGLrDg==",
+  "algorithm": "Ed25519"
+}

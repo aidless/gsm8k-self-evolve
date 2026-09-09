@@ -1,0 +1,20 @@
+{
+ "concise_reason": {
+  "passed": 121,
+  "total": 160,
+  "score": 0.7562
+ },
+ "step_calc": {
+  "passed": 147,
+  "total": 160,
+  "score": 0.9187
+ },
+ "paired": {
+  "step_better": 30,
+  "concise_better": 4,
+  "both_pass": 117,
+  "both_fail": 9,
+  "discordant_n": 34,
+  "mcnemar_p_value": 6.16488978266716e-06
+ }
+}
