@@ -1,0 +1,519 @@
+{
+ "concise_reason": {
+  "passed": 35,
+  "total": 40,
+  "score": 0.875,
+  "details": [
+   {
+    "id": "held-01",
+    "passed": true,
+    "parsed": 18.0,
+    "expected": 18.0
+   },
+   {
+    "id": "held-02",
+    "passed": false,
+    "parsed": 95.0,
+    "expected": 140.0
+   },
+   {
+    "id": "held-03",
+    "passed": true,
+    "parsed": 448.0,
+    "expected": 448.0
+   },
+   {
+    "id": "held-04",
+    "passed": true,
+    "parsed": 750.0,
+    "expected": 750.0
+   },
+   {
+    "id": "held-05",
+    "passed": true,
+    "parsed": 10.0,
+    "expected": 10.0
+   },
+   {
+    "id": "held-06",
+    "passed": true,
+    "parsed": 22.0,
+    "expected": 22.0
+   },
+   {
+    "id": "held-07",
+    "passed": true,
+    "parsed": 9.0,
+    "expected": 9.0
+   },
+   {
+    "id": "held-08",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0
+   },
+   {
+    "id": "held-09",
+    "passed": false,
+    "parsed": 90.0,
+    "expected": 98.0
+   },
+   {
+    "id": "held-10",
+    "passed": true,
+    "parsed": 38.0,
+    "expected": 38.0
+   },
+   {
+    "id": "held-11",
+    "passed": true,
+    "parsed": 91.0,
+    "expected": 91.0
+   },
+   {
+    "id": "held-12",
+    "passed": true,
+    "parsed": 160.0,
+    "expected": 160.0
+   },
+   {
+    "id": "held-13",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0
+   },
+   {
+    "id": "held-14",
+    "passed": true,
+    "parsed": 24.0,
+    "expected": 24.0
+   },
+   {
+    "id": "held-15",
+    "passed": true,
+    "parsed": 300.0,
+    "expected": 300.0
+   },
+   {
+    "id": "held-16",
+    "passed": true,
+    "parsed": 5600.0,
+    "expected": 5600.0
+   },
+   {
+    "id": "held-17",
+    "passed": true,
+    "parsed": 621.0,
+    "expected": 621.0
+   },
+   {
+    "id": "held-18",
+    "passed": true,
+    "parsed": 75.0,
+    "expected": 75.0
+   },
+   {
+    "id": "held-19",
+    "passed": true,
+    "parsed": 34.0,
+    "expected": 34.0
+   },
+   {
+    "id": "held-20",
+    "passed": true,
+    "parsed": 9.0,
+    "expected": 9.0
+   },
+   {
+    "id": "held-21",
+    "passed": true,
+    "parsed": 294.0,
+    "expected": 294.0
+   },
+   {
+    "id": "held-22",
+    "passed": true,
+    "parsed": 17000.0,
+    "expected": 17000.0
+   },
+   {
+    "id": "held-23",
+    "passed": true,
+    "parsed": 24.0,
+    "expected": 24.0
+   },
+   {
+    "id": "held-24",
+    "passed": true,
+    "parsed": 2.0,
+    "expected": 2.0
+   },
+   {
+    "id": "held-25",
+    "passed": true,
+    "parsed": 15.0,
+    "expected": 15.0
+   },
+   {
+    "id": "held-26",
+    "passed": true,
+    "parsed": 27.0,
+    "expected": 27.0
+   },
+   {
+    "id": "held-27",
+    "passed": true,
+    "parsed": 310.0,
+    "expected": 310.0
+   },
+   {
+    "id": "held-28",
+    "passed": false,
+    "parsed": 21.0,
+    "expected": 23.0
+   },
+   {
+    "id": "held-29",
+    "passed": true,
+    "parsed": 2350.0,
+    "expected": 2350.0
+   },
+   {
+    "id": "held-30",
+    "passed": true,
+    "parsed": 30.0,
+    "expected": 30.0
+   },
+   {
+    "id": "held-31",
+    "passed": true,
+    "parsed": 63.0,
+    "expected": 63.0
+   },
+   {
+    "id": "held-32",
+    "passed": true,
+    "parsed": 4400.0,
+    "expected": 4400.0
+   },
+   {
+    "id": "held-33",
+    "passed": true,
+    "parsed": 20.0,
+    "expected": 20.0
+   },
+   {
+    "id": "held-34",
+    "passed": false,
+    "parsed": 104.0,
+    "expected": 156.0
+   },
+   {
+    "id": "held-35",
+    "passed": true,
+    "parsed": 15.0,
+    "expected": 15.0
+   },
+   {
+    "id": "held-36",
+    "passed": true,
+    "parsed": 109.0,
+    "expected": 109.0
+   },
+   {
+    "id": "held-37",
+    "passed": true,
+    "parsed": 42.0,
+    "expected": 42.0
+   },
+   {
+    "id": "held-38",
+    "passed": true,
+    "parsed": 110.0,
+    "expected": 110.0
+   },
+   {
+    "id": "held-39",
+    "passed": false,
+    "parsed": 3.0,
+    "expected": 21.0
+   },
+   {
+    "id": "held-40",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0
+   }
+  ]
+ },
+ "step_calc": {
+  "passed": 38,
+  "total": 40,
+  "score": 0.95,
+  "details": [
+   {
+    "id": "held-01",
+    "passed": true,
+    "parsed": 18.0,
+    "expected": 18.0
+   },
+   {
+    "id": "held-02",
+    "passed": false,
+    "parsed": 120.0,
+    "expected": 140.0
+   },
+   {
+    "id": "held-03",
+    "passed": true,
+    "parsed": 448.0,
+    "expected": 448.0
+   },
+   {
+    "id": "held-04",
+    "passed": true,
+    "parsed": 750.0,
+    "expected": 750.0
+   },
+   {
+    "id": "held-05",
+    "passed": true,
+    "parsed": 10.0,
+    "expected": 10.0
+   },
+   {
+    "id": "held-06",
+    "passed": true,
+    "parsed": 22.0,
+    "expected": 22.0
+   },
+   {
+    "id": "held-07",
+    "passed": true,
+    "parsed": 9.0,
+    "expected": 9.0
+   },
+   {
+    "id": "held-08",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0
+   },
+   {
+    "id": "held-09",
+    "passed": true,
+    "parsed": 98.0,
+    "expected": 98.0
+   },
+   {
+    "id": "held-10",
+    "passed": true,
+    "parsed": 38.0,
+    "expected": 38.0
+   },
+   {
+    "id": "held-11",
+    "passed": true,
+    "parsed": 91.0,
+    "expected": 91.0
+   },
+   {
+    "id": "held-12",
+    "passed": true,
+    "parsed": 160.0,
+    "expected": 160.0
+   },
+   {
+    "id": "held-13",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0
+   },
+   {
+    "id": "held-14",
+    "passed": true,
+    "parsed": 24.0,
+    "expected": 24.0
+   },
+   {
+    "id": "held-15",
+    "passed": true,
+    "parsed": 300.0,
+    "expected": 300.0
+   },
+   {
+    "id": "held-16",
+    "passed": true,
+    "parsed": 5600.0,
+    "expected": 5600.0
+   },
+   {
+    "id": "held-17",
+    "passed": true,
+    "parsed": 621.0,
+    "expected": 621.0
+   },
+   {
+    "id": "held-18",
+    "passed": true,
+    "parsed": 75.0,
+    "expected": 75.0
+   },
+   {
+    "id": "held-19",
+    "passed": true,
+    "parsed": 34.0,
+    "expected": 34.0
+   },
+   {
+    "id": "held-20",
+    "passed": true,
+    "parsed": 9.0,
+    "expected": 9.0
+   },
+   {
+    "id": "held-21",
+    "passed": true,
+    "parsed": 294.0,
+    "expected": 294.0
+   },
+   {
+    "id": "held-22",
+    "passed": true,
+    "parsed": 17000.0,
+    "expected": 17000.0
+   },
+   {
+    "id": "held-23",
+    "passed": true,
+    "parsed": 24.0,
+    "expected": 24.0
+   },
+   {
+    "id": "held-24",
+    "passed": true,
+    "parsed": 2.0,
+    "expected": 2.0
+   },
+   {
+    "id": "held-25",
+    "passed": true,
+    "parsed": 15.0,
+    "expected": 15.0
+   },
+   {
+    "id": "held-26",
+    "passed": true,
+    "parsed": 27.0,
+    "expected": 27.0
+   },
+   {
+    "id": "held-27",
+    "passed": true,
+    "parsed": 310.0,
+    "expected": 310.0
+   },
+   {
+    "id": "held-28",
+    "passed": false,
+    "parsed": 30.0,
+    "expected": 23.0
+   },
+   {
+    "id": "held-29",
+    "passed": true,
+    "parsed": 2350.0,
+    "expected": 2350.0
+   },
+   {
+    "id": "held-30",
+    "passed": true,
+    "parsed": 30.0,
+    "expected": 30.0
+   },
+   {
+    "id": "held-31",
+    "passed": true,
+    "parsed": 63.0,
+    "expected": 63.0
+   },
+   {
+    "id": "held-32",
+    "passed": true,
+    "parsed": 4400.0,
+    "expected": 4400.0
+   },
+   {
+    "id": "held-33",
+    "passed": true,
+    "parsed": 20.0,
+    "expected": 20.0
+   },
+   {
+    "id": "held-34",
+    "passed": true,
+    "parsed": 156.0,
+    "expected": 156.0
+   },
+   {
+    "id": "held-35",
+    "passed": true,
+    "parsed": 15.0,
+    "expected": 15.0
+   },
+   {
+    "id": "held-36",
+    "passed": true,
+    "parsed": 109.0,
+    "expected": 109.0
+   },
+   {
+    "id": "held-37",
+    "passed": true,
+    "parsed": 42.0,
+    "expected": 42.0
+   },
+   {
+    "id": "held-38",
+    "passed": true,
+    "parsed": 110.0,
+    "expected": 110.0
+   },
+   {
+    "id": "held-39",
+    "passed": true,
+    "parsed": 21.0,
+    "expected": 21.0
+   },
+   {
+    "id": "held-40",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0
+   }
+  ]
+ },
+ "paired": {
+  "step_wins_consecutive": 3,
+  "concise_wins_step": 0,
+  "step_calc_better": 3,
+  "concise_reason_better": 0,
+  "both_pass": 35,
+  "both_fail": 2,
+  "mcnemar_p_value": 0.25,
+  "flips": [
+   [
+    "held-09",
+    "step-only"
+   ],
+   [
+    "held-34",
+    "step-only"
+   ],
+   [
+    "held-39",
+    "step-only"
+   ]
+  ]
+ }
+}

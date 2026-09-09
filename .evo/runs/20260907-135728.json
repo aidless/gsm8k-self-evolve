@@ -1,0 +1,2612 @@
+{
+  "run_id": "20260907-135728",
+  "baseline": {
+    "score": 0.15,
+    "passed": 6,
+    "total": 40,
+    "failures": [
+      "gsm8k-01",
+      "gsm8k-02",
+      "gsm8k-03",
+      "gsm8k-04",
+      "gsm8k-05",
+      "gsm8k-06",
+      "gsm8k-07",
+      "gsm8k-08",
+      "gsm8k-09",
+      "gsm8k-10",
+      "gsm8k-12",
+      "gsm8k-13",
+      "gsm8k-14",
+      "gsm8k-15",
+      "gsm8k-16",
+      "gsm8k-17",
+      "gsm8k-19",
+      "gsm8k-20",
+      "gsm8k-21",
+      "gsm8k-22",
+      "gsm8k-24",
+      "gsm8k-26",
+      "gsm8k-27",
+      "gsm8k-28",
+      "gsm8k-30",
+      "gsm8k-31",
+      "gsm8k-33",
+      "gsm8k-34",
+      "gsm8k-35",
+      "gsm8k-36",
+      "gsm8k-37",
+      "gsm8k-38",
+      "gsm8k-39",
+      "gsm8k-40"
+    ],
+    "duration_s": 164.6401,
+    "outcomes": [
+      {
+        "task_id": "gsm8k-01",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 2.805124,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "147.5",
+          "parsed": 147.5,
+          "expected": 205.0
+        }
+      },
+      {
+        "task_id": "gsm8k-02",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.984411,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "24",
+          "parsed": 24.0,
+          "expected": 32.0
+        }
+      },
+      {
+        "task_id": "gsm8k-03",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.608448,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "40",
+          "parsed": 40.0,
+          "expected": 104.0
+        }
+      },
+      {
+        "task_id": "gsm8k-04",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 4.002462,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "40",
+          "parsed": 40.0,
+          "expected": 50.0
+        }
+      },
+      {
+        "task_id": "gsm8k-05",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.807193,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "58",
+          "parsed": 58.0,
+          "expected": 26.0
+        }
+      },
+      {
+        "task_id": "gsm8k-06",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 4.191805,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "22",
+          "parsed": 22.0,
+          "expected": 67.0
+        }
+      },
+      {
+        "task_id": "gsm8k-07",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.809811,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "4.5",
+          "parsed": 4.5,
+          "expected": 17.0
+        }
+      },
+      {
+        "task_id": "gsm8k-08",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.800133,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "105",
+          "parsed": 105.0,
+          "expected": 78.0
+        }
+      },
+      {
+        "task_id": "gsm8k-09",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.190382,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "29",
+          "parsed": 29.0,
+          "expected": 9.0
+        }
+      },
+      {
+        "task_id": "gsm8k-10",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.999163,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "44",
+          "parsed": 44.0,
+          "expected": 54.0
+        }
+      },
+      {
+        "task_id": "gsm8k-11",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 4.09838,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "30",
+          "parsed": 30.0,
+          "expected": 30.0
+        }
+      },
+      {
+        "task_id": "gsm8k-12",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.694957,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "16",
+          "parsed": 16.0,
+          "expected": 15.0
+        }
+      },
+      {
+        "task_id": "gsm8k-13",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.597339,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "65",
+          "parsed": 65.0,
+          "expected": 43.0
+        }
+      },
+      {
+        "task_id": "gsm8k-14",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 2.809767,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "24",
+          "parsed": 24.0,
+          "expected": 36.0
+        }
+      },
+      {
+        "task_id": "gsm8k-15",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 1.189776,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "40",
+          "parsed": 40.0,
+          "expected": 50.0
+        }
+      },
+      {
+        "task_id": "gsm8k-16",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 1.201606,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "14.00",
+          "parsed": 14.0,
+          "expected": 7.0
+        }
+      },
+      {
+        "task_id": "gsm8k-17",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 0.632864,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "7",
+          "parsed": 7.0,
+          "expected": 3.0
+        }
+      },
+      {
+        "task_id": "gsm8k-18",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 0.609864,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "100",
+          "parsed": 100.0,
+          "expected": 100.0
+        }
+      },
+      {
+        "task_id": "gsm8k-19",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 0.622004,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "14000",
+          "parsed": 14000.0,
+          "expected": 140000.0
+        }
+      },
+      {
+        "task_id": "gsm8k-20",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 0.652795,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "3",
+          "parsed": 3.0,
+          "expected": 2.0
+        }
+      },
+      {
+        "task_id": "gsm8k-21",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 0.627294,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "104",
+          "parsed": 104.0,
+          "expected": 84.0
+        }
+      },
+      {
+        "task_id": "gsm8k-22",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 0.667182,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "80",
+          "parsed": 80.0,
+          "expected": 40.0
+        }
+      },
+      {
+        "task_id": "gsm8k-23",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 1.896794,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "308",
+          "parsed": 308.0,
+          "expected": 308.0
+        }
+      },
+      {
+        "task_id": "gsm8k-24",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.39275,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "18",
+          "parsed": 18.0,
+          "expected": 8.0
+        }
+      },
+      {
+        "task_id": "gsm8k-25",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 3.397202,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "30",
+          "parsed": 30.0,
+          "expected": 30.0
+        }
+      },
+      {
+        "task_id": "gsm8k-26",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.610131,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "2100",
+          "parsed": 2100.0,
+          "expected": 1050.0
+        }
+      },
+      {
+        "task_id": "gsm8k-27",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 4.206495,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "25.5",
+          "parsed": 25.5,
+          "expected": 13.0
+        }
+      },
+      {
+        "task_id": "gsm8k-28",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 2.983103,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "50",
+          "parsed": 50.0,
+          "expected": 10.0
+        }
+      },
+      {
+        "task_id": "gsm8k-29",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 3.707095,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "10",
+          "parsed": 10.0,
+          "expected": 10.0
+        }
+      },
+      {
+        "task_id": "gsm8k-30",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.199843,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "74",
+          "parsed": 74.0,
+          "expected": 101.0
+        }
+      },
+      {
+        "task_id": "gsm8k-31",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.69423,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "8",
+          "parsed": 8.0,
+          "expected": 24.0
+        }
+      },
+      {
+        "task_id": "gsm8k-32",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 2.809879,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "81",
+          "parsed": 81.0,
+          "expected": 81.0
+        }
+      },
+      {
+        "task_id": "gsm8k-33",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.90624,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "1800",
+          "parsed": 1800.0,
+          "expected": 3000.0
+        }
+      },
+      {
+        "task_id": "gsm8k-34",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.483725,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "18",
+          "parsed": 18.0,
+          "expected": 47.0
+        }
+      },
+      {
+        "task_id": "gsm8k-35",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.806538,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "44",
+          "parsed": 44.0,
+          "expected": 52.0
+        }
+      },
+      {
+        "task_id": "gsm8k-36",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 3.292514,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "2",
+          "parsed": 2.0,
+          "expected": 3.0
+        }
+      },
+      {
+        "task_id": "gsm8k-37",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 2.80355,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "30",
+          "parsed": 30.0,
+          "expected": 48.0
+        }
+      },
+      {
+        "task_id": "gsm8k-38",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 1.899191,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "2000",
+          "parsed": 2000.0,
+          "expected": 1100.0
+        }
+      },
+      {
+        "task_id": "gsm8k-39",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 54.247828,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "150",
+          "parsed": 150.0,
+          "expected": 450.0
+        }
+      },
+      {
+        "task_id": "gsm8k-40",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 0.698558,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "direct",
+          "raw": "150",
+          "parsed": 150.0,
+          "expected": 50.0
+        }
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "id": "81f31ce4443a",
+      "candidate": {
+        "answer_policy": "concise-reason"
+      },
+      "safe": true,
+      "reason": "ok",
+      "evaluation": {
+        "score": 0.65,
+        "passed": 26,
+        "total": 40,
+        "failures": [
+          "gsm8k-01",
+          "gsm8k-03",
+          "gsm8k-05",
+          "gsm8k-10",
+          "gsm8k-14",
+          "gsm8k-16",
+          "gsm8k-17",
+          "gsm8k-27",
+          "gsm8k-30",
+          "gsm8k-34",
+          "gsm8k-36",
+          "gsm8k-37",
+          "gsm8k-39",
+          "gsm8k-40"
+        ],
+        "duration_s": 274.8499,
+        "outcomes": [
+          {
+            "task_id": "gsm8k-01",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 1.684273,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the labor cost: 2.25 hours times $35 per hour equals $78.75. Then add the visit fee and parts: $78.75 + $40 + $60. Answer: $178.75",
+              "parsed": 178.75,
+              "expected": 205.0
+            }
+          },
+          {
+            "task_id": "gsm8k-02",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 2.168282,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the total for the three trees with 7 birds each: 3 trees * 7 birds/tree = 21 birds. Then, calculate the total for the two trees with 4 birds each: 2 trees * 4 birds/tree = 8 birds. Ad",
+              "parsed": 32.0,
+              "expected": 32.0
+            }
+          },
+          {
+            "task_id": "gsm8k-03",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.217262,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "On Monday, Meredith wrote 5 articles. On Tuesday, she wrote \\(5 + \\frac{2}{5} \\times 5 = 5 + 2 = 7\\) articles. \n\nAnswer: 36",
+              "parsed": 36.0,
+              "expected": 104.0
+            }
+          },
+          {
+            "task_id": "gsm8k-04",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 8.489249,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the total weekend hours: 7 (Saturday) + 5 (Sunday) = 12 hours. Then, subtract the time spent reading and playing video games: 12 - 3 (reading) - 1/3 * (12 - 3) (video games) = 12 - 3 ",
+              "parsed": 50.0,
+              "expected": 50.0
+            }
+          },
+          {
+            "task_id": "gsm8k-05",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 6.69067,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "Let's break it down: Tasha made $80 total, and $6 from mowing lawns over two weeks. Subtracting the lawn mowing earnings from the total gives us her earnings from lemonade sales. Answer: 74",
+              "parsed": 74.0,
+              "expected": 26.0
+            }
+          },
+          {
+            "task_id": "gsm8k-06",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 7.899589,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "Cho hiked \\(14 \\, \\text{km/h} \\times 8 \\, \\text{hours} = 112 \\, \\text{km}\\). Chloe hiked \\(9 \\, \\text{km/h} \\times 5 \\, \\text{hours} = 45 \\, \\text{km}\\). Answer: 67",
+              "parsed": 67.0,
+              "expected": 67.0
+            }
+          },
+          {
+            "task_id": "gsm8k-07",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 7.311007,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, James swims 60% of 20 miles, which is 12 miles at 2 miles per hour, taking him 6 hours. After resting for half his swimming time, he rests for 3 hours. For the remaining 8 miles, he swims at 1 ",
+              "parsed": 17.0,
+              "expected": 17.0
+            }
+          },
+          {
+            "task_id": "gsm8k-08",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 7.612046,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the number of green cards: 15 red cards * 60% = 9 more green cards, so there are 15 + 9 = 24 green cards. Then, calculate the number of yellow cards: 15 red cards + 24 green cards = 3",
+              "parsed": 78.0,
+              "expected": 78.0
+            }
+          },
+          {
+            "task_id": "gsm8k-09",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 7.186762,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the number of red jelly beans: 17 green jelly beans times 2 equals 34 red jelly beans. Then, subtract the number of green and red jelly beans from the total: 60 total jelly beans minu",
+              "parsed": 9.0,
+              "expected": 9.0
+            }
+          },
+          {
+            "task_id": "gsm8k-10",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 7.100057,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "For the first three days, the tow truck pulled 10 cars each day, so that's 3 days * 10 cars/day = 30 cars. For the remaining four days, it pulled 4 fewer cars each day, so that's 4 cars/day, making 4 ",
+              "parsed": 46.0,
+              "expected": 54.0
+            }
+          },
+          {
+            "task_id": "gsm8k-11",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 6.195692,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the total number of units: 15 floors * 8 units/floor = 120 units. Then, find the number of occupied units: 3/4 * 120 units = 90 units. Answer: 30",
+              "parsed": 30.0,
+              "expected": 30.0
+            }
+          },
+          {
+            "task_id": "gsm8k-12",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 6.400207,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "Each piece weighs 2.5 ounces (20 ounces / 8 pieces). Rory and her mom have 2 pieces, so 2 pieces * 2.5 ounces = 5 ounces are eaten. Answer: 15",
+              "parsed": 15.0,
+              "expected": 15.0
+            }
+          },
+          {
+            "task_id": "gsm8k-13",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 9.207898,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the number of orange candies, which is twice the number of red candies: 54 red * 2 = 108 orange. Then, calculate the number of yellow candies, which is half the number of red candies:",
+              "parsed": 43.0,
+              "expected": 43.0
+            }
+          },
+          {
+            "task_id": "gsm8k-14",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 6.690748,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, Tim needs to make 5 gallons of lemonade in total (4 for the party and 1 extra for Allen). Since 1 gallon requires 6 lemons, 5 gallons will require 5 times as many lemons. Answer: 30",
+              "parsed": 30.0,
+              "expected": 36.0
+            }
+          },
+          {
+            "task_id": "gsm8k-15",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 7.30187,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, divide $100 in the ratio 3:2, which means Gerald gets 3/5 of $100 and Julia gets 2/5 of $100. Gerald gets $60. Then, subtract the $10 Gerald spent on a book from his $60. Answer: 50",
+              "parsed": 50.0,
+              "expected": 50.0
+            }
+          },
+          {
+            "task_id": "gsm8k-16",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 7.013295,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the cost of 10 lollipops: \\(10 \\times \\$0.40 = \\$4.00\\). Then, calculate the cost of 10 candies: \\(10 \\times \\$3.20 = \\$32.00\\). Answer: \\$36.00",
+              "parsed": 36.0,
+              "expected": 7.0
+            }
+          },
+          {
+            "task_id": "gsm8k-17",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 5.191064,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, Jenny gives away 1/3 of 12 slices to Bill, which is 4 slices. Then she gives 1/4 of 12 slices to Mark, which is 3 slices. Answer: 5",
+              "parsed": 5.0,
+              "expected": 3.0
+            }
+          },
+          {
+            "task_id": "gsm8k-18",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 7.392418,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "Let's denote the shingles needed for the first house as \\( F \\), the second as \\( S \\), and the third as \\( T \\). Given \\( F = \\frac{1}{2}S \\) and \\( T = 2F \\), and knowing the total is 250 cases, we ",
+              "parsed": 100.0,
+              "expected": 100.0
+            }
+          },
+          {
+            "task_id": "gsm8k-19",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 2.130297,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the daily revenue: 5000 bars/day * $2/bar = $10,000/day. Then, calculate the revenue for two weeks: $10,000/day * 14 days = $140,000. Answer: $140,000",
+              "parsed": 140000.0,
+              "expected": 140000.0
+            }
+          },
+          {
+            "task_id": "gsm8k-20",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 1.325362,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "Juice Box B is 9 dollars (4 + 5), and Juice Box C is 11 dollars (4 + 7). Answer: 2",
+              "parsed": 2.0,
+              "expected": 2.0
+            }
+          },
+          {
+            "task_id": "gsm8k-21",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 1.964349,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the weekly earnings: Grayson earns 3 cans * 2 cents/can + 5 bottles * 3 cents/bottle = 6 cents + 15 cents = 21 cents per week. Then, multiply by 4 weeks: 21 cents/week * 4 weeks = 84 ",
+              "parsed": 84.0,
+              "expected": 84.0
+            }
+          },
+          {
+            "task_id": "gsm8k-22",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 2.122603,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate Madeline's share: 60% of $400 is $240. Subtract Madeline's share from the total to find Keenan's share: $400 - $240 = $160. Then, divide Keenan's monthly share by 4 to find his weekly",
+              "parsed": 40.0,
+              "expected": 40.0
+            }
+          },
+          {
+            "task_id": "gsm8k-23",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 2.078954,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the total cost of the vaccines: 3 vaccines * $20/vaccine = $60. Then, calculate the cost of the broken vases: 4 vases * $12/vase = $48. Adding these to the spaying cost: $200 + $60 + ",
+              "parsed": 308.0,
+              "expected": 308.0
+            }
+          },
+          {
+            "task_id": "gsm8k-24",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 5.174843,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "Raymond starts with $21 and saves an additional $11, so he has $32. After spending $5 on a comic book and $19 on a puzzle, he spends a total of $24. Therefore, he has $32 - $24 = $8 left. Answer: 8",
+              "parsed": 8.0,
+              "expected": 8.0
+            }
+          },
+          {
+            "task_id": "gsm8k-25",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 6.616056,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "Let's denote the number of players on the defense as D. Then the number of players on the offense is 2D, and on special teams is D/2. The total is D + 2D + D/2 = 105. Simplifying, we get 3.5D = 105. A",
+              "parsed": 30.0,
+              "expected": 30.0
+            }
+          },
+          {
+            "task_id": "gsm8k-26",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 6.689849,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "Jewel processes 50 customers per day, so Julie processes 100 customers per day since she is twice as fast. Together, they process 150 customers per day. Over a week, they process 150 customers/day * 7",
+              "parsed": 1050.0,
+              "expected": 1050.0
+            }
+          },
+          {
+            "task_id": "gsm8k-27",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 6.00624,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the total spent: $3.50 on ice cream + $7.50 × 2 for movie tickets + $8.50 on a bracelet = $21. Then, subtract the total spent from the $40 given: $40 - $21 = $19. Answer:19",
+              "parsed": 19.0,
+              "expected": 13.0
+            }
+          },
+          {
+            "task_id": "gsm8k-28",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 6.191128,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "April needs 30 pots for the daisies and twice as many for the roses, which is 60 pots. Adding these to the 100 pots she bought, she allocated 100 - (30 + 60) = 10 pots. Answer: 10",
+              "parsed": 10.0,
+              "expected": 10.0
+            }
+          },
+          {
+            "task_id": "gsm8k-29",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 5.697081,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "Violetta needs 5 crayons, and each costs $2, so she will spend $10 in total. Subtracting her spend from the $20 she prepared leaves her with $10 in change. Answer: 10",
+              "parsed": 10.0,
+              "expected": 10.0
+            }
+          },
+          {
+            "task_id": "gsm8k-30",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 5.220932,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the cost for the chicken salad: 10 people * $6.50 = $65. Then, calculate the cost for the pasta salad: 6 people * $6 = $36. Answer: $99",
+              "parsed": 99.0,
+              "expected": 101.0
+            }
+          },
+          {
+            "task_id": "gsm8k-31",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 5.681129,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the number of gift bags needed: 16 friends * 0.75 = 12 gift bags. Then, multiply by the cost per bag: 12 * $2 = $24. Answer: 24",
+              "parsed": 24.0,
+              "expected": 24.0
+            }
+          },
+          {
+            "task_id": "gsm8k-32",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 6.303687,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "In the first round, 3 families are called. Each of those 3 families calls 3 others in the second round, so 3 * 3 = 9 families are called in the second round. This pattern continues, so in the fourth r",
+              "parsed": 81.0,
+              "expected": 81.0
+            }
+          },
+          {
+            "task_id": "gsm8k-33",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 6.795407,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the total hours per week: 2 hours/session * 2 sessions/week = 4 hours/week. Then, multiply by the number of weeks: 4 hours/week * 6 weeks = 24 hours. The cost is then 24 hours * $125/",
+              "parsed": 3000.0,
+              "expected": 3000.0
+            }
+          },
+          {
+            "task_id": "gsm8k-34",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 2.838048,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "Larry has 9 dogs because he has 3 times as many dogs as cats (3 cats * 3 = 9 dogs). He has 7 rabbits because he has 2 fewer rabbits than dogs (9 dogs - 2 = 7 rabbits). Answer: 30",
+              "parsed": 30.0,
+              "expected": 47.0
+            }
+          },
+          {
+            "task_id": "gsm8k-35",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 51.879963,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the total tins of cat food: 8 packages * 11 tins/package = 88 tins. Then, calculate the total tins of dog food: 6 packages * 6 tins/package = 36 tins. Answer: 52",
+              "parsed": 52.0,
+              "expected": 52.0
+            }
+          },
+          {
+            "task_id": "gsm8k-36",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 2.804626,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "He watched 1 hour on Monday and Tuesday, 1 hour and a 30-minute show on Thursday, and 2 hours on Friday, totaling 3.5 hours. Therefore, he watched 3.5 hours out of the 7 hours, meaning he watched 3.5 ",
+              "parsed": 7.0,
+              "expected": 3.0
+            }
+          },
+          {
+            "task_id": "gsm8k-37",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 9.681896,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "Dave ate 14 fries, the seagull ate half of that, which is 7. After the seagull, 14 - 7 = 7 fries were left. Then 3 pigeons ate 3 fries each, which is 9 fries, leaving 7 - 9 = -2, but since we can't ha",
+              "parsed": 35.0,
+              "expected": 48.0
+            }
+          },
+          {
+            "task_id": "gsm8k-38",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 9.994177,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the total cost of the packs: 3 packs * $1800/pack = $5400. Then, calculate the total value of the cards: $4000 + $1000 + (30 cards * $50/card) = $4000 + $1000 + $1500 = $6500. The pro",
+              "parsed": 1100.0,
+              "expected": 1100.0
+            }
+          },
+          {
+            "task_id": "gsm8k-39",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 6.31878,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "First, calculate the number of medium-sized beans Grandpa can eat: 75 large beans * 2 = 150 medium beans. Then, convert medium beans to small beans: 150 medium beans / 3 = 50 small beans. Answer: 50",
+              "parsed": 50.0,
+              "expected": 450.0
+            }
+          },
+          {
+            "task_id": "gsm8k-40",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 6.580769,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "concise-reason",
+              "raw": "Dale initially had 100 candies and sold 150, so he is 50 candies short of his initial order. Then he ordered 100 more, adding to the 50 he already had. Answer: 150",
+              "parsed": 150.0,
+              "expected": 50.0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "49653702136b",
+      "candidate": {
+        "answer_policy": "double-check"
+      },
+      "safe": true,
+      "reason": "ok",
+      "evaluation": {
+        "score": 0.1,
+        "passed": 4,
+        "total": 40,
+        "failures": [
+          "gsm8k-01",
+          "gsm8k-02",
+          "gsm8k-03",
+          "gsm8k-04",
+          "gsm8k-05",
+          "gsm8k-06",
+          "gsm8k-07",
+          "gsm8k-08",
+          "gsm8k-09",
+          "gsm8k-10",
+          "gsm8k-11",
+          "gsm8k-12",
+          "gsm8k-13",
+          "gsm8k-14",
+          "gsm8k-15",
+          "gsm8k-16",
+          "gsm8k-17",
+          "gsm8k-18",
+          "gsm8k-19",
+          "gsm8k-20",
+          "gsm8k-21",
+          "gsm8k-22",
+          "gsm8k-23",
+          "gsm8k-24",
+          "gsm8k-25",
+          "gsm8k-26",
+          "gsm8k-27",
+          "gsm8k-28",
+          "gsm8k-30",
+          "gsm8k-31",
+          "gsm8k-34",
+          "gsm8k-35",
+          "gsm8k-36",
+          "gsm8k-38",
+          "gsm8k-39",
+          "gsm8k-40"
+        ],
+        "duration_s": 122.8217,
+        "outcomes": [
+          {
+            "task_id": "gsm8k-01",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.604126,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "146.25",
+              "parsed": 146.25,
+              "expected": 205.0
+            }
+          },
+          {
+            "task_id": "gsm8k-02",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.394436,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "24",
+              "parsed": 24.0,
+              "expected": 32.0
+            }
+          },
+          {
+            "task_id": "gsm8k-03",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.90027,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "48",
+              "parsed": 48.0,
+              "expected": 104.0
+            }
+          },
+          {
+            "task_id": "gsm8k-04",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.31837,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "33.33",
+              "parsed": 33.33,
+              "expected": 50.0
+            }
+          },
+          {
+            "task_id": "gsm8k-05",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.591873,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "32",
+              "parsed": 32.0,
+              "expected": 26.0
+            }
+          },
+          {
+            "task_id": "gsm8k-06",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.890062,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "22",
+              "parsed": 22.0,
+              "expected": 67.0
+            }
+          },
+          {
+            "task_id": "gsm8k-07",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.714079,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "4.5",
+              "parsed": 4.5,
+              "expected": 17.0
+            }
+          },
+          {
+            "task_id": "gsm8k-08",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.204311,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "105",
+              "parsed": 105.0,
+              "expected": 78.0
+            }
+          },
+          {
+            "task_id": "gsm8k-09",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.081266,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "29",
+              "parsed": 29.0,
+              "expected": 9.0
+            }
+          },
+          {
+            "task_id": "gsm8k-10",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.008221,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "44",
+              "parsed": 44.0,
+              "expected": 54.0
+            }
+          },
+          {
+            "task_id": "gsm8k-11",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.094369,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "24",
+              "parsed": 24.0,
+              "expected": 30.0
+            }
+          },
+          {
+            "task_id": "gsm8k-12",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.104495,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "18",
+              "parsed": 18.0,
+              "expected": 15.0
+            }
+          },
+          {
+            "task_id": "gsm8k-13",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.009425,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "32",
+              "parsed": 32.0,
+              "expected": 43.0
+            }
+          },
+          {
+            "task_id": "gsm8k-14",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.183243,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "11",
+              "parsed": 11.0,
+              "expected": 36.0
+            }
+          },
+          {
+            "task_id": "gsm8k-15",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.012665,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "40",
+              "parsed": 40.0,
+              "expected": 50.0
+            }
+          },
+          {
+            "task_id": "gsm8k-16",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.104236,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "10.40",
+              "parsed": 10.4,
+              "expected": 7.0
+            }
+          },
+          {
+            "task_id": "gsm8k-17",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.482512,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "8",
+              "parsed": 8.0,
+              "expected": 3.0
+            }
+          },
+          {
+            "task_id": "gsm8k-18",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.619798,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "125",
+              "parsed": 125.0,
+              "expected": 100.0
+            }
+          },
+          {
+            "task_id": "gsm8k-19",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.895514,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "35000",
+              "parsed": 35000.0,
+              "expected": 140000.0
+            }
+          },
+          {
+            "task_id": "gsm8k-20",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.108465,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "3",
+              "parsed": 3.0,
+              "expected": 2.0
+            }
+          },
+          {
+            "task_id": "gsm8k-21",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.591584,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "140",
+              "parsed": 140.0,
+              "expected": 84.0
+            }
+          },
+          {
+            "task_id": "gsm8k-22",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 2.835792,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "66.67",
+              "parsed": 66.67,
+              "expected": 40.0
+            }
+          },
+          {
+            "task_id": "gsm8k-23",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 0.683217,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "348",
+              "parsed": 348.0,
+              "expected": 308.0
+            }
+          },
+          {
+            "task_id": "gsm8k-24",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 0.67597,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "17",
+              "parsed": 17.0,
+              "expected": 8.0
+            }
+          },
+          {
+            "task_id": "gsm8k-25",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 1.202542,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "15",
+              "parsed": 15.0,
+              "expected": 30.0
+            }
+          },
+          {
+            "task_id": "gsm8k-26",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 1.194386,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "2100",
+              "parsed": 2100.0,
+              "expected": 1050.0
+            }
+          },
+          {
+            "task_id": "gsm8k-27",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 1.199567,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "25.5",
+              "parsed": 25.5,
+              "expected": 13.0
+            }
+          },
+          {
+            "task_id": "gsm8k-28",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 1.110247,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "140",
+              "parsed": 140.0,
+              "expected": 10.0
+            }
+          },
+          {
+            "task_id": "gsm8k-29",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 0.608752,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "10",
+              "parsed": 10.0,
+              "expected": 10.0
+            }
+          },
+          {
+            "task_id": "gsm8k-30",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 1.189824,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "61.0",
+              "parsed": 61.0,
+              "expected": 101.0
+            }
+          },
+          {
+            "task_id": "gsm8k-31",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 2.386781,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "8",
+              "parsed": 8.0,
+              "expected": 24.0
+            }
+          },
+          {
+            "task_id": "gsm8k-32",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 2.815474,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "81",
+              "parsed": 81.0,
+              "expected": 81.0
+            }
+          },
+          {
+            "task_id": "gsm8k-33",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 3.787173,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "3000",
+              "parsed": 3000.0,
+              "expected": 3000.0
+            }
+          },
+          {
+            "task_id": "gsm8k-34",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.298091,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "14",
+              "parsed": 14.0,
+              "expected": 47.0
+            }
+          },
+          {
+            "task_id": "gsm8k-35",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.205841,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "14",
+              "parsed": 14.0,
+              "expected": 52.0
+            }
+          },
+          {
+            "task_id": "gsm8k-36",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.726946,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "2",
+              "parsed": 2.0,
+              "expected": 3.0
+            }
+          },
+          {
+            "task_id": "gsm8k-37",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 3.070406,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "48",
+              "parsed": 48.0,
+              "expected": 48.0
+            }
+          },
+          {
+            "task_id": "gsm8k-38",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.604269,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "2000",
+              "parsed": 2000.0,
+              "expected": 1100.0
+            }
+          },
+          {
+            "task_id": "gsm8k-39",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.590135,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "150",
+              "parsed": 150.0,
+              "expected": 450.0
+            }
+          },
+          {
+            "task_id": "gsm8k-40",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 2.721387,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "double-check",
+              "raw": "250",
+              "parsed": 250.0,
+              "expected": 50.0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "9d937e642f62",
+      "candidate": {
+        "answer_policy": "direct",
+        "note": "reworded-direct"
+      },
+      "safe": true,
+      "reason": "ok",
+      "evaluation": {
+        "score": 0.15,
+        "passed": 6,
+        "total": 40,
+        "failures": [
+          "gsm8k-01",
+          "gsm8k-02",
+          "gsm8k-03",
+          "gsm8k-04",
+          "gsm8k-05",
+          "gsm8k-06",
+          "gsm8k-07",
+          "gsm8k-08",
+          "gsm8k-09",
+          "gsm8k-10",
+          "gsm8k-12",
+          "gsm8k-13",
+          "gsm8k-14",
+          "gsm8k-15",
+          "gsm8k-16",
+          "gsm8k-17",
+          "gsm8k-19",
+          "gsm8k-20",
+          "gsm8k-21",
+          "gsm8k-22",
+          "gsm8k-24",
+          "gsm8k-26",
+          "gsm8k-27",
+          "gsm8k-28",
+          "gsm8k-30",
+          "gsm8k-31",
+          "gsm8k-33",
+          "gsm8k-34",
+          "gsm8k-35",
+          "gsm8k-36",
+          "gsm8k-37",
+          "gsm8k-38",
+          "gsm8k-39",
+          "gsm8k-40"
+        ],
+        "duration_s": 143.9877,
+        "outcomes": [
+          {
+            "task_id": "gsm8k-01",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 2.712256,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "147.5",
+              "parsed": 147.5,
+              "expected": 205.0
+            }
+          },
+          {
+            "task_id": "gsm8k-02",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.605534,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "24",
+              "parsed": 24.0,
+              "expected": 32.0
+            }
+          },
+          {
+            "task_id": "gsm8k-03",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.589316,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "40",
+              "parsed": 40.0,
+              "expected": 104.0
+            }
+          },
+          {
+            "task_id": "gsm8k-04",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.60491,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "40",
+              "parsed": 40.0,
+              "expected": 50.0
+            }
+          },
+          {
+            "task_id": "gsm8k-05",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.394357,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "58",
+              "parsed": 58.0,
+              "expected": 26.0
+            }
+          },
+          {
+            "task_id": "gsm8k-06",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 1.923375,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "22",
+              "parsed": 22.0,
+              "expected": 67.0
+            }
+          },
+          {
+            "task_id": "gsm8k-07",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 22.699489,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "4.5",
+              "parsed": 4.5,
+              "expected": 17.0
+            }
+          },
+          {
+            "task_id": "gsm8k-08",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 1.404253,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "105",
+              "parsed": 105.0,
+              "expected": 78.0
+            }
+          },
+          {
+            "task_id": "gsm8k-09",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 0.685148,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "29",
+              "parsed": 29.0,
+              "expected": 9.0
+            }
+          },
+          {
+            "task_id": "gsm8k-10",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 1.195956,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "44",
+              "parsed": 44.0,
+              "expected": 54.0
+            }
+          },
+          {
+            "task_id": "gsm8k-11",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 1.101976,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "30",
+              "parsed": 30.0,
+              "expected": 30.0
+            }
+          },
+          {
+            "task_id": "gsm8k-12",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 1.187598,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "16",
+              "parsed": 16.0,
+              "expected": 15.0
+            }
+          },
+          {
+            "task_id": "gsm8k-13",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 1.206108,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "65",
+              "parsed": 65.0,
+              "expected": 43.0
+            }
+          },
+          {
+            "task_id": "gsm8k-14",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 1.112805,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "24",
+              "parsed": 24.0,
+              "expected": 36.0
+            }
+          },
+          {
+            "task_id": "gsm8k-15",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 1.19346,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "40",
+              "parsed": 40.0,
+              "expected": 50.0
+            }
+          },
+          {
+            "task_id": "gsm8k-16",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 2.904418,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "14.00",
+              "parsed": 14.0,
+              "expected": 7.0
+            }
+          },
+          {
+            "task_id": "gsm8k-17",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.387893,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "7",
+              "parsed": 7.0,
+              "expected": 3.0
+            }
+          },
+          {
+            "task_id": "gsm8k-18",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 3.411273,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "100",
+              "parsed": 100.0,
+              "expected": 100.0
+            }
+          },
+          {
+            "task_id": "gsm8k-19",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.391869,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "14000",
+              "parsed": 14000.0,
+              "expected": 140000.0
+            }
+          },
+          {
+            "task_id": "gsm8k-20",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.41024,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "3",
+              "parsed": 3.0,
+              "expected": 2.0
+            }
+          },
+          {
+            "task_id": "gsm8k-21",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.096116,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "104",
+              "parsed": 104.0,
+              "expected": 84.0
+            }
+          },
+          {
+            "task_id": "gsm8k-22",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.2816,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "80",
+              "parsed": 80.0,
+              "expected": 40.0
+            }
+          },
+          {
+            "task_id": "gsm8k-23",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 4.014544,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "308",
+              "parsed": 308.0,
+              "expected": 308.0
+            }
+          },
+          {
+            "task_id": "gsm8k-24",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.793097,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "18",
+              "parsed": 18.0,
+              "expected": 8.0
+            }
+          },
+          {
+            "task_id": "gsm8k-25",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 4.100093,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "30",
+              "parsed": 30.0,
+              "expected": 30.0
+            }
+          },
+          {
+            "task_id": "gsm8k-26",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.393683,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "2100",
+              "parsed": 2100.0,
+              "expected": 1050.0
+            }
+          },
+          {
+            "task_id": "gsm8k-27",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.701373,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "25.5",
+              "parsed": 25.5,
+              "expected": 13.0
+            }
+          },
+          {
+            "task_id": "gsm8k-28",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.597006,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "50",
+              "parsed": 50.0,
+              "expected": 10.0
+            }
+          },
+          {
+            "task_id": "gsm8k-29",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 3.717577,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "10",
+              "parsed": 10.0,
+              "expected": 10.0
+            }
+          },
+          {
+            "task_id": "gsm8k-30",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.88261,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "74",
+              "parsed": 74.0,
+              "expected": 101.0
+            }
+          },
+          {
+            "task_id": "gsm8k-31",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.514788,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "8",
+              "parsed": 8.0,
+              "expected": 24.0
+            }
+          },
+          {
+            "task_id": "gsm8k-32",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 3.893108,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "81",
+              "parsed": 81.0,
+              "expected": 81.0
+            }
+          },
+          {
+            "task_id": "gsm8k-33",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.500082,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "1800",
+              "parsed": 1800.0,
+              "expected": 3000.0
+            }
+          },
+          {
+            "task_id": "gsm8k-34",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.197255,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "18",
+              "parsed": 18.0,
+              "expected": 47.0
+            }
+          },
+          {
+            "task_id": "gsm8k-35",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.294272,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "44",
+              "parsed": 44.0,
+              "expected": 52.0
+            }
+          },
+          {
+            "task_id": "gsm8k-36",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.805973,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "2",
+              "parsed": 2.0,
+              "expected": 3.0
+            }
+          },
+          {
+            "task_id": "gsm8k-37",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.19496,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "30",
+              "parsed": 30.0,
+              "expected": 48.0
+            }
+          },
+          {
+            "task_id": "gsm8k-38",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.516307,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "2000",
+              "parsed": 2000.0,
+              "expected": 1100.0
+            }
+          },
+          {
+            "task_id": "gsm8k-39",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 4.104017,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "150",
+              "parsed": 150.0,
+              "expected": 450.0
+            }
+          },
+          {
+            "task_id": "gsm8k-40",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 3.189186,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "direct",
+              "raw": "150",
+              "parsed": 150.0,
+              "expected": 50.0
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "promoted": true,
+  "active_id": "81f31ce4443a",
+  "active_score": 0.65,
+  "legacy_promoted": true,
+  "statistical_decision": {
+    "promote": true,
+    "reasons": [],
+    "n": 40,
+    "mean_gain": 0.5,
+    "bootstrap_ci": [
+      0.35,
+      0.65
+    ],
+    "mcnemar": {
+      "better": 20,
+      "worse": 0,
+      "p_value": 1.9073486328125e-06
+    },
+    "cost_increase": 0,
+    "latency_increase": 0.669407146786012,
+    "safety_violations": 0,
+    "capability_deltas": {}
+  },
+  "version_level": "provisional"
+}

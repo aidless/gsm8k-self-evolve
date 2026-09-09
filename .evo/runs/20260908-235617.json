@@ -1,0 +1,2517 @@
+{
+  "run_id": "20260908-235617",
+  "baseline": {
+    "score": 0.75,
+    "passed": 30,
+    "total": 40,
+    "failures": [
+      "gsm8k-01",
+      "gsm8k-03",
+      "gsm8k-05",
+      "gsm8k-10",
+      "gsm8k-16",
+      "gsm8k-17",
+      "gsm8k-27",
+      "gsm8k-30",
+      "gsm8k-36",
+      "gsm8k-37"
+    ],
+    "duration_s": 582.8232,
+    "outcomes": [
+      {
+        "task_id": "gsm8k-01",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 17.210415,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the labor cost: 2.25 hours times $35 per hour equals $78.75. Then add the visit fee and parts: $78.75 + $40 + $60. Answer: $178.75",
+          "parsed": 178.75,
+          "expected": 205.0
+        }
+      },
+      {
+        "task_id": "gsm8k-02",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 2.604041,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the total for the three trees with 7 birds each: 3 trees * 7 birds/tree = 21 birds. Then, calculate the total for the two trees with 4 birds each: 2 trees * 4 birds/tree = 8 birds. Ad",
+          "parsed": 32.0,
+          "expected": 32.0
+        }
+      },
+      {
+        "task_id": "gsm8k-03",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 15.892357,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the number of articles Meredith wrote on Tuesday: 5 articles on Monday times 2/5 equals 2 more articles, so she wrote 7 articles on Tuesday. Then, on Wednesday, she wrote twice the nu",
+          "parsed": 26.0,
+          "expected": 104.0
+        }
+      },
+      {
+        "task_id": "gsm8k-04",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.218384,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the total weekend hours: 7 + 5 = 12 hours. Then, subtract the time spent reading and playing video games: 12 - 3 - (1/3 * 9) = 12 - 3 - 3 = 6 hours for soccer. Answer: 50%",
+          "parsed": 50.0,
+          "expected": 50.0
+        }
+      },
+      {
+        "task_id": "gsm8k-05",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 15.401169,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "Let's break it down: Tasha made $80 total, and $6 from mowing lawns over two weeks. Subtracting the lawn mowing earnings from the total gives us her earnings from lemonade sales. Answer: 74",
+          "parsed": 74.0,
+          "expected": 26.0
+        }
+      },
+      {
+        "task_id": "gsm8k-06",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.62351,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "Cho hiked \\(14 \\, \\text{km/h} \\times 8 \\, \\text{hours} = 112 \\, \\text{km}\\). Chloe hiked \\(9 \\, \\text{km/h} \\times 5 \\, \\text{hours} = 45 \\, \\text{km}\\). Answer: 67",
+          "parsed": 67.0,
+          "expected": 67.0
+        }
+      },
+      {
+        "task_id": "gsm8k-07",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 17.386283,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, James swims 60% of 20 miles, which is 12 miles at 2 miles per hour, taking him 6 hours. After resting for half his swimming time, he rests for 3 hours. For the remaining 8 miles, he swims at 1 ",
+          "parsed": 17.0,
+          "expected": 17.0
+        }
+      },
+      {
+        "task_id": "gsm8k-08",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.195745,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the number of green cards: 15 red cards * 60% = 9 more green cards, so there are 15 + 9 = 24 green cards. Then, calculate the number of yellow cards: 15 red cards + 24 green cards = 3",
+          "parsed": 78.0,
+          "expected": 78.0
+        }
+      },
+      {
+        "task_id": "gsm8k-09",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.87772,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the number of red jelly beans: 17 green jelly beans times 2 equals 34 red jelly beans. Then, subtract the number of green and red jelly beans from the total: 60 total jelly beans minu",
+          "parsed": 9.0,
+          "expected": 9.0
+        }
+      },
+      {
+        "task_id": "gsm8k-10",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 16.821884,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "For the first three days, the tow truck pulled 10 cars each day, so that's 3 days * 10 cars/day = 30 cars. For the remaining four days, it pulled 4 fewer cars each day, so that's 4 cars/day, making 4 ",
+          "parsed": 46.0,
+          "expected": 54.0
+        }
+      },
+      {
+        "task_id": "gsm8k-11",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.774514,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the total number of units: 15 floors * 8 units/floor = 120 units. Then, find the number of occupied units: 3/4 * 120 units = 90 units. Answer: 30",
+          "parsed": 30.0,
+          "expected": 30.0
+        }
+      },
+      {
+        "task_id": "gsm8k-12",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 15.502904,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "Each piece weighs 2.5 ounces (20 ounces / 8 pieces). Rory and her mom have 2 pieces, so 2 pieces * 2.5 ounces = 5 ounces are eaten. Answer: 15",
+          "parsed": 15.0,
+          "expected": 15.0
+        }
+      },
+      {
+        "task_id": "gsm8k-13",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.79462,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the number of orange candies, which is twice the number of red candies: 54 red * 2 = 108 orange. Then, calculate the number of yellow candies, which is half the number of red candies:",
+          "parsed": 43.0,
+          "expected": 43.0
+        }
+      },
+      {
+        "task_id": "gsm8k-14",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 2.029573,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "For 4 gallons, Tim needs 4 gallons * 1 cup/gallon = 4 cups of lemon juice. For the extra gallon, since it's twice as tart, he needs 2 cups of juice. So, he needs 4 cups + 2 cups = 6 cups of juice in t",
+          "parsed": 36.0,
+          "expected": 36.0
+        }
+      },
+      {
+        "task_id": "gsm8k-15",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 15.703155,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, divide $100 in the ratio 3:2, which means Gerald gets 3/5 of $100 and Julia gets 2/5 of $100. Gerald gets $60. Then, subtract the $10 Gerald spent on a book from his $60. Answer: 50",
+          "parsed": 50.0,
+          "expected": 50.0
+        }
+      },
+      {
+        "task_id": "gsm8k-16",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 15.778814,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the total cost of lollipops: 5 lollipops * $0.40 = $2.00. Then, add the cost of 10 lollipops and 10 candies: $2.00 (lollipops) + $3.20 (candies) * 2.5 = $10.00. Answer: 10.00",
+          "parsed": 10.0,
+          "expected": 7.0
+        }
+      },
+      {
+        "task_id": "gsm8k-17",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 16.109554,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, Jenny gives away 1/3 of 12 slices to Bill, which is 4 slices. Then she gives 1/4 of 12 slices to Mark, which is 3 slices. Answer: 5",
+          "parsed": 5.0,
+          "expected": 3.0
+        }
+      },
+      {
+        "task_id": "gsm8k-18",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.498823,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "Let's denote the shingles needed for the first house as \\( F \\), the second as \\( S \\), and the third as \\( T \\). Given \\( F = \\frac{1}{2}S \\) and \\( T = 2F \\), and knowing the total is 250 cases, we ",
+          "parsed": 100.0,
+          "expected": 100.0
+        }
+      },
+      {
+        "task_id": "gsm8k-19",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 14.765445,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the daily revenue: 5000 bars/day * $2/bar = $10,000/day. Then, calculate the revenue for two weeks: $10,000/day * 14 days = $140,000. Answer: $140,000",
+          "parsed": 140000.0,
+          "expected": 140000.0
+        }
+      },
+      {
+        "task_id": "gsm8k-20",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 15.422179,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "Juice Box B is 9 dollars (4 + 5), and Juice Box C is 11 dollars (4 + 7). Answer: 2",
+          "parsed": 2.0,
+          "expected": 2.0
+        }
+      },
+      {
+        "task_id": "gsm8k-21",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.61204,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the weekly earnings: Grayson earns 3 cans * 2 cents/can + 5 bottles * 3 cents/bottle = 6 cents + 15 cents = 21 cents per week. Then, multiply by 4 weeks: 21 cents/week * 4 weeks = 84 ",
+          "parsed": 84.0,
+          "expected": 84.0
+        }
+      },
+      {
+        "task_id": "gsm8k-22",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.199252,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate Madeline's share: 60% of $400 is $240. Subtract Madeline's share from the total to find Keenan's share: $400 - $240 = $160. Then, divide Keenan's total share by 4 to find his weekly s",
+          "parsed": 40.0,
+          "expected": 40.0
+        }
+      },
+      {
+        "task_id": "gsm8k-23",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 2.514932,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the total cost of the vaccines: 3 vaccines * $20/vaccine = $60. Then, calculate the cost of the broken vases: 4 vases * $12/vase = $48. Adding these to the spaying cost: $200 + $60 + ",
+          "parsed": 308.0,
+          "expected": 308.0
+        }
+      },
+      {
+        "task_id": "gsm8k-24",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 15.384504,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "Raymond starts with $21 and saves an additional $11, so he has $32. After spending $5 on a comic book and $19 on a puzzle, he spends a total of $24. Therefore, he has $32 - $24 = $8 left. Answer: 8",
+          "parsed": 8.0,
+          "expected": 8.0
+        }
+      },
+      {
+        "task_id": "gsm8k-25",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 17.192631,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "Let's denote the number of players on the defense as D. Then the number of players on the offense is 2D, and on special teams is D/2. The total is D + 2D + D/2 = 105. Simplifying, we get 3.5D = 105. S",
+          "parsed": 30.0,
+          "expected": 30.0
+        }
+      },
+      {
+        "task_id": "gsm8k-26",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.709114,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "Jewel processes 50 customers per day, so Julie processes 100 customers per day since she is twice as fast. Together, they process 150 customers per day. Over a week, they process 150 customers/day * 7",
+          "parsed": 1050.0,
+          "expected": 1050.0
+        }
+      },
+      {
+        "task_id": "gsm8k-27",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 15.603221,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the total spent: $3.50 on ice cream + $7.50 × 2 for movie tickets + $8.50 on a bracelet = $21. Then, subtract the total spent from the $40 given: $40 - $21 = $19. Answer:19",
+          "parsed": 19.0,
+          "expected": 13.0
+        }
+      },
+      {
+        "task_id": "gsm8k-28",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 17.282214,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "April needs 30 pots for the daisies and twice as many for the roses, which is 60 pots. Adding these to the 100 pots she already bought, she needs 100 - (30 + 60) = 10 pots. Answer: 10",
+          "parsed": 10.0,
+          "expected": 10.0
+        }
+      },
+      {
+        "task_id": "gsm8k-29",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 15.603594,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "Violetta needs 5 crayons, and each costs $2, so she will spend $10 in total. Subtracting her spend from the $20 she prepared leaves her with $10 in change. Answer: 10",
+          "parsed": 10.0,
+          "expected": 10.0
+        }
+      },
+      {
+        "task_id": "gsm8k-30",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 15.903313,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the cost for the chicken salad: 10 people * $6.50 = $65. Then, calculate the cost for the pasta salad: 6 people * $6 = $36. Answer: $99",
+          "parsed": 99.0,
+          "expected": 101.0
+        }
+      },
+      {
+        "task_id": "gsm8k-31",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.399388,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the number of gift bags needed: 16 friends * 0.75 = 12 gift bags. Then, multiply by the cost per bag: 12 * $2 = $24. Answer: 24",
+          "parsed": 24.0,
+          "expected": 24.0
+        }
+      },
+      {
+        "task_id": "gsm8k-32",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.924993,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "In the first round, 3 families are called. Each of those 3 families calls 3 others in the second round, so 3 * 3 = 9 families are called in the second round. This pattern continues, so in the fourth r",
+          "parsed": 81.0,
+          "expected": 81.0
+        }
+      },
+      {
+        "task_id": "gsm8k-33",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.410721,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the total hours per week: 2 hours/session * 2 sessions/week = 4 hours/week. Then, multiply by the number of weeks: 4 hours/week * 6 weeks = 24 hours. The cost is $125 per hour, so 24 ",
+          "parsed": 3000.0,
+          "expected": 3000.0
+        }
+      },
+      {
+        "task_id": "gsm8k-34",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.367059,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "Larry has 3 cats and 9 dogs (3 times as many dogs as cats). He has 7 rabbits (2 fewer than dogs). He has 21 fish (3 times the number of rabbits). He has 7 gerbils (1/3 the number of fish). Answer: 3 +",
+          "parsed": 47.0,
+          "expected": 47.0
+        }
+      },
+      {
+        "task_id": "gsm8k-35",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 1.98441,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the total tins of cat food: 8 packages * 11 tins/package = 88 tins. Then, calculate the total tins of dog food: 6 packages * 6 tins/package = 36 tins. Answer: 52",
+          "parsed": 52.0,
+          "expected": 52.0
+        }
+      },
+      {
+        "task_id": "gsm8k-36",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 16.622247,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "He watched 1 hour on Monday and Tuesday, 1 hour and a 30-minute show on Thursday, and 2 hours on Friday, totaling 3.5 hours. Therefore, he watched 3.5 hours out of the 7 hours, meaning he watched 3.5 ",
+          "parsed": 1.0,
+          "expected": 3.0
+        }
+      },
+      {
+        "task_id": "gsm8k-37",
+        "passed": false,
+        "score": 0.0,
+        "cost": 0.0,
+        "latency_s": 16.990301,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "Dave ate 14 fries, the seagull ate 7 (half of Dave's amount), and the pigeons ate 9 (3 each). After the raccoon and ants, 5 fries were left. Working backwards, before the raccoon, there were \\(5 + 2 \\",
+          "parsed": 45.0,
+          "expected": 48.0
+        }
+      },
+      {
+        "task_id": "gsm8k-38",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 3.198161,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the total cost of the packs: 3 packs * $1800/pack = $5400. Then, calculate the total value of the cards: $4000 + $1000 + (30 cards * $50/card) = $4000 + $1000 + $1500 = $6500. The pro",
+          "parsed": 1100.0,
+          "expected": 1100.0
+        }
+      },
+      {
+        "task_id": "gsm8k-39",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 15.998122,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "First, calculate the number of medium-sized beans Grandpa can eat: 75 large beans * 2 = 150 medium beans. Then, convert medium beans to small beans: 150 medium beans * 3 small beans per medium bean = ",
+          "parsed": 450.0,
+          "expected": 450.0
+        }
+      },
+      {
+        "task_id": "gsm8k-40",
+        "passed": true,
+        "score": 1.0,
+        "cost": 0.0,
+        "latency_s": 16.310335,
+        "safety_violations": 0,
+        "capabilities": {},
+        "details": {
+          "policy": "concise-reason",
+          "raw": "He initially had 100 candies and sold 150, so he needed to order more. After selling 150 out of his initial 100 and the additional 100, he sold 50 more than he had. Answer: 50",
+          "parsed": 50.0,
+          "expected": 50.0
+        }
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "id": "eecacc0312d7",
+      "candidate": {
+        "answer_policy": "step-calc"
+      },
+      "safe": true,
+      "reason": "ok",
+      "evaluation": {
+        "score": 0.95,
+        "passed": 38,
+        "total": 40,
+        "failures": [
+          "gsm8k-01",
+          "gsm8k-31"
+        ],
+        "duration_s": 637.5881,
+        "outcomes": [
+          {
+            "task_id": "gsm8k-01",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 16.815333,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the visit charge.\n\\[ \\$40 \\]\n\nStep 2: Calculate the labor charge. Since the job took 2.25 hours, and the labor rate is $35 per hour, we calculate:\n\\[ 2.25 \\text{ hours} \\times \\$35/\\",
+              "parsed": 178.75,
+              "expected": 205.0
+            }
+          },
+          {
+            "task_id": "gsm8k-02",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 15.462896,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "First, let's calculate the number of blue birds in the 3 trees that each had 7 blue birds:\n3 trees * 7 birds/tree = 21 birds\n\nNext, let's calculate the number of blue birds in the 2 different trees th",
+              "parsed": 32.0,
+              "expected": 32.0
+            }
+          },
+          {
+            "task_id": "gsm8k-03",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 3.725341,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the number of articles Meredith wrote on Tuesday.\n- Articles on Monday: 5\n- Articles on Tuesday: \\(5 + \\frac{2}{5} \\times 5 = 5 + 2 = 7\\)\n\nStep 2: Calculate the number of articles Me",
+              "parsed": 104.0,
+              "expected": 104.0
+            }
+          },
+          {
+            "task_id": "gsm8k-04",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 19.787968,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "First, let's calculate the total amount of time Tatiana has for the weekend:\n\\[ 7 \\text{ hours (Saturday)} + 5 \\text{ hours (Sunday)} = 12 \\text{ hours} \\]\n\nNext, we subtract the time she spends readi",
+              "parsed": 50.0,
+              "expected": 50.0
+            }
+          },
+          {
+            "task_id": "gsm8k-05",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 22.740214,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Let's break down the problem step by step.\n\n1. Let \\( J \\) represent the number of times Tasha mowed Joe's lawn.\n2. According to the problem, Tasha mowed Kamala's lawn thrice as many times as she did ",
+              "parsed": 26.0,
+              "expected": 26.0
+            }
+          },
+          {
+            "task_id": "gsm8k-06",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.394315,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "First, let's calculate the distance Cho hiked:\n1. Cho's speed: 14 kilometers per hour\n2. Cho's time: 8 hours\n3. Distance Cho hiked: \\(14 \\, \\text{km/h} \\times 8 \\, \\text{hours} = 112 \\, \\text{km}\\)\n\nN",
+              "parsed": 67.0,
+              "expected": 67.0
+            }
+          },
+          {
+            "task_id": "gsm8k-07",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 20.07343,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the distance James swims before resting.\n- Total distance = 20 miles\n- Percentage of distance swum = 60%\n- Distance swum = 20 miles * 60% = 20 * 0.6 = 12 miles\n\nStep 2: Calculate the",
+              "parsed": 17.0,
+              "expected": 17.0
+            }
+          },
+          {
+            "task_id": "gsm8k-08",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 16.711632,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the number of green cards.\n- Red cards = 15\n- Green cards = 15 + (60% of 15)\n- 60% of 15 = 0.60 * 15 = 9\n- Green cards = 15 + 9 = 24\n\nStep 2: Calculate the number of yellow cards.\n- ",
+              "parsed": 78.0,
+              "expected": 78.0
+            }
+          },
+          {
+            "task_id": "gsm8k-09",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 3.290946,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the number of red jelly beans.\nSince there are twice as many red jelly beans as green jelly beans, and there are 17 green jelly beans:\n2 * 17 = 34 red jelly beans\n\nStep 2: Calculate ",
+              "parsed": 9.0,
+              "expected": 9.0
+            }
+          },
+          {
+            "task_id": "gsm8k-10",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.783566,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "To calculate the total number of cars towed by the tow truck in a week, we can break down the problem into smaller steps.\n\n1. Calculate the number of cars towed in the first three days:\n   - Each day,",
+              "parsed": 54.0,
+              "expected": 54.0
+            }
+          },
+          {
+            "task_id": "gsm8k-11",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.102578,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the total number of units in the building.\nTotal units = Number of floors × Number of units per floor\nTotal units = 15 floors × 8 units/floor\nTotal units = 120 units\n\nStep 2: Calcula",
+              "parsed": 30.0,
+              "expected": 30.0
+            }
+          },
+          {
+            "task_id": "gsm8k-12",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 3.498503,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Determine the weight of each piece of cake.\n- Total weight of the cake = 20 ounces\n- Number of pieces = 8\n- Weight of each piece = 20 ounces / 8 = 2.5 ounces\n\nStep 2: Calculate the total weigh",
+              "parsed": 15.0,
+              "expected": 15.0
+            }
+          },
+          {
+            "task_id": "gsm8k-13",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.410215,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Let's break down the problem step by step.\n\n1. The total number of Starburts candies in the bag is 232.\n2. The number of red candies is 54.\n3. The number of orange candies is twice the number of red c",
+              "parsed": 43.0,
+              "expected": 43.0
+            }
+          },
+          {
+            "task_id": "gsm8k-14",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 19.733804,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the total amount of lemonade Tim needs to make.\n- Tim needs 4 gallons for the party and 1 gallon for Allen.\n- Total lemonade needed = 4 + 1 = 5 gallons\n\nStep 2: Determine the amount ",
+              "parsed": 36.0,
+              "expected": 36.0
+            }
+          },
+          {
+            "task_id": "gsm8k-15",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.48367,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: First, we need to find out how much money Gerald and Julia each received based on the ratio 3:2.\nThe total parts of the ratio are 3 + 2 = 5 parts.\n\nStep 2: Calculate the value of one part.\n$10",
+              "parsed": 50.0,
+              "expected": 50.0
+            }
+          },
+          {
+            "task_id": "gsm8k-16",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 21.352487,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "First, let's calculate the total cost of the lollipops Manolo bought:\n- Cost of one lollipop = $0.40\n- Number of lollipops = 5\n- Total cost of lollipops = 5 * $0.40 = $2.00\n\nNext, we know the total co",
+              "parsed": 7.0,
+              "expected": 7.0
+            }
+          },
+          {
+            "task_id": "gsm8k-17",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 3.237169,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the number of slices given to Bill.\n\\[ \\frac{1}{3} \\times 12 = 4 \\]\n\nStep 2: Calculate the number of slices given to Mark.\n\\[ \\frac{1}{4} \\times 12 = 3 \\]\n\nStep 3: Calculate the tota",
+              "parsed": 3.0,
+              "expected": 3.0
+            }
+          },
+          {
+            "task_id": "gsm8k-18",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 21.919893,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Let's denote the number of cases of shingles needed for the first house as \\( F \\), the second house as \\( S \\), and the third house as \\( T \\).\n\nFrom the problem, we know:\n1. The total number of case",
+              "parsed": 100.0,
+              "expected": 100.0
+            }
+          },
+          {
+            "task_id": "gsm8k-19",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.670106,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the number of bars produced in one day.\n- The company produces 5000 bars per day.\n\nStep 2: Calculate the number of bars produced in one week.\n- There are 7 days in a week.\n- 5000 bar",
+              "parsed": 140000.0,
+              "expected": 140000.0
+            }
+          },
+          {
+            "task_id": "gsm8k-20",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 16.292418,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Determine the cost of Juice Box B.\nJuice Box A = $4\nJuice Box B = Juice Box A + $5\n$4 + $5 = $9\n\nStep 2: Determine the cost of Juice Box C.\nJuice Box C = Juice Box A + $7\n$4 + $7 = $11\n\nStep 3",
+              "parsed": 2.0,
+              "expected": 2.0
+            }
+          },
+          {
+            "task_id": "gsm8k-21",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 19.217906,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "First, let's calculate the earnings from recycling aluminum cans:\n- Grayson recycles 3 aluminum cans per week.\n- Each aluminum can is worth 2 cents.\n- Therefore, the weekly earnings from aluminum cans",
+              "parsed": 84.0,
+              "expected": 84.0
+            }
+          },
+          {
+            "task_id": "gsm8k-22",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.677161,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "First, let's calculate the total cost per week for the groceries. Since the total monthly cost is $400 and there are 4 weeks in a month, we divide the total monthly cost by 4:\n\n\\[ \\frac{400}{4} = 100 ",
+              "parsed": 40.0,
+              "expected": 40.0
+            }
+          },
+          {
+            "task_id": "gsm8k-23",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.83799,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the cost of spaying the kitten.\nSpaying cost = $200\n\nStep 2: Calculate the total cost of the 3 vaccines.\nVaccine cost per dose = $20\nNumber of doses = 3\nTotal vaccine cost = $20 * 3 ",
+              "parsed": 308.0,
+              "expected": 308.0
+            }
+          },
+          {
+            "task_id": "gsm8k-24",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 2.484217,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Raymond starts with $21.\nStep 2: He saves an additional $11 from his allowance.\n21 + 11 = 32\nStep 3: He spends $5 on a comic book.\n32 - 5 = 27\nStep 4: He spends $19 on a puzzle.\n27 - 19 = 8\n\nA",
+              "parsed": 8.0,
+              "expected": 8.0
+            }
+          },
+          {
+            "task_id": "gsm8k-25",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 19.099787,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Let's denote the number of players on the defense as \\( D \\).\n\nGiven that there are twice as many players on the offense as there is on the defense, the number of players on the offense is \\( 2D \\).\n\n",
+              "parsed": 30.0,
+              "expected": 30.0
+            }
+          },
+          {
+            "task_id": "gsm8k-26",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 4.093637,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Determine the number of customers Julie processes per day.\nSince Julie operates the cash register exactly twice as fast as Jewel, and Jewel processes 50 customers per day, Julie processes:\n\\[ ",
+              "parsed": 1050.0,
+              "expected": 1050.0
+            }
+          },
+          {
+            "task_id": "gsm8k-27",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.79204,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the total cost of the ice cream.\n$3.50\n\nStep 2: Calculate the total cost of the movie tickets for Janet and her sister.\n$7.50 × 2 = $15.00\n\nStep 3: Calculate the cost of the bracelet",
+              "parsed": 13.0,
+              "expected": 13.0
+            }
+          },
+          {
+            "task_id": "gsm8k-28",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.992192,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the number of plant pots needed for the roses.\nRoses need twice as many pots as daisies, so:\n2 * 30 = 60\n\nStep 2: Calculate the total number of plant pots needed.\nTotal pots needed =",
+              "parsed": 10.0,
+              "expected": 10.0
+            }
+          },
+          {
+            "task_id": "gsm8k-29",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.112861,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the total cost of 5 crayons.\n5 crayons * $2 per crayon = $10\n\nStep 2: Calculate the change Violetta will get after the purchase.\n$20 - $10 = $10\n\nAnswer: 10",
+              "parsed": 10.0,
+              "expected": 10.0
+            }
+          },
+          {
+            "task_id": "gsm8k-30",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.892054,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "To calculate the total amount Molly will pay for the catering, we can break down the problem into smaller steps.\n\n1. Calculate the cost for the chicken salad:\n   - Number of people wanting chicken sal",
+              "parsed": 101.0,
+              "expected": 101.0
+            }
+          },
+          {
+            "task_id": "gsm8k-31",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 18.434709,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the number of guests who are expected to show up.\nSince 1/4 of the guests don't show up, 3/4 of the guests will attend.\n16 friends * 3/4 = 12 guests\n\nStep 2: Calculate the number of ",
+              "parsed": 18.0,
+              "expected": 24.0
+            }
+          },
+          {
+            "task_id": "gsm8k-32",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.445867,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "To solve this problem, we need to understand the pattern of how the phone tree works. Each round of calls triples the number of families notified.\n\n1. In the first round, Ali calls 3 families.\n2. In t",
+              "parsed": 81.0,
+              "expected": 81.0
+            }
+          },
+          {
+            "task_id": "gsm8k-33",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 16.517054,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "First, let's calculate the total number of hours John spent in physical therapy each week:\n2 hours/session * 2 sessions/week = 4 hours/week\n\nNext, we calculate the total number of hours over the 6 wee",
+              "parsed": 3000.0,
+              "expected": 3000.0
+            }
+          },
+          {
+            "task_id": "gsm8k-34",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 19.717328,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Calculate the number of dogs Larry has.\n- Larry has 3 cats.\n- He has 3 times as many dogs as cats.\n- Number of dogs = 3 * 3 = 9\n\nStep 2: Calculate the number of rabbits Larry has.\n- He has 2 f",
+              "parsed": 47.0,
+              "expected": 47.0
+            }
+          },
+          {
+            "task_id": "gsm8k-35",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.803967,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "First, let's calculate the total number of tins of cat food Kimberly bought:\n- Kimberly bought 8 packages of cat food.\n- Each package contains 11 tins.\n\n\\[ 8 \\times 11 = 88 \\]\n\nNext, let's calculate t",
+              "parsed": 52.0,
+              "expected": 52.0
+            }
+          },
+          {
+            "task_id": "gsm8k-36",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 23.170367,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Let's break down the problem step by step.\n\n1. On Monday, Frankie watched 1 hour of TV.\n2. On Tuesday, Frankie watched another 1 hour of TV.\n3. On Thursday, Frankie watched 1 hour and 30 minutes of TV",
+              "parsed": 3.0,
+              "expected": 3.0
+            }
+          },
+          {
+            "task_id": "gsm8k-37",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 20.50965,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Let's denote the initial number of french fries in the pack as \\( x \\).\n\n1. Dave ate 14 fries.\n   \\[\n   x - 14\n   \\]\n\n2. A seagull ate half of what Dave ate, which is 7 fries.\n   \\[\n   x - 14 - 7 = x ",
+              "parsed": 48.0,
+              "expected": 48.0
+            }
+          },
+          {
+            "task_id": "gsm8k-38",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.836206,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "First, let's calculate the total cost of the packs Mark bought:\n\\[ 3 \\text{ packs} \\times \\$1800 \\text{ per pack} = \\$5400 \\]\n\nNext, let's calculate the total value of the cards he obtained:\n- One car",
+              "parsed": 1100.0,
+              "expected": 1100.0
+            }
+          },
+          {
+            "task_id": "gsm8k-39",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.172151,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "First, let's determine how many medium-sized jelly beans Grandpa can eat. Since he can eat twice as many medium-sized beans as large beans, and it takes 75 large jelly beans to fill him up, we can cal",
+              "parsed": 450.0,
+              "expected": 450.0
+            }
+          },
+          {
+            "task_id": "gsm8k-40",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 3.293152,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "step-calc",
+              "raw": "Step 1: Dale initially ordered 100 butterscotch candies.\nStep 2: Dale sold 150 butterscotch candies.\nStep 3: Dale then ordered 100 more butterscotch candies.\nStep 4: To find out the total number of ca",
+              "parsed": 50.0,
+              "expected": 50.0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "3814dc3956bd",
+      "candidate": {
+        "answer_policy": "rounding-aware"
+      },
+      "safe": true,
+      "reason": "ok",
+      "evaluation": {
+        "score": 0.9,
+        "passed": 36,
+        "total": 40,
+        "failures": [
+          "gsm8k-16",
+          "gsm8k-23",
+          "gsm8k-31",
+          "gsm8k-36"
+        ],
+        "duration_s": 691.1251,
+        "outcomes": [
+          {
+            "task_id": "gsm8k-01",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.097472,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the charges step by step:\n\n1. **Visit Charge**: Patty's Plumbing charges a flat fee of $40 to visit the house.\n\n2. **Labor Charge**: The labor rate is $35 per hour, or part thereof. S",
+              "parsed": 205.0,
+              "expected": 205.0
+            }
+          },
+          {
+            "task_id": "gsm8k-02",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 4.131986,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step:\n\n1. **Calculate the number of blue birds in the first set of trees:**\n   - There are 3 trees, each with 7 blue birds.\n   - \\(3 \\times 7 = 21\\) blue birds.\n\n2",
+              "parsed": 32.0,
+              "expected": 32.0
+            }
+          },
+          {
+            "task_id": "gsm8k-03",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.879532,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step.\n\n1. **Determine the number of articles Meredith wrote each day:**\n   - **Monday:** Meredith wrote 5 articles.\n   - **Tuesday:** She wrote \\( \\frac{2}{5} \\) t",
+              "parsed": 104.0,
+              "expected": 104.0
+            }
+          },
+          {
+            "task_id": "gsm8k-04",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.710824,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step.\n\n1. **Total Time Available:**\n   - Saturday: 7 hours\n   - Sunday: 5 hours\n   - Total: \\(7 + 5 = 12\\) hours\n\n2. **Time Spent Reading:**\n   - Reading: 3 hours\n",
+              "parsed": 50.0,
+              "expected": 50.0
+            }
+          },
+          {
+            "task_id": "gsm8k-05",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 25.307793,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step.\n\n1. **Total Earnings from Work:**\n   Tasha made a total of $80 from selling lemonade and mowing lawns.\n\n2. **Earnings from Lemonade Sales:**\n   We need to fi",
+              "parsed": 26.0,
+              "expected": 26.0
+            }
+          },
+          {
+            "task_id": "gsm8k-06",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 21.279392,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "To determine how many kilometers farther Cho hiked compared to Chloe, we need to calculate the distance each person hiked and then find the difference.\n\n### Step 1: Calculate the distance Cho hiked\n- ",
+              "parsed": 67.0,
+              "expected": 67.0
+            }
+          },
+          {
+            "task_id": "gsm8k-07",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 21.603995,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step.\n\n1. **Calculate the distance James swims initially:**\n   - Total distance of the lake: 20 miles\n   - Percentage of the distance he swims: 60%\n   - Distance s",
+              "parsed": 17.0,
+              "expected": 17.0
+            }
+          },
+          {
+            "task_id": "gsm8k-08",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.573983,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step.\n\n1. **Determine the number of green cards:**\n   - We know there are 15 red cards.\n   - The number of green cards is 60% more than the number of red cards.\n  ",
+              "parsed": 78.0,
+              "expected": 78.0
+            }
+          },
+          {
+            "task_id": "gsm8k-09",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 19.919702,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step.\n\n1. **Determine the number of red jelly beans:**\n   - We know there are 17 green jelly beans.\n   - The number of red jelly beans is twice the number of green",
+              "parsed": 9.0,
+              "expected": 9.0
+            }
+          },
+          {
+            "task_id": "gsm8k-10",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 20.670753,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "To calculate the total number of cars towed by the tow truck during the week, we can break down the problem step by step.\n\n1. **Cars towed on the first three days:**\n   - The tow truck pulled 10 cars ",
+              "parsed": 54.0,
+              "expected": 54.0
+            }
+          },
+          {
+            "task_id": "gsm8k-11",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 25.433069,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "To find the total number of unoccupied units in the building, we need to follow these steps:\n\n1. **Calculate the total number of units in the building:**\n   - The building has 15 floors.\n   - Each flo",
+              "parsed": 30.0,
+              "expected": 30.0
+            }
+          },
+          {
+            "task_id": "gsm8k-12",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 16.686379,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Step 1: Determine the weight of each piece of cake.\n- The total weight of the cake is 20 ounces.\n- The cake is cut into 8 pieces.\n- Therefore, the weight of each piece is \\( \\frac{20 \\text{ ounces}}{8",
+              "parsed": 15.0,
+              "expected": 15.0
+            }
+          },
+          {
+            "task_id": "gsm8k-13",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.718446,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step.\n\n1. **Identify the number of each type of candy:**\n   - Red candies: 54\n   - Orange candies: Twice the amount of red candies, so \\(2 \\times 54 = 108\\)\n   - Y",
+              "parsed": 43.0,
+              "expected": 43.0
+            }
+          },
+          {
+            "task_id": "gsm8k-14",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 19.708124,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "To determine how many lemons Tim will need, let's break down the problem step by step.\n\n1. **Calculate the amount of lemon juice needed for the regular lemonade:**\n   - Tim needs to make 4 gallons of ",
+              "parsed": 36.0,
+              "expected": 36.0
+            }
+          },
+          {
+            "task_id": "gsm8k-15",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.289982,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "To solve this problem, we'll follow these steps:\n\n1. **Determine the total parts of the ratio**: The ratio given is 3:2, which means the total parts are \\(3 + 2 = 5\\).\n\n2. **Calculate the value of eac",
+              "parsed": 50.0,
+              "expected": 50.0
+            }
+          },
+          {
+            "task_id": "gsm8k-16",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 19.800144,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step.\n\n1. **Determine the cost of the candies:**\n   - Manolo bought four candies for $3.20.\n   - The cost of one candy is \\( \\frac{3.20}{4} = 0.80 \\) dollars.\n\n2. ",
+              "parsed": 12.0,
+              "expected": 7.0
+            }
+          },
+          {
+            "task_id": "gsm8k-17",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 5.000677,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's solve the problem step by step:\n\n1. **Total slices of pizza**: 12 slices.\n\n2. **Slices given to Bill**: \n   - Bill gets \\( \\frac{1}{3} \\) of the pizza.\n   - \\( \\frac{1}{3} \\times 12 = 4 \\) slice",
+              "parsed": 3.0,
+              "expected": 3.0
+            }
+          },
+          {
+            "task_id": "gsm8k-18",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.073249,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's denote the number of cases of shingles needed for the first house as \\( x \\).\n\nAccording to the problem:\n- The first house needs \\( x \\) cases.\n- The second house needs \\( 2x \\) cases (since the",
+              "parsed": 100.0,
+              "expected": 100.0
+            }
+          },
+          {
+            "task_id": "gsm8k-19",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 20.128212,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "To solve this problem, let's break it down step by step:\n\n1. **Calculate the number of bars produced in one day:**\n   - The company produces 5000 bars per day.\n\n2. **Calculate the number of bars produ",
+              "parsed": 140000.0,
+              "expected": 140000.0
+            }
+          },
+          {
+            "task_id": "gsm8k-20",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.115172,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Step 1: Determine the cost of Juice Box B.\n- Juice Box A costs $4.\n- Juice Box B is $5 more than Juice Box A.\n  \\[\n  \\text{Cost of Juice Box B} = 4 + 5 = 9 \\text{ dollars}\n  \\]\n\nStep 2: Determine the ",
+              "parsed": 2.0,
+              "expected": 2.0
+            }
+          },
+          {
+            "task_id": "gsm8k-21",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 5.676086,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step.\n\n1. **Determine the weekly earnings from recycling cans:**\n   - Grayson recycles 3 aluminum cans per week.\n   - Each aluminum can is worth 2 cents.\n   - Week",
+              "parsed": 84.0,
+              "expected": 84.0
+            }
+          },
+          {
+            "task_id": "gsm8k-22",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.406695,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "To determine how much Keenan spends per week, we need to follow these steps:\n\n1. **Calculate the total monthly cost for Keenan:**\n   - The total monthly cost for groceries is $400.\n   - Madeline pays ",
+              "parsed": 40.0,
+              "expected": 40.0
+            }
+          },
+          {
+            "task_id": "gsm8k-23",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 17.786137,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the costs step by step:\n\n1. **Spaying cost**: $200\n2. **Vaccines cost**: 3 vaccines at $20 each\n   - \\( 3 \\times 20 = 60 \\)\n3. **Cost of broken vases**: 4 vases at $12 each\n   - \\( 4 ",
+              "parsed": 298.0,
+              "expected": 308.0
+            }
+          },
+          {
+            "task_id": "gsm8k-24",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 3.320951,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step:\n\n1. **Initial Amount**: Raymond starts with $21.\n2. **Savings**: Raymond saves an additional $11 from his allowance.\n   - Total after savings: $21 + $11 = $3",
+              "parsed": 8.0,
+              "expected": 8.0
+            }
+          },
+          {
+            "task_id": "gsm8k-25",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 20.208268,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's denote the number of players on the defense as \\( D \\).\n\nAccording to the problem:\n1. There are twice as many players on the offense as there is on the defense. So, the number of players on the ",
+              "parsed": 30.0,
+              "expected": 30.0
+            }
+          },
+          {
+            "task_id": "gsm8k-26",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 4.694026,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step.\n\n1. **Determine the number of customers Julie processes per day:**\n   - Jewel processes 50 customers per day.\n   - Julie operates the cash register exactly t",
+              "parsed": 1050.0,
+              "expected": 1050.0
+            }
+          },
+          {
+            "task_id": "gsm8k-27",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.493859,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down Janet's expenses and calculate how much money she has left step by step.\n\n1. **Cost of ice cream**: $3.50\n2. **Cost of movie tickets (2 tickets at $7.50 each)**: \n   \\[\n   2 \\times 7.",
+              "parsed": 13.0,
+              "expected": 13.0
+            }
+          },
+          {
+            "task_id": "gsm8k-28",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.111785,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Step 1: Calculate the number of plant pots needed for the roses.\nThe school asked for twice as many plant pots for the roses as for the daisies. Since they asked for 30 plant pots for the daisies, the",
+              "parsed": 10.0,
+              "expected": 10.0
+            }
+          },
+          {
+            "task_id": "gsm8k-29",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 16.577182,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Step 1: Determine the total cost of the crayons.\n- Violetta needs 5 different colors of crayons.\n- Each crayon costs $2.\n- Therefore, the total cost is \\(5 \\times 2 = 10\\) dollars.\n\nStep 2: Calculate ",
+              "parsed": 10.0,
+              "expected": 10.0
+            }
+          },
+          {
+            "task_id": "gsm8k-30",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.402174,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "To calculate the total amount Molly will pay for the catering, we need to follow these steps:\n\n1. **Calculate the cost for the chicken salad:**\n   - Number of people wanting chicken salad: 10\n   - Cos",
+              "parsed": 101.0,
+              "expected": 101.0
+            }
+          },
+          {
+            "task_id": "gsm8k-31",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 18.046427,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step:\n\n1. **Determine the number of guests who will actually attend:**\n   - Christina invited 16 friends.\n   - 1/4 of the guests don't show up, so 3/4 of the guest",
+              "parsed": 18.0,
+              "expected": 24.0
+            }
+          },
+          {
+            "task_id": "gsm8k-32",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.790191,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "To solve this problem, we need to understand the pattern of how the phone tree works. Each round of calls triples the number of families notified.\n\n1. **First Round:**\n   - Ali calls 3 families.\n   - ",
+              "parsed": 81.0,
+              "expected": 81.0
+            }
+          },
+          {
+            "task_id": "gsm8k-33",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.475852,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "To calculate the total cost of John's physical therapy, we'll break down the problem step by step.\n\n1. **Determine the total number of sessions:**\n   - John went to physical therapy twice a week.\n   -",
+              "parsed": 3000.0,
+              "expected": 3000.0
+            }
+          },
+          {
+            "task_id": "gsm8k-34",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 19.056544,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step to find out how many pets Larry has.\n\n1. **Cats**: Larry has 3 cats.\n   - Cats = 3\n\n2. **Dogs**: Larry has 3 times as many dogs as cats.\n   - Dogs = 3 * Cats ",
+              "parsed": 47.0,
+              "expected": 47.0
+            }
+          },
+          {
+            "task_id": "gsm8k-35",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 19.128406,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Step 1: Calculate the total number of tins of cat food.\n- Kimberly bought 8 packages of cat food.\n- Each package contains 11 tins.\n- Total tins of cat food = 8 packages * 11 tins/package = 88 tins.\n\nS",
+              "parsed": 52.0,
+              "expected": 52.0
+            }
+          },
+          {
+            "task_id": "gsm8k-36",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 19.00992,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step to find out how many 30-minute episodes Frankie watched on Wednesday.\n\n1. **Calculate the total TV time from Monday to Friday:**\n   - Monday: 1 hour\n   - Tues",
+              "parsed": 4.0,
+              "expected": 3.0
+            }
+          },
+          {
+            "task_id": "gsm8k-37",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 21.225803,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's work through the problem step by step, starting from the end and moving backward.\n\n1. **Final Count of French Fries:**\n   - After the ants carried off the final fry, 5 fries were left.\n   - Ther",
+              "parsed": 48.0,
+              "expected": 48.0
+            }
+          },
+          {
+            "task_id": "gsm8k-38",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.776275,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step to calculate Mark's profit.\n\n1. **Calculate the total cost of the packs:**\n   Mark buys 3 packs for $1800 each.\n   \\[\n   \\text{Total cost} = 3 \\times 1800 = 5",
+              "parsed": 1100.0,
+              "expected": 1100.0
+            }
+          },
+          {
+            "task_id": "gsm8k-39",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.173807,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step.\n\n1. **Determine the number of medium-sized jelly beans Grandpa can eat:**\n   - Grandpa can eat twice as many medium-sized beans as large beans.\n   - Since it",
+              "parsed": 450.0,
+              "expected": 450.0
+            }
+          },
+          {
+            "task_id": "gsm8k-40",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 19.634317,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rounding-aware",
+              "raw": "Let's break down the problem step by step:\n\n1. **Initial Order**: Dale started with 100 butterscotch candies.\n2. **Sales**: Dale sold 150 butterscotch candies.\n3. **Additional Order**: Dale then order",
+              "parsed": 50.0,
+              "expected": 50.0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "c29944d808d9",
+      "candidate": {
+        "answer_policy": "rectify"
+      },
+      "safe": true,
+      "reason": "ok",
+      "evaluation": {
+        "score": 0.8,
+        "passed": 32,
+        "total": 40,
+        "failures": [
+          "gsm8k-01",
+          "gsm8k-03",
+          "gsm8k-14",
+          "gsm8k-16",
+          "gsm8k-27",
+          "gsm8k-31",
+          "gsm8k-37",
+          "gsm8k-40"
+        ],
+        "duration_s": 607.9974,
+        "outcomes": [
+          {
+            "task_id": "gsm8k-01",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 16.17563,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the labor cost: 2.25 hours times $35 per hour equals $78.75. Then add the visit charge and parts: $78.75 + $40 + $60 = $178.75. Answer: 178.75",
+              "parsed": 178.75,
+              "expected": 205.0
+            }
+          },
+          {
+            "task_id": "gsm8k-02",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 2.499268,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, 3 trees with 7 birds each give 3 * 7 = 21 birds. \nThen, 2 trees with 4 birds each give 2 * 4 = 8 birds. \nFinally, 1 tree with 3 birds gives 3 birds. \nAdding these together: 21 + 8 + 3 = 32 bird",
+              "parsed": 32.0,
+              "expected": 32.0
+            }
+          },
+          {
+            "task_id": "gsm8k-03",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 15.121796,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "On Monday, Meredith wrote 5 articles. On Tuesday, she wrote \\(5 + \\frac{2}{5} \\times 5 = 5 + 2 = 7\\) articles. On Wednesday, she wrote \\(2 \\times 7 = 14\\) articles. \n\nAnswer: 60",
+              "parsed": 60.0,
+              "expected": 104.0
+            }
+          },
+          {
+            "task_id": "gsm8k-04",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.378805,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the total weekend hours: 7 (Saturday) + 5 (Sunday) = 12 hours. Then, subtract the time spent reading: 12 - 3 = 9 hours left for soccer and video games. She plays video games for 1/3 o",
+              "parsed": 50.0,
+              "expected": 50.0
+            }
+          },
+          {
+            "task_id": "gsm8k-05",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 20.222284,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "Let's denote the number of times Tasha mowed Joe's lawn as \\(x\\). Then, she mowed Kamala's lawn \\(3x\\) times and Alba's lawn \\(5x\\) times. Since Joe paid $6 per time, the total earnings from mowing Jo",
+              "parsed": 26.0,
+              "expected": 26.0
+            }
+          },
+          {
+            "task_id": "gsm8k-06",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 16.489998,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "Cho hiked \\(14 \\, \\text{km/h} \\times 8 \\, \\text{h} = 112 \\, \\text{km}\\). Chloe hiked \\(9 \\, \\text{km/h} \\times 5 \\, \\text{h} = 45 \\, \\text{km}\\). Cho hiked \\(112 - 45 = 67 \\, \\text{km}\\) farther. Answ",
+              "parsed": 67.0,
+              "expected": 67.0
+            }
+          },
+          {
+            "task_id": "gsm8k-07",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 2.403729,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, James swims 60% of 20 miles, which is 12 miles. At 2 miles per hour, this takes him 6 hours. He rests for half as long as he swam, so 3 hours. For the remaining 8 miles, he swims at half the sp",
+              "parsed": 17.0,
+              "expected": 17.0
+            }
+          },
+          {
+            "task_id": "gsm8k-08",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 16.481964,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the number of green cards: 15 red cards * 60% = 9 more green cards, so there are 15 + 9 = 24 green cards. Next, calculate the number of yellow cards: 15 red + 24 green = 39 yellow car",
+              "parsed": 78.0,
+              "expected": 78.0
+            }
+          },
+          {
+            "task_id": "gsm8k-09",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 15.913177,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the number of red jelly beans: 17 green jelly beans * 2 = 34 red jelly beans. Then, subtract the number of green and red jelly beans from the total: 60 total - 17 green - 34 red = 9 b",
+              "parsed": 9.0,
+              "expected": 9.0
+            }
+          },
+          {
+            "task_id": "gsm8k-10",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.795739,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "For the first three days, the tow truck pulled 10 cars each day, so that's 3 days * 10 cars/day = 30 cars. For the remaining four days, it pulled 4 fewer cars than the previous days, so that's 10 cars",
+              "parsed": 54.0,
+              "expected": 54.0
+            }
+          },
+          {
+            "task_id": "gsm8k-11",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 2.415105,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the total number of units: 15 floors * 8 units/floor = 120 units. Then, find the number of occupied units: 3/4 * 120 = 90 units. Finally, subtract the occupied units from the total to",
+              "parsed": 30.0,
+              "expected": 30.0
+            }
+          },
+          {
+            "task_id": "gsm8k-12",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.304929,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "The cake is cut into 8 pieces, so each piece weighs 20 / 8 = 2.5 ounces. Rory and her mom together have 2 pieces, which is 2 * 2.5 = 5 ounces. The remaining cake weighs 20 - 5 = 15 ounces. Answer: 15",
+              "parsed": 15.0,
+              "expected": 15.0
+            }
+          },
+          {
+            "task_id": "gsm8k-13",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 15.993854,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the number of orange candies: 54 red candies times 2 equals 108 orange candies. Then, calculate the number of yellow candies: 54 red candies divided by 2 equals 27 yellow candies. Now",
+              "parsed": 43.0,
+              "expected": 43.0
+            }
+          },
+          {
+            "task_id": "gsm8k-14",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 16.263705,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, Tim needs 5 cups of lemon juice for 4 gallons of lemonade (1 cup per gallon). For the extra gallon, since it's twice as tart, he needs 2 cups of juice. So, he needs 7 cups in total. Since 6 lem",
+              "parsed": 42.0,
+              "expected": 36.0
+            }
+          },
+          {
+            "task_id": "gsm8k-15",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 15.520457,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, divide $100 in the ratio 3:2. The total parts are 3 + 2 = 5 parts. Each part is worth $100 / 5 = $20. Gerald gets 3 parts, so he initially has 3 * $20 = $60. After spending $10 on a book, Geral",
+              "parsed": 50.0,
+              "expected": 50.0
+            }
+          },
+          {
+            "task_id": "gsm8k-16",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 17.195547,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the total cost of the lollipops: 5 lollipops * $0.40 = $2.00. Then, calculate the cost of the candies: 4 candies * $0.80 = $3.20. Adding these together, $2.00 + $3.20 = $5.20 for the ",
+              "parsed": 12.0,
+              "expected": 7.0
+            }
+          },
+          {
+            "task_id": "gsm8k-17",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 16.983264,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, Jenny gives away 1/3 of 12 slices to Bill, which is 4 slices. Then, she gives 1/4 of 12 slices to Mark, which is 3 slices. After giving slices to Bill and Mark, and Jenny eating 2 slices, we ca",
+              "parsed": 3.0,
+              "expected": 3.0
+            }
+          },
+          {
+            "task_id": "gsm8k-18",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 18.426653,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "Let's denote the shingles needed for the first house as \\( F \\), the second as \\( S \\), and the third as \\( T \\). Given \\( F = \\frac{1}{2}S \\) and \\( T = 2F \\), and the total is 250 cases, we can expr",
+              "parsed": 100.0,
+              "expected": 100.0
+            }
+          },
+          {
+            "task_id": "gsm8k-19",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 2.114507,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the daily revenue: 5000 bars/day * $2/bar = $10,000/day. Then, calculate the revenue for two weeks: $10,000/day * 14 days = $140,000. Answer: 140000",
+              "parsed": 140000.0,
+              "expected": 140000.0
+            }
+          },
+          {
+            "task_id": "gsm8k-20",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 15.908122,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "Juice Box B is 9 dollars (4 + 5 = 9). Juice Box C is 11 dollars (4 + 7 = 11). Answer: 2",
+              "parsed": 2.0,
+              "expected": 2.0
+            }
+          },
+          {
+            "task_id": "gsm8k-21",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 16.467704,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the weekly earnings: Grayson earns 3 cans * 2 cents/can = 6 cents from cans, and 5 bottles * 3 cents/bottle = 15 cents from bottles, totaling 21 cents per week. Then, for a four-week ",
+              "parsed": 84.0,
+              "expected": 84.0
+            }
+          },
+          {
+            "task_id": "gsm8k-22",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 16.016667,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the total cost per week: $400 / 4 = $100 per week. Madeline pays 60%, so she covers $100 * 0.60 = $60. Therefore, Keenan pays the remaining 40%, which is $100 * 0.40 = $40 per week. A",
+              "parsed": 40.0,
+              "expected": 40.0
+            }
+          },
+          {
+            "task_id": "gsm8k-23",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.074834,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, the spaying cost is $200. The vaccines cost $20 each for 3 vaccines, which is $60. The kitten broke 4 vases at $12 each, which is $48. Adding these up: $200 + $60 + $48 = $308. Answer: 308",
+              "parsed": 308.0,
+              "expected": 308.0
+            }
+          },
+          {
+            "task_id": "gsm8k-24",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.094046,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "Step 1: Raymond starts with $21 and saves an additional $11, so he has $21 + $11 = $32.\nStep 2: He spends $5 on a comic book and $19 on a puzzle, which totals $5 + $19 = $24.\nStep 3: Subtracting the t",
+              "parsed": 8.0,
+              "expected": 8.0
+            }
+          },
+          {
+            "task_id": "gsm8k-25",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.713163,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "Let \\( D \\) be the number of players on the defense. Then the number of players on the offense is \\( 2D \\), and the number of players on the special teams is \\( \\frac{1}{2}D \\). The total is \\( D + 2D",
+              "parsed": 30.0,
+              "expected": 30.0
+            }
+          },
+          {
+            "task_id": "gsm8k-26",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 2.497965,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "Jewel processes 50 customers per day, so Julie processes 100 customers per day (twice as fast). Together, they process 150 customers per day (50 + 100). Over a week, they process 1050 customers (150 c",
+              "parsed": 1050.0,
+              "expected": 1050.0
+            }
+          },
+          {
+            "task_id": "gsm8k-27",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 17.707845,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the total spent: $3.50 (ice cream) + $7.50 (movie ticket) + $7.50 (sister's ticket) + $8.50 (bracelet) = $27.50. Then, subtract the total spent from the $40 given: $40 - $27.50 = $12.",
+              "parsed": 12.5,
+              "expected": 13.0
+            }
+          },
+          {
+            "task_id": "gsm8k-28",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.319323,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "April needs 30 pots for the daisies and twice as many for the roses, which is 60 pots. So, she needs a total of 30 + 60 = 90 pots. April bought 100 pots, so she has 100 - 90 = 10 pots left over. Answe",
+              "parsed": 10.0,
+              "expected": 10.0
+            }
+          },
+          {
+            "task_id": "gsm8k-29",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 16.496753,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "Violetta needs 5 crayons, and each crayon costs $2, so the total cost is 5 * $2 = $10. She prepared $20 for the purchase, so her change will be $20 - $10 = $10. Answer: 10",
+              "parsed": 10.0,
+              "expected": 10.0
+            }
+          },
+          {
+            "task_id": "gsm8k-30",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.211547,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the cost for the chicken salad: 10 people * $6.50 = $65. Then, calculate the cost for the pasta salad: 6 people * $6 = $36. Adding these together gives the total cost: $65 + $36 = $10",
+              "parsed": 101.0,
+              "expected": 101.0
+            }
+          },
+          {
+            "task_id": "gsm8k-31",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 16.283045,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the number of guests expected to attend: 16 friends * (3/4) = 12 guests. Then, calculate the total number of gift bags needed: 12 guests * 0.75 bags/guest = 9 gift bags. Finally, calc",
+              "parsed": 18.0,
+              "expected": 24.0
+            }
+          },
+          {
+            "task_id": "gsm8k-32",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 20.484523,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "In the first round, 3 families are called. In the second round, each of those 3 families calls 3 others, so 3 * 3 = 9 families are called. In the third round, each of those 9 families calls 3 others, ",
+              "parsed": 81.0,
+              "expected": 81.0
+            }
+          },
+          {
+            "task_id": "gsm8k-33",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 15.593561,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the total hours per week: 2 hours/session * 2 sessions/week = 4 hours/week. Then, calculate the total hours over 6 weeks: 4 hours/week * 6 weeks = 24 hours. Finally, calculate the tot",
+              "parsed": 3000.0,
+              "expected": 3000.0
+            }
+          },
+          {
+            "task_id": "gsm8k-34",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.621109,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "Larry has 3 cats. He has 3 times as many dogs as cats, so he has 9 dogs. He has 2 fewer rabbits than dogs, so he has 7 rabbits. He has three times the number of fish as rabbits, so he has 21 fish. His",
+              "parsed": 47.0,
+              "expected": 47.0
+            }
+          },
+          {
+            "task_id": "gsm8k-35",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.187957,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the total tins of cat food: 8 packages * 11 tins/package = 88 tins. Then, calculate the total tins of dog food: 6 packages * 6 tins/package = 36 tins. Finally, find the difference: 88",
+              "parsed": 52.0,
+              "expected": 52.0
+            }
+          },
+          {
+            "task_id": "gsm8k-36",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 17.925927,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "On Monday and Tuesday, he watched 2 hours in total. On Thursday, he watched 1.5 hours. On Friday, he watched 2 hours. That's 5.5 hours accounted for. He watched 7 hours in total, so 7 - 5.5 = 1.5 hour",
+              "parsed": 3.0,
+              "expected": 3.0
+            }
+          },
+          {
+            "task_id": "gsm8k-37",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 20.191264,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "Dave ate 14 fries. The seagull ate half of 14, which is 7. After the seagull, 14 - 7 = 7 fries were left. Pigeons ate 3 fries each, so 3 * 3 = 9 fries were eaten by pigeons, leaving 7 - 9 = -2, but si",
+              "parsed": 29.0,
+              "expected": 48.0
+            }
+          },
+          {
+            "task_id": "gsm8k-38",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 16.690737,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the total cost of the packs: 3 packs * $1800/pack = $5400. Next, calculate the total value of the cards: $4000 + $1000 + (30 cards * $50/card) = $4000 + $1000 + $1500 = $6500. Finally",
+              "parsed": 1100.0,
+              "expected": 1100.0
+            }
+          },
+          {
+            "task_id": "gsm8k-39",
+            "passed": true,
+            "score": 1.0,
+            "cost": 0.0,
+            "latency_s": 15.411284,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "First, calculate the number of medium-sized beans Grandpa can eat: \\(75 \\times 2 = 150\\). Then, since 3 small beans equal 1 medium-sized bean, Grandpa can eat \\(150 \\times 3 = 450\\) small beans. Answe",
+              "parsed": 450.0,
+              "expected": 450.0
+            }
+          },
+          {
+            "task_id": "gsm8k-40",
+            "passed": false,
+            "score": 0.0,
+            "cost": 0.0,
+            "latency_s": 15.398257,
+            "safety_violations": 0,
+            "capabilities": {},
+            "details": {
+              "policy": "rectify",
+              "raw": "Dale initially had 100 candies and sold 150, so he needed to order more. He ordered 100 more, making his total 250 candies (100 initial + 150 sold + 100 ordered). Dale still needs to sell 100 candies ",
+              "parsed": 100.0,
+              "expected": 50.0
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "promoted": true,
+  "active_id": "eecacc0312d7",
+  "active_score": 0.95,
+  "legacy_promoted": true,
+  "statistical_decision": {
+    "promote": true,
+    "reasons": [],
+    "n": 40,
+    "mean_gain": 0.2,
+    "bootstrap_ci": [
+      0.05,
+      0.35
+    ],
+    "mcnemar": {
+      "better": 9,
+      "worse": 1,
+      "p_value": 0.021484375
+    },
+    "cost_increase": 0,
+    "latency_increase": 0.09396552074839613,
+    "safety_violations": 0,
+    "capability_deltas": {}
+  },
+  "version_level": "provisional"
+}
