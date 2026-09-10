@@ -8,3 +8,4 @@ __pycache__/
 # push-token instructions (Task 10) + local absolute paths; exclude from
 # publication rather than shipping plan internals.
 docs/
+dist/

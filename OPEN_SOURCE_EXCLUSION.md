@@ -29,5 +29,8 @@
 
 ```bash
 python tools/check_publish.py   # 预期 PUBLISH GATE PASS
+python tools/make_release.py    # 本地打包 shippable 集 -> dist/gsm8k-self-evolve-shippable.zip + SHA256SUMS
 git status --short              # 确认无 *.log / docs/ / *.key 被暂存
 ```
+
+> `make_release.py` 默认先跑门禁（fail closed），再按门禁的 shippable 集打包并输出归档 sha256；`dist/` 为本地产物已 `.gitignore`，不入库不推送。
