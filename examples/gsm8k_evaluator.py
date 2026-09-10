@@ -87,7 +87,7 @@ def run_reflect_retry(question: str) -> tuple[bool, float, dict]:
     return got, latency, {"policy": "reflect-reason-retry", "attempts": attempts,
                          "trigger": trigger, "raw": raw[:200], "parsed": got}
 
-REASONING_POLICIES = {"concise-reason", "step-calc", "rounding-aware", "rectify", "reflect-retry"}
+REASONING_POLICIES = {"concise-reason", "step-calc", "rounding-aware", "rectify", "reflect-retry", "textgrad"}
 
 NUM_RE = re.compile(r"-?[\d,]*\.?\d+")
 
@@ -140,7 +140,11 @@ def main() -> None:
                           "cost": 0.0, "latency_s": round(latency, 3),
                           "details": detail}))
         return
-    prompt = PROMPTS.get(policy, PROMPTS["direct"]).format(q=question)
+    if policy == "textgrad":
+        prompt_file = candidate.get("prompt_file", "examples/prompts/textgrad-prompt.txt")
+        prompt = Path(prompt_file).read_text(encoding="utf-8").format(q=question)
+    else:
+        prompt = PROMPTS.get(policy, PROMPTS["direct"]).format(q=question)
     try:
         raw, latency = call_model(prompt)
         got = extract_number(raw, policy)

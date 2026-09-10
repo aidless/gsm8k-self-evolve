@@ -1,0 +1,12 @@
+Source: https://github.com/zou-group/textgrad (MIT License, full text at
+https://github.com/zou-group/textgrad/blob/main/LICENSE).
+Engine: https://github.com/zou-group/textgrad (LLM-backed autograd engine;
+see also the TextGrad paper https://arxiv.org/abs/2406.07496).
+Optimizer: https://github.com/zou-group/textgrad/tree/main/textgrad/optimizer
+(textual-gradient descent over prompt variables).
+Borrowed shape: TextGrad textual-gradient loop (textual loss over failing
+cases -> textual gradient proposing instruction edits -> prompt update).
+Reimplemented dependency-free in scripts/textgrad_rewrite.py, which freezes
+the winning instruction to examples/prompts/textgrad-prompt.txt; no upstream
+file copied verbatim. Oracle at rewrite time: train-only
+(examples/gsm8k40.json); held-out sets never read.

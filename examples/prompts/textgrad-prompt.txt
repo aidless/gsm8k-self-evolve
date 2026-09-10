@@ -1,0 +1,3 @@
+{{"rewritten_from": "step-calc", "oracle": "train-only", "frozen": true}}
+{q}
+Solve step by step, writing each arithmetic step on its own line, then write the final number alone on the last line prefixed with 'Answer:'.
