@@ -1,1 +1,9 @@
-{"lessons": []}
+{
+ "lessons": [
+  "The arithmetic mistake likely caused by calculating the labor charge as \\(2.25 \\text{ hours} \\times \\$35\\) instead of rounding up to the next whole hour, resulting in \\(3 \\text{ hours} \\times \\$35\\).",
+  "The arithmetic mistake likely caused by calculating the number of gift bags needed as 12 instead of 12 * 0.75, resulting in the wrong total cost calculation.",
+  "The arithmetic mistake likely involved adding the 100 new candies to the 150 that Dale sold instead of the 100 he initially ordered, resulting in a calculation where Dale needs to sell -50 candies, which is not possible."
+ ],
+ "mined_from": "gsm8k40",
+ "oracle": "train-only"
+}

@@ -1,0 +1,526 @@
+{
+ "step_calc": {
+  "passed": 37,
+  "total": 40,
+  "score": 0.925,
+  "details": [
+   {
+    "id": "gsm8k-01",
+    "passed": false,
+    "parsed": 178.75,
+    "expected": 205.0
+   },
+   {
+    "id": "gsm8k-02",
+    "passed": true,
+    "parsed": 32.0,
+    "expected": 32.0
+   },
+   {
+    "id": "gsm8k-03",
+    "passed": true,
+    "parsed": 104.0,
+    "expected": 104.0
+   },
+   {
+    "id": "gsm8k-04",
+    "passed": true,
+    "parsed": 50.0,
+    "expected": 50.0
+   },
+   {
+    "id": "gsm8k-05",
+    "passed": true,
+    "parsed": 26.0,
+    "expected": 26.0
+   },
+   {
+    "id": "gsm8k-06",
+    "passed": true,
+    "parsed": 67.0,
+    "expected": 67.0
+   },
+   {
+    "id": "gsm8k-07",
+    "passed": true,
+    "parsed": 17.0,
+    "expected": 17.0
+   },
+   {
+    "id": "gsm8k-08",
+    "passed": true,
+    "parsed": 78.0,
+    "expected": 78.0
+   },
+   {
+    "id": "gsm8k-09",
+    "passed": true,
+    "parsed": 9.0,
+    "expected": 9.0
+   },
+   {
+    "id": "gsm8k-10",
+    "passed": true,
+    "parsed": 54.0,
+    "expected": 54.0
+   },
+   {
+    "id": "gsm8k-11",
+    "passed": true,
+    "parsed": 30.0,
+    "expected": 30.0
+   },
+   {
+    "id": "gsm8k-12",
+    "passed": true,
+    "parsed": 15.0,
+    "expected": 15.0
+   },
+   {
+    "id": "gsm8k-13",
+    "passed": true,
+    "parsed": 43.0,
+    "expected": 43.0
+   },
+   {
+    "id": "gsm8k-14",
+    "passed": true,
+    "parsed": 36.0,
+    "expected": 36.0
+   },
+   {
+    "id": "gsm8k-15",
+    "passed": true,
+    "parsed": 50.0,
+    "expected": 50.0
+   },
+   {
+    "id": "gsm8k-16",
+    "passed": true,
+    "parsed": 7.0,
+    "expected": 7.0
+   },
+   {
+    "id": "gsm8k-17",
+    "passed": true,
+    "parsed": 3.0,
+    "expected": 3.0
+   },
+   {
+    "id": "gsm8k-18",
+    "passed": true,
+    "parsed": 100.0,
+    "expected": 100.0
+   },
+   {
+    "id": "gsm8k-19",
+    "passed": true,
+    "parsed": 140000.0,
+    "expected": 140000.0
+   },
+   {
+    "id": "gsm8k-20",
+    "passed": true,
+    "parsed": 2.0,
+    "expected": 2.0
+   },
+   {
+    "id": "gsm8k-21",
+    "passed": true,
+    "parsed": 84.0,
+    "expected": 84.0
+   },
+   {
+    "id": "gsm8k-22",
+    "passed": true,
+    "parsed": 40.0,
+    "expected": 40.0
+   },
+   {
+    "id": "gsm8k-23",
+    "passed": true,
+    "parsed": 308.0,
+    "expected": 308.0
+   },
+   {
+    "id": "gsm8k-24",
+    "passed": true,
+    "parsed": 8.0,
+    "expected": 8.0
+   },
+   {
+    "id": "gsm8k-25",
+    "passed": true,
+    "parsed": 30.0,
+    "expected": 30.0
+   },
+   {
+    "id": "gsm8k-26",
+    "passed": true,
+    "parsed": 1050.0,
+    "expected": 1050.0
+   },
+   {
+    "id": "gsm8k-27",
+    "passed": true,
+    "parsed": 13.0,
+    "expected": 13.0
+   },
+   {
+    "id": "gsm8k-28",
+    "passed": true,
+    "parsed": 10.0,
+    "expected": 10.0
+   },
+   {
+    "id": "gsm8k-29",
+    "passed": true,
+    "parsed": 10.0,
+    "expected": 10.0
+   },
+   {
+    "id": "gsm8k-30",
+    "passed": true,
+    "parsed": 101.0,
+    "expected": 101.0
+   },
+   {
+    "id": "gsm8k-31",
+    "passed": false,
+    "parsed": 18.0,
+    "expected": 24.0
+   },
+   {
+    "id": "gsm8k-32",
+    "passed": true,
+    "parsed": 81.0,
+    "expected": 81.0
+   },
+   {
+    "id": "gsm8k-33",
+    "passed": true,
+    "parsed": 3000.0,
+    "expected": 3000.0
+   },
+   {
+    "id": "gsm8k-34",
+    "passed": true,
+    "parsed": 47.0,
+    "expected": 47.0
+   },
+   {
+    "id": "gsm8k-35",
+    "passed": true,
+    "parsed": 52.0,
+    "expected": 52.0
+   },
+   {
+    "id": "gsm8k-36",
+    "passed": true,
+    "parsed": 3.0,
+    "expected": 3.0
+   },
+   {
+    "id": "gsm8k-37",
+    "passed": true,
+    "parsed": 48.0,
+    "expected": 48.0
+   },
+   {
+    "id": "gsm8k-38",
+    "passed": true,
+    "parsed": 1100.0,
+    "expected": 1100.0
+   },
+   {
+    "id": "gsm8k-39",
+    "passed": true,
+    "parsed": 450.0,
+    "expected": 450.0
+   },
+   {
+    "id": "gsm8k-40",
+    "passed": false,
+    "parsed": 100.0,
+    "expected": 50.0
+   }
+  ]
+ },
+ "reflect_retry": {
+  "passed": 37,
+  "total": 40,
+  "score": 0.925,
+  "details": [
+   {
+    "id": "gsm8k-01",
+    "passed": true,
+    "parsed": 205.0,
+    "expected": 205.0
+   },
+   {
+    "id": "gsm8k-02",
+    "passed": true,
+    "parsed": 32.0,
+    "expected": 32.0
+   },
+   {
+    "id": "gsm8k-03",
+    "passed": true,
+    "parsed": 104.0,
+    "expected": 104.0
+   },
+   {
+    "id": "gsm8k-04",
+    "passed": true,
+    "parsed": 50.0,
+    "expected": 50.0
+   },
+   {
+    "id": "gsm8k-05",
+    "passed": true,
+    "parsed": 26.0,
+    "expected": 26.0
+   },
+   {
+    "id": "gsm8k-06",
+    "passed": true,
+    "parsed": 67.0,
+    "expected": 67.0
+   },
+   {
+    "id": "gsm8k-07",
+    "passed": true,
+    "parsed": 17.0,
+    "expected": 17.0
+   },
+   {
+    "id": "gsm8k-08",
+    "passed": true,
+    "parsed": 78.0,
+    "expected": 78.0
+   },
+   {
+    "id": "gsm8k-09",
+    "passed": true,
+    "parsed": 9.0,
+    "expected": 9.0
+   },
+   {
+    "id": "gsm8k-10",
+    "passed": true,
+    "parsed": 54.0,
+    "expected": 54.0
+   },
+   {
+    "id": "gsm8k-11",
+    "passed": true,
+    "parsed": 30.0,
+    "expected": 30.0
+   },
+   {
+    "id": "gsm8k-12",
+    "passed": true,
+    "parsed": 15.0,
+    "expected": 15.0
+   },
+   {
+    "id": "gsm8k-13",
+    "passed": true,
+    "parsed": 43.0,
+    "expected": 43.0
+   },
+   {
+    "id": "gsm8k-14",
+    "passed": true,
+    "parsed": 36.0,
+    "expected": 36.0
+   },
+   {
+    "id": "gsm8k-15",
+    "passed": true,
+    "parsed": 50.0,
+    "expected": 50.0
+   },
+   {
+    "id": "gsm8k-16",
+    "passed": false,
+    "parsed": 12.0,
+    "expected": 7.0
+   },
+   {
+    "id": "gsm8k-17",
+    "passed": true,
+    "parsed": 3.0,
+    "expected": 3.0
+   },
+   {
+    "id": "gsm8k-18",
+    "passed": true,
+    "parsed": 100.0,
+    "expected": 100.0
+   },
+   {
+    "id": "gsm8k-19",
+    "passed": true,
+    "parsed": 140000.0,
+    "expected": 140000.0
+   },
+   {
+    "id": "gsm8k-20",
+    "passed": true,
+    "parsed": 2.0,
+    "expected": 2.0
+   },
+   {
+    "id": "gsm8k-21",
+    "passed": true,
+    "parsed": 84.0,
+    "expected": 84.0
+   },
+   {
+    "id": "gsm8k-22",
+    "passed": true,
+    "parsed": 40.0,
+    "expected": 40.0
+   },
+   {
+    "id": "gsm8k-23",
+    "passed": false,
+    "parsed": 298.0,
+    "expected": 308.0
+   },
+   {
+    "id": "gsm8k-24",
+    "passed": true,
+    "parsed": 8.0,
+    "expected": 8.0
+   },
+   {
+    "id": "gsm8k-25",
+    "passed": true,
+    "parsed": 30.0,
+    "expected": 30.0
+   },
+   {
+    "id": "gsm8k-26",
+    "passed": true,
+    "parsed": 1050.0,
+    "expected": 1050.0
+   },
+   {
+    "id": "gsm8k-27",
+    "passed": true,
+    "parsed": 13.0,
+    "expected": 13.0
+   },
+   {
+    "id": "gsm8k-28",
+    "passed": true,
+    "parsed": 10.0,
+    "expected": 10.0
+   },
+   {
+    "id": "gsm8k-29",
+    "passed": true,
+    "parsed": 10.0,
+    "expected": 10.0
+   },
+   {
+    "id": "gsm8k-30",
+    "passed": true,
+    "parsed": 101.0,
+    "expected": 101.0
+   },
+   {
+    "id": "gsm8k-31",
+    "passed": false,
+    "parsed": 18.0,
+    "expected": 24.0
+   },
+   {
+    "id": "gsm8k-32",
+    "passed": true,
+    "parsed": 81.0,
+    "expected": 81.0
+   },
+   {
+    "id": "gsm8k-33",
+    "passed": true,
+    "parsed": 3000.0,
+    "expected": 3000.0
+   },
+   {
+    "id": "gsm8k-34",
+    "passed": true,
+    "parsed": 47.0,
+    "expected": 47.0
+   },
+   {
+    "id": "gsm8k-35",
+    "passed": true,
+    "parsed": 52.0,
+    "expected": 52.0
+   },
+   {
+    "id": "gsm8k-36",
+    "passed": true,
+    "parsed": 3.0,
+    "expected": 3.0
+   },
+   {
+    "id": "gsm8k-37",
+    "passed": true,
+    "parsed": 48.0,
+    "expected": 48.0
+   },
+   {
+    "id": "gsm8k-38",
+    "passed": true,
+    "parsed": 1100.0,
+    "expected": 1100.0
+   },
+   {
+    "id": "gsm8k-39",
+    "passed": true,
+    "parsed": 450.0,
+    "expected": 450.0
+   },
+   {
+    "id": "gsm8k-40",
+    "passed": true,
+    "parsed": 50.0,
+    "expected": 50.0
+   }
+  ]
+ },
+ "paired": {
+  "reflect_better": 2,
+  "step_better": 2,
+  "both_pass": 35,
+  "both_fail": 1,
+  "mcnemar_p_value": 1.0,
+  "flips": [
+   [
+    "gsm8k-01",
+    "reflect-only"
+   ],
+   [
+    "gsm8k-16",
+    "step-only"
+   ],
+   [
+    "gsm8k-23",
+    "step-only"
+   ],
+   [
+    "gsm8k-40",
+    "reflect-only"
+   ]
+  ],
+  "gate_better_ge_worse": true,
+  "note": "train-40 pilot, informational only; train wins NEVER promote"
+ },
+ "n": 40,
+ "oracle": "train-only",
+ "model": "qwen2.5:7b"
+}
