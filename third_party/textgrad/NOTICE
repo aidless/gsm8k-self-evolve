@@ -1,5 +1,7 @@
 Source: https://github.com/zou-group/textgrad (MIT License, full text at
 https://github.com/zou-group/textgrad/blob/main/LICENSE).
+SPDX-License-Identifier: MIT (upstream; copyright held by upstream authors,
+see upstream LICENSE for the exact notice).
 Engine: https://github.com/zou-group/textgrad (LLM-backed autograd engine;
 see also the TextGrad paper https://arxiv.org/abs/2406.07496).
 Optimizer: https://github.com/zou-group/textgrad/tree/main/textgrad/optimizer

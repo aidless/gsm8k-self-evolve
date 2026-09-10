@@ -4,3 +4,7 @@ __pycache__/
 .DS_Store
 *.log
 .superpowers/
+# A-line open-source exclusion (round3): docs/superpowers/plans contains
+# push-token instructions (Task 10) + local absolute paths; exclude from
+# publication rather than shipping plan internals.
+docs/
