@@ -1,0 +1,7 @@
+Source: https://github.com/noahshinn/reflexion (MIT License, full text at
+https://github.com/noahshinn/reflexion/blob/main/LICENSE).
+Borrowed shape: Reflexion trial loop (attempt -> verbal self-reflection ->
+retry with reflection memory). Reimplemented dependency-free in
+examples/gsm8k_evaluator.py policy "reflect-retry"; no upstream file copied
+verbatim. Oracle-free at test time: retry trigger is parse-failure or
+two-sample disagreement, never the expected answer.

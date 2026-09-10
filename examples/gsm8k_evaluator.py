@@ -43,7 +43,51 @@ PROMPTS = {
     ),
 }
 
-REASONING_POLICIES = {"concise-reason", "step-calc", "rounding-aware", "rectify"}
+LESSONS_PATH = os.environ.get("EVO_LESSONS", "examples/lessons-round3.json")
+
+def load_lessons() -> str:
+    try:
+        ls = json.loads(Path(LESSONS_PATH).read_text(encoding="utf-8")).get("lessons", [])
+    except Exception:
+        ls = []
+    return "\n".join(f"- {s}" for s in ls[:8])
+
+REFLECT_PROMPT = (
+    "{q}\nSolve step by step, writing each arithmetic step on its own line. "
+    "Known pitfalls:\n{lessons}\n"
+    "Write the final number alone on the last line prefixed with 'Answer:'.")
+
+def run_reflect_retry(question: str) -> tuple[bool, float, dict]:
+    import time as _t
+    t0 = _t.monotonic()
+    lessons = load_lessons()
+    raw, _ = call_model(REFLECT_PROMPT.format(q=question, lessons=lessons or "(none yet)"))
+    got = extract_number(raw, "reflect-retry")
+    attempts, trigger = 1, "first-pass"
+    if got is None:
+        trigger = "parse-fail"
+    else:
+        raw2, _ = call_model(REFLECT_PROMPT.format(q=question, lessons=lessons or "(none yet)"))
+        got2 = extract_number(raw2, "reflect-retry")
+        attempts = 2
+        if got2 != got:
+            trigger = "disagreement"
+    if trigger in ("parse-fail", "disagreement"):
+        reflection = (
+            "My previous attempt failed (%s). Reflect in one sentence on the likely "
+            "arithmetic mistake, redo the computation step by step, and write the final "
+            "number alone on the last line prefixed with 'Answer:'.\nQuestion: %s"
+            % (trigger, question))
+        raw_r, _ = call_model(reflection)
+        got_r = extract_number(raw_r, "reflect-retry")
+        if got_r is not None:
+            raw, got = raw_r, got_r
+        attempts += 1
+    latency = _t.monotonic() - t0
+    return got, latency, {"policy": "reflect-reason-retry", "attempts": attempts,
+                         "trigger": trigger, "raw": raw[:200], "parsed": got}
+
+REASONING_POLICIES = {"concise-reason", "step-calc", "rounding-aware", "rectify", "reflect-retry"}
 
 NUM_RE = re.compile(r"-?[\d,]*\.?\d+")
 
@@ -84,6 +128,18 @@ def main() -> None:
     question = json.loads(os.environ["EVO_INPUT"])
     expected = float(json.loads(os.environ["EVO_EXPECTED"]))
     policy = candidate.get("answer_policy", "direct")
+    if policy == "reflect-retry":
+        try:
+            got, latency, detail = run_reflect_retry(question)
+            passed = got is not None and got == expected
+            detail.update({"expected": expected})
+        except Exception as exc:
+            passed, latency = False, 0.0
+            detail = {"policy": policy, "error": type(exc).__name__}
+        print(json.dumps({"passed": passed, "score": 1.0 if passed else 0.0,
+                          "cost": 0.0, "latency_s": round(latency, 3),
+                          "details": detail}))
+        return
     prompt = PROMPTS.get(policy, PROMPTS["direct"]).format(q=question)
     try:
         raw, latency = call_model(prompt)
