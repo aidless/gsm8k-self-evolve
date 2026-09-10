@@ -1,0 +1,9 @@
+Source: https://github.com/noahshinn/reflexion (MIT License, full text at
+https://github.com/noahshinn/reflexion/blob/main/LICENSE).
+SPDX-License-Identifier: MIT (upstream; copyright held by upstream authors,
+see upstream LICENSE for the exact notice).
+Borrowed shape: Reflexion trial loop (attempt -> verbal self-reflection ->
+retry with reflection memory). Reimplemented dependency-free in
+examples/gsm8k_evaluator.py policy "reflect-retry"; no upstream file copied
+verbatim. Oracle-free at test time: retry trigger is parse-failure or
+two-sample disagreement, never the expected answer.

@@ -1,0 +1,8 @@
+{
+ "model": "qwen2.5:7b",
+ "temperature": 0,
+ "ollama_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+ "pinned_at": "2026-09-10T00:58:22.174108+00:00",
+ "model_source": "pull-success",
+ "note": "incumbent and challengers re-run on this backend; rounds 1-2 cloud scores never mixed in"
+}

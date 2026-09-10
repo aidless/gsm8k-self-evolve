@@ -1,0 +1,17 @@
+{
+ "reflexion": {
+  "repo": "noahshinn/reflexion",
+  "spdx": "MIT",
+  "loop_ref": "https://github.com/noahshinn/reflexion (AlfWorld/HotPotQA Reflexion agent: attempt -> self-reflect -> retry)"
+ },
+ "textgrad": {
+  "repo": "zou-group/textgrad",
+  "spdx": "MIT",
+  "loop_ref": "https://github.com/zou-group/textgrad (engine + optimizer: textual loss -> textual gradient -> prompt update)"
+ },
+ "hermes": {
+  "repo": "NousResearch/hermes-agent-self-evolution",
+  "spdx": "NOASSERTION",
+  "policy": "ideas only, zero code copied"
+ }
+}

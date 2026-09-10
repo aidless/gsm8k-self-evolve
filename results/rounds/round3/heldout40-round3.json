@@ -1,0 +1,926 @@
+{
+ "step_calc": {
+  "passed": 36,
+  "total": 40,
+  "score": 0.9,
+  "mean_latency_s": 5.257,
+  "details": [
+   {
+    "id": "held-01",
+    "passed": true,
+    "parsed": 18.0,
+    "expected": 18.0,
+    "latency_s": 2.483
+   },
+   {
+    "id": "held-02",
+    "passed": false,
+    "parsed": 120.0,
+    "expected": 140.0,
+    "latency_s": 8.945
+   },
+   {
+    "id": "held-03",
+    "passed": true,
+    "parsed": 448.0,
+    "expected": 448.0,
+    "latency_s": 4.26
+   },
+   {
+    "id": "held-04",
+    "passed": true,
+    "parsed": 750.0,
+    "expected": 750.0,
+    "latency_s": 5.085
+   },
+   {
+    "id": "held-05",
+    "passed": true,
+    "parsed": 10.0,
+    "expected": 10.0,
+    "latency_s": 2.117
+   },
+   {
+    "id": "held-06",
+    "passed": true,
+    "parsed": 22.0,
+    "expected": 22.0,
+    "latency_s": 3.028
+   },
+   {
+    "id": "held-07",
+    "passed": true,
+    "parsed": 9.0,
+    "expected": 9.0,
+    "latency_s": 6.881
+   },
+   {
+    "id": "held-08",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0,
+    "latency_s": 2.034
+   },
+   {
+    "id": "held-09",
+    "passed": true,
+    "parsed": 98.0,
+    "expected": 98.0,
+    "latency_s": 9.083
+   },
+   {
+    "id": "held-10",
+    "passed": true,
+    "parsed": 38.0,
+    "expected": 38.0,
+    "latency_s": 5.802
+   },
+   {
+    "id": "held-11",
+    "passed": true,
+    "parsed": 91.0,
+    "expected": 91.0,
+    "latency_s": 5.056
+   },
+   {
+    "id": "held-12",
+    "passed": true,
+    "parsed": 160.0,
+    "expected": 160.0,
+    "latency_s": 2.904
+   },
+   {
+    "id": "held-13",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0,
+    "latency_s": 7.545
+   },
+   {
+    "id": "held-14",
+    "passed": true,
+    "parsed": 24.0,
+    "expected": 24.0,
+    "latency_s": 4.464
+   },
+   {
+    "id": "held-15",
+    "passed": true,
+    "parsed": 300.0,
+    "expected": 300.0,
+    "latency_s": 5.803
+   },
+   {
+    "id": "held-16",
+    "passed": true,
+    "parsed": 5600.0,
+    "expected": 5600.0,
+    "latency_s": 3.654
+   },
+   {
+    "id": "held-17",
+    "passed": true,
+    "parsed": 621.0,
+    "expected": 621.0,
+    "latency_s": 3.516
+   },
+   {
+    "id": "held-18",
+    "passed": true,
+    "parsed": 75.0,
+    "expected": 75.0,
+    "latency_s": 3.544
+   },
+   {
+    "id": "held-19",
+    "passed": true,
+    "parsed": 34.0,
+    "expected": 34.0,
+    "latency_s": 2.939
+   },
+   {
+    "id": "held-20",
+    "passed": true,
+    "parsed": 9.0,
+    "expected": 9.0,
+    "latency_s": 4.971
+   },
+   {
+    "id": "held-21",
+    "passed": true,
+    "parsed": 294.0,
+    "expected": 294.0,
+    "latency_s": 3.829
+   },
+   {
+    "id": "held-22",
+    "passed": true,
+    "parsed": 17000.0,
+    "expected": 17000.0,
+    "latency_s": 4.775
+   },
+   {
+    "id": "held-23",
+    "passed": true,
+    "parsed": 24.0,
+    "expected": 24.0,
+    "latency_s": 4.581
+   },
+   {
+    "id": "held-24",
+    "passed": true,
+    "parsed": 2.0,
+    "expected": 2.0,
+    "latency_s": 6.435
+   },
+   {
+    "id": "held-25",
+    "passed": true,
+    "parsed": 15.0,
+    "expected": 15.0,
+    "latency_s": 5.963
+   },
+   {
+    "id": "held-26",
+    "passed": true,
+    "parsed": 27.0,
+    "expected": 27.0,
+    "latency_s": 3.138
+   },
+   {
+    "id": "held-27",
+    "passed": true,
+    "parsed": 310.0,
+    "expected": 310.0,
+    "latency_s": 4.035
+   },
+   {
+    "id": "held-28",
+    "passed": false,
+    "parsed": 30.0,
+    "expected": 23.0,
+    "latency_s": 9.577
+   },
+   {
+    "id": "held-29",
+    "passed": false,
+    "parsed": 2550.0,
+    "expected": 2350.0,
+    "latency_s": 11.008
+   },
+   {
+    "id": "held-30",
+    "passed": true,
+    "parsed": 30.0,
+    "expected": 30.0,
+    "latency_s": 4.916
+   },
+   {
+    "id": "held-31",
+    "passed": true,
+    "parsed": 63.0,
+    "expected": 63.0,
+    "latency_s": 3.297
+   },
+   {
+    "id": "held-32",
+    "passed": true,
+    "parsed": 4400.0,
+    "expected": 4400.0,
+    "latency_s": 9.12
+   },
+   {
+    "id": "held-33",
+    "passed": true,
+    "parsed": 20.0,
+    "expected": 20.0,
+    "latency_s": 4.944
+   },
+   {
+    "id": "held-34",
+    "passed": false,
+    "parsed": 312.0,
+    "expected": 156.0,
+    "latency_s": 10.096
+   },
+   {
+    "id": "held-35",
+    "passed": true,
+    "parsed": 15.0,
+    "expected": 15.0,
+    "latency_s": 4.288
+   },
+   {
+    "id": "held-36",
+    "passed": true,
+    "parsed": 109.0,
+    "expected": 109.0,
+    "latency_s": 5.034
+   },
+   {
+    "id": "held-37",
+    "passed": true,
+    "parsed": 42.0,
+    "expected": 42.0,
+    "latency_s": 5.54
+   },
+   {
+    "id": "held-38",
+    "passed": true,
+    "parsed": 110.0,
+    "expected": 110.0,
+    "latency_s": 2.517
+   },
+   {
+    "id": "held-39",
+    "passed": true,
+    "parsed": 21.0,
+    "expected": 21.0,
+    "latency_s": 6.036
+   },
+   {
+    "id": "held-40",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0,
+    "latency_s": 7.044
+   }
+  ]
+ },
+ "reflect_retry": {
+  "passed": 36,
+  "total": 40,
+  "score": 0.9,
+  "mean_latency_s": 12.207,
+  "details": [
+   {
+    "id": "held-01",
+    "passed": true,
+    "parsed": 18.0,
+    "expected": 18.0,
+    "latency_s": 4.695
+   },
+   {
+    "id": "held-02",
+    "passed": false,
+    "parsed": 120.0,
+    "expected": 140.0,
+    "latency_s": 16.688
+   },
+   {
+    "id": "held-03",
+    "passed": true,
+    "parsed": 448.0,
+    "expected": 448.0,
+    "latency_s": 10.323
+   },
+   {
+    "id": "held-04",
+    "passed": true,
+    "parsed": 750.0,
+    "expected": 750.0,
+    "latency_s": 9.131
+   },
+   {
+    "id": "held-05",
+    "passed": true,
+    "parsed": 10.0,
+    "expected": 10.0,
+    "latency_s": 8.262
+   },
+   {
+    "id": "held-06",
+    "passed": true,
+    "parsed": 22.0,
+    "expected": 22.0,
+    "latency_s": 9.825
+   },
+   {
+    "id": "held-07",
+    "passed": true,
+    "parsed": 9.0,
+    "expected": 9.0,
+    "latency_s": 11.065
+   },
+   {
+    "id": "held-08",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0,
+    "latency_s": 5.894
+   },
+   {
+    "id": "held-09",
+    "passed": false,
+    "parsed": 181.0,
+    "expected": 98.0,
+    "latency_s": 13.779
+   },
+   {
+    "id": "held-10",
+    "passed": true,
+    "parsed": 38.0,
+    "expected": 38.0,
+    "latency_s": 13.415
+   },
+   {
+    "id": "held-11",
+    "passed": true,
+    "parsed": 91.0,
+    "expected": 91.0,
+    "latency_s": 12.048
+   },
+   {
+    "id": "held-12",
+    "passed": true,
+    "parsed": 160.0,
+    "expected": 160.0,
+    "latency_s": 8.882
+   },
+   {
+    "id": "held-13",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0,
+    "latency_s": 17.093
+   },
+   {
+    "id": "held-14",
+    "passed": true,
+    "parsed": 24.0,
+    "expected": 24.0,
+    "latency_s": 9.473
+   },
+   {
+    "id": "held-15",
+    "passed": true,
+    "parsed": 300.0,
+    "expected": 300.0,
+    "latency_s": 18.51
+   },
+   {
+    "id": "held-16",
+    "passed": true,
+    "parsed": 5600.0,
+    "expected": 5600.0,
+    "latency_s": 12.499
+   },
+   {
+    "id": "held-17",
+    "passed": true,
+    "parsed": 621.0,
+    "expected": 621.0,
+    "latency_s": 8.971
+   },
+   {
+    "id": "held-18",
+    "passed": true,
+    "parsed": 75.0,
+    "expected": 75.0,
+    "latency_s": 8.802
+   },
+   {
+    "id": "held-19",
+    "passed": true,
+    "parsed": 34.0,
+    "expected": 34.0,
+    "latency_s": 9.368
+   },
+   {
+    "id": "held-20",
+    "passed": true,
+    "parsed": 9.0,
+    "expected": 9.0,
+    "latency_s": 13.781
+   },
+   {
+    "id": "held-21",
+    "passed": true,
+    "parsed": 294.0,
+    "expected": 294.0,
+    "latency_s": 7.505
+   },
+   {
+    "id": "held-22",
+    "passed": true,
+    "parsed": 17000.0,
+    "expected": 17000.0,
+    "latency_s": 10.121
+   },
+   {
+    "id": "held-23",
+    "passed": true,
+    "parsed": 24.0,
+    "expected": 24.0,
+    "latency_s": 10.713
+   },
+   {
+    "id": "held-24",
+    "passed": true,
+    "parsed": 2.0,
+    "expected": 2.0,
+    "latency_s": 15.134
+   },
+   {
+    "id": "held-25",
+    "passed": true,
+    "parsed": 15.0,
+    "expected": 15.0,
+    "latency_s": 13.845
+   },
+   {
+    "id": "held-26",
+    "passed": true,
+    "parsed": 27.0,
+    "expected": 27.0,
+    "latency_s": 10.029
+   },
+   {
+    "id": "held-27",
+    "passed": true,
+    "parsed": 310.0,
+    "expected": 310.0,
+    "latency_s": 13.552
+   },
+   {
+    "id": "held-28",
+    "passed": true,
+    "parsed": 23.0,
+    "expected": 23.0,
+    "latency_s": 13.022
+   },
+   {
+    "id": "held-29",
+    "passed": false,
+    "parsed": 2450.0,
+    "expected": 2350.0,
+    "latency_s": 22.546
+   },
+   {
+    "id": "held-30",
+    "passed": true,
+    "parsed": 30.0,
+    "expected": 30.0,
+    "latency_s": 11.423
+   },
+   {
+    "id": "held-31",
+    "passed": true,
+    "parsed": 63.0,
+    "expected": 63.0,
+    "latency_s": 7.314
+   },
+   {
+    "id": "held-32",
+    "passed": true,
+    "parsed": 4400.0,
+    "expected": 4400.0,
+    "latency_s": 18.428
+   },
+   {
+    "id": "held-33",
+    "passed": true,
+    "parsed": 20.0,
+    "expected": 20.0,
+    "latency_s": 13.661
+   },
+   {
+    "id": "held-34",
+    "passed": false,
+    "parsed": 104.0,
+    "expected": 156.0,
+    "latency_s": 29.781
+   },
+   {
+    "id": "held-35",
+    "passed": true,
+    "parsed": 15.0,
+    "expected": 15.0,
+    "latency_s": 7.158
+   },
+   {
+    "id": "held-36",
+    "passed": true,
+    "parsed": 109.0,
+    "expected": 109.0,
+    "latency_s": 14.107
+   },
+   {
+    "id": "held-37",
+    "passed": true,
+    "parsed": 42.0,
+    "expected": 42.0,
+    "latency_s": 12.248
+   },
+   {
+    "id": "held-38",
+    "passed": true,
+    "parsed": 110.0,
+    "expected": 110.0,
+    "latency_s": 8.028
+   },
+   {
+    "id": "held-39",
+    "passed": true,
+    "parsed": 21.0,
+    "expected": 21.0,
+    "latency_s": 12.404
+   },
+   {
+    "id": "held-40",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0,
+    "latency_s": 14.746
+   }
+  ]
+ },
+ "textgrad": {
+  "passed": 37,
+  "total": 40,
+  "score": 0.925,
+  "mean_latency_s": 5.481,
+  "details": [
+   {
+    "id": "held-01",
+    "passed": true,
+    "parsed": 18.0,
+    "expected": 18.0,
+    "latency_s": 2.725
+   },
+   {
+    "id": "held-02",
+    "passed": false,
+    "parsed": 120.0,
+    "expected": 140.0,
+    "latency_s": 8.505
+   },
+   {
+    "id": "held-03",
+    "passed": true,
+    "parsed": 448.0,
+    "expected": 448.0,
+    "latency_s": 5.81
+   },
+   {
+    "id": "held-04",
+    "passed": true,
+    "parsed": 750.0,
+    "expected": 750.0,
+    "latency_s": 4.773
+   },
+   {
+    "id": "held-05",
+    "passed": true,
+    "parsed": 10.0,
+    "expected": 10.0,
+    "latency_s": 2.252
+   },
+   {
+    "id": "held-06",
+    "passed": true,
+    "parsed": 22.0,
+    "expected": 22.0,
+    "latency_s": 3.287
+   },
+   {
+    "id": "held-07",
+    "passed": true,
+    "parsed": 9.0,
+    "expected": 9.0,
+    "latency_s": 7.104
+   },
+   {
+    "id": "held-08",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0,
+    "latency_s": 2.573
+   },
+   {
+    "id": "held-09",
+    "passed": true,
+    "parsed": 98.0,
+    "expected": 98.0,
+    "latency_s": 10.786
+   },
+   {
+    "id": "held-10",
+    "passed": true,
+    "parsed": 38.0,
+    "expected": 38.0,
+    "latency_s": 6.708
+   },
+   {
+    "id": "held-11",
+    "passed": true,
+    "parsed": 91.0,
+    "expected": 91.0,
+    "latency_s": 4.23
+   },
+   {
+    "id": "held-12",
+    "passed": true,
+    "parsed": 160.0,
+    "expected": 160.0,
+    "latency_s": 3.242
+   },
+   {
+    "id": "held-13",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0,
+    "latency_s": 6.321
+   },
+   {
+    "id": "held-14",
+    "passed": true,
+    "parsed": 24.0,
+    "expected": 24.0,
+    "latency_s": 4.211
+   },
+   {
+    "id": "held-15",
+    "passed": true,
+    "parsed": 300.0,
+    "expected": 300.0,
+    "latency_s": 5.53
+   },
+   {
+    "id": "held-16",
+    "passed": true,
+    "parsed": 5600.0,
+    "expected": 5600.0,
+    "latency_s": 3.33
+   },
+   {
+    "id": "held-17",
+    "passed": true,
+    "parsed": 621.0,
+    "expected": 621.0,
+    "latency_s": 6.533
+   },
+   {
+    "id": "held-18",
+    "passed": true,
+    "parsed": 75.0,
+    "expected": 75.0,
+    "latency_s": 3.266
+   },
+   {
+    "id": "held-19",
+    "passed": true,
+    "parsed": 34.0,
+    "expected": 34.0,
+    "latency_s": 2.984
+   },
+   {
+    "id": "held-20",
+    "passed": true,
+    "parsed": 9.0,
+    "expected": 9.0,
+    "latency_s": 5.688
+   },
+   {
+    "id": "held-21",
+    "passed": true,
+    "parsed": 294.0,
+    "expected": 294.0,
+    "latency_s": 3.779
+   },
+   {
+    "id": "held-22",
+    "passed": true,
+    "parsed": 17000.0,
+    "expected": 17000.0,
+    "latency_s": 5.012
+   },
+   {
+    "id": "held-23",
+    "passed": true,
+    "parsed": 24.0,
+    "expected": 24.0,
+    "latency_s": 4.214
+   },
+   {
+    "id": "held-24",
+    "passed": true,
+    "parsed": 2.0,
+    "expected": 2.0,
+    "latency_s": 6.385
+   },
+   {
+    "id": "held-25",
+    "passed": true,
+    "parsed": 15.0,
+    "expected": 15.0,
+    "latency_s": 8.494
+   },
+   {
+    "id": "held-26",
+    "passed": true,
+    "parsed": 27.0,
+    "expected": 27.0,
+    "latency_s": 2.632
+   },
+   {
+    "id": "held-27",
+    "passed": true,
+    "parsed": 310.0,
+    "expected": 310.0,
+    "latency_s": 3.263
+   },
+   {
+    "id": "held-28",
+    "passed": true,
+    "parsed": 23.0,
+    "expected": 23.0,
+    "latency_s": 5.127
+   },
+   {
+    "id": "held-29",
+    "passed": false,
+    "parsed": 2450.0,
+    "expected": 2350.0,
+    "latency_s": 14.293
+   },
+   {
+    "id": "held-30",
+    "passed": true,
+    "parsed": 30.0,
+    "expected": 30.0,
+    "latency_s": 3.031
+   },
+   {
+    "id": "held-31",
+    "passed": true,
+    "parsed": 63.0,
+    "expected": 63.0,
+    "latency_s": 3.403
+   },
+   {
+    "id": "held-32",
+    "passed": false,
+    "parsed": 3866.67,
+    "expected": 4400.0,
+    "latency_s": 10.755
+   },
+   {
+    "id": "held-33",
+    "passed": true,
+    "parsed": 20.0,
+    "expected": 20.0,
+    "latency_s": 4.739
+   },
+   {
+    "id": "held-34",
+    "passed": true,
+    "parsed": 156.0,
+    "expected": 156.0,
+    "latency_s": 11.422
+   },
+   {
+    "id": "held-35",
+    "passed": true,
+    "parsed": 15.0,
+    "expected": 15.0,
+    "latency_s": 4.359
+   },
+   {
+    "id": "held-36",
+    "passed": true,
+    "parsed": 109.0,
+    "expected": 109.0,
+    "latency_s": 5.345
+   },
+   {
+    "id": "held-37",
+    "passed": true,
+    "parsed": 42.0,
+    "expected": 42.0,
+    "latency_s": 6.825
+   },
+   {
+    "id": "held-38",
+    "passed": true,
+    "parsed": 110.0,
+    "expected": 110.0,
+    "latency_s": 2.665
+   },
+   {
+    "id": "held-39",
+    "passed": true,
+    "parsed": 21.0,
+    "expected": 21.0,
+    "latency_s": 7.194
+   },
+   {
+    "id": "held-40",
+    "passed": true,
+    "parsed": 4.0,
+    "expected": 4.0,
+    "latency_s": 6.442
+   }
+  ]
+ },
+ "paired": {
+  "reflect_retry": {
+   "better": 1,
+   "worse": 1,
+   "both_pass": 35,
+   "both_fail": 3,
+   "mcnemar_p_value": 1.0,
+   "gain": 0.0,
+   "latency_ratio": 2.322,
+   "latency_ok": false,
+   "ledger_ok": true,
+   "gate_pass": false,
+   "flips": [
+    [
+     "held-09",
+     "incumbent-only"
+    ],
+    [
+     "held-28",
+     "reflect_retry-only"
+    ]
+   ]
+  },
+  "textgrad": {
+   "better": 2,
+   "worse": 1,
+   "both_pass": 35,
+   "both_fail": 2,
+   "mcnemar_p_value": 1.0,
+   "gain": 0.025,
+   "latency_ratio": 1.043,
+   "latency_ok": true,
+   "ledger_ok": true,
+   "gate_pass": false,
+   "flips": [
+    [
+     "held-28",
+     "textgrad-only"
+    ],
+    [
+     "held-32",
+     "incumbent-only"
+    ],
+    [
+     "held-34",
+     "textgrad-only"
+    ]
+   ]
+  }
+ },
+ "n": 40,
+ "batch": "heldout40",
+ "oracle": "blind-heldout",
+ "model": "qwen2.5:7b",
+ "gate": {
+  "alpha": 0.05,
+  "min_gain": 0.02,
+  "max_latency_ratio": 2.0,
+  "rule": "p < 0.05 AND gain >= 0.02 AND latency_ok -> run batch2-160 / promote only if merged p < 0.05 with ledger identity holding"
+ }
+}

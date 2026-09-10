@@ -191,6 +191,39 @@
       },
       "reason": "stable promotion: merged held-out 200 exact McNemar p=1.08e-06; Ed25519 self-signed bundle verified",
       "at": "2026-09-09T01:23:30"
+    },
+    {
+      "action": "provisional-rejected",
+      "version_id": "eecacc0312d7",
+      "from": "stable",
+      "to": "stable",
+      "evidence": {
+        "challengers": {
+          "reflect-retry": {
+            "better": 1,
+            "worse": 1,
+            "p_value": 1.0,
+            "gain": 0.0,
+            "latency_ratio": 2.322,
+            "ledger_ok": true
+          },
+          "textgrad-prompt": {
+            "better": 2,
+            "worse": 1,
+            "p_value": 1.0,
+            "gain": 0.025,
+            "latency_ratio": 1.043,
+            "ledger_ok": true
+          }
+        },
+        "incumbent": "step-calc 36/40",
+        "n": 40,
+        "backend": "qwen2.5:7b",
+        "result_file": "results/rounds/round3/heldout40-round3.json",
+        "negative_file": "results/rounds/round3/NEGATIVE.md"
+      },
+      "reason": "heldout-40 gate failed (p>=0.05); step-calc stays stable",
+      "at": "2026-09-10T02:08:51"
     }
   ]
 }

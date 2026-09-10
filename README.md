@@ -90,6 +90,32 @@ signed/agent-self.pub.hex               trusted public key (hex; private key nev
 tools/verify_evidence_chain.py          independent 5-check re-verification
 ```
 
+## Round 3 — negative result (heldout-40 gate: STOP)
+
+Borrowed-iteration round on branch `round3-borrowed-iteration`: two challengers
+(`reflect-retry`, `textgrad-prompt`) vs stable incumbent `step-calc` on a
+fresh blind held-out set (n=40, backend qwen2.5:7b). Source of truth:
+`results/rounds/round3/heldout40-round3.json` (note: the file is named
+`heldout40-round3.json`, not `heldout-40.json`); narrative record:
+`results/rounds/round3/NEGATIVE.md`. Incumbent `step-calc` scored 36/40.
+
+| challenger | challenger score | better | worse | exact McNemar p | gain | mean latency ratio | gate_pass |
+|---|---|---|---|---|---|---|---|
+| reflect-retry | 36/40 | 1 | 1 | 1.0 | 0.0 | 12.207/5.257 = 2.322 | false |
+| textgrad-prompt | 37/40 | 2 | 1 | 1.0 | 0.025 | 1.043 | false |
+
+Gate rule: p < 0.05 AND gain >= 0.02 AND latency_ok (ratio <= 2.0) → run
+batch2-160 / promote only if merged p < 0.05 with ledger identity holding.
+reflect-retry fails gain, significance, and latency independently; textgrad-prompt
+passes gain and latency but fails significance (p = 1.0). Both gate_pass = false
+→ STOP: no promotion, batch2-160 never contacted, `step-calc` stays stable.
+All paired counts above were recomputed from per-question details in
+`heldout40-round3.json` (McNemar p = 1.0 for both; ledger holds).
+
+Scope honesty: these n=40 numbers belong to the round-3 held-out set only.
+Do not mix them with Round-1/2 scores (train-40; merged 200-q blind held-out
+185/200, p = 1.08e-06). Cross-set comparison is invalid.
+
 ## License
 
 MIT — see `LICENSE`.
