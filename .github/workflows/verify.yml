@@ -1,0 +1,20 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps (evidence-chain only)
+        run: pip install -r requirements.txt
+      - name: Unit + gate tests (read-only)
+        run: python -m pytest -q
+      - name: Publish gate (read-only, touches no evidence)
+        run: python tools/check_publish.py
