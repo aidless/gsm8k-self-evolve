@@ -1,0 +1,963 @@
+{
+ "meta": {
+  "dataset": "examples/heldout40.json",
+  "policies": [
+   "direct",
+   "step-calc",
+   "cot-zero",
+   "few-shot"
+  ],
+  "model": "qwen2.5:7b",
+  "n": 40
+ },
+ "totals": {
+  "direct": 6,
+  "step-calc": 36,
+  "cot-zero": 39,
+  "few-shot": 38
+ },
+ "pairs": {
+  "direct_vs_step-calc": {
+   "better": 30,
+   "worse": 0,
+   "p": 1.862645149230957e-09,
+   "gain": 0.75,
+   "ledger_ok": true,
+   "lat_x": 4.175224999999999,
+   "lat_y": 10.29005,
+   "lat_ratio": 2.4645498146806464
+  },
+  "direct_vs_cot-zero": {
+   "better": 33,
+   "worse": 0,
+   "p": 2.3283064365386963e-10,
+   "gain": 0.825,
+   "ledger_ok": true,
+   "lat_x": 4.175224999999999,
+   "lat_y": 12.91935,
+   "lat_ratio": 3.094288331766552
+  },
+  "direct_vs_few-shot": {
+   "better": 33,
+   "worse": 1,
+   "p": 4.0745362639427185e-09,
+   "gain": 0.8,
+   "ledger_ok": true,
+   "lat_x": 4.175224999999999,
+   "lat_y": 14.5973,
+   "lat_ratio": 3.496170865043202
+  },
+  "step-calc_vs_cot-zero": {
+   "better": 3,
+   "worse": 0,
+   "p": 0.25,
+   "gain": 0.075,
+   "ledger_ok": true,
+   "lat_x": 10.29005,
+   "lat_y": 12.91935,
+   "lat_ratio": 1.2555186806672465
+  },
+  "step-calc_vs_few-shot": {
+   "better": 4,
+   "worse": 2,
+   "p": 0.6875,
+   "gain": 0.05,
+   "ledger_ok": true,
+   "lat_x": 10.29005,
+   "lat_y": 14.5973,
+   "lat_ratio": 1.4185839718951803
+  },
+  "cot-zero_vs_few-shot": {
+   "better": 1,
+   "worse": 2,
+   "p": 1.0,
+   "gain": -0.025,
+   "ledger_ok": true,
+   "lat_x": 12.91935,
+   "lat_y": 14.5973,
+   "lat_ratio": 1.1298788251730931
+  }
+ },
+ "details": {
+  "held-01": {
+   "direct": {
+    "passed": true,
+    "latency": 0.123,
+    "parsed": 18.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.307,
+    "parsed": 18.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.543,
+    "parsed": 18.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 10.092,
+    "parsed": 18.0
+   }
+  },
+  "held-02": {
+   "direct": {
+    "passed": false,
+    "latency": 7.247,
+    "parsed": 60.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 8.425,
+    "parsed": 120.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.064,
+    "parsed": 140.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.448,
+    "parsed": 140.0
+   }
+  },
+  "held-03": {
+   "direct": {
+    "passed": false,
+    "latency": 9.291,
+    "parsed": 112.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.754,
+    "parsed": 448.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.695,
+    "parsed": 448.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 12.543,
+    "parsed": 448.0
+   }
+  },
+  "held-04": {
+   "direct": {
+    "passed": false,
+    "latency": 7.21,
+    "parsed": 150.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.23,
+    "parsed": 750.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.922,
+    "parsed": 750.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.779,
+    "parsed": 750.0
+   }
+  },
+  "held-05": {
+   "direct": {
+    "passed": false,
+    "latency": 10.819,
+    "parsed": 5.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 18.841,
+    "parsed": 10.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.713,
+    "parsed": 10.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.113,
+    "parsed": 10.0
+   }
+  },
+  "held-06": {
+   "direct": {
+    "passed": false,
+    "latency": 6.223,
+    "parsed": 16.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.968,
+    "parsed": 22.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.418,
+    "parsed": 22.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 10.334,
+    "parsed": 22.0
+   }
+  },
+  "held-07": {
+   "direct": {
+    "passed": false,
+    "latency": 12.504,
+    "parsed": 15.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 24.716,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.909,
+    "parsed": 9.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 13.83,
+    "parsed": 9.0
+   }
+  },
+  "held-08": {
+   "direct": {
+    "passed": true,
+    "latency": 0.168,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 19.854,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.694,
+    "parsed": 4.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.451,
+    "parsed": 4.0
+   }
+  },
+  "held-09": {
+   "direct": {
+    "passed": false,
+    "latency": 0.25,
+    "parsed": 94.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 13.066,
+    "parsed": 98.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 18.028,
+    "parsed": 98.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 16.45,
+    "parsed": 93.0
+   }
+  },
+  "held-10": {
+   "direct": {
+    "passed": false,
+    "latency": 0.194,
+    "parsed": 32.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 28.829,
+    "parsed": 38.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.802,
+    "parsed": 38.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 20.099,
+    "parsed": 38.0
+   }
+  },
+  "held-11": {
+   "direct": {
+    "passed": false,
+    "latency": 0.206,
+    "parsed": 35.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.283,
+    "parsed": 91.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 13.277,
+    "parsed": 91.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.238,
+    "parsed": 91.0
+   }
+  },
+  "held-12": {
+   "direct": {
+    "passed": false,
+    "latency": 0.202,
+    "parsed": 52.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.787,
+    "parsed": 160.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.256,
+    "parsed": 160.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.734,
+    "parsed": 160.0
+   }
+  },
+  "held-13": {
+   "direct": {
+    "passed": false,
+    "latency": 0.182,
+    "parsed": 2.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 11.574,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.416,
+    "parsed": 4.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 12.528,
+    "parsed": 4.0
+   }
+  },
+  "held-14": {
+   "direct": {
+    "passed": false,
+    "latency": 0.157,
+    "parsed": 32.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.031,
+    "parsed": 24.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 9.348,
+    "parsed": 24.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 10.735,
+    "parsed": 24.0
+   }
+  },
+  "held-15": {
+   "direct": {
+    "passed": false,
+    "latency": 0.207,
+    "parsed": 650.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.254,
+    "parsed": 300.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.048,
+    "parsed": 300.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.902,
+    "parsed": 300.0
+   }
+  },
+  "held-16": {
+   "direct": {
+    "passed": false,
+    "latency": 0.248,
+    "parsed": 4700.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.549,
+    "parsed": 5600.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.565,
+    "parsed": 5600.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 10.217,
+    "parsed": 5600.0
+   }
+  },
+  "held-17": {
+   "direct": {
+    "passed": false,
+    "latency": 0.838,
+    "parsed": 600.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.054,
+    "parsed": 621.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.391,
+    "parsed": 621.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.804,
+    "parsed": 621.0
+   }
+  },
+  "held-18": {
+   "direct": {
+    "passed": false,
+    "latency": 0.208,
+    "parsed": 100.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.361,
+    "parsed": 75.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.04,
+    "parsed": 75.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 18.121,
+    "parsed": 75.0
+   }
+  },
+  "held-19": {
+   "direct": {
+    "passed": false,
+    "latency": 0.631,
+    "parsed": 36.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 8.098,
+    "parsed": 34.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.215,
+    "parsed": 34.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.775,
+    "parsed": 34.0
+   }
+  },
+  "held-20": {
+   "direct": {
+    "passed": false,
+    "latency": 0.293,
+    "parsed": 8.5
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 11.558,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.926,
+    "parsed": 9.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 17.123,
+    "parsed": 9.0
+   }
+  },
+  "held-21": {
+   "direct": {
+    "passed": false,
+    "latency": 0.249,
+    "parsed": 3570.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 8.857,
+    "parsed": 294.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.12,
+    "parsed": 294.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.851,
+    "parsed": 294.0
+   }
+  },
+  "held-22": {
+   "direct": {
+    "passed": false,
+    "latency": 0.318,
+    "parsed": 15000.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 15.621,
+    "parsed": 17000.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 13.36,
+    "parsed": 17000.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.032,
+    "parsed": 17000.0
+   }
+  },
+  "held-23": {
+   "direct": {
+    "passed": true,
+    "latency": 0.194,
+    "parsed": 24.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.952,
+    "parsed": 24.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.147,
+    "parsed": 24.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 13.349,
+    "parsed": 24.0
+   }
+  },
+  "held-24": {
+   "direct": {
+    "passed": false,
+    "latency": 0.189,
+    "parsed": 3.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 11.432,
+    "parsed": 2.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.77,
+    "parsed": 2.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.154,
+    "parsed": 2.0
+   }
+  },
+  "held-25": {
+   "direct": {
+    "passed": false,
+    "latency": 0.144,
+    "parsed": 25.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 10.762,
+    "parsed": 15.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.915,
+    "parsed": 15.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.568,
+    "parsed": 15.0
+   }
+  },
+  "held-26": {
+   "direct": {
+    "passed": true,
+    "latency": 0.162,
+    "parsed": 27.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.76,
+    "parsed": 27.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.253,
+    "parsed": 27.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.689,
+    "parsed": 27.0
+   }
+  },
+  "held-27": {
+   "direct": {
+    "passed": false,
+    "latency": 0.196,
+    "parsed": 340.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 10.07,
+    "parsed": 310.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.415,
+    "parsed": 310.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 12.606,
+    "parsed": 310.0
+   }
+  },
+  "held-28": {
+   "direct": {
+    "passed": false,
+    "latency": 0.187,
+    "parsed": 32.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 27.39,
+    "parsed": 30.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 16.549,
+    "parsed": 23.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.776,
+    "parsed": 23.0
+   }
+  },
+  "held-29": {
+   "direct": {
+    "passed": false,
+    "latency": 9.157,
+    "parsed": 5550.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 10.659,
+    "parsed": 2450.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 17.605,
+    "parsed": 2550.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.183,
+    "parsed": 2350.0
+   }
+  },
+  "held-30": {
+   "direct": {
+    "passed": true,
+    "latency": 4.819,
+    "parsed": 30.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.062,
+    "parsed": 30.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.321,
+    "parsed": 30.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 15.955,
+    "parsed": 6.0
+   }
+  },
+  "held-31": {
+   "direct": {
+    "passed": false,
+    "latency": 8.795,
+    "parsed": 9.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.519,
+    "parsed": 63.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.0,
+    "parsed": 63.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.21,
+    "parsed": 63.0
+   }
+  },
+  "held-32": {
+   "direct": {
+    "passed": false,
+    "latency": 10.869,
+    "parsed": 380.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.708,
+    "parsed": 4400.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 16.618,
+    "parsed": 4400.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 19.25,
+    "parsed": 4400.0
+   }
+  },
+  "held-33": {
+   "direct": {
+    "passed": false,
+    "latency": 6.864,
+    "parsed": 28.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.229,
+    "parsed": 20.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.958,
+    "parsed": 20.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.461,
+    "parsed": 20.0
+   }
+  },
+  "held-34": {
+   "direct": {
+    "passed": false,
+    "latency": 8.233,
+    "parsed": 26.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 27.714,
+    "parsed": 312.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 19.469,
+    "parsed": 156.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 17.452,
+    "parsed": 156.0
+   }
+  },
+  "held-35": {
+   "direct": {
+    "passed": false,
+    "latency": 14.289,
+    "parsed": 7.5
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.103,
+    "parsed": 15.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.597,
+    "parsed": 15.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.782,
+    "parsed": 15.0
+   }
+  },
+  "held-36": {
+   "direct": {
+    "passed": false,
+    "latency": 8.394,
+    "parsed": 55.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.364,
+    "parsed": 109.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 16.095,
+    "parsed": 109.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 17.598,
+    "parsed": 109.0
+   }
+  },
+  "held-37": {
+   "direct": {
+    "passed": false,
+    "latency": 10.838,
+    "parsed": 70.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.803,
+    "parsed": 42.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.616,
+    "parsed": 42.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.941,
+    "parsed": 42.0
+   }
+  },
+  "held-38": {
+   "direct": {
+    "passed": true,
+    "latency": 6.335,
+    "parsed": 110.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.623,
+    "parsed": 110.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.738,
+    "parsed": 110.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.515,
+    "parsed": 110.0
+   }
+  },
+  "held-39": {
+   "direct": {
+    "passed": false,
+    "latency": 12.825,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.145,
+    "parsed": 21.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.306,
+    "parsed": 21.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.322,
+    "parsed": 21.0
+   }
+  },
+  "held-40": {
+   "direct": {
+    "passed": false,
+    "latency": 6.751,
+    "parsed": 3.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.29,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.652,
+    "parsed": 4.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.882,
+    "parsed": 4.0
+   }
+  }
+ }
+}

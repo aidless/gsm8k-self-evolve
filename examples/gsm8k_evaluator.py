@@ -41,6 +41,14 @@ PROMPTS = {
         "then re-check your arithmetic once before answering. "
         "Write the final number alone on the last line prefixed with 'Answer:'."
     ),
+    "cot-zero": (
+        "{q}\nLet's think step by step.\n"
+        "Write the final number alone on the last line prefixed with 'Answer:'."
+    ),
+    "few-shot": (
+        Path("examples/prompts/fewshot-4.txt").read_text(encoding="utf-8")
+        + "\nQ: {q}\n"
+    ),
 }
 
 LESSONS_PATH = os.environ.get("EVO_LESSONS", "examples/lessons-round3.json")
@@ -87,7 +95,7 @@ def run_reflect_retry(question: str) -> tuple[bool, float, dict]:
     return got, latency, {"policy": "reflect-reason-retry", "attempts": attempts,
                          "trigger": trigger, "raw": raw[:200], "parsed": got}
 
-REASONING_POLICIES = {"concise-reason", "step-calc", "rounding-aware", "rectify", "reflect-retry", "textgrad"}
+REASONING_POLICIES = {"concise-reason", "step-calc", "rounding-aware", "rectify", "reflect-retry", "textgrad", "cot-zero", "few-shot"}
 
 NUM_RE = re.compile(r"-?[\d,]*\.?\d+")
 

@@ -116,6 +116,35 @@ Scope honesty: these n=40 numbers belong to the round-3 held-out set only.
 Do not mix them with Round-1/2 scores (train-40; merged 200-q blind held-out
 185/200, p = 1.08e-06). Cross-set comparison is invalid.
 
+## Round 4 — true-baseline comparison (inconclusive)
+
+Round 4 (`round4-true-claims`, preregistered in
+`results/rounds/round4/PREREG-round4.md`) puts the stable policy `step-calc`
+against true baselines on the standard blind held-out set (n=200,
+qwen2.5:7b, temperature 0), paired per question:
+
+| policy | correct | p (vs step-calc) | verdict |
+|---|---|---|---|
+| `direct` | 27 | — | weak strawman baseline |
+| `step-calc` | 184 | — | incumbent (Round-2 stable) |
+| `cot-zero` | 186 | 0.80 | no significant difference |
+| `few-shot` | 179 | 0.40 | no significant difference |
+
+Headline gate (p < 0.05 AND gain ≥ 0.02 AND lat_ratio ≤ 2.0) was **not met**
+for either `step-calc` vs `cot-zero` (gain +0.010) or `step-calc` vs
+`few-shot` (gain −0.025) → preregistered outcome **(iii) inconclusive**.
+
+**Honest reading:** `step-calc` is statistically indistinguishable from
+standard zero-shot CoT here. The 0.125 → 0.925 jump reported in Round 2 is
+**mostly the `direct` → CoT-style prompt jump**, not a self-evolution-specific
+gain over a standard CoT baseline. `direct` (number-only) was a weak
+strawman; `cot-zero` was not included as a control in Round 2.
+
+Boundaries: "no significant difference" is **not** proof of equivalence
+(no equivalence margin was preregistered; n=200 is underpowered for
+±2-question effects). Scope is this machine / this model / this set.
+Full record: `results/rounds/round4/ROUND4-TRACKA-RESULT.md`.
+
 ## License
 
 MIT — see `LICENSE`.
