@@ -1,0 +1,4490 @@
+{
+ "meta": {
+  "dataset": [
+   "examples/heldout40.json",
+   "examples/heldout-batch2-160.json"
+  ],
+  "policies": [
+   "direct",
+   "step-calc",
+   "cot-zero",
+   "few-shot"
+  ],
+  "model": "qwen2.5:7b",
+  "n": 200,
+  "sources": [
+   "results/rounds/round4/trackA-heldout40.json",
+   "results/rounds/round4/trackA-batch2-160.json"
+  ]
+ },
+ "totals": {
+  "direct": 27,
+  "step-calc": 184,
+  "cot-zero": 186,
+  "few-shot": 179
+ },
+ "pairs": {
+  "direct_vs_step-calc": {
+   "better": 157,
+   "worse": 0,
+   "p": 1.0947644252537633e-47,
+   "gain": 0.785,
+   "ledger_ok": true,
+   "lat_x": 3.30698,
+   "lat_y": 8.869455,
+   "lat_ratio": 2.682040713883967
+  },
+  "direct_vs_cot-zero": {
+   "better": 159,
+   "worse": 0,
+   "p": 2.7369110631344083e-48,
+   "gain": 0.795,
+   "ledger_ok": true,
+   "lat_x": 3.30698,
+   "lat_y": 10.505075,
+   "lat_ratio": 3.1766369920592203
+  },
+  "direct_vs_few-shot": {
+   "better": 155,
+   "worse": 3,
+   "p": 3.59913657682002e-42,
+   "gain": 0.76,
+   "ledger_ok": true,
+   "lat_x": 3.30698,
+   "lat_y": 11.93842,
+   "lat_ratio": 3.6100671912137363
+  },
+  "step-calc_vs_cot-zero": {
+   "better": 9,
+   "worse": 7,
+   "p": 0.803619384765625,
+   "gain": 0.01,
+   "ledger_ok": true,
+   "lat_x": 8.869455,
+   "lat_y": 10.505075,
+   "lat_ratio": 1.1844104288256718
+  },
+  "step-calc_vs_few-shot": {
+   "better": 9,
+   "worse": 14,
+   "p": 0.4048728942871094,
+   "gain": -0.025,
+   "ledger_ok": true,
+   "lat_x": 8.869455,
+   "lat_y": 11.93842,
+   "lat_ratio": 1.346015059549882
+  },
+  "cot-zero_vs_few-shot": {
+   "better": 4,
+   "worse": 11,
+   "p": 0.11846923828125,
+   "gain": -0.035,
+   "ledger_ok": true,
+   "lat_x": 10.505075,
+   "lat_y": 11.93842,
+   "lat_ratio": 1.136443100120656
+  }
+ },
+ "details": {
+  "held-01": {
+   "direct": {
+    "passed": true,
+    "latency": 0.123,
+    "parsed": 18.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.307,
+    "parsed": 18.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.543,
+    "parsed": 18.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 10.092,
+    "parsed": 18.0
+   }
+  },
+  "held-02": {
+   "direct": {
+    "passed": false,
+    "latency": 7.247,
+    "parsed": 60.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 8.425,
+    "parsed": 120.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.064,
+    "parsed": 140.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.448,
+    "parsed": 140.0
+   }
+  },
+  "held-03": {
+   "direct": {
+    "passed": false,
+    "latency": 9.291,
+    "parsed": 112.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.754,
+    "parsed": 448.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.695,
+    "parsed": 448.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 12.543,
+    "parsed": 448.0
+   }
+  },
+  "held-04": {
+   "direct": {
+    "passed": false,
+    "latency": 7.21,
+    "parsed": 150.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.23,
+    "parsed": 750.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.922,
+    "parsed": 750.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.779,
+    "parsed": 750.0
+   }
+  },
+  "held-05": {
+   "direct": {
+    "passed": false,
+    "latency": 10.819,
+    "parsed": 5.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 18.841,
+    "parsed": 10.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.713,
+    "parsed": 10.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.113,
+    "parsed": 10.0
+   }
+  },
+  "held-06": {
+   "direct": {
+    "passed": false,
+    "latency": 6.223,
+    "parsed": 16.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.968,
+    "parsed": 22.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.418,
+    "parsed": 22.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 10.334,
+    "parsed": 22.0
+   }
+  },
+  "held-07": {
+   "direct": {
+    "passed": false,
+    "latency": 12.504,
+    "parsed": 15.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 24.716,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.909,
+    "parsed": 9.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 13.83,
+    "parsed": 9.0
+   }
+  },
+  "held-08": {
+   "direct": {
+    "passed": true,
+    "latency": 0.168,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 19.854,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.694,
+    "parsed": 4.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.451,
+    "parsed": 4.0
+   }
+  },
+  "held-09": {
+   "direct": {
+    "passed": false,
+    "latency": 0.25,
+    "parsed": 94.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 13.066,
+    "parsed": 98.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 18.028,
+    "parsed": 98.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 16.45,
+    "parsed": 93.0
+   }
+  },
+  "held-10": {
+   "direct": {
+    "passed": false,
+    "latency": 0.194,
+    "parsed": 32.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 28.829,
+    "parsed": 38.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.802,
+    "parsed": 38.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 20.099,
+    "parsed": 38.0
+   }
+  },
+  "held-11": {
+   "direct": {
+    "passed": false,
+    "latency": 0.206,
+    "parsed": 35.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.283,
+    "parsed": 91.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 13.277,
+    "parsed": 91.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.238,
+    "parsed": 91.0
+   }
+  },
+  "held-12": {
+   "direct": {
+    "passed": false,
+    "latency": 0.202,
+    "parsed": 52.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.787,
+    "parsed": 160.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.256,
+    "parsed": 160.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.734,
+    "parsed": 160.0
+   }
+  },
+  "held-13": {
+   "direct": {
+    "passed": false,
+    "latency": 0.182,
+    "parsed": 2.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 11.574,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.416,
+    "parsed": 4.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 12.528,
+    "parsed": 4.0
+   }
+  },
+  "held-14": {
+   "direct": {
+    "passed": false,
+    "latency": 0.157,
+    "parsed": 32.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.031,
+    "parsed": 24.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 9.348,
+    "parsed": 24.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 10.735,
+    "parsed": 24.0
+   }
+  },
+  "held-15": {
+   "direct": {
+    "passed": false,
+    "latency": 0.207,
+    "parsed": 650.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.254,
+    "parsed": 300.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.048,
+    "parsed": 300.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.902,
+    "parsed": 300.0
+   }
+  },
+  "held-16": {
+   "direct": {
+    "passed": false,
+    "latency": 0.248,
+    "parsed": 4700.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.549,
+    "parsed": 5600.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.565,
+    "parsed": 5600.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 10.217,
+    "parsed": 5600.0
+   }
+  },
+  "held-17": {
+   "direct": {
+    "passed": false,
+    "latency": 0.838,
+    "parsed": 600.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.054,
+    "parsed": 621.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.391,
+    "parsed": 621.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.804,
+    "parsed": 621.0
+   }
+  },
+  "held-18": {
+   "direct": {
+    "passed": false,
+    "latency": 0.208,
+    "parsed": 100.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.361,
+    "parsed": 75.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.04,
+    "parsed": 75.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 18.121,
+    "parsed": 75.0
+   }
+  },
+  "held-19": {
+   "direct": {
+    "passed": false,
+    "latency": 0.631,
+    "parsed": 36.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 8.098,
+    "parsed": 34.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.215,
+    "parsed": 34.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.775,
+    "parsed": 34.0
+   }
+  },
+  "held-20": {
+   "direct": {
+    "passed": false,
+    "latency": 0.293,
+    "parsed": 8.5
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 11.558,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.926,
+    "parsed": 9.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 17.123,
+    "parsed": 9.0
+   }
+  },
+  "held-21": {
+   "direct": {
+    "passed": false,
+    "latency": 0.249,
+    "parsed": 3570.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 8.857,
+    "parsed": 294.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.12,
+    "parsed": 294.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.851,
+    "parsed": 294.0
+   }
+  },
+  "held-22": {
+   "direct": {
+    "passed": false,
+    "latency": 0.318,
+    "parsed": 15000.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 15.621,
+    "parsed": 17000.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 13.36,
+    "parsed": 17000.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.032,
+    "parsed": 17000.0
+   }
+  },
+  "held-23": {
+   "direct": {
+    "passed": true,
+    "latency": 0.194,
+    "parsed": 24.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.952,
+    "parsed": 24.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.147,
+    "parsed": 24.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 13.349,
+    "parsed": 24.0
+   }
+  },
+  "held-24": {
+   "direct": {
+    "passed": false,
+    "latency": 0.189,
+    "parsed": 3.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 11.432,
+    "parsed": 2.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.77,
+    "parsed": 2.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.154,
+    "parsed": 2.0
+   }
+  },
+  "held-25": {
+   "direct": {
+    "passed": false,
+    "latency": 0.144,
+    "parsed": 25.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 10.762,
+    "parsed": 15.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.915,
+    "parsed": 15.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.568,
+    "parsed": 15.0
+   }
+  },
+  "held-26": {
+   "direct": {
+    "passed": true,
+    "latency": 0.162,
+    "parsed": 27.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.76,
+    "parsed": 27.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.253,
+    "parsed": 27.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.689,
+    "parsed": 27.0
+   }
+  },
+  "held-27": {
+   "direct": {
+    "passed": false,
+    "latency": 0.196,
+    "parsed": 340.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 10.07,
+    "parsed": 310.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.415,
+    "parsed": 310.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 12.606,
+    "parsed": 310.0
+   }
+  },
+  "held-28": {
+   "direct": {
+    "passed": false,
+    "latency": 0.187,
+    "parsed": 32.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 27.39,
+    "parsed": 30.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 16.549,
+    "parsed": 23.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.776,
+    "parsed": 23.0
+   }
+  },
+  "held-29": {
+   "direct": {
+    "passed": false,
+    "latency": 9.157,
+    "parsed": 5550.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 10.659,
+    "parsed": 2450.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 17.605,
+    "parsed": 2550.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.183,
+    "parsed": 2350.0
+   }
+  },
+  "held-30": {
+   "direct": {
+    "passed": true,
+    "latency": 4.819,
+    "parsed": 30.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.062,
+    "parsed": 30.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.321,
+    "parsed": 30.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 15.955,
+    "parsed": 6.0
+   }
+  },
+  "held-31": {
+   "direct": {
+    "passed": false,
+    "latency": 8.795,
+    "parsed": 9.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.519,
+    "parsed": 63.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.0,
+    "parsed": 63.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.21,
+    "parsed": 63.0
+   }
+  },
+  "held-32": {
+   "direct": {
+    "passed": false,
+    "latency": 10.869,
+    "parsed": 380.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.708,
+    "parsed": 4400.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 16.618,
+    "parsed": 4400.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 19.25,
+    "parsed": 4400.0
+   }
+  },
+  "held-33": {
+   "direct": {
+    "passed": false,
+    "latency": 6.864,
+    "parsed": 28.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.229,
+    "parsed": 20.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.958,
+    "parsed": 20.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.461,
+    "parsed": 20.0
+   }
+  },
+  "held-34": {
+   "direct": {
+    "passed": false,
+    "latency": 8.233,
+    "parsed": 26.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 27.714,
+    "parsed": 312.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 19.469,
+    "parsed": 156.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 17.452,
+    "parsed": 156.0
+   }
+  },
+  "held-35": {
+   "direct": {
+    "passed": false,
+    "latency": 14.289,
+    "parsed": 7.5
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.103,
+    "parsed": 15.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.597,
+    "parsed": 15.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.782,
+    "parsed": 15.0
+   }
+  },
+  "held-36": {
+   "direct": {
+    "passed": false,
+    "latency": 8.394,
+    "parsed": 55.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.364,
+    "parsed": 109.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 16.095,
+    "parsed": 109.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 17.598,
+    "parsed": 109.0
+   }
+  },
+  "held-37": {
+   "direct": {
+    "passed": false,
+    "latency": 10.838,
+    "parsed": 70.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.803,
+    "parsed": 42.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.616,
+    "parsed": 42.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.941,
+    "parsed": 42.0
+   }
+  },
+  "held-38": {
+   "direct": {
+    "passed": true,
+    "latency": 6.335,
+    "parsed": 110.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.623,
+    "parsed": 110.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.738,
+    "parsed": 110.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.515,
+    "parsed": 110.0
+   }
+  },
+  "held-39": {
+   "direct": {
+    "passed": false,
+    "latency": 12.825,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.145,
+    "parsed": 21.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.306,
+    "parsed": 21.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.322,
+    "parsed": 21.0
+   }
+  },
+  "held-40": {
+   "direct": {
+    "passed": false,
+    "latency": 6.751,
+    "parsed": 3.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.29,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.652,
+    "parsed": 4.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.882,
+    "parsed": 4.0
+   }
+  },
+  "held2-001": {
+   "direct": {
+    "passed": false,
+    "latency": 0.218,
+    "parsed": 13.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 8.025,
+    "parsed": 25.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.05,
+    "parsed": 25.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.93,
+    "parsed": 25.0
+   }
+  },
+  "held2-002": {
+   "direct": {
+    "passed": false,
+    "latency": 0.205,
+    "parsed": 148.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 16.833,
+    "parsed": 56.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.486,
+    "parsed": 56.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.719,
+    "parsed": 56.0
+   }
+  },
+  "held2-003": {
+   "direct": {
+    "passed": false,
+    "latency": 0.227,
+    "parsed": 125.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 10.929,
+    "parsed": 110.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.16,
+    "parsed": 110.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 12.829,
+    "parsed": 110.0
+   }
+  },
+  "held2-004": {
+   "direct": {
+    "passed": false,
+    "latency": 0.231,
+    "parsed": 450.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 13.556,
+    "parsed": 315.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.056,
+    "parsed": 315.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.952,
+    "parsed": 315.0
+   }
+  },
+  "held2-005": {
+   "direct": {
+    "passed": false,
+    "latency": 0.134,
+    "parsed": 24.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 21.185,
+    "parsed": 56.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.997,
+    "parsed": 56.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.618,
+    "parsed": 56.0
+   }
+  },
+  "held2-006": {
+   "direct": {
+    "passed": false,
+    "latency": 0.159,
+    "parsed": 36.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.271,
+    "parsed": 45.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.254,
+    "parsed": 45.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.309,
+    "parsed": 45.0
+   }
+  },
+  "held2-007": {
+   "direct": {
+    "passed": false,
+    "latency": 0.128,
+    "parsed": 8.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 17.714,
+    "parsed": 12.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 9.945,
+    "parsed": 12.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 12.93,
+    "parsed": 12.0
+   }
+  },
+  "held2-008": {
+   "direct": {
+    "passed": true,
+    "latency": 8.854,
+    "parsed": 100.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 17.886,
+    "parsed": 100.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.324,
+    "parsed": 100.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.764,
+    "parsed": 100.0
+   }
+  },
+  "held2-009": {
+   "direct": {
+    "passed": false,
+    "latency": 4.291,
+    "parsed": 25.99
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.616,
+    "parsed": 26.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.52,
+    "parsed": 26.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 18.241,
+    "parsed": 26.0
+   }
+  },
+  "held2-010": {
+   "direct": {
+    "passed": true,
+    "latency": 11.252,
+    "parsed": 50.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 23.044,
+    "parsed": 50.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.681,
+    "parsed": 50.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 18.513,
+    "parsed": 20.0
+   }
+  },
+  "held2-011": {
+   "direct": {
+    "passed": false,
+    "latency": 8.694,
+    "parsed": 350.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.767,
+    "parsed": 250.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.331,
+    "parsed": 250.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 13.278,
+    "parsed": 250.0
+   }
+  },
+  "held2-012": {
+   "direct": {
+    "passed": false,
+    "latency": 8.645,
+    "parsed": 450.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.469,
+    "parsed": 250.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.203,
+    "parsed": 250.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.276,
+    "parsed": 250.0
+   }
+  },
+  "held2-013": {
+   "direct": {
+    "passed": false,
+    "latency": 5.977,
+    "parsed": 2.5
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.962,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.319,
+    "parsed": 5.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.376,
+    "parsed": 5.0
+   }
+  },
+  "held2-014": {
+   "direct": {
+    "passed": false,
+    "latency": 8.008,
+    "parsed": 3.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.959,
+    "parsed": 6.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 9.025,
+    "parsed": 6.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 8.877,
+    "parsed": 2.0
+   }
+  },
+  "held2-015": {
+   "direct": {
+    "passed": true,
+    "latency": 6.42,
+    "parsed": 16.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.324,
+    "parsed": 16.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 9.762,
+    "parsed": 16.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.865,
+    "parsed": 16.0
+   }
+  },
+  "held2-016": {
+   "direct": {
+    "passed": true,
+    "latency": 8.458,
+    "parsed": 13.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 1.958,
+    "parsed": 13.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 7.116,
+    "parsed": 13.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 12.059,
+    "parsed": 13.0
+   }
+  },
+  "held2-017": {
+   "direct": {
+    "passed": false,
+    "latency": 5.45,
+    "parsed": 15.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.255,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 12.326,
+    "parsed": 40.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 13.685,
+    "parsed": 4.0
+   }
+  },
+  "held2-018": {
+   "direct": {
+    "passed": false,
+    "latency": 6.827,
+    "parsed": 40.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.853,
+    "parsed": 150.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.184,
+    "parsed": 150.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.023,
+    "parsed": 150.0
+   }
+  },
+  "held2-019": {
+   "direct": {
+    "passed": false,
+    "latency": 7.112,
+    "parsed": -13.666666666666666
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.906,
+    "parsed": -10.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.428,
+    "parsed": -10.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 12.081,
+    "parsed": -10.0
+   }
+  },
+  "held2-020": {
+   "direct": {
+    "passed": false,
+    "latency": 5.93,
+    "parsed": 41.67
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.208,
+    "parsed": 25.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.65,
+    "parsed": 25.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.532,
+    "parsed": 25.0
+   }
+  },
+  "held2-021": {
+   "direct": {
+    "passed": false,
+    "latency": 9.472,
+    "parsed": 500.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.134,
+    "parsed": 700.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 9.185,
+    "parsed": 700.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 13.614,
+    "parsed": 700.0
+   }
+  },
+  "held2-022": {
+   "direct": {
+    "passed": false,
+    "latency": 7.185,
+    "parsed": 1750.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 10.733,
+    "parsed": 800.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 13.535,
+    "parsed": 800.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.805,
+    "parsed": 800.0
+   }
+  },
+  "held2-023": {
+   "direct": {
+    "passed": false,
+    "latency": 6.228,
+    "parsed": 100.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.349,
+    "parsed": 110.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.178,
+    "parsed": 110.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.926,
+    "parsed": 110.0
+   }
+  },
+  "held2-024": {
+   "direct": {
+    "passed": false,
+    "latency": 8.188,
+    "parsed": 105.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.938,
+    "parsed": 122.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 13.764,
+    "parsed": 122.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.399,
+    "parsed": 122.0
+   }
+  },
+  "held2-025": {
+   "direct": {
+    "passed": false,
+    "latency": 8.412,
+    "parsed": 3.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.951,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.365,
+    "parsed": 4.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 18.456,
+    "parsed": 4.0
+   }
+  },
+  "held2-026": {
+   "direct": {
+    "passed": false,
+    "latency": 8.608,
+    "parsed": 8.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.286,
+    "parsed": 6.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 9.581,
+    "parsed": 6.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 10.608,
+    "parsed": 6.0
+   }
+  },
+  "held2-027": {
+   "direct": {
+    "passed": false,
+    "latency": 6.496,
+    "parsed": 55.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.864,
+    "parsed": 15.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 9.931,
+    "parsed": 15.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.823,
+    "parsed": 15.0
+   }
+  },
+  "held2-028": {
+   "direct": {
+    "passed": false,
+    "latency": 6.688,
+    "parsed": 288.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 35.951,
+    "parsed": 1260.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 16.758,
+    "parsed": 1260.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 16.14,
+    "parsed": 1260.0
+   }
+  },
+  "held2-029": {
+   "direct": {
+    "passed": false,
+    "latency": 0.296,
+    "parsed": 120.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 13.939,
+    "parsed": 195.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 18.866,
+    "parsed": 195.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.283,
+    "parsed": 195.0
+   }
+  },
+  "held2-030": {
+   "direct": {
+    "passed": false,
+    "latency": 0.194,
+    "parsed": 28.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 10.318,
+    "parsed": 50.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.875,
+    "parsed": 50.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.794,
+    "parsed": 50.0
+   }
+  },
+  "held2-031": {
+   "direct": {
+    "passed": false,
+    "latency": 0.187,
+    "parsed": 120.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 11.703,
+    "parsed": 240.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 12.738,
+    "parsed": 240.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.891,
+    "parsed": 240.0
+   }
+  },
+  "held2-032": {
+   "direct": {
+    "passed": false,
+    "latency": 0.237,
+    "parsed": 125.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 14.231,
+    "parsed": 215.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 17.305,
+    "parsed": 215.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 20.733,
+    "parsed": 215.0
+   }
+  },
+  "held2-033": {
+   "direct": {
+    "passed": false,
+    "latency": 0.184,
+    "parsed": 20.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 11.121,
+    "parsed": 6.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 13.906,
+    "parsed": 6.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.623,
+    "parsed": 6.0
+   }
+  },
+  "held2-034": {
+   "direct": {
+    "passed": false,
+    "latency": 0.163,
+    "parsed": 6.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 40.231,
+    "parsed": 15.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.589,
+    "parsed": 15.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 22.917,
+    "parsed": 15.0
+   }
+  },
+  "held2-035": {
+   "direct": {
+    "passed": false,
+    "latency": 0.253,
+    "parsed": 8000.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 10.608,
+    "parsed": 5600.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 13.193,
+    "parsed": 5600.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 14.852,
+    "parsed": 30.0
+   }
+  },
+  "held2-036": {
+   "direct": {
+    "passed": false,
+    "latency": 0.245,
+    "parsed": 1460.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 14.549,
+    "parsed": 1640.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 16.864,
+    "parsed": 3140.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 18.211,
+    "parsed": 3140.0
+   }
+  },
+  "held2-037": {
+   "direct": {
+    "passed": false,
+    "latency": 0.175,
+    "parsed": 630.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 10.959,
+    "parsed": 540.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 13.068,
+    "parsed": 540.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.702,
+    "parsed": 540.0
+   }
+  },
+  "held2-038": {
+   "direct": {
+    "passed": false,
+    "latency": 0.21,
+    "parsed": 10.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 11.816,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.406,
+    "parsed": 7.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 18.33,
+    "parsed": 7.0
+   }
+  },
+  "held2-039": {
+   "direct": {
+    "passed": false,
+    "latency": 0.137,
+    "parsed": 6.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 12.284,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 13.474,
+    "parsed": 9.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.597,
+    "parsed": 9.0
+   }
+  },
+  "held2-040": {
+   "direct": {
+    "passed": false,
+    "latency": 0.16,
+    "parsed": 44.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 15.027,
+    "parsed": 91.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 13.827,
+    "parsed": 91.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 18.105,
+    "parsed": 91.0
+   }
+  },
+  "held2-041": {
+   "direct": {
+    "passed": false,
+    "latency": 15.411,
+    "parsed": 13.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 16.816,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 17.254,
+    "parsed": 4.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 18.946,
+    "parsed": 4.0
+   }
+  },
+  "held2-042": {
+   "direct": {
+    "passed": false,
+    "latency": 13.49,
+    "parsed": 3.5
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 17.761,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 16.395,
+    "parsed": 3.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 20.291,
+    "parsed": 3.0
+   }
+  },
+  "held2-043": {
+   "direct": {
+    "passed": false,
+    "latency": 13.093,
+    "parsed": 140.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 15.801,
+    "parsed": 350.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 17.07,
+    "parsed": 350.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 19.115,
+    "parsed": 350.0
+   }
+  },
+  "held2-044": {
+   "direct": {
+    "passed": false,
+    "latency": 13.979,
+    "parsed": 6.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 16.163,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 19.093,
+    "parsed": 8.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.815,
+    "parsed": 8.0
+   }
+  },
+  "held2-045": {
+   "direct": {
+    "passed": true,
+    "latency": 12.353,
+    "parsed": 22.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 18.216,
+    "parsed": 22.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 18.927,
+    "parsed": 22.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 18.689,
+    "parsed": 22.0
+   }
+  },
+  "held2-046": {
+   "direct": {
+    "passed": false,
+    "latency": 13.65,
+    "parsed": 123.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 17.721,
+    "parsed": 163.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 17.809,
+    "parsed": 163.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 20.951,
+    "parsed": 163.0
+   }
+  },
+  "held2-047": {
+   "direct": {
+    "passed": false,
+    "latency": 12.516,
+    "parsed": 4860.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 20.466,
+    "parsed": 27000.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 20.478,
+    "parsed": 27000.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 21.165,
+    "parsed": 27000.0
+   }
+  },
+  "held2-048": {
+   "direct": {
+    "passed": false,
+    "latency": 12.153,
+    "parsed": 9.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 15.755,
+    "parsed": 1.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.611,
+    "parsed": 1.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 16.957,
+    "parsed": 1.0
+   }
+  },
+  "held2-049": {
+   "direct": {
+    "passed": false,
+    "latency": 12.605,
+    "parsed": 1540.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 19.561,
+    "parsed": 2640.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 18.906,
+    "parsed": 2640.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 21.821,
+    "parsed": 2640.0
+   }
+  },
+  "held2-050": {
+   "direct": {
+    "passed": false,
+    "latency": 11.947,
+    "parsed": 11.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 17.754,
+    "parsed": 38.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 16.538,
+    "parsed": 38.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 14.68,
+    "parsed": 38.0
+   }
+  },
+  "held2-051": {
+   "direct": {
+    "passed": false,
+    "latency": 11.465,
+    "parsed": 16.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 20.137,
+    "parsed": 69.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 17.27,
+    "parsed": 69.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 20.481,
+    "parsed": 69.0
+   }
+  },
+  "held2-052": {
+   "direct": {
+    "passed": false,
+    "latency": 11.169,
+    "parsed": 600.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 21.301,
+    "parsed": 2100.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 36.923,
+    "parsed": 2100.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 21.494,
+    "parsed": 2100.0
+   }
+  },
+  "held2-053": {
+   "direct": {
+    "passed": false,
+    "latency": 13.235,
+    "parsed": 27.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 16.488,
+    "parsed": 17.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 16.643,
+    "parsed": 17.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 18.609,
+    "parsed": 17.0
+   }
+  },
+  "held2-054": {
+   "direct": {
+    "passed": false,
+    "latency": 11.807,
+    "parsed": 12150.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 23.341,
+    "parsed": 6000.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 27.664,
+    "parsed": 6000.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 27.863,
+    "parsed": 6000.0
+   }
+  },
+  "held2-055": {
+   "direct": {
+    "passed": true,
+    "latency": 11.782,
+    "parsed": 5.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 13.923,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.074,
+    "parsed": 5.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.399,
+    "parsed": 5.0
+   }
+  },
+  "held2-056": {
+   "direct": {
+    "passed": false,
+    "latency": 11.423,
+    "parsed": 14.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 15.368,
+    "parsed": 13.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 17.025,
+    "parsed": 13.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 19.608,
+    "parsed": 13.0
+   }
+  },
+  "held2-057": {
+   "direct": {
+    "passed": false,
+    "latency": 27.216,
+    "parsed": 3.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 19.371,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 19.06,
+    "parsed": 8.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 20.602,
+    "parsed": 8.0
+   }
+  },
+  "held2-058": {
+   "direct": {
+    "passed": false,
+    "latency": 11.634,
+    "parsed": 200.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 17.677,
+    "parsed": 142.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 19.535,
+    "parsed": 142.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 21.267,
+    "parsed": 142.0
+   }
+  },
+  "held2-059": {
+   "direct": {
+    "passed": true,
+    "latency": 19.245,
+    "parsed": 1000.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 16.499,
+    "parsed": 1000.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 17.538,
+    "parsed": 1000.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 19.137,
+    "parsed": 1000.0
+   }
+  },
+  "held2-060": {
+   "direct": {
+    "passed": false,
+    "latency": 11.65,
+    "parsed": 78.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 13.686,
+    "parsed": 66.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.845,
+    "parsed": 66.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.255,
+    "parsed": 66.0
+   }
+  },
+  "held2-061": {
+   "direct": {
+    "passed": true,
+    "latency": 11.266,
+    "parsed": 3360.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 16.591,
+    "parsed": 3360.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.928,
+    "parsed": 3360.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.835,
+    "parsed": 3360.0
+   }
+  },
+  "held2-062": {
+   "direct": {
+    "passed": false,
+    "latency": 11.302,
+    "parsed": 240.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 15.044,
+    "parsed": 150.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 15.026,
+    "parsed": 150.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 17.598,
+    "parsed": 150.0
+   }
+  },
+  "held2-063": {
+   "direct": {
+    "passed": false,
+    "latency": 11.466,
+    "parsed": 2.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 18.602,
+    "parsed": 18.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 20.905,
+    "parsed": 18.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 21.679,
+    "parsed": 2.0
+   }
+  },
+  "held2-064": {
+   "direct": {
+    "passed": false,
+    "latency": 10.137,
+    "parsed": 6.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 1.933,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.163,
+    "parsed": 7.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 3.672,
+    "parsed": 7.0
+   }
+  },
+  "held2-065": {
+   "direct": {
+    "passed": false,
+    "latency": 0.159,
+    "parsed": 100.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.313,
+    "parsed": 250.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.846,
+    "parsed": 250.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 4.63,
+    "parsed": 250.0
+   }
+  },
+  "held2-066": {
+   "direct": {
+    "passed": false,
+    "latency": 0.226,
+    "parsed": 96.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.644,
+    "parsed": 132.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 7.062,
+    "parsed": 132.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.454,
+    "parsed": 132.0
+   }
+  },
+  "held2-067": {
+   "direct": {
+    "passed": false,
+    "latency": 0.148,
+    "parsed": 40.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.35,
+    "parsed": 195.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.304,
+    "parsed": 195.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 6.545,
+    "parsed": 195.0
+   }
+  },
+  "held2-068": {
+   "direct": {
+    "passed": false,
+    "latency": 0.142,
+    "parsed": 28.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.216,
+    "parsed": 14.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 9.744,
+    "parsed": 14.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.626,
+    "parsed": 14.0
+   }
+  },
+  "held2-069": {
+   "direct": {
+    "passed": false,
+    "latency": 0.22,
+    "parsed": 400.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.225,
+    "parsed": 250.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.165,
+    "parsed": 250.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.374,
+    "parsed": 250.0
+   }
+  },
+  "held2-070": {
+   "direct": {
+    "passed": false,
+    "latency": 0.161,
+    "parsed": 15.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 7.294,
+    "parsed": 135.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 9.503,
+    "parsed": 135.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 12.084,
+    "parsed": 30.0
+   }
+  },
+  "held2-071": {
+   "direct": {
+    "passed": false,
+    "latency": 0.173,
+    "parsed": 78.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 4.639,
+    "parsed": 40.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.712,
+    "parsed": 58.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.744,
+    "parsed": 58.0
+   }
+  },
+  "held2-072": {
+   "direct": {
+    "passed": false,
+    "latency": 0.12,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 4.703,
+    "parsed": 6.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.206,
+    "parsed": 2.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 6.909,
+    "parsed": 2.0
+   }
+  },
+  "held2-073": {
+   "direct": {
+    "passed": false,
+    "latency": 0.198,
+    "parsed": 3060.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.199,
+    "parsed": 11050.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.651,
+    "parsed": 11050.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.146,
+    "parsed": 11050.0
+   }
+  },
+  "held2-074": {
+   "direct": {
+    "passed": false,
+    "latency": 0.178,
+    "parsed": 108.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.717,
+    "parsed": 168.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.575,
+    "parsed": 168.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 12.637,
+    "parsed": 168.0
+   }
+  },
+  "held2-075": {
+   "direct": {
+    "passed": true,
+    "latency": 0.163,
+    "parsed": 15.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.157,
+    "parsed": 15.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.636,
+    "parsed": 15.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 6.515,
+    "parsed": 15.0
+   }
+  },
+  "held2-076": {
+   "direct": {
+    "passed": false,
+    "latency": 0.16,
+    "parsed": 41.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.091,
+    "parsed": 410.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.154,
+    "parsed": 410.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.593,
+    "parsed": 410.0
+   }
+  },
+  "held2-077": {
+   "direct": {
+    "passed": false,
+    "latency": 0.187,
+    "parsed": 950.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.655,
+    "parsed": 450.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.134,
+    "parsed": 450.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.655,
+    "parsed": 450.0
+   }
+  },
+  "held2-078": {
+   "direct": {
+    "passed": false,
+    "latency": 0.147,
+    "parsed": 40.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.316,
+    "parsed": 20.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.935,
+    "parsed": 20.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 6.283,
+    "parsed": 20.0
+   }
+  },
+  "held2-079": {
+   "direct": {
+    "passed": false,
+    "latency": 0.166,
+    "parsed": 300.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.188,
+    "parsed": 270.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.12,
+    "parsed": 270.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 4.542,
+    "parsed": 270.0
+   }
+  },
+  "held2-080": {
+   "direct": {
+    "passed": true,
+    "latency": 0.136,
+    "parsed": 15.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.839,
+    "parsed": 15.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.596,
+    "parsed": 15.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 4.814,
+    "parsed": 15.0
+   }
+  },
+  "held2-081": {
+   "direct": {
+    "passed": true,
+    "latency": 0.137,
+    "parsed": 12.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.243,
+    "parsed": 12.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.167,
+    "parsed": 12.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 6.479,
+    "parsed": 12.0
+   }
+  },
+  "held2-082": {
+   "direct": {
+    "passed": false,
+    "latency": 0.174,
+    "parsed": 120.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.588,
+    "parsed": 80.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.012,
+    "parsed": 80.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 5.997,
+    "parsed": 80.0
+   }
+  },
+  "held2-083": {
+   "direct": {
+    "passed": false,
+    "latency": 0.241,
+    "parsed": 158.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.992,
+    "parsed": 374.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.055,
+    "parsed": 374.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 12.364,
+    "parsed": 446.0
+   }
+  },
+  "held2-084": {
+   "direct": {
+    "passed": true,
+    "latency": 0.154,
+    "parsed": 35.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.792,
+    "parsed": 35.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.564,
+    "parsed": 35.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 8.071,
+    "parsed": 7.0
+   }
+  },
+  "held2-085": {
+   "direct": {
+    "passed": false,
+    "latency": 0.135,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.466,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.23,
+    "parsed": 3.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 5.943,
+    "parsed": 3.0
+   }
+  },
+  "held2-086": {
+   "direct": {
+    "passed": false,
+    "latency": 0.144,
+    "parsed": 5.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 6.267,
+    "parsed": 11.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 7.24,
+    "parsed": 4.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.551,
+    "parsed": 4.0
+   }
+  },
+  "held2-087": {
+   "direct": {
+    "passed": false,
+    "latency": 0.191,
+    "parsed": 122.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.457,
+    "parsed": 138.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 5.954,
+    "parsed": 84.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.666,
+    "parsed": 138.0
+   }
+  },
+  "held2-088": {
+   "direct": {
+    "passed": false,
+    "latency": 0.169,
+    "parsed": 2.5
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.996,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.569,
+    "parsed": 5.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 5.851,
+    "parsed": 5.0
+   }
+  },
+  "held2-089": {
+   "direct": {
+    "passed": false,
+    "latency": 0.16,
+    "parsed": 95.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.532,
+    "parsed": 120.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.26,
+    "parsed": 120.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.845,
+    "parsed": 120.0
+   }
+  },
+  "held2-090": {
+   "direct": {
+    "passed": true,
+    "latency": 0.205,
+    "parsed": 1125.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.206,
+    "parsed": 1125.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.269,
+    "parsed": 1125.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 5.482,
+    "parsed": 1125.0
+   }
+  },
+  "held2-091": {
+   "direct": {
+    "passed": false,
+    "latency": 0.21,
+    "parsed": 12.5
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 7.104,
+    "parsed": -2.5
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 11.318,
+    "parsed": 32.5
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 11.708,
+    "parsed": 2.5
+   }
+  },
+  "held2-092": {
+   "direct": {
+    "passed": false,
+    "latency": 0.163,
+    "parsed": 25.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.689,
+    "parsed": 220.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.192,
+    "parsed": 220.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.674,
+    "parsed": 220.0
+   }
+  },
+  "held2-093": {
+   "direct": {
+    "passed": false,
+    "latency": 0.158,
+    "parsed": 48.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 4.603,
+    "parsed": 78.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.41,
+    "parsed": 84.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.291,
+    "parsed": 84.0
+   }
+  },
+  "held2-094": {
+   "direct": {
+    "passed": false,
+    "latency": 0.185,
+    "parsed": 108.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.502,
+    "parsed": 180.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 7.06,
+    "parsed": 180.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 5.408,
+    "parsed": 180.0
+   }
+  },
+  "held2-095": {
+   "direct": {
+    "passed": false,
+    "latency": 0.156,
+    "parsed": 31.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.271,
+    "parsed": 40.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.619,
+    "parsed": 40.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 6.687,
+    "parsed": 40.0
+   }
+  },
+  "held2-096": {
+   "direct": {
+    "passed": false,
+    "latency": 0.18,
+    "parsed": 270.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 1.992,
+    "parsed": 288.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.654,
+    "parsed": 288.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 6.705,
+    "parsed": 288.0
+   }
+  },
+  "held2-097": {
+   "direct": {
+    "passed": false,
+    "latency": 0.223,
+    "parsed": 41.67
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.541,
+    "parsed": 35.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.032,
+    "parsed": 35.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.23,
+    "parsed": 35.0
+   }
+  },
+  "held2-098": {
+   "direct": {
+    "passed": true,
+    "latency": 0.145,
+    "parsed": 15.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.825,
+    "parsed": 15.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.964,
+    "parsed": 15.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 4.87,
+    "parsed": 15.0
+   }
+  },
+  "held2-099": {
+   "direct": {
+    "passed": false,
+    "latency": 0.146,
+    "parsed": 24.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.965,
+    "parsed": 12.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.405,
+    "parsed": 12.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.239,
+    "parsed": 12.0
+   }
+  },
+  "held2-100": {
+   "direct": {
+    "passed": false,
+    "latency": 0.153,
+    "parsed": 70.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.789,
+    "parsed": 100.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.632,
+    "parsed": 100.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.531,
+    "parsed": 100.0
+   }
+  },
+  "held2-101": {
+   "direct": {
+    "passed": false,
+    "latency": 0.254,
+    "parsed": 170000.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 4.581,
+    "parsed": 65000.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 8.426,
+    "parsed": 195000.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 8.848,
+    "parsed": 195000.0
+   }
+  },
+  "held2-102": {
+   "direct": {
+    "passed": false,
+    "latency": 0.16,
+    "parsed": 76.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.517,
+    "parsed": 82.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.472,
+    "parsed": 82.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 4.79,
+    "parsed": 82.0
+   }
+  },
+  "held2-103": {
+   "direct": {
+    "passed": true,
+    "latency": 0.128,
+    "parsed": 3.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 8.848,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 9.372,
+    "parsed": 3.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.407,
+    "parsed": 3.0
+   }
+  },
+  "held2-104": {
+   "direct": {
+    "passed": false,
+    "latency": 0.172,
+    "parsed": 26.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.345,
+    "parsed": 33.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.411,
+    "parsed": 33.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 5.876,
+    "parsed": 33.0
+   }
+  },
+  "held2-105": {
+   "direct": {
+    "passed": false,
+    "latency": 0.195,
+    "parsed": 115.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.077,
+    "parsed": 235.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.493,
+    "parsed": 235.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 8.312,
+    "parsed": 5.0
+   }
+  },
+  "held2-106": {
+   "direct": {
+    "passed": false,
+    "latency": 0.193,
+    "parsed": 4000.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.923,
+    "parsed": 4500.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.048,
+    "parsed": 4500.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 4.839,
+    "parsed": 4500.0
+   }
+  },
+  "held2-107": {
+   "direct": {
+    "passed": false,
+    "latency": 0.162,
+    "parsed": 22.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.144,
+    "parsed": 14.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 7.904,
+    "parsed": 15.5
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.656,
+    "parsed": 14.0
+   }
+  },
+  "held2-108": {
+   "direct": {
+    "passed": false,
+    "latency": 0.202,
+    "parsed": 1050.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.091,
+    "parsed": 1800.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 7.875,
+    "parsed": 1800.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.481,
+    "parsed": 1800.0
+   }
+  },
+  "held2-109": {
+   "direct": {
+    "passed": false,
+    "latency": 0.159,
+    "parsed": 14.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.709,
+    "parsed": 27.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.687,
+    "parsed": 27.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.088,
+    "parsed": 27.0
+   }
+  },
+  "held2-110": {
+   "direct": {
+    "passed": false,
+    "latency": 0.177,
+    "parsed": 38.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.775,
+    "parsed": 842.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.528,
+    "parsed": 842.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.432,
+    "parsed": 842.0
+   }
+  },
+  "held2-111": {
+   "direct": {
+    "passed": false,
+    "latency": 0.182,
+    "parsed": 102.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.953,
+    "parsed": 200.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 8.078,
+    "parsed": 160.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 6.863,
+    "parsed": 180.0
+   }
+  },
+  "held2-112": {
+   "direct": {
+    "passed": true,
+    "latency": 0.149,
+    "parsed": 70.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.057,
+    "parsed": 70.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.613,
+    "parsed": 70.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 5.512,
+    "parsed": 70.0
+   }
+  },
+  "held2-113": {
+   "direct": {
+    "passed": false,
+    "latency": 0.17,
+    "parsed": 40.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.788,
+    "parsed": 63.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.796,
+    "parsed": 63.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 5.387,
+    "parsed": 63.0
+   }
+  },
+  "held2-114": {
+   "direct": {
+    "passed": false,
+    "latency": 0.15,
+    "parsed": 14.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.917,
+    "parsed": 26.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.699,
+    "parsed": 26.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.591,
+    "parsed": 26.0
+   }
+  },
+  "held2-115": {
+   "direct": {
+    "passed": true,
+    "latency": 0.143,
+    "parsed": 80.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.3,
+    "parsed": 80.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.114,
+    "parsed": 80.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 4.224,
+    "parsed": 80.0
+   }
+  },
+  "held2-116": {
+   "direct": {
+    "passed": false,
+    "latency": 0.222,
+    "parsed": 37.5
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.902,
+    "parsed": 50.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.461,
+    "parsed": 50.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.227,
+    "parsed": 50.0
+   }
+  },
+  "held2-117": {
+   "direct": {
+    "passed": false,
+    "latency": 0.197,
+    "parsed": 124.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 15.431,
+    "parsed": 147.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 14.856,
+    "parsed": 147.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 11.999,
+    "parsed": 107.0
+   }
+  },
+  "held2-118": {
+   "direct": {
+    "passed": false,
+    "latency": 0.173,
+    "parsed": 34.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.116,
+    "parsed": 60.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.386,
+    "parsed": 60.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.124,
+    "parsed": 60.0
+   }
+  },
+  "held2-119": {
+   "direct": {
+    "passed": false,
+    "latency": 0.2,
+    "parsed": 550.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.546,
+    "parsed": 370.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.62,
+    "parsed": 370.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.521,
+    "parsed": 370.0
+   }
+  },
+  "held2-120": {
+   "direct": {
+    "passed": false,
+    "latency": 0.171,
+    "parsed": 44.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.642,
+    "parsed": 98.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.301,
+    "parsed": 98.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 6.266,
+    "parsed": 98.0
+   }
+  },
+  "held2-121": {
+   "direct": {
+    "passed": false,
+    "latency": 0.2,
+    "parsed": 1000.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.705,
+    "parsed": 3430.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.231,
+    "parsed": 3430.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.548,
+    "parsed": 3430.0
+   }
+  },
+  "held2-122": {
+   "direct": {
+    "passed": false,
+    "latency": 0.142,
+    "parsed": 2.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.997,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.306,
+    "parsed": 5.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.029,
+    "parsed": 5.0
+   }
+  },
+  "held2-123": {
+   "direct": {
+    "passed": false,
+    "latency": 0.214,
+    "parsed": 556.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.173,
+    "parsed": 482.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.36,
+    "parsed": 482.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.029,
+    "parsed": 482.0
+   }
+  },
+  "held2-124": {
+   "direct": {
+    "passed": false,
+    "latency": 0.164,
+    "parsed": 25.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.45,
+    "parsed": 20.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.532,
+    "parsed": 20.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 10.975,
+    "parsed": 20.0
+   }
+  },
+  "held2-125": {
+   "direct": {
+    "passed": false,
+    "latency": 0.182,
+    "parsed": 94.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.783,
+    "parsed": 90.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 6.362,
+    "parsed": 120.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 9.795,
+    "parsed": 120.0
+   }
+  },
+  "held2-126": {
+   "direct": {
+    "passed": false,
+    "latency": 0.441,
+    "parsed": 32500.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 8.9,
+    "parsed": 2450.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 7.505,
+    "parsed": 2450.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.049,
+    "parsed": 2450.0
+   }
+  },
+  "held2-127": {
+   "direct": {
+    "passed": false,
+    "latency": 0.324,
+    "parsed": 24.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 5.717,
+    "parsed": 12.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 5.804,
+    "parsed": 12.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 7.844,
+    "parsed": 12.0
+   }
+  },
+  "held2-128": {
+   "direct": {
+    "passed": false,
+    "latency": 0.171,
+    "parsed": 41.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.038,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.537,
+    "parsed": 5.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 6.27,
+    "parsed": 5.0
+   }
+  },
+  "held2-129": {
+   "direct": {
+    "passed": false,
+    "latency": 0.142,
+    "parsed": 5.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.076,
+    "parsed": 6.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 7.263,
+    "parsed": 6.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.758,
+    "parsed": 6.0
+   }
+  },
+  "held2-130": {
+   "direct": {
+    "passed": false,
+    "latency": 0.157,
+    "parsed": 2.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.718,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.835,
+    "parsed": 4.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.887,
+    "parsed": 4.0
+   }
+  },
+  "held2-131": {
+   "direct": {
+    "passed": true,
+    "latency": 0.197,
+    "parsed": 480.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.884,
+    "parsed": 480.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.669,
+    "parsed": 480.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 5.992,
+    "parsed": 480.0
+   }
+  },
+  "held2-132": {
+   "direct": {
+    "passed": false,
+    "latency": 0.189,
+    "parsed": 56.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 7.159,
+    "parsed": 144.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.311,
+    "parsed": 172.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 13.283,
+    "parsed": 108.0
+   }
+  },
+  "held2-133": {
+   "direct": {
+    "passed": false,
+    "latency": 0.176,
+    "parsed": 16.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.552,
+    "parsed": 64.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.064,
+    "parsed": 64.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.658,
+    "parsed": 64.0
+   }
+  },
+  "held2-134": {
+   "direct": {
+    "passed": true,
+    "latency": 0.157,
+    "parsed": 70.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 1.803,
+    "parsed": 70.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.229,
+    "parsed": 70.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 4.406,
+    "parsed": 70.0
+   }
+  },
+  "held2-135": {
+   "direct": {
+    "passed": false,
+    "latency": 0.207,
+    "parsed": 12.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.399,
+    "parsed": 44.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.693,
+    "parsed": 44.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 6.385,
+    "parsed": 44.0
+   }
+  },
+  "held2-136": {
+   "direct": {
+    "passed": false,
+    "latency": 0.205,
+    "parsed": 975.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.317,
+    "parsed": 2125.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.952,
+    "parsed": 2125.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 5.693,
+    "parsed": 2125.0
+   }
+  },
+  "held2-137": {
+   "direct": {
+    "passed": false,
+    "latency": 0.147,
+    "parsed": 7.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.339,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 11.169,
+    "parsed": 9.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 10.773,
+    "parsed": 5.0
+   }
+  },
+  "held2-138": {
+   "direct": {
+    "passed": false,
+    "latency": 0.165,
+    "parsed": 30.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.199,
+    "parsed": 90.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.381,
+    "parsed": 90.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 5.004,
+    "parsed": 90.0
+   }
+  },
+  "held2-139": {
+   "direct": {
+    "passed": false,
+    "latency": 0.172,
+    "parsed": 18.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.505,
+    "parsed": 21.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.857,
+    "parsed": 21.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 4.967,
+    "parsed": 21.0
+   }
+  },
+  "held2-140": {
+   "direct": {
+    "passed": false,
+    "latency": 0.207,
+    "parsed": 22.5
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.91,
+    "parsed": 45.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 7.323,
+    "parsed": 45.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.083,
+    "parsed": 45.0
+   }
+  },
+  "held2-141": {
+   "direct": {
+    "passed": false,
+    "latency": 0.209,
+    "parsed": 115.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.995,
+    "parsed": 170.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 11.3,
+    "parsed": 170.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 10.607,
+    "parsed": 170.0
+   }
+  },
+  "held2-142": {
+   "direct": {
+    "passed": false,
+    "latency": 0.191,
+    "parsed": 22.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.273,
+    "parsed": 68.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 7.103,
+    "parsed": 68.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.741,
+    "parsed": 68.0
+   }
+  },
+  "held2-143": {
+   "direct": {
+    "passed": false,
+    "latency": 0.176,
+    "parsed": 13.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.847,
+    "parsed": 17.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 9.647,
+    "parsed": 17.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.802,
+    "parsed": 17.0
+   }
+  },
+  "held2-144": {
+   "direct": {
+    "passed": false,
+    "latency": 0.145,
+    "parsed": 25.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.835,
+    "parsed": 71.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.024,
+    "parsed": 71.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 3.798,
+    "parsed": 71.0
+   }
+  },
+  "held2-145": {
+   "direct": {
+    "passed": false,
+    "latency": 0.194,
+    "parsed": 375.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.444,
+    "parsed": 500.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 6.321,
+    "parsed": 750.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 7.388,
+    "parsed": 750.0
+   }
+  },
+  "held2-146": {
+   "direct": {
+    "passed": false,
+    "latency": 0.263,
+    "parsed": 360.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.939,
+    "parsed": 20.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.404,
+    "parsed": 20.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.165,
+    "parsed": 20.0
+   }
+  },
+  "held2-147": {
+   "direct": {
+    "passed": false,
+    "latency": 0.165,
+    "parsed": 80.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.658,
+    "parsed": 40.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.738,
+    "parsed": 40.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.341,
+    "parsed": 40.0
+   }
+  },
+  "held2-148": {
+   "direct": {
+    "passed": false,
+    "latency": 0.189,
+    "parsed": 240.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 9.615,
+    "parsed": 3000.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 10.24,
+    "parsed": 3000.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 12.428,
+    "parsed": 3000.0
+   }
+  },
+  "held2-149": {
+   "direct": {
+    "passed": false,
+    "latency": 0.272,
+    "parsed": 2040.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.439,
+    "parsed": 312.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.72,
+    "parsed": 312.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.405,
+    "parsed": 312.0
+   }
+  },
+  "held2-150": {
+   "direct": {
+    "passed": false,
+    "latency": 0.178,
+    "parsed": 15.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.869,
+    "parsed": 25.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.893,
+    "parsed": 25.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 5.604,
+    "parsed": 25.0
+   }
+  },
+  "held2-151": {
+   "direct": {
+    "passed": false,
+    "latency": 0.175,
+    "parsed": 32.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.221,
+    "parsed": 64.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 7.166,
+    "parsed": 64.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 11.987,
+    "parsed": 64.0
+   }
+  },
+  "held2-152": {
+   "direct": {
+    "passed": false,
+    "latency": 0.189,
+    "parsed": 29.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 6.064,
+    "parsed": 45.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 7.777,
+    "parsed": 45.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.933,
+    "parsed": 45.0
+   }
+  },
+  "held2-153": {
+   "direct": {
+    "passed": false,
+    "latency": 0.227,
+    "parsed": 20.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.716,
+    "parsed": 36.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.882,
+    "parsed": 36.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.195,
+    "parsed": 36.0
+   }
+  },
+  "held2-154": {
+   "direct": {
+    "passed": false,
+    "latency": 0.242,
+    "parsed": 10.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 5.281,
+    "parsed": 75.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.09,
+    "parsed": 75.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 7.878,
+    "parsed": 30.0
+   }
+  },
+  "held2-155": {
+   "direct": {
+    "passed": true,
+    "latency": 0.152,
+    "parsed": 7.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 4.299,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.169,
+    "parsed": 7.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 6.253,
+    "parsed": 7.0
+   }
+  },
+  "held2-156": {
+   "direct": {
+    "passed": false,
+    "latency": 0.151,
+    "parsed": 3.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 7.238,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 8.386,
+    "parsed": 9.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 9.952,
+    "parsed": 9.0
+   }
+  },
+  "held2-157": {
+   "direct": {
+    "passed": false,
+    "latency": 0.226,
+    "parsed": 3.5
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.917,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.96,
+    "parsed": 5.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 8.373,
+    "parsed": 5.0
+   }
+  },
+  "held2-158": {
+   "direct": {
+    "passed": false,
+    "latency": 0.153,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 10.145,
+    "parsed": 18.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 9.741,
+    "parsed": 18.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 15.379,
+    "parsed": 18.0
+   }
+  },
+  "held2-159": {
+   "direct": {
+    "passed": false,
+    "latency": 0.195,
+    "parsed": 15.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 3.951,
+    "parsed": 10.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.032,
+    "parsed": 10.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 7.165,
+    "parsed": 10.0
+   }
+  },
+  "held2-160": {
+   "direct": {
+    "passed": true,
+    "latency": 0.132,
+    "parsed": 5.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 2.204,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.271,
+    "parsed": 5.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 4.789,
+    "parsed": 5.0
+   }
+  }
+ }
+}
