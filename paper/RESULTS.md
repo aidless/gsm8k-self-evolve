@@ -4,6 +4,21 @@
 > 结论段（C11–C13）是 **inconclusive**，而非"自进化有效/无效"的强断言。
 > 所有数字可从 `results/`、`registry/version-registry.json`、`signed/bundle.json` 重算。
 
+## 0. 题目集来源（2026-09-12 核验，C21）
+
+`examples/{gsm8k40,heldout40,heldout-batch2-160}.json` 共 240 题，经
+`tools/verify_question_provenance.py` 逐题核对：
+
+| 项 | 结果 |
+| --- | --- |
+| 与官方 GSM8K **test** split（n=1319）逐字匹配 | **240 / 240** |
+| 与官方 GSM8K **train** split（n=7473）重叠 | **0**（无污染） |
+| 在 test split 中的位置分布 | 均匀散布：mean 644.7（均匀期望 659.0），四分位 344/630/947，前半 126 / 后半 114，非连续块 |
+
+即：这些题目**不是自造**，而是标准 GSM8K test 原题，且与训练集零重叠——数字因此可与
+GSM8K 文献口径对话。范围说明：仅覆盖 1319 题中的 240 题子集，**不可**称"完整 GSM8K test 分数"。
+GSM8K 的 MIT 归属见 `THIRD_PARTY_NOTICES.md`（C22）。
+
 ## 1. 门控接受真增益：Round 1–2（晋升 stable）
 
 后端 qwen2.5:7b, temperature 0。配对口径精确 McNemar。
@@ -86,6 +101,22 @@ Headline 配对（精确 McNemar）：
   （p ≥ 0.45，方向不一致）。n=40 功效不足，故只报"未复现"，不报"不存在"。
 - **C19 成立**：唯一稳健的正效应是「CoT 式提示 ≫ 纯数字作答」，跨 4 个模型 p ≈ 1e-9…1e-48。
 - **C20 成立**：fail-closed 门控在 4 个模型上行为一致（3 个新模型全部拒绝、均不扩展）。
+
+## 5. 运行间方差（2026-09-12，C23/C24）
+
+3 次重复、360 次调用（qwen2.5:7b, heldout40, `{step-calc, cot-zero, concise-reason}`）：
+
+| 策略 | rep1 | rep2 | rep3 | 极差 |
+| --- | --- | --- | --- | --- |
+| concise-reason | .850 | .850 | .850 | 0.000 |
+| cot-zero | .950 | .950 | .950 | 0.000 |
+| step-calc | .900 | .925 | .925 | 0.025 |
+
+- **显著性判定翻转的配对数 = 0**：step-calc vs cot-zero（p=.625/1.00/1.00）、
+  vs concise-reason（p=.500/.250/.250）三轮均不显著。
+- 跨环境差异同量级：同模型同 40 题，云端 cot-zero 39/40 vs 本地 38/40（差 1 题）。
+- 故单次 40 题结果只应在 **±0.025–0.05** 内解读；定性结论稳健。
+- 完整记录：`ROUND4-VARIANCE.md`；复算：`scripts/variance_report.py`。
 
 **一句话定位**：本工作证明了一套**fail-closed 的审计门控**能诚实地区分真增益与假增益/无增益，
 并在此过程中发现其自身进化产物未显著超越标准 CoT 基线——这是一个**被诚实复现的边界结果**，

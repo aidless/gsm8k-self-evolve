@@ -110,8 +110,36 @@
   证据：`tools/check_publish.py` 运行时 `PUBLISH GATE PASS`；`OPEN_SOURCE_EXCLUSION.md` 第 2 节。
   状态：confirmed。
 
+## 数据溯源与许可类（2026-09-12 核验）
+
+- **C21 · 三个题目集逐字来自官方 GSM8K test split，且与 GSM8K train 零重叠**
+  证据：`tools/verify_question_provenance.py` 运行结果 240/240 match official GSM8K test
+  （test n=1319, sha256 `3730d312f6e3…`；train n=7473）；0 match train（无污染）；
+  位置分布均匀散布（mean 644.7 vs 均匀期望 659.0；四分位 344/630/947；前后半 126/114；
+  非连续块）→ 非"取前 N 题"式有偏选择。记录：`results/rounds/round4/QUESTION_PROVENANCE.json`。
+  状态：confirmed。**此前"盲集为自建"的说法系未经验证的假设，现予撤回。**
+
+- **C22 · GSM8K 的 MIT 归属义务已履行**
+  证据：`THIRD_PARTY_NOTICES.md` 新增"Datasets redistributed"小节（Copyright (c) 2021 OpenAI,
+  MIT, 含上游链接）。
+  状态：confirmed。
+
+- **C23 · 运行间方差已量化（2026-09-12）：定性判定稳定，幅度限 ±0.025 量级**
+  证据：`results/rounds/round4/ROUND4-VARIANCE.md`；3 次重复、360 次调用（qwen2.5:7b, heldout40,
+  {step-calc, cot-zero, concise-reason}）。逐策略准确率极差 ≤0.025（cot-zero/concise-reason 为 0.000）；
+  **显著性判定翻转的配对数 = 0**（step-calc vs cot-zero p=0.625/1.00/1.00；
+  vs concise-reason p=0.500/0.250/0.250）。复算：`scripts/variance_report.py`。
+  残余限制：3 次重复、单模型、n=40（n=200 合并集未重复）。
+  状态：confirmed。**本条由"方差未量化"升级为"已量化"**，README 原 ±10% 漂移估计未被复现（同文件记录，不以此否定新测量）。
+
+- **C24 · 跨环境差异与 run-to-run 差异同量级（噪声包络 ±1–2/40）**
+  证据：同一模型同一 40 题，云端 `cot-zero` 39/40、本地 38/40（差 1 题）；本地 3 次重复极差 ≤1 题。
+  状态：confirmed。故任何单次 40 题结果只应在 ±0.025–0.05 内解读。
+
 ## 明确不成立的声明（禁止写入正文）
 
 - 不声称"自进化显著超越标准 CoT 基线"（被 C11 证伪为 inconclusive）。
 - 不声称签名是独立第三方背书（C6 明确是 self-signed）。
-- 不声称 0.925 是标准 GSM8K test split 分数（是自建 blind held-out，见 C15 与 README 范围说明）。
+- 不声称"盲集是自建的"（**已被 C21 证伪**：240 题逐字为官方 GSM8K test 原题）。
+- 不声称 0.925 是**完整** GSM8K test 分数（它是 1319 题 test split 中散布的 240 题子集上的
+  分数，非全集 1319 题；跨集/跨子集比较无效）。

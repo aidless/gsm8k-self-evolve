@@ -1,10 +1,13 @@
 # GSM8K Self-Evolve: direct → concise-reason → step-calc
 
-Two rounds of evaluation-gated prompt-policy evolution on GSM8K-style math,
-run on cloud (Qwen2.5:7b via Ollama, temperature 0), ending in a **stable**
-`step-calc` policy backed by a merged 200-question blind held-out set and an
-Ed25519-signed evidence bundle. Every number below is recomputable from this
-repo — run `python tools/verify_evidence_chain.py`.
+Two rounds of evaluation-gated prompt-policy evolution on **standard GSM8K test
+items** (240 questions redistributed verbatim from the official test split,
+verified disjoint from the GSM8K train split), run on cloud (Qwen2.5:7b via
+Ollama, temperature 0), ending in a **stable** `step-calc` policy backed by a
+merged 200-question blind held-out set and an Ed25519-signed evidence bundle.
+Every number below is recomputable from this repo — run
+`python tools/verify_evidence_chain.py`; question provenance is re-verifiable
+with `python tools/verify_question_provenance.py`.
 
 ## Result
 
@@ -55,6 +58,20 @@ Key IDs: stable version `eecacc0312d7` · bundle `step-calc@ad35903f5cb4`
 - 40-question single runs carry ≈±10% noise on this setup (observed baseline
   drift 0.65→0.75 on re-runs). The `min_gain=0.02` gate in `evo.json` is
   therefore meaningful only with the large-sample held-out backstop used here.
+- **Question provenance (verified 2026-09-12):** all 240 questions
+  (`gsm8k40` + `heldout40` + `heldout-batch2-160`) match the official GSM8K
+  **test** split verbatim (240/240) and have **zero** overlap with the GSM8K
+  **train** split; their positions are spread across the split, so the subset
+  is not a biased prefix. They are standard items, not self-authored — but they
+  are a 240-of-1319 **subset**, so do **not** read any number here as a
+  "full GSM8K test" score. Re-verify: `tools/verify_question_provenance.py`;
+  attribution: `THIRD_PARTY_NOTICES.md`.
+- **Run-to-run variance is now quantified** (2026-09-12: 3 repeats / 360 calls,
+  qwen2.5:7b on heldout40): per-policy accuracy spread ≤ 0.025 and **zero
+  significance-verdict flips across repeats**. Read any single 40-question
+  number within ≈±0.025–0.05; the qualitative verdicts are stable. (The older
+  ≈±10% estimate from round 1 is not reproduced by this measurement; both are
+  recorded in `results/rounds/round4/ROUND4-VARIANCE.md`.)
 
 ## Reproduce
 
