@@ -59,14 +59,31 @@ records over the 40 selection-set ids ``gsm8k-01..40``, and
 (``"oracle": "train-only"``).  The six non-blind pools of indices 4-9 are re-derived from those
 files here.  R4 is evaluable and IS evaluated; no synthetic pool was needed and none was used.
 
-Provenance of the cross-check (restated in fix round 3 -- **not** an independence claim)
-----------------------------------------------------------------------------------------
-What the derived counts are checked against is the **same artefact they are derived from**:
-``_source_run`` recomputes ``(b, c, gain, p)`` from ``baseline.outcomes[]`` /
-``candidates[].evaluation.outcomes[]`` and requires agreement with the ``statistical_decision``
-block of that same run file (only for the arm that run promoted as its active candidate; the other
-arms carry no recorded n=40 aggregate at all).  That is a **same-source consistency check** -- it
-catches a truncated or hand-edited run file -- and it is not an independent record.  The registry's
+Provenance of the cross-check (restated in fix round 3, corrected in fix round 4 -- **not** an
+independence claim)
+-----------------------------------------------------------------------------------------------
+What the derived counts are checked against is the **same artefact they are derived from**, and
+*which* recorded figure each roster row is checked against differs by row.  Fix round 4 corrected
+the earlier sentence here that said the four non-active arms "carry no recorded n=40 aggregate at
+all": that sentence was false, and the accurate per-row account is --
+
+* **rows 4 and 6** -- the arm each run promoted as its **active candidate** -- are checked against
+  that run's own ``statistical_decision`` block, ``(better, worse, p_value, mean_gain)``;
+* **rows 5, 7 and 9** -- the other arms of the same two runs -- are checked only against their own
+  recorded **marginal** aggregates, the located candidate's
+  ``candidates[].evaluation.passed/total`` and the run's ``baseline.passed/total``.  **No paired
+  ``(b, c, gain, p)`` aggregate for those rows is recorded in any artefact**, so their four paired
+  figures are pure re-derivations;
+* **row 8** (the round-3 pilot) is checked against the pilot's recorded paired counts
+  (``paired.reflect_better`` for ``better``, ``paired.step_better`` for ``worse``), its recorded
+  exact McNemar ``paired.mcnemar_p_value``, and its per-arm recorded marginal ``passed/total``.  The
+  pilot records no ``gain`` field, so row 8's gain is a pure re-derivation.
+
+``_source_run`` / ``_source_pilot`` recompute the counts from the source's per-question records
+(``baseline.outcomes[]`` / ``candidates[].evaluation.outcomes[]``; the pilot's per-policy
+``details``) and require the artefact's own records to agree with that recomputation.  That is a
+**same-source consistency check** -- it catches a truncated or hand-edited run file -- and it is not
+an independent record.  The registry's
 ``history[1]`` / ``history[3]`` entries under ``registry/version-registry.json`` carry a
 byte-identical copy of those same two blocks (asserted in
 ``tests/test_build_pools.py::test_registry_carries_a_verbatim_copy_not_an_independent_record``), so
@@ -499,6 +516,45 @@ def _pilot_policy_key(policy: str) -> str:
     return policy.replace("-", "_")
 
 
+# The pilot's ``paired`` block does NOT name its only-pass counts by the policy key used for the
+# per-id ``details``: it uses a shorter stem (``reflect_retry`` -> ``reflect``, ``step_calc`` ->
+# ``step``), so the paired lookup cannot simply reuse ``_pilot_policy_key``.  The mapping is
+# declared explicitly, and every lookup must HIT: fix round 4 found that reading
+# ``paired[f"{key}_better"]`` for a key that is not there yielded ``None``, so index 8's
+# ``(better, worse)`` counts were never checked while the check looked present.
+_PILOT_PAIRED_STEM = {"reflect_retry": "reflect", "step_calc": "step"}
+
+
+def _pilot_paired_key(policy_key: str, where: str) -> str:
+    """The ``paired`` block key that records this policy's only-pass count (loud on unknown)."""
+    stem = _PILOT_PAIRED_STEM.get(policy_key)
+    if stem is None:
+        raise ValueError(
+            f"{where}: pilot policy {policy_key!r} has no paired-count stem; declare it in "
+            f"_PILOT_PAIRED_STEM (declared: {sorted(_PILOT_PAIRED_STEM)})")
+    return f"{stem}_better"
+
+
+def _pilot_paired_better(paired: dict, policy_key: str, where: str) -> int:
+    """The pilot's recorded count of items this policy passes and the other policy fails.
+
+    Fails loudly when the policy has no declared stem or the key is absent from the pilot's
+    ``paired`` block: a renamed key must break the cross-check, never degrade it to ``None`` (a
+    silent no-op check is worse than no check -- it is reported as verification while verifying
+    nothing).
+    """
+    key = _pilot_paired_key(policy_key, where)
+    if key not in paired:
+        raise ValueError(
+            f"{where}: the pilot's paired block has no {key!r} for policy {policy_key!r}; present "
+            f"keys: {sorted(paired)}.  A missing paired key must fail here rather than degrade to "
+            "None, which would leave the (better, worse) counts silently unchecked")
+    value = paired[key]
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise ValueError(f"{where}: pilot paired[{key!r}] = {value!r} is not an integer count")
+    return value
+
+
 def _pilot_policies(doc: dict):
     out = []
     for key, value in doc.items():
@@ -656,6 +712,9 @@ def _source_pilot(entry: dict) -> dict:
             raise ValueError(f"{entry['source_pool']}: pilot {key!r} aggregate "
                              f"({rec['passed']}/{rec['total']}) != recomputed")
     paired = doc["paired"]
+    rec_where = f"{entry['source_pool']}: {rel} paired"
+    chal_paired_key = _pilot_paired_key(chal_key, rec_where)
+    inc_paired_key = _pilot_paired_key(inc_key, rec_where)
     return {
         "items": items,
         "n": len(items),
@@ -665,11 +724,11 @@ def _source_pilot(entry: dict) -> dict:
         "aggregates": {"chal": sum(1 for v in chal_rows.values() if v),
                        "inc": sum(1 for v in inc_rows.values() if v)},
         "n_total": len(items),
-        "record": {"better": paired.get(f"{chal_key}_better"),
-                   "worse": paired.get(f"{inc_key}_better"),
+        "record": {"better": _pilot_paired_better(paired, chal_key, rec_where),
+                   "worse": _pilot_paired_better(paired, inc_key, rec_where),
                    "p": paired.get("mcnemar_p_value"),
                    "gain": None,
-                   "where": f"{rel} paired ({chal_key}_better / {inc_key}_better)",
+                   "where": f"{rel} paired ({chal_paired_key} / {inc_paired_key})",
                    "orientation": "declared"},
         "extra_meta": {"oracle": doc["oracle"], "paired_record": paired,
                        "pilot_note": paired.get("note")},

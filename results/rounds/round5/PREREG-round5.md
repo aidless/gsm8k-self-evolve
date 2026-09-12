@@ -247,11 +247,26 @@ The three branches are exhaustive by construction; the recorded branch is writte
 >
 > 1. **What is cross-checked, and against what.** `scripts/build_pools.py::_source_run` recomputes
 >    `(b, c, gain, p)` from the run artefact's per-question records (`baseline.outcomes[]` /
->    `candidates[].evaluation.outcomes[]`) and requires agreement with the
->    `statistical_decision` block **of that same run file** — but only for the arm that run promoted
->    as its **active candidate** (run `20260907-135728` → `concise-reason`; run `20260908-235617` →
->    `step-calc`). The other four rostered arms carry no recorded n=40 aggregate in any artefact at
->    all and are pure re-derivations.
+>    `candidates[].evaluation.outcomes[]`) and requires the run file's own recorded values to agree
+>    with that recomputation. What is recorded — and therefore what is checked — differs by row, and
+>    in every case it is the **same artefact** the counts are derived from:
+>    * **rows 4 and 6** — the arm each run promoted as its **active candidate** (run
+>      `20260907-135728` → `concise-reason`; run `20260908-235617` → `step-calc`) — agree with that
+>      run's `statistical_decision` block `(better, worse, p_value, mean_gain)`;
+>    * **rows 5, 7 and 9** — the other arms of the same two runs — agree **only** with their own
+>      recorded marginal pass count (`candidates[].evaluation.passed/total`, and the run's
+>      `baseline.passed/total`); **no paired `(b, c, gain, p)` aggregate for these rows is recorded
+>      in any artefact**, so those four paired figures are pure re-derivations;
+>    * **row 8** — the round-3 pilot — agrees with the pilot's recorded paired counts
+>      (`paired.reflect_better`, `paired.step_better`), its recorded exact McNemar
+>      `paired.mcnemar_p_value`, and its per-arm recorded marginal pass counts; the pilot records no
+>      `gain`, so row 8's gain is a pure re-derivation.
+>
+>    *(Corrected in fix round 4, 2026-09-12: the sentence that stood here said the four non-active
+>    arms "carry no recorded n=40 aggregate in any artefact at all". That was false — rows 5/7/9 each
+>    carry a recorded marginal n=40 aggregate in their own run file, and row 8 carries recorded
+>    paired counts and a paired exact p in the pilot — and it is superseded by the per-row list
+>    above.)*
 > 2. **The route is same-source, not independent.** The n=40 figures above are a **verbatim copy of
 >    `statistical_decision` inside the same run report**. The registry does not add an independent
 >    record of them: `registry/version-registry.json` → `history[1]` and `history[3]` carry a
@@ -300,8 +315,10 @@ filename** — and every value is asserted equal to this table in
 (The `exact McNemar p` column is the two-sided exact test on that row's discordant pairs, recomputed
 from `b`/`c`; it is the column Task 4's per-pool R4 table reads. Rows 4 and 6 additionally agree
 with `statistical_decision.mcnemar.p_value` in their own run file, per point 1 of the fix-round-3
-provenance note — a same-source check; the other four rows have no recorded aggregate to agree
-with.)
+provenance note — a same-source check. The other four rows have no **paired** `(b, c, gain, p)`
+aggregate to agree with: rows 5, 7 and 9 agree only with their own arm-level marginal pass count in
+their run file, row 8 agrees with the pilot's recorded paired counts (`reflect_better` /
+`step_better`) and its paired exact `p`, and the `gain` of rows 5/7/8/9 is a pure re-derivation.)
 
 **Exhaustiveness of the non-blind block (fix round 3 — the claim is now checkable and true).** The
 sentence "one per available paired selection-set comparison" is an *exhaustiveness* claim, so it is

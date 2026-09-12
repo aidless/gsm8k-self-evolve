@@ -745,6 +745,66 @@ def test_nonblind_pools_recomputed_from_source_match_the_declared_table():
     assert [r["source_pool"] for r in bp.ROSTER][4:] == [t[0] for t in NONBLIND_TABLE]
 
 
+# ------------- fix round 4: the index-8 paired cross-check must actually RUN, not silently no-op
+
+def _pilot_fixture(tmp_path, monkeypatch, mutate_paired):
+    """A throwaway round-3 dir holding the committed pilot with its ``paired`` block mutated.
+
+    ``bp.ROOT`` is moved along with it so ``_source_pilot`` still computes the same declared
+    relative path; nothing outside the fixture is read or written.
+    """
+    src = json.loads((ROUND3 / "pilot-train40.json").read_text(encoding="utf-8"))
+    mutate_paired(src["paired"])
+    fixture_root = tmp_path / "repo"
+    d = fixture_root / "results" / "rounds" / "round3"
+    d.mkdir(parents=True)
+    (d / "pilot-train40.json").write_text(json.dumps(src, indent=1), encoding="utf-8")
+    monkeypatch.setattr(bp, "ROOT", fixture_root)
+    monkeypatch.setattr(bp, "ROUND3", d)
+    return d
+
+
+def test_index8_paired_counts_are_read_from_the_pilot_and_are_never_none():
+    """FIX 2 regression: index 8's ``(better, worse)`` must come from the pilot's recorded paired
+    counts and must never be ``None``.
+
+    With the fix-round-3 bug the two fields silently read ``None`` while the check looked present,
+    so this test fails if the key is renamed again (on either the pilot's side or the code's side)
+    instead of the count going unchecked.
+    """
+    paired = json.loads((ROUND3 / "pilot-train40.json").read_text(encoding="utf-8"))["paired"]
+    src = bp._SOURCE_LOADERS["pilot"](bp.ROSTER_BY_INDEX[8])
+    rec = src["record"]
+    assert rec["better"] is not None and rec["worse"] is not None, rec
+    b = sum(1 for it in src["items"] if it["chal"] and not it["inc"])
+    c = sum(1 for it in src["items"] if it["inc"] and not it["chal"])
+    assert (rec["better"], rec["worse"]) == (b, c) == (paired["reflect_better"],
+                                                       paired["step_better"])
+    assert rec["p"] == paired["mcnemar_p_value"]
+    # the declared stems are exactly the pilot's own ``*_better`` keys, so neither side can be
+    # renamed without one of these two tests failing
+    declared = set(bp._PILOT_PAIRED_STEM.values())
+    present = {k[:-len("_better")] for k in paired if k.endswith("_better")}
+    assert declared == present == {"reflect", "step"}, (declared, present)
+
+
+def test_index8_paired_key_rename_fails_loudly(tmp_path, monkeypatch):
+    """FIX 2 bite: renaming the pilot's paired key must RAISE, never degrade to ``None``."""
+    def rename(paired):
+        paired["reflect_better_v2"] = paired.pop("reflect_better")
+    _pilot_fixture(tmp_path, monkeypatch, rename)
+    with pytest.raises(ValueError, match="reflect_better"):
+        bp._SOURCE_LOADERS["pilot"](bp.ROSTER_BY_INDEX[8])
+
+
+def test_index8_unknown_paired_policy_stem_fails_loudly(tmp_path, monkeypatch):
+    """The other half of the guard: a pilot policy the mapping does not declare must raise."""
+    _pilot_fixture(tmp_path, monkeypatch, lambda paired: None)
+    monkeypatch.setattr(bp, "_PILOT_PAIRED_STEM", {"reflect_retry": "reflect"})
+    with pytest.raises(ValueError, match="paired-count stem"):
+        bp._SOURCE_LOADERS["pilot"](bp.ROSTER_BY_INDEX[8])
+
+
 # ------------------------------------- PREREG §1 (children of a real pool are named)
 
 def test_null_pool_identity_and_naming():
