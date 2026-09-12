@@ -142,8 +142,31 @@ strawman; `cot-zero` was not included as a control in Round 2.
 
 Boundaries: "no significant difference" is **not** proof of equivalence
 (no equivalence margin was preregistered; n=200 is underpowered for
-±2-question effects). Scope is this machine / this model / this set.
-Full record: `results/rounds/round4/ROUND4-TRACKA-RESULT.md`.
+±2-question effects). Full record: `results/rounds/round4/ROUND4-TRACKA-RESULT.md`.
+
+### Round 4 — Track C: cross-model validation
+
+The same gate was then re-run on three further model families (heldout40,
+n=40, temperature 0), per `PREREG-round4.md`:
+
+| model (family) | direct | step-calc | concise-reason | cot-zero | few-shot |
+|---|---|---|---|---|---|
+| qwen2.5:7b (Alibaba) · n=200 | .135 | .920 | — | .930 | .895 |
+| gemma3:4b (Google) | .025 | .850 | .775 | **.900** | .450 |
+| qwen2:7b (Alibaba) | .050 | .875 | **.925** | .850 | .850 |
+| llama3.1:8b (Meta) | .000 | .900 | .875 | **.950** | .700 |
+
+- `step-calc` vs `cot-zero` shows **no significant advantage on any of the four
+  models** (p = 0.804 / 0.500 / 1.000 / 0.500).
+- The Round-2 self-evolve gain (`step-calc` ≫ `concise-reason`) **did not
+  replicate** on any of the three new models (p ≥ 0.45, inconsistent sign).
+- The only robust effect is **CoT-style prompting ≫ number-only (`direct`)**
+  (p ≈ 1e-9…1e-48, gain +0.70…+0.95 across all four models).
+
+Boundaries: n=40 for the three new models is underpowered; "not replicated" ≠
+"proven absent"; the qwen2.5:7b row is a different (n=200) set and must not be
+compared across sets for significance. Full record:
+`results/rounds/round4/ROUND4-TRACKC-RESULT.md`.
 
 ## License
 

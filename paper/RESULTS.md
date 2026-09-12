@@ -48,6 +48,29 @@ Headline 门禁（p < 0.05 且 gain ≥ 0.02 且 lat_ratio ≤ 2.0）：
 
 来源：`trackA-merged.json`（`scripts/merge_trackA.py` 纯 recompute，重跑一致）。
 
+## 3b. Track C — 跨模型验证（2026-09-12，n=40 × 3 模型）
+
+按 `PREREG-round4.md` 第 15–16 行设计，在另外 3 个模型族上重跑同一门控：
+
+| 模型（族） | direct | step-calc | concise-reason | cot-zero | few-shot |
+| --- | --- | --- | --- | --- | --- |
+| qwen2.5:7b（阿里）· n=200 合并盲集 | .135 | .920 | — | .930 | .895 |
+| gemma3:4b（谷歌） | .025 | .850 | .775 | **.900** | .450 |
+| qwen2:7b（阿里） | .050 | .875 | **.925** | .850 | .850 |
+| llama3.1:8b（Meta） | .000 | .900 | .875 | **.950** | .700 |
+
+Headline 配对（精确 McNemar）：
+
+| 配对 | qwen2.5:7b | gemma3:4b | qwen2:7b | llama3.1:8b |
+| --- | --- | --- | --- | --- |
+| step-calc vs cot-zero | p=0.804 | p=0.500 | p=1.000 | p=0.500 |
+| step-calc vs concise-reason | p=1.08e-06（Round-2, n=200） | p=0.453 | p=0.688 | p=1.000 |
+
+扩展判定：三个新模型 p 均 ≥ 0.45（>0.2）→ 按预注册 weak-signal 规则均不扩展。
+
+来源：`trackC-*-heldout40.json`（`scripts/summarize_trackC.py` 重算并断言一致）；
+完整判定见 `ROUND4-TRACKC-RESULT.md`。
+
 ## 4. 结论（诚实，含边界）
 
 - **C10（fail-closed）成立**：门控在三个方向上行为正确——接受真增益(p=1.08e-06)、
@@ -58,6 +81,11 @@ Headline 门禁（p < 0.05 且 gain ≥ 0.02 且 lat_ratio ≤ 2.0）：
   早先 Round-2 的对照基线 `direct`（number-only）是 weak strawman，未包含 cot-zero。
 - **C13 成立**："无显著差异"**不是**"证明等价"——未预注册等价边际，n=200 对 ±2 题效应功效不足，
   temperature 0 无种子控制、单次运行。**禁止**把本结论演绎为"自进化无效"。
+- **C17 成立**：`step-calc` 相对 `cot-zero` 无显著优势，**4 个模型一致**（p=0.804/0.500/1.000/0.500）。
+- **C18（caveated）成立**：Round-2 的自进化增益（step-calc ≫ concise-reason）在 3 个新模型上**均未复现**
+  （p ≥ 0.45，方向不一致）。n=40 功效不足，故只报"未复现"，不报"不存在"。
+- **C19 成立**：唯一稳健的正效应是「CoT 式提示 ≫ 纯数字作答」，跨 4 个模型 p ≈ 1e-9…1e-48。
+- **C20 成立**：fail-closed 门控在 4 个模型上行为一致（3 个新模型全部拒绝、均不扩展）。
 
 **一句话定位**：本工作证明了一套**fail-closed 的审计门控**能诚实地区分真增益与假增益/无增益，
 并在此过程中发现其自身进化产物未显著超越标准 CoT 基线——这是一个**被诚实复现的边界结果**，

@@ -30,7 +30,10 @@ EXPAND_GAIN_THRESHOLD = 0.02
 
 def recompute(data: dict) -> dict:
     policies = data["meta"]["policies"]
-    details = data["details"]
+    # Only COMPLETE rows count (a partially-run file must not KeyError, and the
+    # runner's own save() computes over complete rows too).
+    details = {q: r for q, r in data["details"].items()
+               if all(p in r for p in policies)}
     n = len(details)
     totals = {p: sum(1 for row in details.values() if row[p]["passed"])
               for p in policies}

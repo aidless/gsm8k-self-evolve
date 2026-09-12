@@ -73,14 +73,37 @@
   `ROUND4-TRACKA-RESULT.md` 第 5 节诚实边界。
   状态：confirmed。禁止把 C11 演绎为"自进化无效"。
 
+## 跨模型验证类（Track C，2026-09-12）
+
+- **C17 · `step-calc` 相对 `cot-zero` 在 4 个模型上均无显著优势**
+  证据：p = 0.804（qwen2.5:7b, n=200）/ 0.500（gemma3:4b）/ 1.000（qwen2:7b）/ 0.500（llama3.1:8b），
+  见 `trackA-merged.json`、`trackC-gemma3-4b-heldout40.json`、`trackC-qwen2-7b-heldout40.json`、
+  `trackC-llama31-8b-heldout40.json`；`ROUND4-TRACKC-RESULT.md` 第 2 节。
+  状态：confirmed。方向一致（|gain| ≤ 0.05）。
+
+- **C18 · Round-2 的"自进化增益"（step-calc ≫ concise-reason）未在其它模型复现**
+  证据：gemma3:4b −0.075（p=0.453）、qwen2:7b +0.050（p=0.688）、llama3.1:8b −0.025（p=1.000）；
+  原效应在 qwen2.5:7b 为 better:worse=33:4、p=1.08e-06（`signed/bundle.json` `heldout_evidence`）。
+  状态：caveated。n=40 功效不足，"未复现"≠"证明不存在"；三个新模型 p 均 ≥0.45 故按预注册不扩展。
+
+- **C19 · 唯一稳健的正效应是「CoT 式提示 ≫ 纯数字作答」（direct）**
+  证据：direct vs 任一 CoT 式策略在 4 个模型上 p ≈ 1e-9…1e-48、gain +0.70…+0.95。
+  状态：confirmed。这解释了早期 Round-2 "0.125→0.925" 的来源与自进化机制无关。
+
+- **C20 · fail-closed 门控行为在 4 个模型上一致**
+  证据：在 3 个新模型上重跑同一门控，headline gate 全部 FAIL、均不扩展
+  （`ROUND4-TRACKC-RESULT.md` 第 4 节）。C10 由"单模型三方向"升级为"4 模型 × 三方向"。
+  状态：confirmed。
+
 ## 前置条件 / 范围声明
 
 - **C14 · 自签名密钥私钥从不发布，仅公钥 hex 入库**
   证据：`signed/agent-self.pub.hex`（65 字节公钥）；`README.md` Layout 段（"private key never published"）。
   状态：confirmed。
 
-- **C15 · 后端为 qwen2.5:7b（temperature 0），结论不推广到其他模型/任务**
-  证据：`results/rounds/round4/PREREG-round4.md:7`；README Method/Result 段。
+- **C15 · 主实验后端为 qwen2.5:7b（temperature 0）；跨模型扩展见 C17–C20，仍未覆盖公开基准迁移**
+  证据：`results/rounds/round4/PREREG-round4.md:7`；`ROUND4-TRACKC-RESULT.md`（4 个模型）；
+  Track B（SVAMP/MultiArith/ASDiv 迁移）**未运行**。
   状态：confirmed。
 
 - **C16 · 无真实密钥 / 无个人绝对路径残留，可发布（发布门禁 5/5 PASS）**
