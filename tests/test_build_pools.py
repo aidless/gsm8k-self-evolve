@@ -410,3 +410,101 @@ def test_observed_roster_is_frozen_and_matches_prereg():
     observed = bp.build_observed_pools()
     got = [(p["meta"]["source_pool"], p["meta"]["discordant_total"]) for p in observed]
     assert got == expected
+
+# ------------------------------------------- committed artefacts (pools.json / PILOT.json)
+
+def check_pools_consistency(pools):
+    """Structural consistency of a pools list.
+
+    Used both by the committed-artefact test and by an out-of-band mutation check that
+    proves the test actually bites (a deliberately corrupted pools list must fail it).
+    """
+    nulls = [p for p in pools if p["truth"] == "null"]
+    obs = [p for p in pools if p["truth"] == "observed"]
+    assert len(nulls) == bp.K * len(bp.DECLARED_NULL_SOURCES) == 800
+    assert len(obs) == 4
+    for p in pools:
+        assert set(p) >= {"name", "n", "blind", "truth", "items", "meta", *GATE_KEYS}
+        for key in GATE_KEYS:
+            assert p[key] is True, (p["name"], key)
+        assert p["n"] == len(p["items"])
+        assert "candidates" not in p, "candidates are not null pools (PREREG §1/§5.2)"
+        for field in ("source_pool", "discordant_total", "chal_policy", "inc_policy", "seed"):
+            assert field in p["meta"], (p["name"], field)
+        assert p["meta"]["chal_policy"] == p["chal_policy"]
+        assert p["meta"]["inc_policy"] == p["inc_policy"]
+        assert p["meta"]["discordant_total"] == bp.discordant_total_from_items(p["items"])
+        b, c = bc_of(p)
+        assert b + c == p["meta"]["discordant_total"], p["name"]
+        n = len(p["items"])
+        total_chal = sum(1 for it in p["items"] if it["chal"])
+        total_inc = sum(1 for it in p["items"] if it["inc"])
+        assert abs((total_chal - total_inc) / n - (b - c) / n) < 1e-12, p["name"]
+        assert p["blind"] is p["meta"]["blind"], p["name"]
+    return nulls, obs
+
+
+def test_pools_json_is_the_committed_build_pools_output():
+    """The evidence artefact must be exactly the module's output (recomputable, no drift)."""
+    path = ROUND5 / "pools.json"
+    assert path.exists(), "results/rounds/round5/pools.json must be committed evidence"
+    pools = json.loads(path.read_text(encoding="utf-8"))
+    assert pools == bp.build_pools(), "pools.json must equal build_pools()"
+    check_pools_consistency(pools)
+    # the pinned randomness is recoverable from the artefact alone
+    by_source = {}
+    for p in pools:
+        if p["truth"] == "null":
+            by_source.setdefault(p["meta"]["source_pool"], []).append(p)
+    for index, entry in enumerate(bp.ROSTER):
+        group = by_source[entry["source_pool"]]
+        assert len(group) == bp.K
+        assert all(p["meta"]["seed"] == bp.SEED + index for p in group)
+        # recompute one null block of each source pool from the artefact's own item order
+        assert group[7] == bp.permutation_nulls(
+            next(p for p in pools if p["truth"] == "observed"
+                 and p["meta"]["source_pool"] == entry["source_pool"]),
+            8, bp.SEED + index)[7]
+
+
+def test_pilot_json_records_an_explicit_k_and_seed_per_metric():
+    """PREREG §7.1.3: one explicit (metric, K, seed) record per reported metric."""
+    path = ROUND5 / "PILOT.json"
+    assert path.exists(), "results/rounds/round5/PILOT.json must be committed pilot evidence"
+    pilot = json.loads(path.read_text(encoding="utf-8"))
+    metrics = pilot["metrics"]
+    assert metrics
+    names = {m["metric"] for m in metrics}
+    assert {"mean_null_gain", "fpr_R1", "fpr_R2", "fpr_R6"} <= names
+    assert {f"fpr_at_k_{k}" for k in range(1, 9)} <= names
+    for m in metrics:
+        assert isinstance(m["K"], int) and m["K"] > 0, m
+        assert m["seeds"] and all(isinstance(s, int) for s in m["seeds"]), m
+        assert m["scope"] in ("reconstruction-target", "transparency", "pooled")
+        assert 0.0 <= m["value"] <= 1.0 if m["metric"] != "mean_null_gain" else True
+        sup = m["superseded_prose_value"]
+        if sup is not None:
+            assert m["agrees_with_superseded_prose"] == (abs(m["value"] - sup) < 1e-12), m
+    # the superseded prose figures are carried for comparison only, never as results
+    assert pilot["superseded"]["citable"] is False
+    assert pilot["pinned"]["SEED"] == bp.SEED
+    assert pilot["pinned"]["K_pilot"] == 2000
+    assert pilot["pinned"]["K_deliverable"] == bp.K
+    target = [m for m in metrics if m["scope"] == "reconstruction-target"]
+    assert target
+    # the superseded set of §7.1.1 has entries for exactly these metrics (its FPR@k curve
+    # was recorded at k = 1, 2, 4, 8 only); each must carry its comparison value
+    with_superseded = {m["metric"] for m in target if m["superseded_prose_value"] is not None}
+    assert with_superseded == {"mean_null_gain", "fpr_R1", "fpr_R2", "fpr_R6",
+                               "fpr_at_k_1", "fpr_at_k_2", "fpr_at_k_4", "fpr_at_k_8"}, \
+        with_superseded
+    assert pilot["reconstruction_target"]["inference_is_uncertain"] is True
+    # every pilot row carries its own K and seed (a per-metric record, not a per-run one)
+    for row in pilot["pool_rows"]:
+        assert row["K"] == pilot["pinned"]["K_pilot"] and isinstance(row["seed"], int)
+        assert row["n_candidate_blocks"] == row["K"] * bp.K_CANDIDATES
+        assert len(row["fpr_at_k"]) == bp.K_CANDIDATES
+        assert abs(row["mean_null_gain"]) < 0.01, "the null mean gain must be ~0 (PREREG §1)"
+    # AMENDMENT 1 / §2.2: at d = 6, gain >= 0.02 and gain > 0 are the same event, so R6 == R2
+    marginal = next(r for r in pilot["pool_rows"] if r["discordant_total"] == 6)
+    assert marginal["fpr"]["R6"] == marginal["fpr"]["R2"]

@@ -191,8 +191,8 @@ def _reconstruction_rationale(runs: list[dict], pooled_run: dict) -> dict:
     marginal = per_pool["marginal-stepcalc-vs-concise"]
     k = K_PILOT
     # The superseded R2 figure is 640/2000.  On the four-pool pooled set the constructive
-    # expectation is mean_d E[FPR_R2](d) = 0.4364 -> 873/8000, i.e. ~5.2 sigma away; on the
-    # d = 6 marginal pool alone it is 0.34375 -> 687/2000, i.e. ~2.2 sigma away.
+    # expectation is mean_d E[FPR_R2](d) = 0.4364 -> 3491/8000, i.e. ~20.8 sigma away; on the
+    # d = 6 marginal pool alone it is 0.34375 -> 687.5/2000, i.e. ~2.2 sigma away.
     expected_pooled = pooled_run["r2_expected_null_rate_prereg_4_1"]
     expected_marginal = marginal["r2_expected_null_rate_prereg_4_1"]
     sd_pooled = math.sqrt(pooled_run["n_units"] * 0.25)
@@ -204,8 +204,8 @@ def _reconstruction_rationale(runs: list[dict], pooled_run: dict) -> dict:
         "target_seed": marginal["seed"],
         "reason": (
             "The superseded pilot recorded no pool identity. Its R2 figure 0.320 = 640/2000 "
-            "cannot be the four-pool pooled set (constructive expectation 0.4364 = 873/8000, "
-            "z = -5.2), while the d = 6 marginal pool alone has expectation 0.34375 = 687/2000 "
+            "cannot be the four-pool pooled set (constructive expectation 0.4364 = 3491/8000, "
+            "z = -20.8), while the d = 6 marginal pool alone has expectation 0.34375 = 687.5/2000 "
             "(z = -2.2); its R1 figure 0.015 = 30/2000 is likewise the d = 6 order of magnitude "
             "(P(b' = 6) = 1/64 = 0.0156 = 31/2000). The marginal pool is therefore the best "
             "reconstruction target, but it is an inference: the pilot metrics for every other "

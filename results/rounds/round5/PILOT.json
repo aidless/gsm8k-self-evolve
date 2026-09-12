@@ -1,0 +1,1187 @@
+{
+ "schema_version": 1,
+ "generated_by": "scripts/pilot_round5.py",
+ "prereg": "results/rounds/round5/PREREG-round5.md",
+ "status": "design-validation pilot, re-run and committed (PREREG §7.1.3). Supersedes the non-citable prose figures of §7.1/§7.2. NOT a deliverable result: the deliverable run is Task 4 at K = 200 over results/rounds/round5/pools.json.",
+ "citable": true,
+ "superseded": {
+  "source": "PREREG-round5.md §7.1.1 / PLAN-NOVELTY.md design-validation prose",
+  "citable": false,
+  "mean_null_gain": -0.0029,
+  "fpr": {
+   "R1": 0.015,
+   "R2": 0.32,
+   "R6": 0.32
+  },
+  "fpr_at_k": {
+   "1": 0.357,
+   "2": 0.62,
+   "4": 0.838,
+   "8": 0.968
+  }
+ },
+ "pinned": {
+  "SEED": 20260912,
+  "K_pilot": 2000,
+  "K_deliverable": 200,
+  "child_seed_rule": "child_seed = SEED + source_pool_index (PREREG §1 rule 2)",
+  "candidate_k": 8,
+  "alpha": 0.05,
+  "eps": 0.02
+ },
+ "rule_source": "pilot-local implementations of PREREG §2 R1/R2/R6 (R6 as adopted by AMENDMENT 1) and of the PREREG §1 rule 5 candidate streams for R7; the deliverable rule implementation is Task 2's scripts/gate_rules.py, which does not exist yet, and no pilot figure may be cited as a result about the decision rules (PREREG §6)",
+ "construction_note": "nulls are permutation relabellings of the source pool's discordant items, all sharing that pool's questions; they are not independent samples (PREREG §1)",
+ "reconstruction_target": {
+  "target": "marginal-stepcalc-vs-concise",
+  "target_source_pool_index": 3,
+  "target_K": 2000,
+  "target_seed": 20260915,
+  "reason": "The superseded pilot recorded no pool identity. Its R2 figure 0.320 = 640/2000 cannot be the four-pool pooled set (constructive expectation 0.4364 = 3491/8000, z = -20.8), while the d = 6 marginal pool alone has expectation 0.34375 = 687.5/2000 (z = -2.2); its R1 figure 0.015 = 30/2000 is likewise the d = 6 order of magnitude (P(b' = 6) = 1/64 = 0.0156 = 31/2000). The marginal pool is therefore the best reconstruction target, but it is an inference: the pilot metrics for every other pool and for the pooled set are recorded alongside so that no reading depends on it.",
+  "r2_expected_gain_pooled": 0.4363899230957031,
+  "r2_expected_gain_marginal": 0.34375,
+  "r2_pooled_z": -20.820462395037193,
+  "r2_marginal_z": -2.2362615680786986,
+  "inference_is_uncertain": true
+ },
+ "metrics": [
+  {
+   "metric": "mean_null_gain",
+   "scope": "transparency",
+   "source_pool": "positive-cotzero-vs-direct",
+   "source_pool_index": 0,
+   "K": 2000,
+   "seed": 20260912,
+   "seeds": [
+    20260912
+   ],
+   "n_units": 2000,
+   "value": 0.000795,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §1: mean gain of the permutation nulls; true effect identically 0"
+  },
+  {
+   "metric": "fpr_R1",
+   "scope": "transparency",
+   "source_pool": "positive-cotzero-vs-direct",
+   "source_pool_index": 0,
+   "K": 2000,
+   "seed": 20260912,
+   "seeds": [
+    20260912
+   ],
+   "n_units": 2000,
+   "value": 0.022,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §2 rule semantics; R6 per AMENDMENT 1"
+  },
+  {
+   "metric": "fpr_R2",
+   "scope": "transparency",
+   "source_pool": "positive-cotzero-vs-direct",
+   "source_pool_index": 0,
+   "K": 2000,
+   "seed": 20260912,
+   "seeds": [
+    20260912
+   ],
+   "n_units": 2000,
+   "value": 0.5015,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §2 rule semantics; R6 per AMENDMENT 1"
+  },
+  {
+   "metric": "fpr_R6",
+   "scope": "transparency",
+   "source_pool": "positive-cotzero-vs-direct",
+   "source_pool_index": 0,
+   "K": 2000,
+   "seed": 20260912,
+   "seeds": [
+    20260912
+   ],
+   "n_units": 2000,
+   "value": 0.3745,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §2 rule semantics; R6 per AMENDMENT 1"
+  },
+  {
+   "metric": "fpr_at_k_1",
+   "scope": "transparency",
+   "source_pool": "positive-cotzero-vs-direct",
+   "source_pool_index": 0,
+   "K": 2000,
+   "seed": 20260912,
+   "seeds": [
+    20260912
+   ],
+   "n_units": 2000,
+   "value": 0.4995,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_2",
+   "scope": "transparency",
+   "source_pool": "positive-cotzero-vs-direct",
+   "source_pool_index": 0,
+   "K": 2000,
+   "seed": 20260912,
+   "seeds": [
+    20260912
+   ],
+   "n_units": 2000,
+   "value": 0.742,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_3",
+   "scope": "transparency",
+   "source_pool": "positive-cotzero-vs-direct",
+   "source_pool_index": 0,
+   "K": 2000,
+   "seed": 20260912,
+   "seeds": [
+    20260912
+   ],
+   "n_units": 2000,
+   "value": 0.8635,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_4",
+   "scope": "transparency",
+   "source_pool": "positive-cotzero-vs-direct",
+   "source_pool_index": 0,
+   "K": 2000,
+   "seed": 20260912,
+   "seeds": [
+    20260912
+   ],
+   "n_units": 2000,
+   "value": 0.922,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_5",
+   "scope": "transparency",
+   "source_pool": "positive-cotzero-vs-direct",
+   "source_pool_index": 0,
+   "K": 2000,
+   "seed": 20260912,
+   "seeds": [
+    20260912
+   ],
+   "n_units": 2000,
+   "value": 0.964,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_6",
+   "scope": "transparency",
+   "source_pool": "positive-cotzero-vs-direct",
+   "source_pool_index": 0,
+   "K": 2000,
+   "seed": 20260912,
+   "seeds": [
+    20260912
+   ],
+   "n_units": 2000,
+   "value": 0.982,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_7",
+   "scope": "transparency",
+   "source_pool": "positive-cotzero-vs-direct",
+   "source_pool_index": 0,
+   "K": 2000,
+   "seed": 20260912,
+   "seeds": [
+    20260912
+   ],
+   "n_units": 2000,
+   "value": 0.989,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_8",
+   "scope": "transparency",
+   "source_pool": "positive-cotzero-vs-direct",
+   "source_pool_index": 0,
+   "K": 2000,
+   "seed": 20260912,
+   "seeds": [
+    20260912
+   ],
+   "n_units": 2000,
+   "value": 0.9945,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "mean_null_gain",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-cotzero",
+   "source_pool_index": 1,
+   "K": 2000,
+   "seed": 20260913,
+   "seeds": [
+    20260913
+   ],
+   "n_units": 2000,
+   "value": -8.5e-05,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §1: mean gain of the permutation nulls; true effect identically 0"
+  },
+  {
+   "metric": "fpr_R1",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-cotzero",
+   "source_pool_index": 1,
+   "K": 2000,
+   "seed": 20260913,
+   "seeds": [
+    20260913
+   ],
+   "n_units": 2000,
+   "value": 0.0075,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §2 rule semantics; R6 per AMENDMENT 1"
+  },
+  {
+   "metric": "fpr_R2",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-cotzero",
+   "source_pool_index": 1,
+   "K": 2000,
+   "seed": 20260913,
+   "seeds": [
+    20260913
+   ],
+   "n_units": 2000,
+   "value": 0.405,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §2 rule semantics; R6 per AMENDMENT 1"
+  },
+  {
+   "metric": "fpr_R6",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-cotzero",
+   "source_pool_index": 1,
+   "K": 2000,
+   "seed": 20260913,
+   "seeds": [
+    20260913
+   ],
+   "n_units": 2000,
+   "value": 0.232,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §2 rule semantics; R6 per AMENDMENT 1"
+  },
+  {
+   "metric": "fpr_at_k_1",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-cotzero",
+   "source_pool_index": 1,
+   "K": 2000,
+   "seed": 20260913,
+   "seeds": [
+    20260913
+   ],
+   "n_units": 2000,
+   "value": 0.427,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_2",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-cotzero",
+   "source_pool_index": 1,
+   "K": 2000,
+   "seed": 20260913,
+   "seeds": [
+    20260913
+   ],
+   "n_units": 2000,
+   "value": 0.6645,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_3",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-cotzero",
+   "source_pool_index": 1,
+   "K": 2000,
+   "seed": 20260913,
+   "seeds": [
+    20260913
+   ],
+   "n_units": 2000,
+   "value": 0.8055,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_4",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-cotzero",
+   "source_pool_index": 1,
+   "K": 2000,
+   "seed": 20260913,
+   "seeds": [
+    20260913
+   ],
+   "n_units": 2000,
+   "value": 0.89,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_5",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-cotzero",
+   "source_pool_index": 1,
+   "K": 2000,
+   "seed": 20260913,
+   "seeds": [
+    20260913
+   ],
+   "n_units": 2000,
+   "value": 0.9315,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_6",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-cotzero",
+   "source_pool_index": 1,
+   "K": 2000,
+   "seed": 20260913,
+   "seeds": [
+    20260913
+   ],
+   "n_units": 2000,
+   "value": 0.9565,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_7",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-cotzero",
+   "source_pool_index": 1,
+   "K": 2000,
+   "seed": 20260913,
+   "seeds": [
+    20260913
+   ],
+   "n_units": 2000,
+   "value": 0.9755,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_8",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-cotzero",
+   "source_pool_index": 1,
+   "K": 2000,
+   "seed": 20260913,
+   "seeds": [
+    20260913
+   ],
+   "n_units": 2000,
+   "value": 0.988,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "mean_null_gain",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-fewshot",
+   "source_pool_index": 2,
+   "K": 2000,
+   "seed": 20260914,
+   "seeds": [
+    20260914
+   ],
+   "n_units": 2000,
+   "value": -0.0005899999999999999,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §1: mean gain of the permutation nulls; true effect identically 0"
+  },
+  {
+   "metric": "fpr_R1",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-fewshot",
+   "source_pool_index": 2,
+   "K": 2000,
+   "seed": 20260914,
+   "seeds": [
+    20260914
+   ],
+   "n_units": 2000,
+   "value": 0.0195,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §2 rule semantics; R6 per AMENDMENT 1"
+  },
+  {
+   "metric": "fpr_R2",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-fewshot",
+   "source_pool_index": 2,
+   "K": 2000,
+   "seed": 20260914,
+   "seeds": [
+    20260914
+   ],
+   "n_units": 2000,
+   "value": 0.494,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §2 rule semantics; R6 per AMENDMENT 1"
+  },
+  {
+   "metric": "fpr_R6",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-fewshot",
+   "source_pool_index": 2,
+   "K": 2000,
+   "seed": 20260914,
+   "seeds": [
+    20260914
+   ],
+   "n_units": 2000,
+   "value": 0.1945,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §2 rule semantics; R6 per AMENDMENT 1"
+  },
+  {
+   "metric": "fpr_at_k_1",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-fewshot",
+   "source_pool_index": 2,
+   "K": 2000,
+   "seed": 20260914,
+   "seeds": [
+    20260914
+   ],
+   "n_units": 2000,
+   "value": 0.487,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_2",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-fewshot",
+   "source_pool_index": 2,
+   "K": 2000,
+   "seed": 20260914,
+   "seeds": [
+    20260914
+   ],
+   "n_units": 2000,
+   "value": 0.744,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_3",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-fewshot",
+   "source_pool_index": 2,
+   "K": 2000,
+   "seed": 20260914,
+   "seeds": [
+    20260914
+   ],
+   "n_units": 2000,
+   "value": 0.878,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_4",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-fewshot",
+   "source_pool_index": 2,
+   "K": 2000,
+   "seed": 20260914,
+   "seeds": [
+    20260914
+   ],
+   "n_units": 2000,
+   "value": 0.934,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_5",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-fewshot",
+   "source_pool_index": 2,
+   "K": 2000,
+   "seed": 20260914,
+   "seeds": [
+    20260914
+   ],
+   "n_units": 2000,
+   "value": 0.969,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_6",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-fewshot",
+   "source_pool_index": 2,
+   "K": 2000,
+   "seed": 20260914,
+   "seeds": [
+    20260914
+   ],
+   "n_units": 2000,
+   "value": 0.985,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_7",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-fewshot",
+   "source_pool_index": 2,
+   "K": 2000,
+   "seed": 20260914,
+   "seeds": [
+    20260914
+   ],
+   "n_units": 2000,
+   "value": 0.994,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_8",
+   "scope": "transparency",
+   "source_pool": "mid-stepcalc-vs-fewshot",
+   "source_pool_index": 2,
+   "K": 2000,
+   "seed": 20260914,
+   "seeds": [
+    20260914
+   ],
+   "n_units": 2000,
+   "value": 0.9965,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "mean_null_gain",
+   "scope": "reconstruction-target",
+   "source_pool": "marginal-stepcalc-vs-concise",
+   "source_pool_index": 3,
+   "K": 2000,
+   "seed": 20260915,
+   "seeds": [
+    20260915
+   ],
+   "n_units": 2000,
+   "value": 0.000325,
+   "superseded_prose_value": -0.0029,
+   "agrees_with_superseded_prose": false,
+   "note": "PREREG §1: mean gain of the permutation nulls; true effect identically 0"
+  },
+  {
+   "metric": "fpr_R1",
+   "scope": "reconstruction-target",
+   "source_pool": "marginal-stepcalc-vs-concise",
+   "source_pool_index": 3,
+   "K": 2000,
+   "seed": 20260915,
+   "seeds": [
+    20260915
+   ],
+   "n_units": 2000,
+   "value": 0.0135,
+   "superseded_prose_value": 0.015,
+   "agrees_with_superseded_prose": false,
+   "note": "PREREG §2 rule semantics; R6 per AMENDMENT 1"
+  },
+  {
+   "metric": "fpr_R2",
+   "scope": "reconstruction-target",
+   "source_pool": "marginal-stepcalc-vs-concise",
+   "source_pool_index": 3,
+   "K": 2000,
+   "seed": 20260915,
+   "seeds": [
+    20260915
+   ],
+   "n_units": 2000,
+   "value": 0.3425,
+   "superseded_prose_value": 0.32,
+   "agrees_with_superseded_prose": false,
+   "note": "PREREG §2 rule semantics; R6 per AMENDMENT 1"
+  },
+  {
+   "metric": "fpr_R6",
+   "scope": "reconstruction-target",
+   "source_pool": "marginal-stepcalc-vs-concise",
+   "source_pool_index": 3,
+   "K": 2000,
+   "seed": 20260915,
+   "seeds": [
+    20260915
+   ],
+   "n_units": 2000,
+   "value": 0.3425,
+   "superseded_prose_value": 0.32,
+   "agrees_with_superseded_prose": false,
+   "note": "PREREG §2 rule semantics; R6 per AMENDMENT 1"
+  },
+  {
+   "metric": "fpr_at_k_1",
+   "scope": "reconstruction-target",
+   "source_pool": "marginal-stepcalc-vs-concise",
+   "source_pool_index": 3,
+   "K": 2000,
+   "seed": 20260915,
+   "seeds": [
+    20260915
+   ],
+   "n_units": 2000,
+   "value": 0.3535,
+   "superseded_prose_value": 0.357,
+   "agrees_with_superseded_prose": false,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_2",
+   "scope": "reconstruction-target",
+   "source_pool": "marginal-stepcalc-vs-concise",
+   "source_pool_index": 3,
+   "K": 2000,
+   "seed": 20260915,
+   "seeds": [
+    20260915
+   ],
+   "n_units": 2000,
+   "value": 0.5625,
+   "superseded_prose_value": 0.62,
+   "agrees_with_superseded_prose": false,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_3",
+   "scope": "reconstruction-target",
+   "source_pool": "marginal-stepcalc-vs-concise",
+   "source_pool_index": 3,
+   "K": 2000,
+   "seed": 20260915,
+   "seeds": [
+    20260915
+   ],
+   "n_units": 2000,
+   "value": 0.7115,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_4",
+   "scope": "reconstruction-target",
+   "source_pool": "marginal-stepcalc-vs-concise",
+   "source_pool_index": 3,
+   "K": 2000,
+   "seed": 20260915,
+   "seeds": [
+    20260915
+   ],
+   "n_units": 2000,
+   "value": 0.805,
+   "superseded_prose_value": 0.838,
+   "agrees_with_superseded_prose": false,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_5",
+   "scope": "reconstruction-target",
+   "source_pool": "marginal-stepcalc-vs-concise",
+   "source_pool_index": 3,
+   "K": 2000,
+   "seed": 20260915,
+   "seeds": [
+    20260915
+   ],
+   "n_units": 2000,
+   "value": 0.876,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_6",
+   "scope": "reconstruction-target",
+   "source_pool": "marginal-stepcalc-vs-concise",
+   "source_pool_index": 3,
+   "K": 2000,
+   "seed": 20260915,
+   "seeds": [
+    20260915
+   ],
+   "n_units": 2000,
+   "value": 0.9225,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_7",
+   "scope": "reconstruction-target",
+   "source_pool": "marginal-stepcalc-vs-concise",
+   "source_pool_index": 3,
+   "K": 2000,
+   "seed": 20260915,
+   "seeds": [
+    20260915
+   ],
+   "n_units": 2000,
+   "value": 0.9515,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "fpr_at_k_8",
+   "scope": "reconstruction-target",
+   "source_pool": "marginal-stepcalc-vs-concise",
+   "source_pool_index": 3,
+   "K": 2000,
+   "seed": 20260915,
+   "seeds": [
+    20260915
+   ],
+   "n_units": 2000,
+   "value": 0.969,
+   "superseded_prose_value": 0.968,
+   "agrees_with_superseded_prose": false,
+   "note": "PREREG §4 FPR@k: prefix j = 1..k of the unit's pinned candidate blocks"
+  },
+  {
+   "metric": "mean_null_gain",
+   "scope": "pooled",
+   "source_pool": "ALL_SOURCES_POOLED",
+   "source_pool_index": null,
+   "K": 2000,
+   "seed": null,
+   "seeds": [
+    20260912,
+    20260913,
+    20260914,
+    20260915
+   ],
+   "n_units": 8000,
+   "value": 0.00011125000000000002,
+   "superseded_prose_value": -0.0029,
+   "agrees_with_superseded_prose": false,
+   "note": "pooled over the four source pools, equal K per pool (unit-weighted)"
+  },
+  {
+   "metric": "fpr_R1",
+   "scope": "pooled",
+   "source_pool": "ALL_SOURCES_POOLED",
+   "source_pool_index": null,
+   "K": 2000,
+   "seed": null,
+   "seeds": [
+    20260912,
+    20260913,
+    20260914,
+    20260915
+   ],
+   "n_units": 8000,
+   "value": 0.015625,
+   "superseded_prose_value": 0.015,
+   "agrees_with_superseded_prose": false,
+   "note": "pooled over the four source pools, equal K per pool (unit-weighted)"
+  },
+  {
+   "metric": "fpr_R2",
+   "scope": "pooled",
+   "source_pool": "ALL_SOURCES_POOLED",
+   "source_pool_index": null,
+   "K": 2000,
+   "seed": null,
+   "seeds": [
+    20260912,
+    20260913,
+    20260914,
+    20260915
+   ],
+   "n_units": 8000,
+   "value": 0.43575,
+   "superseded_prose_value": 0.32,
+   "agrees_with_superseded_prose": false,
+   "note": "pooled over the four source pools, equal K per pool (unit-weighted)"
+  },
+  {
+   "metric": "fpr_R6",
+   "scope": "pooled",
+   "source_pool": "ALL_SOURCES_POOLED",
+   "source_pool_index": null,
+   "K": 2000,
+   "seed": null,
+   "seeds": [
+    20260912,
+    20260913,
+    20260914,
+    20260915
+   ],
+   "n_units": 8000,
+   "value": 0.285875,
+   "superseded_prose_value": 0.32,
+   "agrees_with_superseded_prose": false,
+   "note": "pooled over the four source pools, equal K per pool (unit-weighted)"
+  },
+  {
+   "metric": "fpr_at_k_1",
+   "scope": "pooled",
+   "source_pool": "ALL_SOURCES_POOLED",
+   "source_pool_index": null,
+   "K": 2000,
+   "seed": null,
+   "seeds": [
+    20260912,
+    20260913,
+    20260914,
+    20260915
+   ],
+   "n_units": 8000,
+   "value": 0.44175,
+   "superseded_prose_value": 0.357,
+   "agrees_with_superseded_prose": false,
+   "note": "pooled FPR@k over the four source pools"
+  },
+  {
+   "metric": "fpr_at_k_2",
+   "scope": "pooled",
+   "source_pool": "ALL_SOURCES_POOLED",
+   "source_pool_index": null,
+   "K": 2000,
+   "seed": null,
+   "seeds": [
+    20260912,
+    20260913,
+    20260914,
+    20260915
+   ],
+   "n_units": 8000,
+   "value": 0.67825,
+   "superseded_prose_value": 0.62,
+   "agrees_with_superseded_prose": false,
+   "note": "pooled FPR@k over the four source pools"
+  },
+  {
+   "metric": "fpr_at_k_3",
+   "scope": "pooled",
+   "source_pool": "ALL_SOURCES_POOLED",
+   "source_pool_index": null,
+   "K": 2000,
+   "seed": null,
+   "seeds": [
+    20260912,
+    20260913,
+    20260914,
+    20260915
+   ],
+   "n_units": 8000,
+   "value": 0.814625,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "pooled FPR@k over the four source pools"
+  },
+  {
+   "metric": "fpr_at_k_4",
+   "scope": "pooled",
+   "source_pool": "ALL_SOURCES_POOLED",
+   "source_pool_index": null,
+   "K": 2000,
+   "seed": null,
+   "seeds": [
+    20260912,
+    20260913,
+    20260914,
+    20260915
+   ],
+   "n_units": 8000,
+   "value": 0.88775,
+   "superseded_prose_value": 0.838,
+   "agrees_with_superseded_prose": false,
+   "note": "pooled FPR@k over the four source pools"
+  },
+  {
+   "metric": "fpr_at_k_5",
+   "scope": "pooled",
+   "source_pool": "ALL_SOURCES_POOLED",
+   "source_pool_index": null,
+   "K": 2000,
+   "seed": null,
+   "seeds": [
+    20260912,
+    20260913,
+    20260914,
+    20260915
+   ],
+   "n_units": 8000,
+   "value": 0.935125,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "pooled FPR@k over the four source pools"
+  },
+  {
+   "metric": "fpr_at_k_6",
+   "scope": "pooled",
+   "source_pool": "ALL_SOURCES_POOLED",
+   "source_pool_index": null,
+   "K": 2000,
+   "seed": null,
+   "seeds": [
+    20260912,
+    20260913,
+    20260914,
+    20260915
+   ],
+   "n_units": 8000,
+   "value": 0.9615,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "pooled FPR@k over the four source pools"
+  },
+  {
+   "metric": "fpr_at_k_7",
+   "scope": "pooled",
+   "source_pool": "ALL_SOURCES_POOLED",
+   "source_pool_index": null,
+   "K": 2000,
+   "seed": null,
+   "seeds": [
+    20260912,
+    20260913,
+    20260914,
+    20260915
+   ],
+   "n_units": 8000,
+   "value": 0.9775,
+   "superseded_prose_value": null,
+   "agrees_with_superseded_prose": true,
+   "note": "pooled FPR@k over the four source pools"
+  },
+  {
+   "metric": "fpr_at_k_8",
+   "scope": "pooled",
+   "source_pool": "ALL_SOURCES_POOLED",
+   "source_pool_index": null,
+   "K": 2000,
+   "seed": null,
+   "seeds": [
+    20260912,
+    20260913,
+    20260914,
+    20260915
+   ],
+   "n_units": 8000,
+   "value": 0.987,
+   "superseded_prose_value": 0.968,
+   "agrees_with_superseded_prose": false,
+   "note": "pooled FPR@k over the four source pools"
+  }
+ ],
+ "pool_rows": [
+  {
+   "source_pool": "positive-cotzero-vs-direct",
+   "source_pool_index": 0,
+   "n": 200,
+   "discordant_total": 159,
+   "K": 2000,
+   "seed": 20260912,
+   "n_units": 2000,
+   "n_candidate_blocks": 16000,
+   "mean_null_gain": 0.000795,
+   "fpr": {
+    "R1": 0.022,
+    "R2": 0.5015,
+    "R6": 0.3745
+   },
+   "fpr_at_k": {
+    "1": 0.4995,
+    "2": 0.742,
+    "3": 0.8635,
+    "4": 0.922,
+    "5": 0.964,
+    "6": 0.982,
+    "7": 0.989,
+    "8": 0.9945
+   },
+   "r2_expected_null_rate_prereg_4_1": 0.5,
+   "r1_expected_null_rate_note": "PREREG §4: R1 expected <= alpha; at small d the exact test is discrete and conservative, so 0 is reported together with its interval, never as 'zero error rate'"
+  },
+  {
+   "source_pool": "mid-stepcalc-vs-cotzero",
+   "source_pool_index": 1,
+   "n": 200,
+   "discordant_total": 16,
+   "K": 2000,
+   "seed": 20260913,
+   "n_units": 2000,
+   "n_candidate_blocks": 16000,
+   "mean_null_gain": -8.5e-05,
+   "fpr": {
+    "R1": 0.0075,
+    "R2": 0.405,
+    "R6": 0.232
+   },
+   "fpr_at_k": {
+    "1": 0.427,
+    "2": 0.6645,
+    "3": 0.8055,
+    "4": 0.89,
+    "5": 0.9315,
+    "6": 0.9565,
+    "7": 0.9755,
+    "8": 0.988
+   },
+   "r2_expected_null_rate_prereg_4_1": 0.4018096923828125,
+   "r1_expected_null_rate_note": "PREREG §4: R1 expected <= alpha; at small d the exact test is discrete and conservative, so 0 is reported together with its interval, never as 'zero error rate'"
+  },
+  {
+   "source_pool": "mid-stepcalc-vs-fewshot",
+   "source_pool_index": 2,
+   "n": 200,
+   "discordant_total": 23,
+   "K": 2000,
+   "seed": 20260914,
+   "n_units": 2000,
+   "n_candidate_blocks": 16000,
+   "mean_null_gain": -0.0005899999999999999,
+   "fpr": {
+    "R1": 0.0195,
+    "R2": 0.494,
+    "R6": 0.1945
+   },
+   "fpr_at_k": {
+    "1": 0.487,
+    "2": 0.744,
+    "3": 0.878,
+    "4": 0.934,
+    "5": 0.969,
+    "6": 0.985,
+    "7": 0.994,
+    "8": 0.9965
+   },
+   "r2_expected_null_rate_prereg_4_1": 0.5,
+   "r1_expected_null_rate_note": "PREREG §4: R1 expected <= alpha; at small d the exact test is discrete and conservative, so 0 is reported together with its interval, never as 'zero error rate'"
+  },
+  {
+   "source_pool": "marginal-stepcalc-vs-concise",
+   "source_pool_index": 3,
+   "n": 40,
+   "discordant_total": 6,
+   "K": 2000,
+   "seed": 20260915,
+   "n_units": 2000,
+   "n_candidate_blocks": 16000,
+   "mean_null_gain": 0.000325,
+   "fpr": {
+    "R1": 0.0135,
+    "R2": 0.3425,
+    "R6": 0.3425
+   },
+   "fpr_at_k": {
+    "1": 0.3535,
+    "2": 0.5625,
+    "3": 0.7115,
+    "4": 0.805,
+    "5": 0.876,
+    "6": 0.9225,
+    "7": 0.9515,
+    "8": 0.969
+   },
+   "r2_expected_null_rate_prereg_4_1": 0.34375,
+   "r1_expected_null_rate_note": "PREREG §4: R1 expected <= alpha; at small d the exact test is discrete and conservative, so 0 is reported together with its interval, never as 'zero error rate'"
+  }
+ ],
+ "pooled_row": {
+  "source_pool": "ALL_SOURCES_POOLED",
+  "source_pool_index": null,
+  "K": 2000,
+  "seeds": [
+   20260912,
+   20260913,
+   20260914,
+   20260915
+  ],
+  "n_units": 8000,
+  "mean_null_gain": 0.00011125000000000002,
+  "fpr": {
+   "R1": 0.015625,
+   "R2": 0.43575,
+   "R6": 0.285875
+  },
+  "fpr_at_k": {
+   "1": 0.44175,
+   "2": 0.67825,
+   "3": 0.814625,
+   "4": 0.88775,
+   "5": 0.935125,
+   "6": 0.9615,
+   "7": 0.9775,
+   "8": 0.987
+  },
+  "r2_expected_null_rate_prereg_4_1": 0.4363899230957031
+ }
+}
