@@ -22,7 +22,8 @@
 
 - `signed/bundle.json`（`step-calc@ad35903f5cb4`，sha256 `ad35903f5cb4…f2edbc685d1`）绑定 round2 稳定时刻（commit `f80af2f`）的 5 构件。
 - Round3（`7d328ab` reflect-retry、`c8651e5` textgrad-prompt）对 evaluator 纯加法扩展（+62/-2 行，`step-calc`/`concise-reason` 原路径走 `else` 分支不变），故工作树 `tools/verify_evidence_chain.py` [2/5] 对当前文件报告 `artifact hash mismatch for gsm8k_evaluator.py` 是**预期内**的诚实失败。
-- 纯净版可复算（已实测通过）：`git show f80af2f:examples/gsm8k_evaluator.py | sha256sum` = `4a23f69463293b380bfd7a52be5f9e616af3d02f6e822f7be721b95015eb400e`，与 manifest 记录逐字节一致。
+- Round4 继续纯加法扩展同一 evaluator（`8ba147d` 增 `cot-zero` + 冻结 `few-shot` 两条真基线策略）。截至 2026-09-12，工作树相对 round2 纯净版累计 **+70/-2 行**（`git diff --stat f80af2f..HEAD -- examples/gsm8k_evaluator.py`），原 `step-calc`/`concise-reason` 提示路径仍未改。因此 [2/5] 的 hash mismatch 仍为预期内诚实失败，原因由"round3 单轮"扩展为"round3+round4 两轮加法"。
+- 纯净版可复算（已实测通过）：`git show f80af2f:examples/gsm8k_evaluator.py | sha256sum` = `4a23f69463293b380bfd7a52be5f9e616af3d02f6e822f7be721b95015eb400e`，与 manifest 记录逐字节一致；当前工作树文件 sha256 = `0a0315715e9343ed028c52fcf22d58a7e94393d174fefa873b840cf7fbcb4657`。
 - 复现旧 bundle 全链：`git stash -u`（或 `git worktree add /tmp/a-pristine f80af2f`）后在纯净树运行 `python tools/verify_evidence_chain.py`（预期 ALL CHECKS PASSED）；工作树运行预期 [1/5] PASS + [2/5] 诚实 FAIL。新 bundle 未签发（round3 为 STOP 负结果，无 promotion）。
 
 ## 4. 发布前执行

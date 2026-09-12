@@ -29,3 +29,27 @@
   `4a23f69463293b380bfd7a52be5f9e616af3d02f6e822f7be721b95015eb400e`（与预期值逐字一致），
   记为 round3-additive-evolution honest FAIL。results/、signed/、registry/、examples/ 未动。
 - 本轮改动（只加法）：PHASE_LOG.md 追加本节 + 新建 FINAL_ACCEPTANCE.md；提交 `P1-CLOSE: publish gate + pytest green, no push`，本地提交不 push。
+
+## P3-HARDEN-A1：KTO 偏好信号 + 锚定回归门（2026-09-12，本地 commit，绝不 push）
+
+- 授权：用户全权授权（P3 加固）；范围限定为**最小可验单元**（不做真实训练/模型调用）。
+- 新增（只加法，未改任何既有文件）：
+  - `evokit/preference.py`：前景理论价值函数 + KTO 二元信号权重 + 锚定集回归判定 + 择优。
+  - `tools/check_p3_preference_gates.py`：P1-P4 fail-closed 门（含非空性反证）。
+- 实测（cwd=gsm8k-self-evolve，`python3`）：
+  - `python3 tools/check_p3_preference_gates.py` → exit 0：
+    P1 前景形状（收益凹/损失凸/损失厌恶/符号方向）PASS；
+    P2 锚定回归（容差内通过、超容差拒绝并指认锚点、缺锚点 fail-closed）PASS；
+    P3 择优语义（**使锚定集回退的候选出局，无论其可欲效用多高**）PASS；
+    P4 非空性反证（严格容差拒绝 greedy / 放宽容差选中 greedy → 门有鉴别力）PASS。
+  - `python3 tools/check_publish.py` → exit 0：`PUBLISH GATE PASS`（新文件无密钥/无个人绝对路径）。
+  - `python3 -m pytest -q tests/` → `10 passed`，exit 0。
+- 既有门复核（如实记录，非本轮引入）：`python3 tools/verify_evidence_chain.py` → exit 1，
+  `FAIL: artifact hash mismatch for gsm8k_evaluator.py`。**该状态与本轮改动无关**：
+  带本文件与移开本文件两次运行输出**逐字相同**（diff 为空），且本文件不在其校验集内；
+  该 FAIL 在本日志更早的 round3-additive-evolution 段已记为**刻意的诚实 FAIL**，
+  故本轮不改、不掩盖。
+- 迁移边界：不声称任何训练效果或基准分数；`results/`、`signed/`、`registry/`、
+  `examples/` 未动；未触碰并发 round4 工作区的未跟踪文件；未建远端；未运行 `git push`。
+- 未迁移（诚实边界）：真实 KTO 训练、模型前向、权重加载均未实现（本机无对应权重/GPU）；
+  Dreamer 式 rollout 与量化/Medusa 评测加速本轮不做（缺真实环境/GPU 时做易沦为装饰）。
