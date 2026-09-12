@@ -1,0 +1,91 @@
+{
+ "sources": {
+  "gsm8k_test": {
+   "url": "https://raw.githubusercontent.com/openai/grade-school-math/master/grade_school_math/data/test.jsonl",
+   "sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
+   "n": 1319
+  },
+  "gsm8k_train": {
+   "url": "https://raw.githubusercontent.com/openai/grade-school-math/master/grade_school_math/data/train.jsonl",
+   "sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465",
+   "n": 7473
+  }
+ },
+ "sets": {
+  "examples/gsm8k40.json": {
+   "n": 40,
+   "in_gsm8k_test": 40,
+   "in_gsm8k_train": 0,
+   "unmatched": 0,
+   "in_gsm8k_test_ids": [
+    "gsm8k-01",
+    "gsm8k-02",
+    "gsm8k-03",
+    "gsm8k-04",
+    "gsm8k-05",
+    "gsm8k-06",
+    "gsm8k-07",
+    "gsm8k-08",
+    "gsm8k-09",
+    "gsm8k-10"
+   ],
+   "in_gsm8k_train_ids": []
+  },
+  "examples/heldout40.json": {
+   "n": 40,
+   "in_gsm8k_test": 40,
+   "in_gsm8k_train": 0,
+   "unmatched": 0,
+   "in_gsm8k_test_ids": [
+    "held-01",
+    "held-02",
+    "held-03",
+    "held-04",
+    "held-05",
+    "held-06",
+    "held-07",
+    "held-08",
+    "held-09",
+    "held-10"
+   ],
+   "in_gsm8k_train_ids": []
+  },
+  "examples/heldout-batch2-160.json": {
+   "n": 160,
+   "in_gsm8k_test": 160,
+   "in_gsm8k_train": 0,
+   "unmatched": 0,
+   "in_gsm8k_test_ids": [
+    "held2-001",
+    "held2-002",
+    "held2-003",
+    "held2-004",
+    "held2-005",
+    "held2-006",
+    "held2-007",
+    "held2-008",
+    "held2-009",
+    "held2-010"
+   ],
+   "in_gsm8k_train_ids": []
+  }
+ },
+ "position_check": {
+  "n_official_test": 1319,
+  "n_matched": 240,
+  "min": 2,
+  "max": 1314,
+  "mean": 644.7458333333333,
+  "mean_if_uniform": 659.0,
+  "shifted_from_uniform": 14.25416666666672,
+  "quartiles": [
+   344,
+   630,
+   947
+  ],
+  "in_first_half": 126,
+  "in_second_half": 114,
+  "adjacent_gaps_gt_1": 201,
+  "interpretation": "spread across the split (no clustering bias)"
+ }
+}

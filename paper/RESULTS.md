@@ -4,6 +4,21 @@
 > 结论段（C11–C13）是 **inconclusive**，而非"自进化有效/无效"的强断言。
 > 所有数字可从 `results/`、`registry/version-registry.json`、`signed/bundle.json` 重算。
 
+## 0. 题目集来源（2026-09-12 核验，C21）
+
+`examples/{gsm8k40,heldout40,heldout-batch2-160}.json` 共 240 题，经
+`tools/verify_question_provenance.py` 逐题核对：
+
+| 项 | 结果 |
+| --- | --- |
+| 与官方 GSM8K **test** split（n=1319）逐字匹配 | **240 / 240** |
+| 与官方 GSM8K **train** split（n=7473）重叠 | **0**（无污染） |
+| 在 test split 中的位置分布 | 均匀散布：mean 644.7（均匀期望 659.0），四分位 344/630/947，前半 126 / 后半 114，非连续块 |
+
+即：这些题目**不是自造**，而是标准 GSM8K test 原题，且与训练集零重叠——数字因此可与
+GSM8K 文献口径对话。范围说明：仅覆盖 1319 题中的 240 题子集，**不可**称"完整 GSM8K test 分数"。
+GSM8K 的 MIT 归属见 `THIRD_PARTY_NOTICES.md`（C22）。
+
 ## 1. 门控接受真增益：Round 1–2（晋升 stable）
 
 后端 qwen2.5:7b, temperature 0。配对口径精确 McNemar。

@@ -1,10 +1,13 @@
 # GSM8K Self-Evolve: direct → concise-reason → step-calc
 
-Two rounds of evaluation-gated prompt-policy evolution on GSM8K-style math,
-run on cloud (Qwen2.5:7b via Ollama, temperature 0), ending in a **stable**
-`step-calc` policy backed by a merged 200-question blind held-out set and an
-Ed25519-signed evidence bundle. Every number below is recomputable from this
-repo — run `python tools/verify_evidence_chain.py`.
+Two rounds of evaluation-gated prompt-policy evolution on **standard GSM8K test
+items** (240 questions redistributed verbatim from the official test split,
+verified disjoint from the GSM8K train split), run on cloud (Qwen2.5:7b via
+Ollama, temperature 0), ending in a **stable** `step-calc` policy backed by a
+merged 200-question blind held-out set and an Ed25519-signed evidence bundle.
+Every number below is recomputable from this repo — run
+`python tools/verify_evidence_chain.py`; question provenance is re-verifiable
+with `python tools/verify_question_provenance.py`.
 
 ## Result
 
@@ -55,6 +58,17 @@ Key IDs: stable version `eecacc0312d7` · bundle `step-calc@ad35903f5cb4`
 - 40-question single runs carry ≈±10% noise on this setup (observed baseline
   drift 0.65→0.75 on re-runs). The `min_gain=0.02` gate in `evo.json` is
   therefore meaningful only with the large-sample held-out backstop used here.
+- **Question provenance (verified 2026-09-12):** all 240 questions
+  (`gsm8k40` + `heldout40` + `heldout-batch2-160`) match the official GSM8K
+  **test** split verbatim (240/240) and have **zero** overlap with the GSM8K
+  **train** split; their positions are spread across the split, so the subset
+  is not a biased prefix. They are standard items, not self-authored — but they
+  are a 240-of-1319 **subset**, so do **not** read any number here as a
+  "full GSM8K test" score. Re-verify: `tools/verify_question_provenance.py`;
+  attribution: `THIRD_PARTY_NOTICES.md`.
+- **All headline numbers are single runs** (temperature 0, no seed control):
+  run-to-run variance is **not quantified**. Large effects (p≈1e-6) are
+  unaffected; precise magnitudes are not claimed.
 
 ## Reproduce
 

@@ -110,8 +110,29 @@
   证据：`tools/check_publish.py` 运行时 `PUBLISH GATE PASS`；`OPEN_SOURCE_EXCLUSION.md` 第 2 节。
   状态：confirmed。
 
+## 数据溯源与许可类（2026-09-12 核验）
+
+- **C21 · 三个题目集逐字来自官方 GSM8K test split，且与 GSM8K train 零重叠**
+  证据：`tools/verify_question_provenance.py` 运行结果 240/240 match official GSM8K test
+  （test n=1319, sha256 `3730d312f6e3…`；train n=7473）；0 match train（无污染）；
+  位置分布均匀散布（mean 644.7 vs 均匀期望 659.0；四分位 344/630/947；前后半 126/114；
+  非连续块）→ 非"取前 N 题"式有偏选择。记录：`results/rounds/round4/QUESTION_PROVENANCE.json`。
+  状态：confirmed。**此前"盲集为自建"的说法系未经验证的假设，现予撤回。**
+
+- **C22 · GSM8K 的 MIT 归属义务已履行**
+  证据：`THIRD_PARTY_NOTICES.md` 新增"Datasets redistributed"小节（Copyright (c) 2021 OpenAI,
+  MIT, 含上游链接）。
+  状态：confirmed。
+
+- **C23 · 已知局限：所有 headline 数字为单次运行，run-to-run 方差未量化**
+  证据：`README.md` Honest semantics（40 题单次运行观测到 0.65→0.75 的漂移）；
+  `PREREG-round4.md:17`（temperature 0、无种子控制）。这是本工作**剩余的真实 Soundness 短板**。
+  状态：confirmed。禁止据单次运行宣称精确幅度；大效应（p≈1e-6）不受影响。
+
 ## 明确不成立的声明（禁止写入正文）
 
 - 不声称"自进化显著超越标准 CoT 基线"（被 C11 证伪为 inconclusive）。
 - 不声称签名是独立第三方背书（C6 明确是 self-signed）。
-- 不声称 0.925 是标准 GSM8K test split 分数（是自建 blind held-out，见 C15 与 README 范围说明）。
+- 不声称"盲集是自建的"（**已被 C21 证伪**：240 题逐字为官方 GSM8K test 原题）。
+- 不声称 0.925 是**完整** GSM8K test 分数（它是 1319 题 test split 中散布的 240 题子集上的
+  分数，非全集 1319 题；跨集/跨子集比较无效）。
