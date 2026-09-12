@@ -86,7 +86,7 @@ positive 池实测   : trackA  (chal=cot-zero, inc=direct)            b=159 c=0 
 | `results/rounds/round5/PREREG-round5.md` | 冻结协议（先落盘） |
 | `scripts/gate_rules.py` | 7 种决策规则的**唯一 canonical** 实现，统一接口（Ruling 18：`scripts/pilot_round5.py` 里的规则码是 **pilot-local**，Task 2 交付后必须与本模块对账——或加等价性测试（在 pilot 的参数上），或把 pilot 经本模块重跑并披露更新后的数值） |
 | `scripts/build_pools.py` | 构造置换零池 / 真效应池 + 真值标注 + `pools.json` 顶层 `meta` 描述（由 `pools_meta()` 从池**计算**；R4 **可评估**，`r4_status` / `r4_evaluable` / `r4_note` / `byte_stability_0_3` 一并重算），并导出**唯一**读取器 `load_pools_json()` |
-| `scripts/ablation_gate.py` | 消融主程序，输出逐规则 × 逐池族指标；**R4 行必须计算**——在 roster indices 4–8 的五个非盲选择集池上逐池给出配对检验决定（PREREG §5A） |
+| `scripts/ablation_gate.py` | 消融主程序，输出逐规则 × 逐池族指标；**R4 行必须计算**——在 roster indices 4–9 的六个非盲选择集池上逐池给出配对检验决定（PREREG §5A） |
 | `scripts/audit_gate_rules.py` | 独立审计：从原始 JSON 重算每条规则的决定（候选池必须用 `build_pools.py` 的已发布函数现场重算，不得读内嵌副本；**R4 同样重算**并与 `meta.r4_status` / `meta.r4_evaluable` 对账） |
 | `results/rounds/round5/pools.json` | 池清单与真值标签（证据）。形如 `{"meta": {...}, "pools": [...]}`：每池一行；顶层 `meta` 由 `pools_meta()` 从池计算（`n_blind_pools` / `n_nonblind_pools` / `all_artefact_pools_blind` / `no_nonblind_pool_in_artefact` / `r4_evaluable` / `r4_status` / `r4_note` / `byte_stability_0_3`）。**必须用 `scripts/build_pools.py` 的 `load_pools_json()` 读取**——裸 `json.loads` 得到的是错误形状（`{"meta":…,"pools":[…]}` 而非池数组） |
 | `results/rounds/round5/ablation.json` | 消融结果（证据） |
@@ -171,7 +171,7 @@ def decide(rule: str, pool: dict) -> dict:
                   `results/rounds/round3/pilot-train40.json` 携带同粒度逐题数据
                   （`"oracle": "train-only"`）；此前"result/runs 只有聚合字段、故 R4 不可评估"的
                   结论是 **controller 的顶层键浅检查错误**，已更正。**Task 4 必须计算 R4 列**：
-                  在 roster indices 4–8 的五个非盲选择集池上逐池给出配对精确 McNemar 决定
+                  在 roster indices 4–9 的六个非盲选择集池上逐池给出配对精确 McNemar 决定
                   （α=0.05、gain>=ε=0.02），每行带 `(chal_policy, inc_policy)` 方向与
                   promoted/total 分母；Task 5 必须重算并与 `meta.r4_status` / `meta.r4_evaluable` 对账。
                   边界（binding）：这五个池是本循环**自己的选择集**（这正是 "non-blind" 的定义），
@@ -372,7 +372,7 @@ def test_all_rules_are_pure():
 
 - [ ] **Step 2: 运行确认失败**
 
-- [ ] **Step 3: 实现**：R1/R5/R6 共用 `_gate(pool, alpha, eps, use_stat_key)`；R2 只看 gain；R3 非配对两比例检验（docstring 写明所用形式，如 Fisher 精确或正态近似）；R4 用配对检验但忽略 `blind` 约束（**correction round：本仓库**确实**有非盲逐题池——roster indices 4–8 的五个选择集池——故 R4 必须被实现，且必须在本研究语料上被评估（Task 4 计算、Task 5 重算校验）；Task 2 只需实现 + 手工池单测，见 File Structure 与 PREREG §5A**）；R7 由 Task 4 传入候选列表，**操作性读数固定 k=8**（候选由 Task 1 的候选块生成，`C(source_pool, i, j)`，`j=1..8`；候选构造**按池族取用**——NULL 族重排、POSITIVE 族保标签题 bootstrap（`C_pos`），不得混用；无 candidates 时的 k=1 退化路径仅作为接口行为并在 docstring 写明，不得作为操作性读数，见 PREREG §5.2）。
+- [ ] **Step 3: 实现**：R1/R5/R6 共用 `_gate(pool, alpha, eps, use_stat_key)`；R2 只看 gain；R3 非配对两比例检验（docstring 写明所用形式，如 Fisher 精确或正态近似）；R4 用配对检验但忽略 `blind` 约束（**correction round：本仓库**确实**有非盲逐题池——roster indices 4–9 的六个选择集池（fix round 3 补入 index 9 后该块穷尽）——故 R4 必须被实现，且必须在本研究语料上被评估（Task 4 计算、Task 5 重算校验）；Task 2 只需实现 + 手工池单测，见 File Structure 与 PREREG §5A**）；R7 由 Task 4 传入候选列表，**操作性读数固定 k=8**（候选由 Task 1 的候选块生成，`C(source_pool, i, j)`，`j=1..8`；候选构造**按池族取用**——NULL 族重排、POSITIVE 族保标签题 bootstrap（`C_pos`），不得混用；无 candidates 时的 k=1 退化路径仅作为接口行为并在 docstring 写明，不得作为操作性读数，见 PREREG §5.2）。
 
 - [ ] **Step 4: 运行确认通过** → **Step 5 提交**
 
@@ -392,11 +392,11 @@ def test_pool_families_present_and_sized():
     nulls = [p for p in pools if p["truth"] == "null"]
     obs   = [p for p in pools if p["truth"] == "observed"]
     assert len(nulls) >= 400, "expected >=400 permutation-null pools"
-    assert len(obs) == 9, "4 blind + 5 non-blind (correction round) observed pools"
+    assert len(obs) == 10, "4 blind + 6 non-blind (correction + fix round 3) observed pools"
     srcs = {p["meta"]["source_pool"] for p in obs}
     assert any(s.startswith("positive") for s in srcs)   # cot-zero vs direct
     assert any(s.startswith("marginal") for s in srcs)   # step-calc vs concise-reason
-    assert len([s for s in srcs if s.startswith("nonblind-")]) == 5
+    assert len([s for s in srcs if s.startswith("nonblind-")]) == 6
     # 硬性约束（见"设计验证"）：α/非配对臂需要大 d 池
     assert any(p["meta"]["discordant_total"] >= 15 for p in obs), \
         "need a large-discordance observed pool for the alpha/unpaired arms"
@@ -413,23 +413,26 @@ def test_pool_families_present_and_sized():
   - index 1 `mid-stepcalc-vs-cotzero`（trackA，d=16）— **α/非配对臂的主池**
   - index 2 `mid-stepcalc-vs-fewshot`（trackA，d=23）
   - index 3 `marginal-stepcalc-vs-concise`（qwen2:7b，d=6）
-  - index 4–8 **非盲选择集池**（correction round 追加，`blind = False`，声明 *not a null source*）：
+  - index 4–9 **非盲选择集池**（correction round 追加 4–8、fix round 3 追加 9，`blind = False`，
+    声明 *not a null source*）：
     `nonblind-concise-vs-direct`（d=20）、`nonblind-doublecheck-vs-direct`（d=6）、
     `nonblind-stepcalc-vs-concise`（d=10）、`nonblind-rectify-vs-concise`（d=8）、
-    `nonblind-reflect-vs-stepcalc`（d=4）；逐题数据来自 `results/runs/*.json` 的
+    `nonblind-reflect-vs-stepcalc`（d=4）、
+    `nonblind-roundingaware-vs-concise`（d=10，run `20260908-235617` 的第三个候选臂，n=40
+    b=8 c=2 gain=+0.150，精确 McNemar p=0.109375）；逐题数据来自 `results/runs/*.json` 的
     `baseline.outcomes[]` / `candidates[].evaluation.outcomes[]` 与
     `results/rounds/round3/pilot-train40.json`（`"oracle": "train-only"`），**按记录在案的
     `(baseline policy, candidate policy)` / `oracle` 定位文件，不得凭文件名取用**；
     每个源文件必须**独立重算** `(n, b, c, d, gain)` 并与 PREREG §5A 的表逐项相等，不等即失败。
   并按 `blind` 字段标注该池取自盲集还是选择集（R4 依赖它）。**indices 0–3 四池全部 `blind = True`，
-  indices 4–8 五池全部 `blind = False`；两类来源都真实存在，故 R4 **可评估**（Ruling 17 的
+  indices 4–9 六池全部 `blind = False`；两类来源都真实存在，故 R4 **可评估**（Ruling 17 的
   "not evaluated" 结论建立在"results/runs/*.json 只有聚合字段"这一**错误前提**上，已在
   correction round 更正；见 PREREG §5A）。** 每池的 `blind` 必须与其**声明的来源**一致
   （盲 held-out 集 → `True`；选择集 → `False`；null 池继承源池标签），并由 `check_blind_labels()`
   断言、由测试证明误标必然失败。`pools.json` 的顶层 `meta` 必须由 `pools_meta()` 从池**计算**
   （`n_blind_pools` / `n_nonblind_pools` / `all_artefact_pools_blind` / `no_nonblind_pool_in_artefact` /
   `r4_evaluable` / `r4_status` / `r4_note` / `byte_stability_0_3`），`all_pools_blind` 等方法名不得再出现
-  （它们宣称的是语料级事实，而实际只统计本 artefact 的池）。**indices 4–8 是 rule 4 的
+  （它们宣称的是语料级事实，而实际只统计本 artefact 的池）。**indices 4–9 是 rule 4 的
   *not a null source* 逃生口：它们不产生置换零池**，所以 NULL 集仍恰为 indices 0–3 的 800 个零池，
   且 indices 0–3 的池必须与 correction 前的 artefact **逐字节相同**（由
   `PRE_CORRECTION_0_3` 锚定 + 测试从 git commit 读回原 artefact 校验）。**
@@ -452,11 +455,11 @@ def test_pool_families_present_and_sized():
 
 - [ ] **Step 1: 实现 `run_ablation()`**：
   - 逐规则：`FPR = mean(decide(r,p)["promote"] for p in NULL)`；`TPR` 在 POSITIVE 上同理
-  - **R4 必须计算（correction round；PREREG §5A）**：对 roster indices 4–8 的五个**非盲选择集池**
+  - **R4 必须计算（correction round；PREREG §5A）**：对 roster indices 4–9 的六个**非盲选择集池**
     逐池调用 `decide("R4", p)`，报 `{"per_pool": [{pool, chal_policy, inc_policy, gain, p, promote}],
-    "promoted": k, "total": 5}`，并在同一张表上并列 R1 对**同样这五个池**的决定。
+    "promoted": k, "total": 6}`，并在同一张表上并列 R1 对**同样这六个池**的决定。
     边界（binding）：**不得报 R4 的 FPR**（无非盲零集，不得发明）；**不得**把这些选择集池的结果
-    当成泛化证据；R1 拒绝全部五个是其定义（`pool["blind"] is True`）的必然结果，须照实标注，
+    当成泛化证据；R1 拒绝全部六个是其定义（`pool["blind"] is True`）的必然结果，须照实标注，
     不得叙述成发现。`ablation.json` 的 R4 区块须与 `pools.json` 的 `meta.r4_status` /
     `meta.r4_evaluable` 对账。§5 的三个分支都不读 R4，故分支判定不受影响
   - **每一行都必须携带声明的方向 `(chal_policy, inc_policy)`（Ruling 20；PREREG §1.1）**：
@@ -468,7 +471,7 @@ def test_pool_families_present_and_sized():
     并另报同一批零池上的**配对精确 McNemar**（配对单位 `(source_pool, null_index)`，
     每个源池恰 K=200 个配对单位，不得跨源池配对；须同向且双侧 p<0.05 才算"与区间一致"）
   - `k_curve`：**按 PREREG §1 的候选块**为每个 `(source_pool, null_index)` 单元生成 8 个候选池 `C(source_pool, i, j)`（`j=1..8`，与该单元自身的 R2 零池不同），`R7` 取点估计最优；报 `FPR@k`，k=1..8，但 **R7 的操作性读数固定 `k=8`**（`FPR_R7@8` / `TPR_R7@8`）；k=1..7 仅作描述性曲线，**该曲线 Task 4 必须报告且不受 k=8 约束**。`TPR_R7@8` 的候选用 POSITIVE 族保标签 bootstrap（`C_pos(source_pool, i=0, j)`），不得用重排候选；曲线端点 k=1＝候选块 (i,1)，≠ 池本身，也不得替代 k=8。
-    候选流只属于 indices 0–3 的**已声明 null 源**（它们才有零单元）；indices 4–8 非 null 源，不得为其生成候选
+    候选流只属于 indices 0–3 的**已声明 null 源**（它们才有零单元）；indices 4–9 非 null 源，不得为其生成候选
   - 依预注册三分支给 `verdict_branch`；(ii) 的判定式为
     `FPR@8(R1) < WilsonLower95(FPR@8(R2))` 且 `< WilsonLower95(FPR@8(R7))`（k=8 固定，不得改用其它 k）
 
@@ -495,8 +498,8 @@ def test_pool_families_present_and_sized():
   `positive_candidate_blocks(source_pool, i=0, j)`（POSITIVE 族）重新生成该单元自己的候选池，
   再逐单元取点估计最优；并断言重算结果与 `ablation.json` 记录的决定一致。只校验汇总布尔值、
   不重算候选流的审计是空转的，不算通过
-- [ ] **Step 1c（correction round；PREREG §5A）**：**R4 必须参与重算**。审计对 roster indices 4–8
-  的五个非盲选择集池独立重算 `decide("R4", p)`（含 `(chal_policy, inc_policy)` 方向与
+- [ ] **Step 1c（correction round；PREREG §5A）**：**R4 必须参与重算**。审计对 roster indices 4–9
+  的六个非盲选择集池独立重算 `decide("R4", p)`（含 `(chal_policy, inc_policy)` 方向与
   promoted/total 分母），与 `ablation.json` 的 R4 区块逐池比对，并与 `pools.json` 的
   `meta.r4_status` / `meta.r4_evaluable` 对账；同时校验**没有**出现 R4 的 FPR（无非盲零集）。
 - [ ] **Step 2: 运行确认 exit 0**

@@ -15,13 +15,20 @@ These tests were written before the implementation and run to failure first
 from the committed source artefacts, never copied from prose.
 
 Correction round (2026-09-12): `results/runs/*.json` DO carry per-question detail
-(`baseline.outcomes[]` / `candidates[].evaluation.outcomes[]`), so five non-blind
+(`baseline.outcomes[]` / `candidates[].evaluation.outcomes[]`), so non-blind
 selection-set pools are added as roster indices 4-8.  The guard that enforced the old
 "no non-blind pool exists" claim is replaced by one that asserts each pool's `blind` flag
 matches the source it declares.
+
+Fix round 3 (2026-09-12): the selection-set run `20260908-235617` carries a THIRD complete
+candidate arm (`rounding-aware` vs `concise-reason`) that the first roster silently omitted, so
+the block is **six** pools (indices 4-9) and PREREG §5A's exhaustiveness sentence is now true.
+`test_the_nonblind_roster_is_exhaustive_over_the_committed_arms` pins the enumeration; the one
+arm that is not rostered (`reworded-direct`, d == 0) is an explicit disclosed exclusion.
 """
 import hashlib
 import json
+import math
 import random
 import subprocess
 import sys
@@ -42,9 +49,10 @@ ROUND5 = ROOT / "results" / "rounds" / "round5"
 
 GATE_KEYS = ("hidden_passed", "safety_passed", "rollback_available", "bundle_signature_valid")
 
-# The five non-blind selection-set pools, exactly as declared for the correction round.  The
-# counts are re-derived from the source artefacts by `derive_nonblind_pools()` below and compared
-# against this table -- the table is the assertion oracle, never the source of the values.
+# The six non-blind selection-set pools, exactly as declared for the correction round (indices
+# 4-9; index 9 added by fix round 3 so the block is exhaustive).  The counts are re-derived from
+# the source artefacts by `derive_nonblind_pools()` below and compared against this table -- the
+# table is the assertion oracle, never the source of the values.
 NONBLIND_TABLE = [
     # name, chal, inc, source file, n, b, c, d, gain
     ("nonblind-concise-vs-direct", "concise-reason", "direct",
@@ -57,6 +65,10 @@ NONBLIND_TABLE = [
      "results/runs/20260908-235617.json", 40, 5, 3, 8, 0.050),
     ("nonblind-reflect-vs-stepcalc", "reflect-retry", "step-calc",
      "results/rounds/round3/pilot-train40.json", 40, 2, 2, 4, 0.000),
+    # fix round 3: the omitted third arm of run 20260908-235617 (status-equivalent to `rectify`,
+    # which was already rostered), so the non-blind block is now exhaustive
+    ("nonblind-roundingaware-vs-concise", "rounding-aware", "concise-reason",
+     "results/runs/20260908-235617.json", 40, 8, 2, 10, 0.150),
 ]
 
 
@@ -119,6 +131,19 @@ def _source_totals(details, policies):
     return {p: sum(1 for row in details.values() if row[p]["passed"]) for p in policies}
 
 
+def exact_mcnemar_two_sided(b, c):
+    """Two-sided exact McNemar p from the discordant counts, by the exact binomial definition.
+
+    Computed here independently of both the run files and the module under test, so every `p` the
+    report or the artefact carries for an observed pool can be re-derived from the raw `b`/`c`.
+    """
+    n_disc = b + c
+    if n_disc == 0:
+        return 1.0
+    k = min(b, c)
+    return min(1.0, 2 * sum(math.comb(n_disc, i) for i in range(k + 1)) / 2 ** n_disc)
+
+
 def _ref_relabel(items, rng):
     """Reference relabelling used by the tests: independent of the module's implementation."""
     out = [dict(it) for it in items]
@@ -166,7 +191,7 @@ def _loads(rel_path):
 
 
 def derive_nonblind_pools():
-    """Re-derive the five non-blind pools from the raw committed artefacts.
+    """Re-derive the six non-blind pools from the raw committed artefacts.
 
     The run artefacts are located by their recorded (baseline policy, candidate policy) rather
     than by filename; the round-3 pilot is located by its `oracle` field.  Nothing here imports
@@ -335,19 +360,249 @@ def test_zero_discordance_null_candidate_stream_is_rejected():
         list(bp.iter_null_candidate_blocks(mk_pool(b=0, c=0), k_units=4, k_prefix=8, seed=1))
 
 
+def test_zero_discordance_positive_candidate_stream_is_rejected():
+    """PREREG §1 rule 5: the POSITIVE-family label-preserving bootstrap must refuse a pool with
+    no observed effect (`d == 0`), the twin of the NULL-family guard above.
+
+    Fix round 3: `positive_candidate_blocks`'s `d == 0` guard was a closed branch with no test.
+    The second half checks the guard is *closed and not merely noisy*: a pool with a real effect
+    draws its candidates normally, so the rejection above cannot be an accidental side effect.
+    """
+    with pytest.raises(ValueError, match="real effect"):
+        bp.positive_candidate_blocks(mk_pool(b=0, c=0), k_units=4, k_prefix=8, seed=1)
+    ok = bp.positive_candidate_blocks(mk_pool(b=3, c=1), k_units=4, k_prefix=2, seed=1)
+    assert len(ok) == 2
+    assert all(c["meta"]["candidate_family"] == "POSITIVE" for c in ok)
+    assert [c["meta"]["candidate_index"] for c in ok] == [1, 2]
+
+
+def test_zero_discordance_observed_pool_is_allowed_only_when_declared_not_a_null_source():
+    """PREREG §1 rule 4, both halves, on the observed path (`_build_observed_pool`).
+
+    Rule 4 permits a `d == 0` pool as an observed row **iff** the roster explicitly declares it
+    *not a null source*; such a pool still contributes no nulls, so it cannot move any FPR.  Fix
+    round 3: `_build_observed_pool` used to raise unconditionally -- its own error message named
+    the escape hatch and then ignored it -- which made the declared escape hatch unusable on the
+    one path that builds observed rows.
+
+    The raw material is the real `reworded-direct` arm of the committed selection-set run: its
+    candidate re-labels the baseline policy, so `b = c = d = 0` is a fact of the artefact and not
+    a synthetic construction.
+    """
+    entry = {
+        "index": 99,
+        "source_pool": "synthetic-reworded-direct-probe",
+        "source_kind": "run",
+        "source_probe": {"baseline_policy": "direct", "candidate_policy": "direct"},
+        "declared_source_file": "results/runs/20260907-135728.json",
+        "chal_policy": "direct",
+        "inc_policy": "direct",
+        "declared_null_source": False,          # the escape hatch, declared
+        "blind": False,
+        "family": "NONBLIND_SELECTION",
+        "provenance": "probe entry, d = 0",
+        "dataset": "the loop's own development/selection set, 40 ids gsm8k-01..40",
+    }
+    allowed = bp._build_observed_pool(entry)
+    assert bc_of(allowed) == (0, 0) and allowed["meta"]["discordant_total"] == 0
+    assert allowed["truth"] == "observed" and allowed["n"] == 40
+    assert allowed["meta"]["discordant_checks"]["mcnemar_p"] == 1.0
+
+    # the same pool declared a null source is still refused (nothing to relabel)
+    refused = dict(entry, declared_null_source=True)
+    with pytest.raises(ValueError, match="not a null source"):
+        bp._build_observed_pool(refused)
+
+
+# the one candidate arm of the committed artefacts that is deliberately NOT a rostered pool;
+# fix round 3 pins it so that "exhaustive" cannot be asserted while an arm is merely missing
+DISCLOSED_EXCLUSIONS = [
+    # (source, baseline policy, candidate policy, reason)
+    ("results/runs/20260907-135728.json", "direct", "direct",
+     "PREREG §1 rule 4: the candidate re-labels the baseline policy, so b = c = d = 0 and there "
+     "is no discordance structure to pool; disclosed, never silently dropped"),
+]
+
+
+def test_roundingaware_pool_counts_and_exact_mcnemar_are_pinned():
+    """Fix round 3, item 1: roster index 9 (`rounding-aware` vs `concise-reason`).
+
+    Every figure is re-derived here from the raw run report -- never copied from prose or from the
+    artefact under test -- and pinned to the values the controller ruled the roster must carry:
+    n = 40, b = 8, c = 2, d = 10, gain = +0.150, exact two-sided McNemar p = 0.109375.
+    """
+    run = _loads("results/runs/20260908-235617.json")
+    cand = next(c for c in run["candidates"]
+                if (c.get("candidate") or {}).get("answer_policy") == "rounding-aware")
+    base = {o["task_id"]: bool(o["passed"]) for o in run["baseline"]["outcomes"]}
+    chal = {o["task_id"]: bool(o["passed"]) for o in cand["evaluation"]["outcomes"]}
+    assert set(base) == set(chal) and len(base) == 40
+    b = sum(1 for q in base if chal[q] and not base[q])
+    c = sum(1 for q in base if base[q] and not chal[q])
+    gain = (b - c) / len(base)
+    assert (b, c, b + c) == (8, 2, 10)
+    assert abs(gain - 0.150) < 1e-12
+
+    # exact two-sided McNemar, recomputed from the exact binomial definition on the 10 discordant
+    # pairs (2 x P(X <= min(b, c)), X ~ Binomial(10, 1/2)), independently of both the run file and
+    # the module under test
+    n_disc, k = b + c, min(b, c)
+    p_exact = min(1.0, 2 * sum(math.comb(n_disc, i) for i in range(k + 1)) / 2 ** n_disc)
+    assert abs(p_exact - 0.109375) < 1e-12
+    # the run's own block is NOT the source of this arm's aggregate (it never promoted it), so
+    # there is nothing in the artefact to inherit -- which is exactly why it is pinned here
+    assert run["active_id"] != cand["id"]
+    assert "statistical_decision" not in cand
+
+    pool = next(p for p in bp.build_observed_pools() if p["meta"]["source_pool_index"] == 9)
+    assert pool["meta"]["source_pool"] == "nonblind-roundingaware-vs-concise"
+    assert (pool["n"], *bc_of(pool), pool["meta"]["discordant_total"]) == (40, 8, 2, 10)
+    assert abs(gain_of(pool) - 0.150) < 1e-12
+    assert abs(pool["meta"]["discordant_checks"]["mcnemar_p"] - 0.109375) < 1e-12
+    assert pool["blind"] is False
+    assert pool["meta"]["declared_null_source"] is False
+    assert (pool["chal_policy"], pool["inc_policy"]) == ("rounding-aware", "concise-reason")
+    assert pool["meta"]["source_file"] == "results/runs/20260908-235617.json"
+    assert bp.ROUNDINGAWARE_PINNED == {"n": 40, "b": 8, "c": 2, "d": 10,
+                                       "gain": 0.150, "mcnemar_p": 0.109375}
+
+
+def _candidate_arms():
+    """Every candidate arm the committed artefacts contain, re-derived from the raw JSON.
+
+    Each arm is one (baseline policy, candidate policy) comparison recorded by a committed run
+    report, plus the round-3 train-40 pilot's (step-calc, reflect-retry) pair.  The pilot's
+    candidate direction is (chal = reflect-retry, inc = step-calc), matching the roster.
+    """
+    arms = []
+    for path in sorted((ROOT / "results" / "runs").glob("*.json")):
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        base_policy = doc["baseline"]["outcomes"][0]["details"]["policy"]
+        base = {o["task_id"]: bool(o["passed"]) for o in doc["baseline"]["outcomes"]}
+        for cand in doc["candidates"]:
+            cand_policy = (cand.get("candidate") or {}).get("answer_policy") or \
+                cand["evaluation"]["outcomes"][0]["details"]["policy"]
+            chal = {o["task_id"]: bool(o["passed"]) for o in cand["evaluation"]["outcomes"]}
+            assert set(base) == set(chal)
+            b = sum(1 for q in base if chal[q] and not base[q])
+            c = sum(1 for q in base if base[q] and not chal[q])
+            arms.append({"source": path.relative_to(ROOT).as_posix(), "baseline": base_policy,
+                         "candidate": cand_policy, "n": len(base), "b": b, "c": c,
+                         "d": b + c, "gain": (b - c) / len(base)})
+    pilot = json.loads((ROUND3 / "pilot-train40.json").read_text(encoding="utf-8"))
+    chal = {r["id"]: bool(r["passed"]) for r in pilot["reflect_retry"]["details"]}
+    inc = {r["id"]: bool(r["passed"]) for r in pilot["step_calc"]["details"]}
+    assert set(chal) == set(inc)
+    b = sum(1 for q in inc if chal[q] and not inc[q])
+    c = sum(1 for q in inc if inc[q] and not chal[q])
+    arms.append({"source": "results/rounds/round3/pilot-train40.json", "baseline": "step-calc",
+                 "candidate": "reflect-retry", "n": len(inc), "b": b, "c": c, "d": b + c,
+                 "gain": (b - c) / len(inc)})
+    return arms
+
+
+def test_the_nonblind_roster_is_exhaustive_over_the_committed_arms():
+    """Fix round 3, item 1: PREREG §5A's exhaustiveness sentence must be TRUE.
+
+    The sentence is "one per available paired selection-set comparison".  Before fix round 3 the
+    roster held five of the six eligible arms while still asserting exhaustiveness, because the
+    selection-set run `20260908-235617` carries three complete candidate arms and only two were
+    rostered.  This test enumerates **every** candidate arm of every committed run report plus the
+    round-3 train-40 pilot and requires a total accounting: each arm is either a rostered pool
+    (indices 4-9) or explicitly disclosed -- and a disclosed exclusion must really have `d == 0`,
+    so "disclosed" cannot be used to hide an eligible arm.
+    """
+    arms = _candidate_arms()
+    assert {a["source"] for a in arms} == {
+        "results/runs/20260907-135728.json",
+        "results/runs/20260908-235617.json",
+        "results/rounds/round3/pilot-train40.json"}
+
+    rostered = {(r["declared_source_file"], r["inc_policy"], r["chal_policy"])
+                for r in bp.ROSTER if not r["blind"]}
+    assert len(rostered) == 6, f"the non-blind block must hold six distinct arms, got {rostered}"
+
+    accounted = []
+    for arm in arms:
+        key = (arm["source"], arm["baseline"], arm["candidate"])
+        if key in rostered:
+            accounted.append(("rostered", arm))
+            continue
+        disclosed = [x for x in DISCLOSED_EXCLUSIONS if x[:3] == key]
+        assert disclosed, (
+            f"candidate arm {key} is neither rostered nor disclosed: the roster is not exhaustive "
+            f"(b={arm['b']} c={arm['c']} d={arm['d']} gain={arm['gain']:+.4f})")
+        assert arm["d"] == 0, (
+            f"{key} is disclosed as a d == 0 exclusion but has d = {arm['d']}: it is eligible and "
+            "must be a rostered pool instead")
+        accounted.append(("disclosed-exclusion", arm))
+
+    kinds = {"rostered": 0, "disclosed-exclusion": 0}
+    for kind, _ in accounted:
+        kinds[kind] += 1
+    assert kinds == {"rostered": 6, "disclosed-exclusion": 1}, kinds
+    assert len(accounted) == len(arms) == 7
+    assert [(a["source"], a["baseline"], a["candidate"]) for kind, a in accounted
+            if kind == "disclosed-exclusion"] == [x[:3] for x in DISCLOSED_EXCLUSIONS]
+
+    # and the rostered arms reproduce the roster's own orientation + counts, so the accounting is
+    # over the same objects the pools are built from (not merely the same names)
+    by_key = {(a["source"], a["baseline"], a["candidate"]): a for a in arms}
+    artefact = {p["meta"]["source_pool"]: p for p in
+                bp.load_pools_json(ROUND5 / "pools.json") if p["truth"] == "observed"}
+    for entry in bp.ROSTER:
+        if entry["blind"]:
+            continue
+        arm = by_key[(entry["declared_source_file"], entry["inc_policy"], entry["chal_policy"])]
+        pool = artefact[entry["source_pool"]]
+        assert (pool["n"], *bc_of(pool), pool["meta"]["discordant_total"]) == \
+            (arm["n"], arm["b"], arm["c"], arm["d"])
+        assert abs(gain_of(pool) - arm["gain"]) < 1e-12
+        assert pool["meta"]["source_pool_index"] == entry["index"]
+
+
+def test_registry_carries_a_verbatim_copy_not_an_independent_record():
+    """Fix round 3, item 2: the provenance of the n=40 selection-set aggregates.
+
+    An earlier round described the registry as an **independent** record of these numbers.  It is
+    not: `registry/version-registry.json` -> `history[1]` / `history[3]` carry a byte-identical
+    copy of the `statistical_decision` block of the **same** run report, so the agreement asserted
+    by the pool builder is a same-source consistency check.  The registry's *current* evidence
+    entry for run `eecacc0312d7` (`history[4]`) records a different measurement -- the merged n=200
+    held-out result -- which does not corroborate the n=40 selection-set counts.
+    """
+    reg = _loads("registry/version-registry.json")
+    for run_rel, idx in (("results/runs/20260907-135728.json", 1),
+                         ("results/runs/20260908-235617.json", 3)):
+        run = _loads(run_rel)
+        assert reg["history"][idx]["version_id"] == run["active_id"]
+        assert reg["history"][idx]["evidence"]["statistical_decision"] == \
+            run["statistical_decision"], "the registry entry must be the same-file copy"
+        assert reg["history"][idx]["evidence"]["statistical_decision"]["n"] == 40
+
+    merged = reg["history"][4]["evidence"]["statistical_decision"]
+    assert reg["history"][4]["version_id"] == "eecacc0312d7"
+    assert merged["n"] == 200 and merged["paired_better"] == 33 and merged["paired_worse"] == 4
+    assert abs(merged["mcnemar_p_value"] - 1.0843941709026694e-06) < 1e-18
+    # the two quantities are genuinely different measurements, not two readings of one record
+    assert merged["n"] != reg["history"][3]["evidence"]["statistical_decision"]["n"]
+    assert "concise_reason_passed" in merged and \
+        "concise_reason_passed" not in reg["history"][3]["evidence"]["statistical_decision"]
+
+
 def test_null_pool_count_equals_k_times_declared_null_sources():
     """PREREG §1 rule 4: len(nulls) == K x (number of declared null sources), and rule 4's
-    "not a null source" escape hatch is honoured: the non-blind observed pools of indices 4-8
+    "not a null source" escape hatch is honoured: the non-blind observed pools of indices 4-9
     are present in the artefact but contribute no nulls."""
     pools = bp.build_pools()
     nulls = [p for p in pools if p["truth"] == "null"]
     observed = [p for p in pools if p["truth"] == "observed"]
     assert len(bp.DECLARED_NULL_SOURCES) == 4          # the four blind roster entries
-    assert bp.NOT_NULL_SOURCES == (4, 5, 6, 7, 8)
+    assert bp.NOT_NULL_SOURCES == (4, 5, 6, 7, 8, 9)
     assert len(nulls) == bp.K * len(bp.DECLARED_NULL_SOURCES) == 800
     assert {p["meta"]["source_pool_index"] for p in nulls} == set(bp.DECLARED_NULL_SOURCES)
-    assert {p["meta"]["source_pool_index"] for p in observed} == set(range(9))
-    assert len(observed) == 9                          # 4 blind + 5 non-blind (correction round)
+    assert {p["meta"]["source_pool_index"] for p in observed} == set(range(10))
+    assert len(observed) == 10              # 4 blind + 6 non-blind (correction + fix round 3)
 
 
 # ---------------------------------------------------- PREREG §3 / Task 3 (families)
@@ -370,16 +625,16 @@ def test_pool_families_present_and_sized():
     nulls = [p for p in pools if p["truth"] == "null"]
     obs = [p for p in pools if p["truth"] == "observed"]
     assert len(nulls) >= 400, "expected >=400 permutation-null pools"
-    assert len(obs) == 9, "the frozen roster has four blind + five non-blind observed pools"
+    assert len(obs) == 10, "the frozen roster has four blind + six non-blind observed pools"
     blind_obs = [p for p in obs if p["blind"] is True]
     nonblind_obs = [p for p in obs if p["blind"] is False]
-    assert len(blind_obs) == 4 and len(nonblind_obs) == 5
+    assert len(blind_obs) == 4 and len(nonblind_obs) == 6
     srcs = {p["meta"]["source_pool"] for p in obs}
-    assert len(srcs) == 9
+    assert len(srcs) == 10
     assert any(s.startswith("positive") for s in srcs)   # cot-zero vs direct
     assert any(s.startswith("mid") for s in srcs)        # large-d pools
     assert any(s.startswith("marginal") for s in srcs)   # step-calc vs concise-reason
-    assert len([s for s in srcs if s.startswith("nonblind-")]) == 5
+    assert len([s for s in srcs if s.startswith("nonblind-")]) == 6
     # hard constraint (PREREG §8): the alpha/unpaired arms need a large-discordance pool
     assert any(p["meta"]["discordant_total"] >= 15 for p in obs), \
         "need a large-discordance observed pool for the alpha/unpaired arms"
@@ -396,7 +651,7 @@ def test_every_pool_carries_structural_keys_true():
     """PREREG §1: the four structural keys are set by construction on every pool of
     this study (observed and null alike); this is what makes R1 non-vacuous."""
     pools = bp.build_pools()
-    assert len(pools) == 809                           # 9 observed + 800 nulls
+    assert len(pools) == 810                           # 10 observed + 800 nulls
     for p in pools:
         for key in GATE_KEYS:
             assert p[key] is True, (p["name"], key)
@@ -413,7 +668,7 @@ def test_observed_pool_blind_flags_and_null_inheritance():
     blind = [p for p in observed if p["meta"]["source_pool_index"] < 4]
     nonblind = [p for p in observed if p["meta"]["source_pool_index"] >= 4]
     assert len(blind) == 4 and all(p["blind"] is True for p in blind)
-    assert len(nonblind) == 5 and all(p["blind"] is False for p in nonblind)
+    assert len(nonblind) == 6 and all(p["blind"] is False for p in nonblind)
     for p in observed:
         assert "blind" in p["meta"] and p["meta"]["blind"] == p["blind"]
         assert p["meta"]["blind_basis"]
@@ -451,14 +706,14 @@ def test_blind_flags_match_the_declared_source_and_mislabelling_fails():
 
 
 def test_nonblind_pools_recomputed_from_source_match_the_declared_table():
-    """The five non-blind pools, re-derived in code from the raw run/pilot artefacts.
+    """The six non-blind pools, re-derived in code from the raw run/pilot artefacts.
 
     FAILS LOUDLY if a derived count differs from the declared table: the table is the oracle,
     the artefacts are the source.  The artefacts are located by recorded policy / oracle, never
     by trusting a filename.
     """
     derived = derive_nonblind_pools()
-    assert len(derived) == len(NONBLIND_TABLE) == 5
+    assert len(derived) == len(NONBLIND_TABLE) == 6
     got = [(d["name"], d["chal_policy"], d["inc_policy"], d["source"], d["n"], d["b"], d["c"],
             d["d"], round(d["gain_raw"], 6)) for d in derived]
     expected = [(n, ch, inc, src, n_, b, c, d, g) for n, ch, inc, src, n_, b, c, d, g
@@ -481,8 +736,12 @@ def test_nonblind_pools_recomputed_from_source_match_the_declared_table():
         assert pool["meta"]["source_file"] == row["source"]
         assert roster[pool["meta"]["source_pool_index"]]["source_pool"] == row["name"]
         assert pool["meta"]["source_pool_index"] == 4 + [t[0] for t in NONBLIND_TABLE].index(row["name"])
-    # the non-blind roster block is indices 4..8, in that order, and owns no null pools
-    assert [r["index"] for r in bp.ROSTER] == list(range(9))
+        # the exact McNemar p the PREREG §5A table prints for this row, recomputed independently
+        # from the raw b/c (never taken from the run file or from the module's own helper)
+        assert abs(pool["meta"]["discordant_checks"]["mcnemar_p"]
+                   - exact_mcnemar_two_sided(row["b"], row["c"])) < 1e-12, row["name"]
+    # the non-blind roster block is indices 4..9, in that order, and owns no null pools
+    assert [r["index"] for r in bp.ROSTER] == list(range(10))
     assert [r["source_pool"] for r in bp.ROSTER][4:] == [t[0] for t in NONBLIND_TABLE]
 
 
@@ -496,7 +755,11 @@ def test_null_pool_identity_and_naming():
             by_source.setdefault(p["meta"]["source_pool"], []).append(p)
     declared = {bp.ROSTER_BY_INDEX[i]["source_pool"] for i in bp.DECLARED_NULL_SOURCES}
     assert set(by_source) == declared
-    assert not (declared & {bp.ROSTER_BY_INDEX[i]["source_pool"] for i in bp.NOT_NULL_SOURCES})
+    # Fix round 3: the assertion that used to sit here intersected `DECLARED_NULL_SOURCES` with
+    # `NOT_NULL_SOURCES` -- two complementary filters over the same ROSTER module constant -- so
+    # the intersection was empty by construction and it could never fail.  The non-vacuous twin,
+    # which reads the *built* null groups and the committed artefact rows, is the final assertion
+    # of `test_pools_json_is_the_committed_build_pools_output`.
     for src, group in by_source.items():
         assert len(group) == bp.K
         assert [p["meta"]["null_index"] for p in group] == list(range(bp.K))
@@ -706,8 +969,8 @@ def test_marginal_pool_reconciles_with_the_reverse_orientation_in_the_artefact()
 def test_observed_roster_is_frozen_and_matches_prereg():
     """PREREG §1 Observed-pool roster (frozen): names, indices and d values.
 
-    Indices 0-3 are the blind roster of the prereg; indices 4-8 are the non-blind
-    selection-set pools added by the correction round."""
+    Indices 0-3 are the blind roster of the prereg; indices 4-9 are the non-blind
+    selection-set pools added by the correction round (index 9 by fix round 3)."""
     expected = [("positive-cotzero-vs-direct", 159),
                 ("mid-stepcalc-vs-cotzero", 16),
                 ("mid-stepcalc-vs-fewshot", 23),
@@ -716,14 +979,15 @@ def test_observed_roster_is_frozen_and_matches_prereg():
                 ("nonblind-doublecheck-vs-direct", 6),
                 ("nonblind-stepcalc-vs-concise", 10),
                 ("nonblind-rectify-vs-concise", 8),
-                ("nonblind-reflect-vs-stepcalc", 4)]
+                ("nonblind-reflect-vs-stepcalc", 4),
+                ("nonblind-roundingaware-vs-concise", 10)]
     assert [(r["source_pool"], r["index"]) for r in bp.ROSTER] == \
         [(name, i) for i, (name, _) in enumerate(expected)]
     observed = bp.build_observed_pools()
     got = [(p["meta"]["source_pool"], p["meta"]["discordant_total"]) for p in observed]
     assert got == expected
-    assert [r["blind"] for r in bp.ROSTER] == [True] * 4 + [False] * 5
-    assert [r["declared_null_source"] for r in bp.ROSTER] == [True] * 4 + [False] * 5
+    assert [r["blind"] for r in bp.ROSTER] == [True] * 4 + [False] * 6
+    assert [r["declared_null_source"] for r in bp.ROSTER] == [True] * 4 + [False] * 6
 
 # ------------------------------------------- committed artefacts (pools.json / PILOT.json)
 
@@ -736,7 +1000,7 @@ def check_pools_consistency(pools):
     nulls = [p for p in pools if p["truth"] == "null"]
     obs = [p for p in pools if p["truth"] == "observed"]
     assert len(nulls) == bp.K * len(bp.DECLARED_NULL_SOURCES) == 800
-    assert len(obs) == 9
+    assert len(obs) == 10
     for p in pools:
         assert set(p) >= {"name", "n", "blind", "truth", "items", "meta", *GATE_KEYS}
         for key in GATE_KEYS:
@@ -799,7 +1063,7 @@ def _pre_correction_artefact_text():
 
 
 def test_indices_0_3_are_byte_identical_to_the_pre_correction_artefact():
-    """Correction-round stability proof: adding roster indices 4-8 changed **nothing** for the
+    """Correction-round stability proof: adding roster indices 4-9 changed **nothing** for the
     blind pools of indices 0-3 -- the 4 observed rows and the 800 null rows are byte-identical.
 
     The reference is the committed pre-correction artefact, read from its git commit (not from a
@@ -853,14 +1117,14 @@ def test_pools_artefact_description_matches_the_pools_and_the_blind_labels():
 
     # (1) the description is exactly the computation over the pools, and R4 really is evaluated
     assert meta == bp.pools_meta(pools)
-    assert meta["n_pools"] == len(pools) == 809
-    assert meta["n_observed"] == 9 and meta["n_null"] == 800
-    assert meta["n_nonblind_pools"] == 5 and meta["n_blind_pools"] == 804
+    assert meta["n_pools"] == len(pools) == 810
+    assert meta["n_observed"] == 10 and meta["n_null"] == 800
+    assert meta["n_nonblind_pools"] == 6 and meta["n_blind_pools"] == 804
     assert meta["all_artefact_pools_blind"] is False
     assert meta["no_nonblind_pool_in_artefact"] is False
     assert meta["r4_evaluable"] is True
-    assert meta["r4_status"] == bp._r4_status(5) == \
-        "evaluated (5 non-blind selection-set pool(s) in this artefact)"
+    assert meta["r4_status"] == bp._r4_status(6) == \
+        "evaluated (6 non-blind selection-set pool(s) in this artefact)"
     note = meta["r4_note"]
     assert note == bp._r4_note(pools)
     for phrase in ("R4 (non-blind) IS evaluated",
@@ -870,7 +1134,7 @@ def test_pools_artefact_description_matches_the_pools_and_the_blind_labels():
         assert phrase in note, f"the r4 note must state {phrase!r}"
     assert set(meta["not_null_sources"]) == {t[0] for t in NONBLIND_TABLE}
     assert len(meta["declared_null_sources"]) == 4
-    # the five non-blind pools are named, in roster order
+    # the six non-blind pools are named, in roster order
     assert [n for n in meta["not_null_sources"]] == [t[0] for t in NONBLIND_TABLE]
 
     # (2) blind flags match the declared sources (delegated to the module's own guard)

@@ -13,7 +13,7 @@ Two artefacts are produced here:
 
 ``results/rounds/round5/pools.json``
     an object ``{"meta": ..., "pools": [...]}`` whose ``pools`` key is exactly ``build_pools()``:
-    the observed pools (roster indices 0-8) first, then, for **each declared null source** of
+    the observed pools (roster indices 0-9) first, then, for **each declared null source** of
     indices 0-3, ``K = 200`` permutation-null pools.  One pool per line (valid JSON, greppable,
     diffable).
 
@@ -25,13 +25,27 @@ Observed-pool roster (frozen)
 * **Indices 0-3 -- blind held-out sets.**  Four observed pools derived from the committed round-4
   blind artefacts; these are the study's **declared null sources**, so each contributes exactly
   ``K = 200`` permutation nulls (the whole NULL set of this study).
-* **Indices 4-8 -- non-blind selection sets (correction round, 2026-09-12).**  Five observed pools
-  derived from the loop's own **selection-set** runs, declared ``blind = False``.  They are
+* **Indices 4-9 -- non-blind selection sets (correction round, 2026-09-12; index 9 added by fix
+  round 3).**  Six observed pools derived from the loop's own **selection-set** runs, declared
+  ``blind = False``.  They are
   declared **``declared_null_source = False``**: rule 4's *not a null source* escape hatch is
   honoured, so they contribute **no** null pools and the NULL set of this study stays exactly the
   800 blind nulls of indices 0-3.  Adding them therefore cannot move any blind FPR, and indices
   0-3 stay byte-identical to the pre-correction artefact (see ``PRE_CORRECTION_0_3``, anchored and
   asserted by ``tests/test_build_pools.py``).
+
+Exhaustiveness of the non-blind block (fix round 3)
+---------------------------------------------------
+The non-blind block is **exhaustive over the candidate arms the committed artefacts contain**:
+both ``results/runs/*.json`` run reports, plus ``results/rounds/round3/pilot-train40.json``, were
+enumerated arm by arm, and every arm is either a rostered pool (indices 4-9) or the **one**
+explicitly disclosed exclusion -- the ``reworded-direct`` arm of run ``20260907-135728``, whose
+candidate re-labels the baseline policy, so ``b = c = d = 0`` and there is no discordance structure
+to pool (PREREG §1 rule 4).  Earlier fix rounds listed only five of the six eligible arms and still
+asserted exhaustiveness; the omitted arm -- ``rounding-aware`` vs ``concise-reason`` in run
+``20260908-235617`` (n=40, b=8, c=2, d=10, gain=+0.150, exact McNemar p=0.109375) -- is index 9.
+The enumeration is pinned as a test
+(``tests/test_build_pools.py::test_the_nonblind_roster_is_exhaustive_over_the_committed_arms``).
 
 Correction-round record (R4 **is** evaluable)
 ---------------------------------------------
@@ -42,9 +56,25 @@ inspection error at the top-level-key depth only.  ``baseline.outcomes[]`` and
 ``candidates[].evaluation.outcomes[]`` do carry per-question ``{task_id, passed, details{policy}}``
 records over the 40 selection-set ids ``gsm8k-01..40``, and
 ``results/rounds/round3/pilot-train40.json`` carries the same per-id detail
-(``"oracle": "train-only"``).  The five non-blind pools of indices 4-8 are re-derived from those
-files here, and the derived ``(n, b, c, d, gain)`` match the registry's independently recorded
-aggregates.  R4 is evaluable and IS evaluated; no synthetic pool was needed and none was used.
+(``"oracle": "train-only"``).  The six non-blind pools of indices 4-9 are re-derived from those
+files here.  R4 is evaluable and IS evaluated; no synthetic pool was needed and none was used.
+
+Provenance of the cross-check (restated in fix round 3 -- **not** an independence claim)
+----------------------------------------------------------------------------------------
+What the derived counts are checked against is the **same artefact they are derived from**:
+``_source_run`` recomputes ``(b, c, gain, p)`` from ``baseline.outcomes[]`` /
+``candidates[].evaluation.outcomes[]`` and requires agreement with the ``statistical_decision``
+block of that same run file (only for the arm that run promoted as its active candidate; the other
+arms carry no recorded n=40 aggregate at all).  That is a **same-source consistency check** -- it
+catches a truncated or hand-edited run file -- and it is not an independent record.  The registry's
+``history[1]`` / ``history[3]`` entries under ``registry/version-registry.json`` carry a
+byte-identical copy of those same two blocks (asserted in
+``tests/test_build_pools.py::test_registry_carries_a_verbatim_copy_not_an_independent_record``), so
+citing the registry adds no independence.  The registry's *current* evidence entry for run
+``eecacc0312d7`` (``history[4]``) records a different quantity -- the merged n=200 held-out result
+(``paired_better 33`` / ``paired_worse 4``, ``p = 1.08e-6``) -- which is **not** the n=40
+selection-set count and does not corroborate it.  An earlier round described these n=40 numbers as
+"independently recorded by the registry"; that was an overstatement and is corrected here.
 
 Construction (PREREG §1, verbatim in behaviour)
 -----------------------------------------------
@@ -114,11 +144,11 @@ BLIND_SOURCE_CLASS = "blind-heldout-set"
 NONBLIND_SOURCE_CLASS = "selection-set (non-blind)"
 _BLIND_BY_SOURCE_CLASS = {BLIND_SOURCE_CLASS: True, NONBLIND_SOURCE_CLASS: False}
 
-# --------------------------------------------- frozen observed-pool roster (indices 0-8)
+# --------------------------------------------- frozen observed-pool roster (indices 0-9)
 #
 # This roster (together with its mirror in PLAN-NOVELTY.md Task 3) is the ONLY definition
 # of ``source_pool_index`` -> ``child_seed``.  Indices 0-3 must not be renumbered or reordered:
-# renumbering would silently change every child seed and therefore every null pool.  Indices 4-8
+# renumbering would silently change every child seed and therefore every null pool.  Indices 4-9
 # are appended after them for exactly that reason (each source pool owns its own RNG, so appending
 # cannot perturb the earlier child seeds), and they are *not* null sources.
 ROSTER = (
@@ -177,7 +207,7 @@ ROSTER = (
         "provenance": "qwen2:7b, d = 6",
         "dataset": "examples/heldout40.json",
     },
-    # ---------------------------------------------------------- indices 4-8: correction round
+    # -------------------------------------------------- indices 4-9: correction + fix round 3
     {
         "index": 4,
         "source_pool": "nonblind-concise-vs-direct",
@@ -250,7 +280,33 @@ ROSTER = (
         "provenance": "selection set (round-3 train-40 pilot), d = 4",
         "dataset": "the loop's own development/selection set, 40 ids gsm8k-01..40",
     },
+    # -------------------------------------------------- index 9: fix round 3 (exhaustiveness)
+    #
+    # The selection-set run of 2026-09-08 carries a THIRD complete candidate arm that the earlier
+    # roster silently omitted.  It is status-equivalent to the ``rectify`` arm of index 7 (same
+    # run, same baseline, same n / d), so excluding it while asserting exhaustiveness was wrong.
+    # Appended at the END so no earlier child seed moves; like 4-8 it is *not* a null source.
+    {
+        "index": 9,
+        "source_pool": "nonblind-roundingaware-vs-concise",
+        "source_kind": "run",
+        "source_probe": {"baseline_policy": "concise-reason", "candidate_policy": "rounding-aware"},
+        "declared_source_file": "results/runs/20260908-235617.json",
+        "chal_policy": "rounding-aware",
+        "inc_policy": "concise-reason",
+        "declared_null_source": False,
+        "blind": False,
+        "family": "NONBLIND_SELECTION",
+        "provenance": "selection set, d = 10",
+        "dataset": "the loop's own development/selection set, 40 ids gsm8k-01..40",
+    },
 )
+
+# The pinned figures of fix round 3's added arm, re-derived from the run artefact by
+# ``tests/test_build_pools.py::test_roundingaware_pool_counts_and_exact_mcnemar_are_pinned``
+# (n, b, c, d, gain, exact two-sided McNemar p).  They are recorded here only as the *disclosure*
+# of what index 9 is; the pools themselves are never built from these numbers.
+ROUNDINGAWARE_PINNED = {"n": 40, "b": 8, "c": 2, "d": 10, "gain": 0.150, "mcnemar_p": 0.109375}
 
 ROSTER_BY_INDEX = {entry["index"]: entry for entry in ROSTER}
 
@@ -271,7 +327,7 @@ ITEM_ORDER_POLICY = "qid-ascending (equals the committed details key order of th
 # ------------------------------------------ byte-stability anchor for roster indices 0-3
 #
 # The pre-correction artefacts of this repository are pinned here so the correction round can
-# *prove* that adding indices 4-8 changed nothing for indices 0-3.  The hashes are over the
+# *prove* that adding indices 4-9 changed nothing for indices 0-3.  The hashes are over the
 # exact one-pool-per-line serialization used by ``write_pools_json()``, so they are byte-level
 # claims and not merely structural ones.  ``pools_meta()`` recomputes them from the pools it is
 # given and refuses to call the artefact correct if they moved; the test suite additionally
@@ -626,7 +682,7 @@ _SOURCE_LOADERS = {"round4": _source_round4, "run": _source_run, "pilot": _sourc
 def build_observed_pools() -> list[dict]:
     """Every observed pool of the frozen roster, in roster order (Task 3).
 
-    Indices 0-3 are the blind held-out pools; indices 4-8 are the non-blind selection-set pools
+    Indices 0-3 are the blind held-out pools; indices 4-9 are the non-blind selection-set pools
     of the correction round.  Every figure is recomputed from the committed source artefact's
     per-question records; the artefact's own aggregate/pair records are used only as cross-checks,
     so a hand-edited or truncated source file is caught rather than inherited.
@@ -638,7 +694,7 @@ def build_null_source_pools() -> list[dict]:
     """Only the observed pools that the roster *declares* to be null sources (indices 0-3).
 
     Rule 4's "not a null source" escape hatch is honoured here and in ``build_pools()``: indices
-    4-8 are real observed pools but are never sent to ``permutation_nulls``, so the NULL set of
+    4-9 are real observed pools but are never sent to ``permutation_nulls``, so the NULL set of
     this study remains exactly ``K`` nulls per declared source.
     """
     return [_build_observed_pool(ROSTER_BY_INDEX[i]) for i in DECLARED_NULL_SOURCES]
@@ -663,9 +719,18 @@ def _build_observed_pool(entry: dict) -> dict:
     gain = _gain({"items": items})
     total_chal = src["aggregates"]["chal"]
     total_inc = src["aggregates"]["inc"]
-    if d == 0:
-        raise ValueError(f"{entry['source_pool']}: discordant_total == 0; a pool with d == 0 may "
-                         "appear only as an observed pool declared 'not a null source'")
+    if d == 0 and entry["declared_null_source"]:
+        # PREREG §1 rule 4: a pool with no discordant item can never be a NULL source -- there is
+        # nothing to relabel, and a silent skip would shrink the FPR denominator.  The *escape
+        # hatch* of the same rule is the other half of this condition: a d == 0 pool that the
+        # roster explicitly declares NOT a null source is permitted as an observed row (it
+        # contributes no nulls, so it cannot move any FPR).  Rejecting it unconditionally would
+        # contradict the rule's own wording and would leave the declared escape hatch unusable on
+        # the one path that actually builds observed rows.
+        raise ValueError(
+            f"{entry['source_pool']}: discordant_total == 0 but the roster declares it a null "
+            "source; a pool with d == 0 may appear only as an observed pool explicitly declared "
+            "'not a null source' (PREREG §1 rule 4)")
     if (b - c) != (total_chal - total_inc):
         raise ValueError(f"{entry['source_pool']}: (b - c) != totals[chal] - totals[inc]")
     if abs(gain - (total_chal - total_inc) / n) > 1e-12:
@@ -940,7 +1005,7 @@ def build_pools() -> list[dict]:
 
     Observed pools come first in roster order (indices 0-8), then, grouped by source pool, the
     ``K`` nulls of **each declared null source** -- rule 4's escape hatch is honoured here, so an
-    observed pool that the roster declares *not a null source* (indices 4-8, the non-blind
+    observed pool that the roster declares *not a null source* (indices 4-9, the non-blind
     selection-set pools) contributes no nulls and cannot move the FPR denominator.  A source pool
     with ``d == 0`` raises ``ValueError`` through ``permutation_nulls``.  R7's candidate pools are
     deliberately NOT part of this list: they are candidates, not null pools, and must never be
@@ -1149,8 +1214,21 @@ def main() -> int:
     meta = pools_meta(pools)
     assert meta["byte_stability_0_3"]["identical"], (
         "roster indices 0-3 moved: the correction round must not change the blind pools")
-    assert meta["n_nonblind_pools"] == 5, (
-        "the five non-blind selection-set pools of roster indices 4-8 must be present")
+    assert meta["n_nonblind_pools"] == 6, (
+        "the six non-blind selection-set pools of roster indices 4-9 must be present")
+    # Fix round 3: the added index-9 arm is pinned to the figures re-derived from its run report,
+    # so the artefact cannot be rebuilt around a different arm under the same roster index.
+    added = next(p for p in observed if p["meta"]["source_pool_index"] == 9)
+    added_b, added_c = _items_bc(added)
+    added_p = added["meta"]["discordant_checks"]["mcnemar_p"]
+    assert (added["n"], added_b, added_c, added["meta"]["discordant_total"]) == (
+        ROUNDINGAWARE_PINNED["n"], ROUNDINGAWARE_PINNED["b"], ROUNDINGAWARE_PINNED["c"],
+        ROUNDINGAWARE_PINNED["d"]), f"roster index 9 counts != {ROUNDINGAWARE_PINNED}: {added['name']}"
+    assert abs(_gain(added) - ROUNDINGAWARE_PINNED["gain"]) < 1e-12 and \
+        abs(added_p - ROUNDINGAWARE_PINNED["mcnemar_p"]) < 1e-12, (
+        f"roster index 9 gain/p != {ROUNDINGAWARE_PINNED}: got gain={_gain(added)!r} p={added_p!r}")
+    print(f"roster index 9 pinned: n={added['n']} b={added_b} c={added_c} "
+          f"d={added['meta']['discordant_total']} gain={_gain(added):+.4f} p={added_p:.6f}")
     print(f"blind=[{meta['n_blind_pools']}] nonblind=[{meta['n_nonblind_pools']}] "
           f"r4_status={meta['r4_status']!r}")
     print(f"indices 0-3 byte-stability: {meta['byte_stability_0_3']['identical']} "

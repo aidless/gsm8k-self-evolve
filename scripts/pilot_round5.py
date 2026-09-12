@@ -258,8 +258,9 @@ def _metric(metric: str, scope: str, run: dict, value, superseded_value, note: s
 
 def build_pilot() -> dict:
     # The pilot's scope is §7's four *blind null-source* pools (roster indices 0-3), so it uses
-    # `build_null_source_pools()` rather than `build_observed_pools()`: the correction round added
-    # five non-blind selection-set observed pools (indices 4-8) that are not part of this pilot.
+    # `build_null_source_pools()` rather than `build_observed_pools()`: the correction round (and
+    # fix round 3) added six non-blind selection-set observed pools (indices 4-9) that are not part
+    # of this pilot.
     observed = bp.build_null_source_pools()
     runs = [run_pool(pool) for pool in observed]
     pooled_run = pooled(runs)

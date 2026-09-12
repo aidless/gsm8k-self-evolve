@@ -58,6 +58,7 @@ Given a real paired pool's discordant item set `D` (`|D| = d > 0`), independentl
 | 6 | `nonblind-stepcalc-vs-concise` | selection set, `d = 10` — added by the correction round, `blind = False`, *not a null source* |
 | 7 | `nonblind-rectify-vs-concise` | selection set, `d = 8` — added by the correction round, `blind = False`, *not a null source* |
 | 8 | `nonblind-reflect-vs-stepcalc` | selection set, `d = 4` — added by the correction round, `blind = False`, *not a null source* |
+| 9 | `nonblind-roundingaware-vs-concise` | selection set, `d = 10` — **added by fix round 3 (2026-09-12)**, `blind = False`, *not a null source* |
 
 **Dated revision of this roster (correction round, 2026-09-12).** Indices 0–3 are unchanged and
 must never be renumbered or reordered. Indices 4–8 were **appended** after them, so every
@@ -70,11 +71,25 @@ study remains exactly `K = 200` nulls per declared source of indices 0–3 (800 
 byte-level invariance of indices 0–3 under this revision is machine-anchored and asserted (see §5A,
 "Mechanical record").
 
+**Dated revision of this roster (fix round 3, 2026-09-12).** **Index 9 is added**:
+`nonblind-roundingaware-vs-concise` (`rounding-aware` vs `concise-reason`, selection set, `d = 10`,
+`blind = False`, *not a null source*). Rationale, stated as a correction rather than a refinement:
+the correction round asserted that indices 4–8 were "one per available paired selection-set
+comparison", but the selection-set run `20260908-235617` carries **three** complete candidate arms
+and only two of them (`step-calc`, `rectify`) were rostered. The omitted third arm —
+`rounding-aware` vs `concise-reason`, n = 40, b = 8, c = 2, d = 10, gain = +0.150, exact McNemar
+p = 0.109375 — is status-equivalent to the `rectify` arm that *was* included, so the bookkeeping was
+wrong: it excluded an eligible arm while asserting exhaustiveness. Index **9** (not a renumbering of
+4–8) is used so that no earlier `child_seed` moves; appending an entry cannot perturb an earlier
+source pool's RNG because each pool owns its own `Random(child_seed)`, and index 9 is not a null
+source, so it contributes no nulls. The exhaustiveness claim is made testable by enumerating every
+candidate arm of every committed artefact (see §5A, "Exhaustiveness of the non-blind block").
+
 Consequently: all four entries of indices 0–3 are declared **null sources** — `PLAN-NOVELTY.md`
 Task 3 pairs each of them with `K = 200` permutation nulls — and they remain the only declared null
 sources, so they alone count toward the null-pool identity of rule 4. Rule 5's NULL-family candidate
 stream is drawn for **every** entry of the *blind* block (indices 0–3), each of whose `K = 200` null
-units needs its own 8 candidates. Rule 5 is not drawn for indices 4–8: they are not null sources, so
+units needs its own 8 candidates. Rule 5 is not drawn for indices 4–9: they are not null sources, so
 they have no null units to pair candidates with. The POSITIVE-family bootstrap stream of rule 5 is
 drawn for the POSITIVE source pool `positive-cotzero-vs-direct` (index 0) only, because the POSITIVE
 family has exactly one pool (§3).
@@ -113,7 +128,7 @@ The unified interface is `decide(rule, pool) -> dict` (see `paper/PLAN-NOVELTY.m
 | **R1** | `gate` | This work's **five-key gate**; `alpha = 0.05`, `eps = 0.02`, **blind set**. Promotion iff all five keys are true: `statistical_passed` (blind paired exact McNemar `p < alpha` **and** `gain >= eps`), `hidden_passed`, `safety_passed`, `rollback_available`, `bundle_signature_valid`. Fail-closed: any false or missing key yields no promotion. Requires `pool["blind"] is True`. |
 | **R2** | `point` | Promote iff `gain > 0` (**no test at all**). |
 | **R3** | `unpaired` | **Two-sample proportion test (NOT paired)**: `p < 0.05` **and** `gain >= 0.02`. The test form actually used (e.g. Fisher exact or normal approximation) must be named in the implementation docstring. |
-| **R4** | `nonblind` | The gate's paired test, computed on the **selection (non-blind) set** — i.e. the same paired exact McNemar criterion, ignoring the blindness constraint (`pool["blind"] is False`). **§5A: this arm IS EVALUATED** — the repository *does* contain non-blind per-item pools (five selection-set pools, roster indices 4–8), so Task 4 computes the R4 column on them and Task 5 checks it. The earlier `not evaluated (no non-blind data)` marking rested on a controller inspection error and is superseded by §5A. |
+| **R4** | `nonblind` | The gate's paired test, computed on the **selection (non-blind) set** — i.e. the same paired exact McNemar criterion, ignoring the blindness constraint (`pool["blind"] is False`). **§5A: this arm IS EVALUATED** — the repository *does* contain non-blind per-item pools (six selection-set pools, roster indices 4–9), so Task 4 computes the R4 column on them and Task 5 checks it. The earlier `not evaluated (no non-blind data)` marking rested on a controller inspection error and is superseded by §5A. |
 | **R5** | `loose` | The gate with `alpha = 0.20` (threshold sensitivity); all other gate semantics unchanged. |
 | **R6** | `no-stat` | The gate with the significance test **dropped** but the **magnitude criterion kept** (adopted semantics — **AMENDMENT 1**): promote iff `gain >= eps = 0.02`, together with the four structural keys. The earlier phrasing "the `statistical_passed` key removed, the other four keys kept" is ambiguous and superseded; it is **not** the operative rule. |
 | **R7** | `bestofk` | Promote the **point-estimate best of k candidates** (selection pressure): among `k` candidate pools, promote iff the best candidate has `gain > 0`. For every evaluation in this document `k` is the **pre-run-fixed `k = 8`** of §5.2, over candidates built **family-appropriately** by the pinned candidate construction of §1 rule 5 — relabelling for a NULL-family evaluation, **label-preserving item bootstrap** for a POSITIVE-family evaluation, the two never mixed; the `k = 1` degeneracy of §2.1 is an interface note only and is **not** the operative reading. |
@@ -138,7 +153,7 @@ On the pools of this study the four keys other than `statistical_passed` (`hidde
 | **POSITIVE** | Real pairing `cot-zero` vs `direct` (true effect large, `> 0`), declared in the orientation `(chal_policy=cot-zero, inc_policy=direct, b=159, c=0, d=159, gain=+0.795)`. |
 | **MARGINAL** | Real pairing `step-calc` vs `concise-reason` on `qwen2:7b`, declared in the §1.1 orientation `(chal_policy=step-calc, inc_policy=concise-reason, b=2, c=4, d=6, gain=-0.050)`; `trackC-qwen2-7b-heldout40.json` stores the same pool in the reverse orientation `(chal_policy=concise-reason, inc_policy=step-calc, b=4, c=2, d=6, gain=+0.05)` (reconciled in §7.2). The family headline is the small magnitude (0.05) at `p = 0.688`, i.e. small in either orientation. |
 
-Each real (observed) pool carries a `truth` label together with its provenance, so that no pool can be silently reclassified. `paper/PLAN-NOVELTY.md` (Task 3) fixes the observed-pool roster and sizes; pools taken from the blind versus the selection set must be labelled via the `blind` flag because R1/R4 depend on it — **in this corpus both source classes are present: roster indices 0–3 are `blind = True` (round-4 held-out sets) and indices 4–8 are `blind = False` (the loop's selection set, added by the correction round), so the R4 arm IS evaluable (§5A).** This section defines the pool **families**; the numbered observed-pool **roster** — and therefore each pool's `source_pool_index` and `child_seed` — is fixed in §1's **Observed-pool roster (frozen)** block (mirrored in `PLAN-NOVELTY.md` Task 3), not here. R7's candidates are family-appropriate (§1 rule 5): a NULL-family evaluation uses relabelling candidates and a POSITIVE-family evaluation uses a **label-preserving item bootstrap** of the POSITIVE pool, so an effect-zero (relabelled) pool is never used to measure a true-positive rate.
+Each real (observed) pool carries a `truth` label together with its provenance, so that no pool can be silently reclassified. `paper/PLAN-NOVELTY.md` (Task 3) fixes the observed-pool roster and sizes; pools taken from the blind versus the selection set must be labelled via the `blind` flag because R1/R4 depend on it — **in this corpus both source classes are present: roster indices 0–3 are `blind = True` (round-4 held-out sets) and indices 4–9 are `blind = False` (the loop's selection set, added by the correction round and fix round 3), so the R4 arm IS evaluable (§5A).** This section defines the pool **families**; the numbered observed-pool **roster** — and therefore each pool's `source_pool_index` and `child_seed` — is fixed in §1's **Observed-pool roster (frozen)** block (mirrored in `PLAN-NOVELTY.md` Task 3), not here. R7's candidates are family-appropriate (§1 rule 5): a NULL-family evaluation uses relabelling candidates and a POSITIVE-family evaluation uses a **label-preserving item bootstrap** of the POSITIVE pool, so an effect-zero (relabelled) pool is never used to measure a true-positive rate.
 
 ## 4. Metrics
 
@@ -205,7 +220,7 @@ The three branches are exhaustive by construction; the recorded branch is writte
 
 **`R7@k = 1` is NOT the operative reading.** §2.1 records R7's interface degeneracy: with no `pool["candidates"]`, the best of one candidate is the pool itself, so `R7@k = 1` reduces to `R2` and carries no information beyond R2. **This interface degeneracy is a different thing from the descriptive curve's `k = 1` endpoint** (§4): that endpoint is candidate block `(i, 1)` of the pinned stream — a genuine candidate pool which is not the pool itself — so the curve's `k = 1` value is a descriptive R7 reading, merely not the operative `k = 8` reading; only the *no-candidates* degeneracy reduces to `R2`. That degenerate reading is **not** the R7 term of §5 — not in branch (i), not in branch (ii), and not in clause (c) — nor anywhere else in this document. Wherever §5 reads `FPR_R7@8` or `TPR_R7@8` it means the `k = 8` statistic defined above; an analysis that reports the `k = 1` reading in place of it is not this document's pre-registered comparison and would have to be disclosed as a dated revision declaration before being reported.
 
-## 5A. R4 (`nonblind`) — **EVALUATED** on the selection set (revised 2026-09-12, correction round)
+## 5A. R4 (`nonblind`) — **EVALUATED** on the selection set (revised 2026-09-12: correction round, then fix round 3)
 
 > **Dated revision (correction round, 2026-09-12).** The first version of this section (added
 > 2026-09-12 under controller ruling 17) stated that `results/runs/*.json` "carry **only aggregate
@@ -218,49 +233,119 @@ The three branches are exhaustive by construction; the recorded branch is writte
 > `baseline.outcomes[]` and `candidates[].evaluation.outcomes[]` carry
 > `{task_id, passed, score, …, details{policy, raw, parsed, expected}}` over the 40 selection-set
 > ids `gsm8k-01..40` — and `results/rounds/round3/pilot-train40.json` carries the same per-id detail
-> (`"oracle": "train-only"`). Re-deriving the non-blind pools from those files reproduces the
-> registry's independently recorded aggregates **exactly** (run `81f31ce4443a`: `mean_gain 0.5`,
-> `mcnemar better=20 worse=0`; run `eecacc0312d7`: `mean_gain 0.2`, `mcnemar better=9 worse=1`).
+> (`"oracle": "train-only"`).
 > **R4 is evaluable and IS evaluated.** **No synthetic pool was needed and none was used.** The
 > earlier text of this section is superseded in full; the paragraphs below replace it. The
 > *declined* synthetic construction is kept only for the correct reason (it is unverifiable), not
 > because data was missing.
+>
+> **Dated revision (fix round 3, 2026-09-12) — provenance, corrected.** The sentence that stood here
+> said that re-deriving the non-blind pools "reproduces the registry's **independently recorded**
+> aggregates **exactly**", citing run `81f31ce4443a` (`mean_gain 0.5`, `mcnemar better=20 worse=0`)
+> and run `eecacc0312d7` (`mean_gain 0.2`, `mcnemar better=9 worse=1`). **That attribution was an
+> overstatement and is withdrawn.** What is actually true, stated precisely:
+>
+> 1. **What is cross-checked, and against what.** `scripts/build_pools.py::_source_run` recomputes
+>    `(b, c, gain, p)` from the run artefact's per-question records (`baseline.outcomes[]` /
+>    `candidates[].evaluation.outcomes[]`) and requires agreement with the
+>    `statistical_decision` block **of that same run file** — but only for the arm that run promoted
+>    as its **active candidate** (run `20260907-135728` → `concise-reason`; run `20260908-235617` →
+>    `step-calc`). The other four rostered arms carry no recorded n=40 aggregate in any artefact at
+>    all and are pure re-derivations.
+> 2. **The route is same-source, not independent.** The n=40 figures above are a **verbatim copy of
+>    `statistical_decision` inside the same run report**. The registry does not add an independent
+>    record of them: `registry/version-registry.json` → `history[1]` and `history[3]` carry a
+>    byte-identical copy of those same two blocks (asserted in
+>    `tests/test_build_pools.py::test_registry_carries_a_verbatim_copy_not_an_independent_record`),
+>    so citing the registry for these numbers would be citing the run file twice.
+> 3. **The registry's *current* evidence entry records a different quantity.** For run
+>    `eecacc0312d7`, `registry/version-registry.json` → `history[4]` (the `provisional` → `stable`
+>    transition) records the **merged n = 200 held-out** result — `paired_better = 33`,
+>    `paired_worse = 4`, `p = 1.08e-6` — which is **not** the n=40 selection-set count and does not
+>    corroborate it. The n=40 values live in the registry **only** inside
+>    `history[3].evidence.statistical_decision`.
+> 4. **What this check is worth.** It is a **same-source consistency check**: it catches a
+>    truncated or hand-edited run file. It is *not* independent corroboration of the counts, and it
+>    is not presented as such anywhere in this document or in the artefact.
+>
+> **Dated revision (fix round 3, 2026-09-12) — the non-blind block is completed.** The correction
+> round asserted that indices 4–8 were "one per available paired selection-set comparison" while
+> omitting an eligible arm: the selection-set run `20260908-235617` carries **three** complete
+> candidate arms (`step-calc`, `rounding-aware`, `rectify`) and only two were rostered. Index 9
+> (`nonblind-roundingaware-vs-concise`) adds the omitted arm. See "Exhaustiveness of the non-blind
+> block" below for the enumeration that makes the claim checkable.
 
-### R4 is EVALUATED — five non-blind (selection-set) pools
+### R4 is EVALUATED — six non-blind (selection-set) pools (indices 4–9)
 
-Five non-blind observed pools are added to the frozen roster of §1 as **indices 4–8**, each
+Six non-blind observed pools are added to the frozen roster of §1 as **indices 4–9**, each
 `blind = False`, one per available paired selection-set comparison. Every figure below was
-re-derived in this round from the source artefact's per-question records
+re-derived from the source artefact's per-question records
 (`scripts/build_pools.py`: `_source_run` / `_source_pilot`), with the artefact located by its own
 recorded `(baseline policy, candidate policy)` or `oracle` field — **never by trusting a
 filename** — and every value is asserted equal to this table in
-`tests/test_build_pools.py::test_nonblind_pools_recomputed_from_source_match_the_declared_table`:
+`tests/test_build_pools.py::test_nonblind_pools_recomputed_from_source_match_the_declared_table`
+(index 9's counts and exact McNemar p additionally in
+`tests/test_build_pools.py::test_roundingaware_pool_counts_and_exact_mcnemar_are_pinned`, and in
+`scripts/build_pools.py::main()` against `ROUNDINGAWARE_PINNED`):
 
-| roster index | pool | `chal` | `inc` | source (located by policy/oracle) | n | b | c | d | gain |
+| roster index | pool | `chal` | `inc` | source (located by policy/oracle) | n | b | c | d | gain | exact McNemar p |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 4 | `nonblind-concise-vs-direct` | `concise-reason` | `direct` | run `20260907-135728` (baseline `direct`, candidate `concise-reason`) | 40 | 20 | 0 | 20 | **+0.500** | 1.9073486328125e-06 |
+| 5 | `nonblind-doublecheck-vs-direct` | `double-check` | `direct` | run `20260907-135728` (baseline `direct`, candidate `double-check`) | 40 | 2 | 4 | 6 | **−0.050** | 0.6875 |
+| 6 | `nonblind-stepcalc-vs-concise` | `step-calc` | `concise-reason` | run `20260908-235617` (baseline `concise-reason`, candidate `step-calc`) | 40 | 9 | 1 | 10 | **+0.200** | 0.021484375 |
+| 7 | `nonblind-rectify-vs-concise` | `rectify` | `concise-reason` | run `20260908-235617` (baseline `concise-reason`, candidate `rectify`) | 40 | 5 | 3 | 8 | **+0.050** | 0.7265625 |
+| 8 | `nonblind-reflect-vs-stepcalc` | `reflect-retry` | `step-calc` | `results/rounds/round3/pilot-train40.json` (`"oracle": "train-only"`) | 40 | 2 | 2 | 4 | **0.000** | 1.0 |
+| 9 | `nonblind-roundingaware-vs-concise` | `rounding-aware` | `concise-reason` | run `20260908-235617` (baseline `concise-reason`, candidate `rounding-aware`) | 40 | 8 | 2 | 10 | **+0.150** | 0.109375 |
+
+(The `exact McNemar p` column is the two-sided exact test on that row's discordant pairs, recomputed
+from `b`/`c`; it is the column Task 4's per-pool R4 table reads. Rows 4 and 6 additionally agree
+with `statistical_decision.mcnemar.p_value` in their own run file, per point 1 of the fix-round-3
+provenance note — a same-source check; the other four rows have no recorded aggregate to agree
+with.)
+
+**Exhaustiveness of the non-blind block (fix round 3 — the claim is now checkable and true).** The
+sentence "one per available paired selection-set comparison" is an *exhaustiveness* claim, so it is
+backed by an enumeration of **every** candidate arm in **both** committed run reports plus
+`results/rounds/round3/pilot-train40.json`, each accounted for either as a rostered pool or as an
+explicitly disclosed exclusion:
+
+| # | source artefact | baseline policy | candidate policy | n | b | c | d | gain | disposition |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 4 | `nonblind-concise-vs-direct` | `concise-reason` | `direct` | run `20260907-135728` (baseline `direct`, candidate `concise-reason`) | 40 | 20 | 0 | 20 | **+0.500** |
-| 5 | `nonblind-doublecheck-vs-direct` | `double-check` | `direct` | run `20260907-135728` (baseline `direct`, candidate `double-check`) | 40 | 2 | 4 | 6 | **−0.050** |
-| 6 | `nonblind-stepcalc-vs-concise` | `step-calc` | `concise-reason` | run `20260908-235617` (baseline `concise-reason`, candidate `step-calc`) | 40 | 9 | 1 | 10 | **+0.200** |
-| 7 | `nonblind-rectify-vs-concise` | `rectify` | `concise-reason` | run `20260908-235617` (baseline `concise-reason`, candidate `rectify`) | 40 | 5 | 3 | 8 | **+0.050** |
-| 8 | `nonblind-reflect-vs-stepcalc` | `reflect-retry` | `step-calc` | `results/rounds/round3/pilot-train40.json` (`"oracle": "train-only"`) | 40 | 2 | 2 | 4 | **0.000** |
+| 1 | `results/runs/20260907-135728.json` | `direct` | `concise-reason` | 40 | 20 | 0 | 20 | +0.500 | **rostered, index 4** |
+| 2 | `results/runs/20260907-135728.json` | `direct` | `double-check` | 40 | 2 | 4 | 6 | −0.050 | **rostered, index 5** |
+| 3 | `results/runs/20260907-135728.json` | `direct` | `direct` (`"note": "reworded-direct"`) | 40 | 0 | 0 | 0 | 0.000 | **disclosed exclusion** — §1 rule 4: `d == 0`, no discordance structure to pool |
+| 4 | `results/runs/20260908-235617.json` | `concise-reason` | `step-calc` | 40 | 9 | 1 | 10 | +0.200 | **rostered, index 6** |
+| 5 | `results/runs/20260908-235617.json` | `concise-reason` | `rounding-aware` | 40 | 8 | 2 | 10 | +0.150 | **rostered, index 9** (added by fix round 3) |
+| 6 | `results/runs/20260908-235617.json` | `concise-reason` | `rectify` | 40 | 5 | 3 | 8 | +0.050 | **rostered, index 7** |
+| 7 | `results/rounds/round3/pilot-train40.json` | `step-calc` | `reflect-retry` | 40 | 2 | 2 | 4 | 0.000 | **rostered, index 8** |
 
-**Honest methodological note — these are the loop's own *selection* data.** The five pools come
+Total accounting: **7 candidate arms = 6 rostered + 1 disclosed exclusion.** The arm of row 3 is
+*disclosed, not omitted*: it is the same comparison as its own baseline (`direct` vs `direct`, the
+candidate merely reworded), so `b = c = d = 0` and §1 rule 4 leaves no discordance structure to
+pool; it stays out of the roster **by that stated reason**, and if it ever acquires discordance it
+must become a rostered pool instead. The enumeration is machine-checked by
+`tests/test_build_pools.py::test_the_nonblind_roster_is_exhaustive_over_the_committed_arms`, which
+fails if any committed candidate arm is neither rostered nor disclosed, and which additionally
+requires every disclosed exclusion to really have `d == 0` (so "disclosed" cannot be used to hide an
+eligible arm). Before fix round 3 this test would have failed on row 5.
+
+**Honest methodological note — these are the loop's own *selection* data.** The six pools come
 from the 40 `gsm8k-01..40` **selection-set** runs of the loop itself. That is *exactly* what
 "non-blind" means in this document, and it is by definition the pool R4 asks for (§2 R4:
 "computed on the **selection (non-blind) set**"). Three consequences are binding:
 
 1. **No generalisation claim may be read from them.** They are development/selection data, not
    held-out data; nothing here is evidence about how the gate behaves on unseen questions.
-2. **They are not null sources (rule 4's escape hatch).** Indices 4–8 are declared *not a null
+2. **They are not null sources (rule 4's escape hatch).** Indices 4–9 are declared *not a null
    source*, so they contribute **no** permutation nulls: the NULL set used for `FPR` remains exactly
    the 800 blind nulls of indices 0–3, and adding them cannot move any blind `FPR`, `FPR@k` or
    `TPR` figure of §4/§5. The pre-correction blind pools are byte-identical (see the machine anchor
    below).
-3. **R4's arm here is a per-pool decision set, not an `FPR`.** Five selection-set pools give five
+3. **R4's arm here is a per-pool decision set, not an `FPR`.** Six selection-set pools give six
    paired decisions; there is no non-blind null set and none was invented, so **no R4 `FPR` may be
-   reported** (a denominator of 5 per-pool decisions is all that exists). The blindness contrast is
-   the *decision-by-decision comparison on the same five pools*, with the denominator printed.
-   R1 refuses all five **by construction** (its own §2 requirement is `pool["blind"] is True`, so it
+   reported** (a denominator of 6 per-pool decisions is all that exists). The blindness contrast is
+   the *decision-by-decision comparison on the same six pools*, with the denominator printed.
+   R1 refuses all six **by construction** (its own §2 requirement is `pool["blind"] is True`, so it
    fails closed on a non-blind pool); that is R1's definition, not a finding, and it must be stated
    as such wherever the contrast is reported.
 
@@ -277,8 +362,9 @@ R4 is evaluated on.**
 they cannot be lost, not only in this prose:
 
 * `scripts/build_pools.py` computes the artefact description from the pools themselves. The
-  artefact carries `r4_status` (`"evaluated (5 non-blind selection-set pool(s) in this artefact)"`),
-  `r4_evaluable: true`, `n_blind_pools = 804`, `n_nonblind_pools = 5`, and a `r4_note` that is
+  artefact carries `r4_status` (`"evaluated (6 non-blind selection-set pool(s) in this artefact)"`),
+  `r4_evaluable: true`, `n_blind_pools = 804` (the 4 blind observed rows + their 800 nulls),
+  `n_nonblind_pools = 6`, and a `r4_note` that is
   **recomputed** from the pools (so it cannot go stale). The earlier corpus-wide keys
   `all_pools_blind` / `no_nonblind_pool_exists` are renamed `all_artefact_pools_blind` /
   `no_nonblind_pool_in_artefact`: they now describe only what they count — the pools of *this
@@ -297,16 +383,27 @@ they cannot be lost, not only in this prose:
   800 null rows in the writer's exact one-pool-per-line serialization; the artefact computes the
   same hashes from its own rows and
   `tests/test_build_pools.py::test_indices_0_3_are_byte_identical_to_the_pre_correction_artefact`
-  verifies them against the pre-correction artefact read from its git commit.
+  verifies them against the pre-correction artefact read from its git commit. The same anchor was
+  re-checked after fix round 3 appended index 9, and indices 0–3 are still byte-identical (the
+  anchor's `observed_block_sha256` / `null_block_sha256` are unchanged and `pools.json`'s `meta`
+  still reports `byte_stability_0_3.identical == true`).
+* **Rule 4's escape hatch is honoured on the observed path (fix round 3).**
+  `_build_observed_pool` refuses `d == 0` **only** when the pool is declared a null source; a
+  `d == 0` pool that the roster explicitly declares *not a null source* is admitted as an observed
+  row (it contributes no nulls, so it cannot move any `FPR`), which is exactly rule 4's second
+  sentence. Both halves are tested, on the real `reworded-direct` arm of run `20260907-135728`
+  (`d = 0`): `tests/test_build_pools.py::test_zero_discordance_observed_pool_is_allowed_only_when_declared_not_a_null_source`.
+  The NULL-family candidate stream and `positive_candidate_blocks` keep refusing `d == 0`
+  unconditionally, each with its own test.
 
 **Consequences for Tasks 2, 4 and 5.** Task 2 *implements* R4 as specified in §2 (it stays in the
-uniform `decide(rule, pool)` interface). Task 4 **computes** the R4 column: for each of the five
-non-blind pools of indices 4–8, the paired exact McNemar decision with `alpha = 0.05` and
+uniform `decide(rule, pool)` interface). Task 4 **computes** the R4 column: for each of the six
+non-blind pools of indices 4–9, the paired exact McNemar decision with `alpha = 0.05` and
 `gain >= eps = 0.02`, reported **per pool with its declared `(chal_policy, inc_policy)` orientation
 and the `promoted/total` denominator visible**, next to R1's decision on the *same* pool, with the
 two constraints above (no `FPR`, no generalisation claim) honoured; §5's three branches are
 unaffected because no branch reads R4. Task 5 **checks** the R4 column (it re-decides R4 on the same
-five pools from `pools.json` via `build_pools.load_pools_json()` and cross-checks the artefact's
+six pools from `pools.json` via `build_pools.load_pools_json()` and cross-checks the artefact's
 `meta.r4_status` / `meta.r4_evaluable`), and the required loader is
 `build_pools.load_pools_json()` — the artefact shape is `{"meta": …, "pools": […]}` and a bare
 `json.loads` yields the wrong shape.
@@ -315,7 +412,7 @@ five pools from `pools.json` via `build_pools.load_pools_json()` and cross-check
 
 | Arm | Status | Basis |
 | --- | --- | --- |
-| **R4** `nonblind` | **evaluated** (five selection-set pools, roster indices 4–8) | per-question selection-set detail exists in `results/runs/*.json` (`baseline.outcomes[]` / `candidates[].evaluation.outcomes[]`) and in `results/rounds/round3/pilot-train40.json`; the earlier "not evaluated" marking rested on a controller inspection error and is superseded |
+| **R4** `nonblind` | **evaluated** (six selection-set pools, roster indices 4–9) | per-question selection-set detail exists in `results/runs/*.json` (`baseline.outcomes[]` / `candidates[].evaluation.outcomes[]`) and in `results/rounds/round3/pilot-train40.json`; the earlier "not evaluated" marking rested on a controller inspection error and is superseded. Index 9 was appended by fix round 3: the correction round's block was not exhaustive (it omitted one of the three candidate arms of run `20260908-235617`) |
 | Task 6 `proposer` arm | not executed unless run (optional, §6) | must be recorded as "not executed", never substituted with other data |
 
 ## 6. Budget
