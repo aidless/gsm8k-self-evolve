@@ -257,7 +257,10 @@ def _metric(metric: str, scope: str, run: dict, value, superseded_value, note: s
 
 
 def build_pilot() -> dict:
-    observed = bp.build_observed_pools()
+    # The pilot's scope is §7's four *blind null-source* pools (roster indices 0-3), so it uses
+    # `build_null_source_pools()` rather than `build_observed_pools()`: the correction round added
+    # five non-blind selection-set observed pools (indices 4-8) that are not part of this pilot.
+    observed = bp.build_null_source_pools()
     runs = [run_pool(pool) for pool in observed]
     pooled_run = pooled(runs)
     rationale = _reconstruction_rationale(runs, pooled_run)
@@ -301,7 +304,15 @@ def build_pilot() -> dict:
         "status": ("design-validation pilot, re-run and committed (PREREG §7.1.3). Supersedes the "
                    "non-citable prose figures of §7.1/§7.2. NOT a deliverable result: the "
                    "deliverable run is Task 4 at K = 200 over results/rounds/round5/pools.json."),
-        "citable": True,
+        "citable": False,
+        "citable_as_pilot_evidence": True,
+        "citable_as_deliverable_result": False,
+        "citable_scope": (
+            "these re-run figures are the pilot figures of record and are citable *as pilot / "
+            "design-validation evidence only* (PREREG §7.1.3), superseding the non-citable prose "
+            "values of §7.1/§7.2. They are NOT citable as a deliverable result: the status field "
+            "says so, and the deliverable run is Task 4 at K = 200 over "
+            "results/rounds/round5/pools.json."),
         "superseded": SUPERSEDED,
         "pinned": {
             "SEED": bp.SEED,
