@@ -9,3 +9,5 @@ __pycache__/
 # publication rather than shipping plan internals.
 docs/
 dist/
+# Track B inputs: fetched at runtime, never committed (ASDiv is CC-BY-NC-4.0)
+results/rounds/round4/inputs/
