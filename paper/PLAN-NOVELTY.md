@@ -42,12 +42,16 @@ positive 池实测   : trackA  cot-zero vs direct            b=159 c=0 d=159 p=2
 置换零（d 保持 =6，mean gain = -0.0029 ≈ 0 ✓）：
   R1 gate      FPR = 0.015
   R2 point     FPR = 0.320
-  R6 no-stat   FPR = 0.320
+  R6 no-stat   FPR = 0.320   # AMENDMENT 1 语义：保留 ε 阈值，仅去显著性检验
   R7 bestofk   FPR: k=1 → 0.357 ；k=2 → 0.620 ；k=4 → 0.838 ；k=8 → 0.968
 ```
 
-结论：设计**确实有区分度**——门控把假阳压到 0.015，而点估计/去掉统计键为 0.32，
+结论：设计**确实有区分度**——门控把假阳压到 0.015，而点估计 / 仅去显著性检验（保留 ε 阈值）为 0.32，
 选择压力下 naive 规则升到 0.97。这正是预注册三分支要检验的东西。
+
+> 注意：以上 pilot 数字（mean gain、各 FPR、FPR@k）**仅为设计证据，尚不可由已提交产物重算**
+> （无 pilot 池文件落盘）；只有 Task 1 的测试套件复现出这些数值后，它们才可作为结果引用 ——
+> 与 `PREREG-round5.md` §7 的可重算性条款一致。
 
 **由此得到的一条硬性设计约束（必须写进 Task 3/4）：** 在 d=6 的池上，精确 McNemar 的 p 只能取
 {0.031, 0.219, …}，**α=0.05 与 α=0.20 的决定完全相同**（pilot 中 R5 ≡ R1）。因此
@@ -117,7 +121,9 @@ def decide(rule: str, pool: dict) -> dict:
   R3 unpaired   : 两样本比例检验（非配对）p<0.05 且 gain>=0.02
   R4 nonblind   : 本门控的配对检验，但在选择集（非盲）上计算
   R5 loose      : 本门控但 α=0.20（阈值敏感性）
-  R6 no-stat    : 本门控去掉 statistical_passed 一键（保留其余四键）
+  R6 no-stat    : 本门控保留效应量阈值 gain >= ε=0.02，仅去掉显著性检验
+                  （原措辞"去掉 statistical_passed 一键（保留其余四键）"语义歧义，
+                    采用语义见 PREREG-round5.md 的 AMENDMENT 1）
   R7 bestofk    : 从 k 个候选中按点估计取最优即晋升（选择压力）
 
 池族：
@@ -139,6 +145,12 @@ def decide(rule: str, pool: dict) -> dict:
 
 预算：Task 1–5 零模型调用；Task 6 ≤ 400 次调用（heldout40 × 5 策略 × 2 次）。
 ```
+
+> **R6 语义（binding，修正后）**：上表 R6 行原措辞"去掉 `statistical_passed` 一键（保留其余四键）"
+> 有歧义——在本研究的池上其余四键是结构性常量，字面读法会使 R6 恒晋升、与实测 pilot FPR 0.320
+> 矛盾。该歧义已由 `results/rounds/round5/PREREG-round5.md` 的 **AMENDMENT 1**（2026-09-12，
+> 执行前）裁定为：**保留效应量阈值 `gain >= ε=0.02`，仅去掉显著性检验**。本计划 R6 行已按该语义
+> 更正；Task 2 的 R6 测试与 Task 4 的 R6 列均以 AMENDMENT 1 为准，不得再按字面读法实现或报告。
 
 - [ ] **Step 2: 冻结并提交**
 
