@@ -131,12 +131,17 @@ def decide(rule: str, pool: dict) -> dict:
   对该 d 道题**逐题独立**以概率 0.5 交换 chal/inc 标签，其余题保持 concordant 不变。
   该重排下真实处理效应恒为 0，且 discordant 总数仍为 d。
   固定种子 SEED=20260912；每池 child_seed = SEED + source_pool_index
-  （source_pool_index = 观测池在 Task 3 花名册中的 0 基序号）；每个源池一个
+  （source_pool_index = 观测池在 Task 3 花名册中的 0 基序号；PREREG §1 的
+  **Observed-pool roster (frozen)** 逐条列出同一序号，两处均不得重编号或换序）；每个源池一个
   random.Random(child_seed)，按 null index i=0..K-1 递增、逐题顺序各消费一次随机数
-  （swap 当且仅当 draw < 0.5）；不得逐 null 重新播种。
+  （swap 当且仅当 draw < 0.5）；不得逐 null 重新播种。该实例在 K=200 个 null 块**之后**
+  继续消费**候选块**（唯一声明的扩展，不得与 null 块交错）：对 i=0..K-1、候选号
+  j=1..8 各消费一个块，得到候选池 C(source_pool, i, j)。R7 的操作性读数固定为
+  **k=8**（见本节末 R7 绑定说明与 PREREG §5.2）：候选独立于同一单元的 R2 零池，
+  k=1 退化读法（无 candidates 时即池本身 ≡ R2）**不是**操作性读数。
   d==0 的池**不得作为 null 源**：permutation_nulls 抛 ValueError、build_pools 拒绝，
   不得静默跳过（静默跳过会无记录地缩小 FPR 分母）；如确有需要，只能作为 observed 池
-  并在 Task 3 花名册中显式声明"非 null 源"。测试须断言
+  并在 Task 3 花名册（0..3 序号，见下文 Task 3 观测池清单）中显式声明"非 null 源"。测试须断言
   len(nulls) == K × (声明的 null 源数)。
   对每个真实池生成 K=200 个置换零池。
   所有池（observed 与 null）由构造置 hidden_passed = safety_passed =
@@ -152,7 +157,9 @@ def decide(rule: str, pool: dict) -> dict:
   R6 no-stat    : 本门控保留效应量阈值 gain >= ε=0.02，仅去掉显著性检验
                   （原措辞"去掉 statistical_passed 一键（保留其余四键）"语义歧义，
                     采用语义见 PREREG-round5.md 的 AMENDMENT 1）
-  R7 bestofk    : 从 k 个候选中按点估计取最优即晋升（选择压力）
+  R7 bestofk    : 从 k 个候选中按点估计取最优即晋升（选择压力）；
+                  本文档所有 R7 评价的 k **固定为 8**（k=8 于交付运行前钉住，
+                  候选由上述候选块生成，与同单元 R2 零池独立；见本节末 R7 绑定说明）
 
 池族：
   NULL      : 上述置换零（真值恒 0）
@@ -168,20 +175,26 @@ def decide(rule: str, pool: dict) -> dict:
           d=6 时 P(tie)=C(6,3)/2^6=20/64=0.3125 → E[FPR_R2]=0.34375；只有大 d 池趋近 0.5。
           R1 预期≤α）
   TPR   = POSITIVE 池中被晋升的比例（越高越好）
-  FPR@k = k 个并列候选下 bestofk 在 NULL 上的假阳率，k=1..8
+  FPR@k = k 个并列候选下 bestofk 在 NULL 上的假阳率，k=1..8；
+          k=8 端点记为 FPR_R7@8（即 FPR@8(R7)，与 (i) 的 R7 项同一数量），
+          (i)/(ii) 均只读该端点，k=1..7 仅作描述性曲线，k=1 退化读法不得替代
   可重算性 = audit_gate_rules.py 能逐规则重算决定（布尔）
 
 判定分支（穷尽；精确统计量与比较式以 PREREG-round5.md §5/§5.1 为准）：
   (i)  R1 的 FPR 显著低于 R2 与 R7 且 TPR 不低于二者：
        pooled FPR_r = 晋升的 NULL 池数 / NULL 池总数（同一 NULL 集）；
        "低于" 定义为 WilsonUpper95(FPR_R1) < WilsonLower95(FPR_R2)
-       且 WilsonUpper95(FPR_R1) < WilsonLower95(FPR_R7)（区间不重叠、R1 在下方）；
+       且 WilsonUpper95(FPR_R1) < WilsonLower95(FPR_R7@8)（区间不重叠、R1 在下方；R7 读 k=8）
+       （R7@8 = 在 k=8 个候选池上按点估计取最优；候选由候选块生成、不得用该单元自己的零池）
        且同一批 NULL 上的配对精确 McNemar（配对单位 = (source_pool, null_index)，
        每个源池恰 K=200 个配对单位，不得跨源池配对）对两个比较都同向且双侧 p < 0.05；
-       "TPR 不低于" = TPR_R1 >= TPR_R2 且 TPR_R1 >= TPR_R7（POSITIVE 池点估计）
+       R7 比较的单元决策 = bestofk 在该单元自己的 k=8 个候选池上取最优（候选块生成，
+       该单元自身的 R2 零池不参与），不得以 k=1 退化读法替代；
+       "TPR 不低于" = TPR_R1 >= TPR_R2 且 TPR_R1 >= TPR_R7@8（POSITIVE 池点估计；R7 同为 k=8）
        → 记录"门控价值成立"
   (ii) 未达 (i)，但 R1 的 FPR@8 同时低于 R2、R7 的 FPR@8 的 Wilson 下界：
        FPR@8(R1) < WilsonLower95(FPR@8(R2)) 且 FPR@8(R1) < WilsonLower95(FPR@8(R7))
+       （FPR@8(R7) 即 FPR_R7@8：与 (i) 的 R7 项是同一个 k=8 统计量，两分支不得漂移）
        （k=8 为预注册最大 k，运行后不得改用其它 k；"曲线显著更平"不是判定装置）
        → 记录"选择压力下价值成立"
   (iii) 全部不达 → 记录"未证实"，N 不上调
@@ -194,6 +207,14 @@ def decide(rule: str, pool: dict) -> dict:
 > 矛盾。该歧义已由 `results/rounds/round5/PREREG-round5.md` 的 **AMENDMENT 1**（2026-09-12，
 > 交付运行前）裁定为：**保留效应量阈值 `gain >= ε=0.02`，仅去掉显著性检验**。本计划 R6 行已按该语义
 > 更正；Task 2 的 R6 测试与 Task 4 的 R6 列均以 AMENDMENT 1 为准，不得再按字面读法实现或报告。
+
+> **R7 操作性读数（binding — k=8 于交付运行前钉住）**：与分支 (ii) 一致，本文档中一切 R7 评价
+> （分支 (i) 的 FPR 与 TPR、分支 (ii) 的 FPR@8、Task 4 的 k 曲线读数）一律取 **k=8**，
+> 记为 `FPR_R7@8`（即 `FPR@8(R7)`）与 `TPR_R7@8`。候选即 §1 候选块生成的、属于该
+> `(source_pool, null_index)` 单元自己的 8 个置换零候选池 `C(source_pool, i, j)`，`j=1..8`；
+> 不得复用该单元自身的 R2 零池，以保持 §7.2 的独立性关系。**k=1 退化读法（接口无
+> `pool["candidates"]` 时退化为池本身、行为等同于 R2）不是操作性读数**；任何以 k=1 代替 k=8
+> 的报告必须先写修订声明。完整定义见 `results/rounds/round5/PREREG-round5.md` §5.2。
 
 - [ ] **Step 2: 冻结并提交**
 
@@ -306,7 +327,7 @@ def test_all_rules_are_pure():
 
 - [ ] **Step 2: 运行确认失败**
 
-- [ ] **Step 3: 实现**：R1/R5/R6 共用 `_gate(pool, alpha, eps, use_stat_key)`；R2 只看 gain；R3 非配对两比例检验（docstring 写明所用形式，如 Fisher 精确或正态近似）；R4 用配对检验但忽略 `blind` 约束；R7 由 Task 4 传入候选列表。
+- [ ] **Step 3: 实现**：R1/R5/R6 共用 `_gate(pool, alpha, eps, use_stat_key)`；R2 只看 gain；R3 非配对两比例检验（docstring 写明所用形式，如 Fisher 精确或正态近似）；R4 用配对检验但忽略 `blind` 约束；R7 由 Task 4 传入候选列表，**操作性读数固定 k=8**（候选由 Task 1 的候选块生成，`C(source_pool, i, j)`，`j=1..8`；无 candidates 时的 k=1 退化路径仅作为接口行为并在 docstring 写明，不得作为操作性读数，见 PREREG §5.2）。
 
 - [ ] **Step 4: 运行确认通过** → **Step 5 提交**
 
@@ -338,11 +359,11 @@ def test_pool_families_present_and_sized():
 
 - [ ] **Step 2: 运行确认失败**
 
-- [ ] **Step 3: 实现观测池装配**。观测池清单（每个配 200 个置换零）：
-  - `positive-cotzero-vs-direct`（trackA，d=159）
-  - `mid-stepcalc-vs-cotzero`（trackA，d=16）— **α/非配对臂的主池**
-  - `mid-stepcalc-vs-fewshot`（trackA，d=23）
-  - `marginal-stepcalc-vs-concise`（qwen2:7b，d=6）
+- [ ] **Step 3: 实现观测池装配**。观测池清单（**frozen roster，0 基序号即 `source_pool_index`，与 PREREG §1 的 Observed-pool roster (frozen) 一一对应，不得重编号或换序**；每个配 200 个置换零）：
+  - index 0 `positive-cotzero-vs-direct`（trackA，d=159）
+  - index 1 `mid-stepcalc-vs-cotzero`（trackA，d=16）— **α/非配对臂的主池**
+  - index 2 `mid-stepcalc-vs-fewshot`（trackA，d=23）
+  - index 3 `marginal-stepcalc-vs-concise`（qwen2:7b，d=6）
   并按 `blind` 字段标注该池取自盲集还是选择集（R4 依赖它）。
 
 - [ ] **Step 4: 运行确认通过** → **Step 5 提交**
@@ -362,10 +383,10 @@ def test_pool_families_present_and_sized():
 - [ ] **Step 1: 实现 `run_ablation()`**：
   - 逐规则：`FPR = mean(decide(r,p)["promote"] for p in NULL)`；`TPR` 在 POSITIVE 上同理
   - R1 vs R2/R7：报 Wilson 95% 区间与 pooled FPR；"低于"按 PREREG §5.1 判定为
-    WilsonUpper95(FPR_R1) < WilsonLower95(FPR_R2) 且 < WilsonLower95(FPR_R7)，
+    WilsonUpper95(FPR_R1) < WilsonLower95(FPR_R2) 且 < WilsonLower95(FPR_R7@8)，
     并另报同一批零池上的**配对精确 McNemar**（配对单位 `(source_pool, null_index)`，
     每个源池恰 K=200 个配对单位，不得跨源池配对；须同向且双侧 p<0.05 才算"与区间一致"）
-  - `k_curve`：对每个 NULL 池构造 k 个"候选"（对该池再做 k 次独立标签置换），`R7` 取点估计最优；`FPR@k`，k=1..8
+  - `k_curve`：**按 PREREG §1 的候选块**为每个 `(source_pool, null_index)` 单元生成 8 个候选池 `C(source_pool, i, j)`（`j=1..8`，与该单元自身的 R2 零池不同），`R7` 取点估计最优；报 `FPR@k`，k=1..8，但 **R7 的操作性读数固定 `k=8`**（`FPR_R7@8` / `TPR_R7@8`），k=1..7 仅作描述性曲线，k=1 退化读法不得替代
   - 依预注册三分支给 `verdict_branch`；(ii) 的判定式为
     `FPR@8(R1) < WilsonLower95(FPR@8(R2))` 且 `< WilsonLower95(FPR@8(R7))`（k=8 固定，不得改用其它 k）
 
