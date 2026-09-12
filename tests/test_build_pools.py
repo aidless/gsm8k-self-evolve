@@ -448,7 +448,7 @@ def test_pools_json_is_the_committed_build_pools_output():
     """The evidence artefact must be exactly the module's output (recomputable, no drift)."""
     path = ROUND5 / "pools.json"
     assert path.exists(), "results/rounds/round5/pools.json must be committed evidence"
-    pools = json.loads(path.read_text(encoding="utf-8"))
+    pools = bp.load_pools_json(path)
     assert pools == bp.build_pools(), "pools.json must equal build_pools()"
     check_pools_consistency(pools)
     # the pinned randomness is recoverable from the artefact alone
@@ -465,6 +465,66 @@ def test_pools_json_is_the_committed_build_pools_output():
             next(p for p in pools if p["truth"] == "observed"
                  and p["meta"]["source_pool"] == entry["source_pool"]),
             8, bp.SEED + index)[7]
+
+
+def test_pools_artefact_declares_no_nonblind_pool_and_marks_r4_not_evaluable():
+    """Ruling 17(d): the mechanical guard against a future edit silently claiming a non-blind pool.
+
+    Two invariants, both on the committed artefact itself:
+      (1) **every** pool row in ``pools.json`` has ``blind is True``; and
+      (2) the artefact carries the top-level "no non-blind pool exists / R4 is not evaluable" note,
+          with the R4 status spelled as ``not evaluated (no non-blind data)``.
+
+    This is a corpus fact, not a preference: ``results/runs/*.json`` hold only aggregate fields and
+    every usable per-item pool derives from a blind held-out set, so the blindness contrast
+    (R1 vs R4) is unmeasured.  If a non-blind pool is ever genuinely added, this test must fail
+    until the note is deliberately re-declared.
+    """
+    path = ROUND5 / "pools.json"
+    assert path.exists(), "results/rounds/round5/pools.json must be committed evidence"
+    doc = json.loads(path.read_text(encoding="utf-8"))
+
+    # (0) a bare JSON array would silently drop the note -- the artefact must stay an object
+    assert isinstance(doc, dict), "pools.json must be {'meta': ..., 'pools': [...]}, not a bare array"
+    meta = doc["meta"]
+    pools = doc["pools"]
+    assert pools, "the artefact must carry the pools"
+
+    # (1) every pool row is blind -- top level and meta alike
+    assert all(p["blind"] is True for p in pools), \
+        "every pool of this corpus must be blind; a non-blind row would make R4 evaluable"
+    assert all(p["meta"]["blind"] is True for p in pools), "meta.blind must agree with pool.blind"
+    assert meta["n_nonblind_pools"] == 0 and meta["n_pools"] == len(pools)
+
+    # (2) the note is present and states the two facts, in the artefact's own words
+    assert meta["no_nonblind_pool_exists"] is True
+    assert meta["all_pools_blind"] is True
+    assert meta["r4_evaluable"] is False
+    assert meta["r4_status"] == "not evaluated (no non-blind data)" == bp.R4_STATUS
+    note = meta["r4_note"]
+    assert note.strip(), "the artefact must carry a non-empty r4_note"
+    assert note == bp.NO_NONBLIND_POOL_NOTE
+    for phrase in ("No non-blind (selection-set) per-item pool exists",
+                   "NOT EVALUATED",
+                   "blindness contrast (R1 vs R4) is therefore unmeasured",
+                   "DECLINED",
+                   "blind == true"):
+        assert phrase in note, f"the r4 note must state {phrase!r}"
+
+    # (3) the guard bites: a bare array (note dropped) and a non-blind row are both rejected
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        bare = Path(td) / "bare.json"
+        bare.write_text(json.dumps(pools), encoding="utf-8")
+        with pytest.raises(ValueError, match="meta"):
+            bp.load_pools_json(bare)
+        mutated = Path(td) / "mutated.json"
+        flipped = json.loads(json.dumps(pools))
+        flipped[0]["blind"] = False
+        mutated.write_text(json.dumps({"meta": bp.pools_meta(flipped), "pools": flipped}),
+                           encoding="utf-8")
+        with pytest.raises(ValueError, match="all_pools_blind"):
+            bp.load_pools_json(mutated)
 
 
 def test_pilot_json_records_an_explicit_k_and_seed_per_metric():

@@ -28,6 +28,25 @@ Scope and honesty boundaries
   be runnable and committed now.  No metric of this pilot may be cited as a result about the
   decision rules themselves (PREREG §6: the deliverable run is Task 4).
 * A permutation draw is a **construction**, not a measurement (PREREG §1).
+
+Reconciliation obligation (controller ruling 18) -- for Task 2/Task 4
+--------------------------------------------------------------------
+``scripts/gate_rules.py`` (Task 2) is the **canonical** rule implementation.  The rule code in
+this pilot is **pilot-local and provisional**, and it MUST be reconciled with that canonical
+module once Task 2 ships -- either
+
+  (a) by a test asserting **equivalence at the pilot's own parameters** (compare
+      ``decide("R1"|"R2"|"R6", pool)`` from ``scripts/gate_rules.py`` against
+      ``promote_r1``/``promote_r2``/``promote_r6`` of this module on the same pools, at
+      ``alpha = 0.05``, ``eps = 0.02`` and the AMENDMENT 1 R6 reading), or
+
+  (b) by **re-running this pilot through the canonical module** and disclosing the updated
+      figures (a new ``PILOT.json``, superseding the current one, with a dated note here).
+
+Until one of those is done, ``PILOT.json``'s ``rule_source`` field stands as the disclosure
+that the figures come from pilot-local code.  This paragraph is the pointer that makes the
+obligation visible where Task 2 and Task 4 will read it; the reconciliation itself is
+deliberately **not** implemented here (the canonical module does not exist yet).
 """
 from __future__ import annotations
 

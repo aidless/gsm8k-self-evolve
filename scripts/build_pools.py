@@ -11,8 +11,17 @@ Frozen protocol (authoritative): ``results/rounds/round5/PREREG-round5.md``
 Two artefacts are produced here:
 
 ``results/rounds/round5/pools.json``
-    exactly ``build_pools()`` -- the four observed pools plus, for each of them, ``K = 200``
-    permutation-null pools. One pool per line (valid JSON, greppable, diffable).
+    an object ``{"meta": ..., "pools": [...]}`` whose ``pools`` key is exactly
+    ``build_pools()`` -- the four observed pools plus, for each of them, ``K = 200``
+    permutation-null pools. One pool per line (valid JSON, greppable, diffable).  The
+    artefact-level ``meta`` note is **mandatory** (Ruling 17(c)): it records mechanically that
+    **no non-blind pool exists** in this corpus and that rule **R4 (non-blind) is therefore not
+    evaluable**, so the blindness contrast (R1 vs R4) is unmeasured and R4 must be omitted from
+    results with an explicit note rather than silently dropped.  A synthetic non-blind pool
+    built from the registry's aggregate selection-set counts was considered and **declined** as
+    an unverifiable construction.  ``load_pools_json()`` refuses a bare-array artefact, so the
+    note cannot be dropped silently; ``tests/test_build_pools.py`` asserts both the note and
+    ``blind is True`` on every pool row.
 
 ``results/rounds/round5/PILOT.json``
     produced by ``scripts/pilot_round5.py``, which imports this module.
@@ -139,6 +148,25 @@ POSITIVE_SOURCE_INDEX = 0      # §1 rule 5 / §3: the POSITIVE family has exact
 # its nulls inherit that label (a null pool uses its source pool's own questions).
 BLIND_POLICY = "inherited_from_source"
 ITEM_ORDER_POLICY = "qid-ascending (equals the committed details key order of the source artefact)"
+
+# ---------------------------------- R4 is not evaluable: no non-blind per-item pool (Ruling 17)
+#
+# Controller verification this rests on (do not re-derive): ``results/runs/*.json`` carry only
+# aggregate fields and contain NO per-question details, so every usable per-item pool in this
+# repository comes from a blind held-out set.  There is no non-blind pool to compute R4 on, and
+# the blindness contrast (R1 vs R4) is therefore unmeasured -- R4 is recorded as not evaluated
+# instead of being silently dropped.  These two strings are mirrored into the artefact's ``meta``
+# note by ``pools_meta()`` and asserted by ``tests/test_build_pools.py``.
+R4_STATUS = "not evaluated (no non-blind data)"
+NO_NONBLIND_POOL_NOTE = (
+    "No non-blind (selection-set) per-item pool exists in this repository, so rule R4 "
+    "(non-blind) is NOT EVALUATED in this study: results/runs/*.json hold only aggregate fields "
+    "and every usable per-item pool derives from a blind held-out set.  Consequence, stated "
+    "plainly: the blindness contrast (R1 vs R4) is therefore unmeasured, and R4 must be omitted "
+    "from results with this explicit note rather than silently dropped.  A synthetic non-blind "
+    "pool built from the registry's aggregate selection-set counts was considered and DECLINED "
+    "as an unverifiable construction.  Every pool row of this artefact has blind == true."
+)
 
 
 # ------------------------------------------------------------------------- little helpers
@@ -475,14 +503,76 @@ def build_pools() -> list[dict]:
     return pools
 
 
+def pools_meta(pools: list[dict]) -> dict:
+    """The artefact-level note of ``pools.json`` (Ruling 17(c)).
+
+    Every checkable field is **computed from the pools themselves**, never hardcoded: if a future
+    edit introduces a non-blind pool, ``all_pools_blind`` flips to ``False`` and the guard test
+    fails instead of the artefact quietly carrying a stale claim.  ``r4_evaluable`` is the
+    declared consequence for this corpus (see ``NO_NONBLIND_POOL_NOTE``).
+    """
+    n_nonblind = sum(1 for p in pools if p["blind"] is not True)
+    return {
+        "schema_version": 1,
+        "SEED": SEED,
+        "K": K,
+        "K_CANDIDATES": K_CANDIDATES,
+        "declared_null_sources": [r["source_pool"] for r in ROSTER],
+        "blind_policy": BLIND_POLICY,
+        "item_order": ITEM_ORDER_POLICY,
+        "n_pools": len(pools),
+        "n_observed": sum(1 for p in pools if p["truth"] == "observed"),
+        "n_null": sum(1 for p in pools if p["truth"] == "null"),
+        "n_nonblind_pools": n_nonblind,
+        "all_pools_blind": n_nonblind == 0,
+        "no_nonblind_pool_exists": n_nonblind == 0,
+        "r4_evaluable": n_nonblind > 0,
+        "r4_status": R4_STATUS if n_nonblind == 0 else "evaluable (non-blind pools present)",
+        "r4_note": NO_NONBLIND_POOL_NOTE,
+    }
+
+
 def write_pools_json(path: Path | None = None) -> Path:
-    """Write ``pools.json`` as one pool per line (valid JSON array, diffable and greppable)."""
+    """Write ``pools.json`` as ``{"meta": ..., "pools": [...]}``, one pool per line.
+
+    The artefact is an object rather than a bare array so that the Ruling 17(c) note travels
+    **inside the evidence artefact** and cannot be lost by copying the pools.  Keep the pool
+    lines one-per-line: the file stays diffable and greppable.
+    """
     pools = build_pools()
     out = Path(path) if path is not None else ROUND5 / "pools.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     body = ",\n".join(json.dumps(p, ensure_ascii=False, separators=(",", ":")) for p in pools)
-    out.write_text("[\n" + body + "\n]\n", encoding="utf-8")
+    meta = json.dumps(pools_meta(pools), ensure_ascii=False, indent=1, sort_keys=True)
+    meta = " " + meta.replace("\n", "\n ")       # keep it inside the object's 1-space indent
+    out.write_text("{\n \"meta\": " + meta.lstrip() + ",\n \"pools\": [\n" + body + "\n ]\n}\n",
+                   encoding="utf-8")
     return out
+
+
+def load_pools_json(path: Path | None = None) -> list[dict]:
+    """Load the pool list from the committed ``pools.json`` artefact.
+
+    The artefact must be the ``{"meta": ..., "pools": [...]}`` object written by
+    ``write_pools_json()``, and its meta must declare the Ruling 17(c) facts.  A bare JSON array
+    is **rejected** rather than accepted: accepting it would let a future edit drop the
+    "no non-blind pool / R4 not evaluable" note without anything failing.
+    """
+    src = Path(path) if path is not None else ROUND5 / "pools.json"
+    doc = json.loads(src.read_text(encoding="utf-8"))
+    if not isinstance(doc, dict) or "meta" not in doc or "pools" not in doc:
+        raise ValueError(
+            f"{src}: pools.json must be an object with 'meta' and 'pools' keys; the meta note "
+            "records that no non-blind pool exists and R4 is not evaluable (Ruling 17)")
+    meta = doc["meta"]
+    if meta.get("all_pools_blind") is not True or meta.get("r4_evaluable") is not False:
+        raise ValueError(
+            f"{src}: meta must state all_pools_blind == true and r4_evaluable == false "
+            f"(got {meta.get('all_pools_blind')!r} / {meta.get('r4_evaluable')!r}): if a "
+            "non-blind pool has genuinely appeared, re-declare this deliberately")
+    if meta.get("r4_status") != R4_STATUS or not str(meta.get("r4_note", "")).strip():
+        raise ValueError(f"{src}: meta must carry r4_status {R4_STATUS!r} and a non-empty r4_note")
+    return doc["pools"]
 
 
 def main() -> int:
@@ -505,6 +595,14 @@ def main() -> int:
         f"{src}={sum(1 for p in nulls if p['meta']['source_pool'] == src)}"
         for src in (r["source_pool"] for r in ROSTER)))
     assert all(p[key] is True for p in pools for key in GATE_KEYS)
+    # Ruling 17(c)/(d): the corpus has no non-blind pool, so R4 is not evaluable.  This is
+    # fail-closed on purpose -- a genuinely non-blind pool must be re-declared deliberately
+    # (and disclosed as a dated revision), not slip in under the note written above.
+    assert all(p["blind"] is True for p in pools), (
+        "every pool of this corpus must be blind; a non-blind pool would make R4 evaluable and "
+        "would require re-declaring the pools.json meta note (Ruling 17)")
+    print(f"blind={all(p['blind'] is True for p in pools)} "
+          f"r4_status={pools_meta(pools)['r4_status']!r} (no non-blind pool in this corpus)")
     return 0
 
 
