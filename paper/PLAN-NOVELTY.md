@@ -74,7 +74,7 @@ positive 池实测   : trackA  (chal=cot-zero, inc=direct)            b=159 c=0 
 - **不得声称"我们复现/击败了 REMO / SPHERE / TextGrad"**。比较对象是"与这些工作公开描述一致的**决策程序**"（idealised decision rules），不是那些系统本身。正文与摘要均须写明这一边界。
 - 预注册先行：`PREREG-round5.md` 必须先落盘（含判定规则、指标定义、零的构造方式、失败分支），再运行消融。
 - 除 Task 6 外**不新增任何模型调用**；Task 6 预算上限须写进预注册。
-- 置换零的操作是**对 discordant 题逐题独立地以 p=0.5 交换 chal/inc 标签**（复用现有标签、不引入新的随机成败），**不是保计数的标签置换**：逐题独立交换下 `b' ~ Binomial(d, 0.5)`、`E[gain] = 0`；而保计数置换会保留原 `(b, c)`，使 mean gain 非零，与本计划"mean gain≈0"的判据冲突。随机源固定为 `SEED=20260912`，逐池 child seed 与随机数消费顺序见 `PREREG-round5.md` §1。
+- 置换零的操作是**对 discordant 题逐题独立地以 p=0.5 交换 chal/inc 标签**（复用现有标签、不引入新的随机成败），**不是保计数的标签置换**：逐题独立交换下 `b' ~ Binomial(d, 0.5)`、`E[gain] = 0`；而保计数置换会保留原 `(b, c)`，使 mean gain 非零，与本计划"mean gain≈0"的判据冲突。随机源固定为 `SEED=20260912`，逐池 child seed 与随机数消费顺序见 `PREREG-round5.md` §1。该逐题重排是 **NULL 族**（零池与 NULL 族候选）的构造；POSITIVE 族的 R7 候选用**保标签的题 bootstrap**（有放回重抽题、`chal`/`inc` 标签原样保留，真效应不被抹掉），它既不是零构造、也不产生零池（`PREREG-round5.md` §1 rule 5、§3、§5.2）。
 - 结论只写实测支持的；不显著一律写"未复现"，不写"不存在"。
 
 ---
@@ -135,10 +135,22 @@ def decide(rule: str, pool: dict) -> dict:
   **Observed-pool roster (frozen)** 逐条列出同一序号，两处均不得重编号或换序）；每个源池一个
   random.Random(child_seed)，按 null index i=0..K-1 递增、逐题顺序各消费一次随机数
   （swap 当且仅当 draw < 0.5）；不得逐 null 重新播种。该实例在 K=200 个 null 块**之后**
-  继续消费**候选块**（唯一声明的扩展，不得与 null 块交错）：对 i=0..K-1、候选号
-  j=1..8 各消费一个块，得到候选池 C(source_pool, i, j)。R7 的操作性读数固定为
-  **k=8**（见本节末 R7 绑定说明与 PREREG §5.2）：候选独立于同一单元的 R2 零池，
-  k=1 退化读法（无 candidates 时即池本身 ≡ R2）**不是**操作性读数。
+  继续消费**候选块**（声明扩展，不得与 null 块交错），候选构造**按池族取用**
+  （binding — PREREG §1 rule 5 / §5.2）：
+    · NULL 族候选 = 重排（relabelling）：对 i=0..K-1、候选号 j=1..8 各消费一个块，
+      逐 discordant 题按冻结题序各消费一次随机数（swap 当且仅当 draw < 0.5），
+      得到候选池 C(source_pool, i, j)——真效应恒 0，这正是 NULL 族评价需要的候选；
+    · POSITIVE 族候选 = **保标签的题 bootstrap**（label-preserving item bootstrap）：
+      只对 POSITIVE 源池、且在 NULL 族候选流全部消费完之后：候选号 j=1..8
+      （POSITIVE 单元只有 1 个，记 i=0），每块抽 n 次 u=rng.random()，按 int(u×n)
+      从该池冻结题序中**有放回**重抽题，题目的 chal/inc 标签**原样保留**；
+      候选项因此始终带着观测到的正效应，是合法的正例抽法。POSITIVE 族上做重排
+      （把真效应抹成 0）是禁止的，正如 NULL 族上必须重排；两族候选不得混用。
+    嵌套次序：i 外层、j 内层（单位 i 的候选块全部消费完才进入 i+1），块内按冻结题序；
+    k 子集＝该单元候选块的前缀 j=1..k。
+  R7 的操作性读数固定为 **k=8**（见本节末 R7 绑定说明与 PREREG §5.2）：候选独立于
+  同一单元的 R2 零池；k=1 退化读法（接口无 candidates 时即池本身 ≡ R2）**不是**操作性读数，
+  曲线端点 k=1（＝候选块 (i,1)，真实候选池）也不是。
   d==0 的池**不得作为 null 源**：permutation_nulls 抛 ValueError、build_pools 拒绝，
   不得静默跳过（静默跳过会无记录地缩小 FPR 分母）；如确有需要，只能作为 observed 池
   并在 Task 3 花名册（0..3 序号，见下文 Task 3 观测池清单）中显式声明"非 null 源"。测试须断言
@@ -158,8 +170,10 @@ def decide(rule: str, pool: dict) -> dict:
                   （原措辞"去掉 statistical_passed 一键（保留其余四键）"语义歧义，
                     采用语义见 PREREG-round5.md 的 AMENDMENT 1）
   R7 bestofk    : 从 k 个候选中按点估计取最优即晋升（选择压力）；
-                  本文档所有 R7 评价的 k **固定为 8**（k=8 于交付运行前钉住，
-                  候选由上述候选块生成，与同单元 R2 零池独立；见本节末 R7 绑定说明）
+                  本文档所有 R7 **判定/决策**读数的 k **固定为 8**（k=8 于交付运行前钉住），
+                  候选**按池族取用**（NULL 族=重排；POSITIVE 族=保标签题 bootstrap，见上），
+                  与同单元 R2 零池独立；见本节末 R7 绑定说明。
+                  描述性 k=1..7 曲线**照旧必须报告**（非判定读数，不受本 pin 约束）
 
 池族：
   NULL      : 上述置换零（真值恒 0）
@@ -174,10 +188,15 @@ def decide(rule: str, pool: dict) -> dict:
   FPR   = NULL 池中被晋升的比例（越低越好；R2 的期望 = (1 − P(tie))/2，不是 0.5：
           d=6 时 P(tie)=C(6,3)/2^6=20/64=0.3125 → E[FPR_R2]=0.34375；只有大 d 池趋近 0.5。
           R1 预期≤α）
-  TPR   = POSITIVE 池中被晋升的比例（越高越好）
+  TPR   = POSITIVE 池中被晋升的比例（越高越好）；本文件 POSITIVE 池只有 1 个
+          → 分母 = 1：TPR 比较只是“R1 不掉真阳”的健全性检查（防空转），
+          对规则之间**无鉴别力**，不得据此声称 R1 在 TPR 上优于 R2/R7（PREREG §5.1(c)）
   FPR@k = k 个并列候选下 bestofk 在 NULL 上的假阳率，k=1..8；
+          k 子集＝该单元候选块的前缀 j=1..k（同一嵌套流，不是每个 k 重抽）；
           k=8 端点记为 FPR_R7@8（即 FPR@8(R7)，与 (i) 的 R7 项同一数量），
-          (i)/(ii) 均只读该端点，k=1..7 仅作描述性曲线，k=1 退化读法不得替代
+          (i)/(ii) 均只读该端点；k=1..7 仅作描述性曲线且 Task 4 必须报告；
+          曲线端点 k=1＝候选块 (i,1)（真实候选池，≠ 池本身）——它既不是 k=1
+          退化读法（接口无 candidates ⇒ 池本身），也不得替代 k=8
   可重算性 = audit_gate_rules.py 能逐规则重算决定（布尔）
 
 判定分支（穷尽；精确统计量与比较式以 PREREG-round5.md §5/§5.1 为准）：
@@ -190,7 +209,10 @@ def decide(rule: str, pool: dict) -> dict:
        每个源池恰 K=200 个配对单位，不得跨源池配对）对两个比较都同向且双侧 p < 0.05；
        R7 比较的单元决策 = bestofk 在该单元自己的 k=8 个候选池上取最优（候选块生成，
        该单元自身的 R2 零池不参与），不得以 k=1 退化读法替代；
-       "TPR 不低于" = TPR_R1 >= TPR_R2 且 TPR_R1 >= TPR_R7@8（POSITIVE 池点估计；R7 同为 k=8）
+       "TPR 不低于" = TPR_R1 >= TPR_R2 且 TPR_R1 >= TPR_R7@8（POSITIVE 池点估计；R7 同为
+       k=8，且候选用 POSITIVE 族保标签 bootstrap——绝不用重排候选量真阳率）
+       ——本文件 POSITIVE 池仅 1 个、分母 = 1：此款是“R1 不掉真阳”的健全性检查，
+       对规则之间**无鉴别力**，不得据此声称 R1 在 TPR 上优于 R2 或 R7
        → 记录"门控价值成立"
   (ii) 未达 (i)，但 R1 的 FPR@8 同时低于 R2、R7 的 FPR@8 的 Wilson 下界：
        FPR@8(R1) < WilsonLower95(FPR@8(R2)) 且 FPR@8(R1) < WilsonLower95(FPR@8(R7))
@@ -208,13 +230,18 @@ def decide(rule: str, pool: dict) -> dict:
 > 交付运行前）裁定为：**保留效应量阈值 `gain >= ε=0.02`，仅去掉显著性检验**。本计划 R6 行已按该语义
 > 更正；Task 2 的 R6 测试与 Task 4 的 R6 列均以 AMENDMENT 1 为准，不得再按字面读法实现或报告。
 
-> **R7 操作性读数（binding — k=8 于交付运行前钉住）**：与分支 (ii) 一致，本文档中一切 R7 评价
-> （分支 (i) 的 FPR 与 TPR、分支 (ii) 的 FPR@8、Task 4 的 k 曲线读数）一律取 **k=8**，
-> 记为 `FPR_R7@8`（即 `FPR@8(R7)`）与 `TPR_R7@8`。候选即 §1 候选块生成的、属于该
-> `(source_pool, null_index)` 单元自己的 8 个置换零候选池 `C(source_pool, i, j)`，`j=1..8`；
-> 不得复用该单元自身的 R2 零池，以保持 §7.2 的独立性关系。**k=1 退化读法（接口无
-> `pool["candidates"]` 时退化为池本身、行为等同于 R2）不是操作性读数**；任何以 k=1 代替 k=8
-> 的报告必须先写修订声明。完整定义见 `results/rounds/round5/PREREG-round5.md` §5.2。
+> **R7 操作性读数（binding — k=8 于交付运行前钉住，只界定 R7 的判定/决策读数）**：与分支 (ii)
+> 一致，本文档中一切 R7 **判定/决策**读数（分支 (i) 的 FPR 与 TPR、分支 (ii) 的 FPR@8）一律取
+> **k=8**，记为 `FPR_R7@8`（即 `FPR@8(R7)`）与 `TPR_R7@8`。**本 binding 不覆盖描述性曲线**：
+> 指标表要求 Task 4 报告的 `FPR@k` 曲线 k=1..7 照旧**必须报告**，它是描述性读数、不是判定装置，
+> 不受 k=8 约束，也不得被当作判定依据。候选**按池族取用**（PREREG §1 rule 5）：NULL 族判定用
+> §1 候选块生成的、属于该 `(source_pool, null_index)` 单元自己的 8 个重排候选池
+> `C(source_pool, i, j)`，`j=1..8`；POSITIVE 族判定（`TPR_R7@8`）用**保标签的题 bootstrap**
+> 候选 `C_pos(source_pool, i=0, j)`，`j=1..8`，绝不用重排候选量真阳率。不得复用该单元自身的
+> R2 零池，以保持 §7.2 的独立性关系。**k=1 退化读法（接口无 `pool["candidates"]` 时退化为池
+> 本身、行为等同于 R2）不是操作性读数**，且与曲线端点 k=1（＝候选块 (i,1)，真实候选池）
+> 是两回事；任何以 k=1 代替 k=8 的报告必须先写修订声明。完整定义见
+> `results/rounds/round5/PREREG-round5.md` §5.2。
 
 - [ ] **Step 2: 冻结并提交**
 
@@ -275,7 +302,7 @@ def test_zero_discordance_pool_is_rejected_not_silently_skipped():
 
 - [ ] **Step 2: 运行确认失败**：`python3 -m pytest tests/test_build_pools.py -q` → FAIL（模块不存在）
 
-- [ ] **Step 3: 实现**。关键点：**只重排 discordant 题**，concordant 题不动；`SEED=20260912`，每池 `random.Random(SEED + source_pool_index)` 且**不得逐 null 重新播种**（消费顺序见 Task 0 的"零的构造"）；`d==0` 抛 `ValueError`，不得静默跳过；每池记录 `name/truth/n/blind/chal_policy/inc_policy/hidden_passed/safety_passed/rollback_available/bundle_signature_valid/items/meta{source_pool,discordant_total,seed}`。
+- [ ] **Step 3: 实现**。关键点：**只重排 discordant 题**，concordant 题不动；`SEED=20260912`，每池 `random.Random(SEED + source_pool_index)` 且**不得逐 null 重新播种**（消费顺序见 Task 0 的"零的构造"）；`d==0` 抛 `ValueError`，不得静默跳过；每池记录 `name/truth/n/blind/chal_policy/inc_policy/hidden_passed/safety_passed/rollback_available/bundle_signature_valid/items/meta{source_pool,discordant_total,seed}`。候选流必须**按池族取用**（NULL 族重排、POSITIVE 族保标签题 bootstrap，见 Task 0「零的构造」与 PREREG §1 rule 5）：k 子集＝该单元候选块的前缀 j=1..k。
 
 - [ ] **Step 4: 运行确认通过**
 
@@ -327,7 +354,7 @@ def test_all_rules_are_pure():
 
 - [ ] **Step 2: 运行确认失败**
 
-- [ ] **Step 3: 实现**：R1/R5/R6 共用 `_gate(pool, alpha, eps, use_stat_key)`；R2 只看 gain；R3 非配对两比例检验（docstring 写明所用形式，如 Fisher 精确或正态近似）；R4 用配对检验但忽略 `blind` 约束；R7 由 Task 4 传入候选列表，**操作性读数固定 k=8**（候选由 Task 1 的候选块生成，`C(source_pool, i, j)`，`j=1..8`；无 candidates 时的 k=1 退化路径仅作为接口行为并在 docstring 写明，不得作为操作性读数，见 PREREG §5.2）。
+- [ ] **Step 3: 实现**：R1/R5/R6 共用 `_gate(pool, alpha, eps, use_stat_key)`；R2 只看 gain；R3 非配对两比例检验（docstring 写明所用形式，如 Fisher 精确或正态近似）；R4 用配对检验但忽略 `blind` 约束；R7 由 Task 4 传入候选列表，**操作性读数固定 k=8**（候选由 Task 1 的候选块生成，`C(source_pool, i, j)`，`j=1..8`；候选构造**按池族取用**——NULL 族重排、POSITIVE 族保标签题 bootstrap（`C_pos`），不得混用；无 candidates 时的 k=1 退化路径仅作为接口行为并在 docstring 写明，不得作为操作性读数，见 PREREG §5.2）。
 
 - [ ] **Step 4: 运行确认通过** → **Step 5 提交**
 
@@ -386,7 +413,7 @@ def test_pool_families_present_and_sized():
     WilsonUpper95(FPR_R1) < WilsonLower95(FPR_R2) 且 < WilsonLower95(FPR_R7@8)，
     并另报同一批零池上的**配对精确 McNemar**（配对单位 `(source_pool, null_index)`，
     每个源池恰 K=200 个配对单位，不得跨源池配对；须同向且双侧 p<0.05 才算"与区间一致"）
-  - `k_curve`：**按 PREREG §1 的候选块**为每个 `(source_pool, null_index)` 单元生成 8 个候选池 `C(source_pool, i, j)`（`j=1..8`，与该单元自身的 R2 零池不同），`R7` 取点估计最优；报 `FPR@k`，k=1..8，但 **R7 的操作性读数固定 `k=8`**（`FPR_R7@8` / `TPR_R7@8`），k=1..7 仅作描述性曲线，k=1 退化读法不得替代
+  - `k_curve`：**按 PREREG §1 的候选块**为每个 `(source_pool, null_index)` 单元生成 8 个候选池 `C(source_pool, i, j)`（`j=1..8`，与该单元自身的 R2 零池不同），`R7` 取点估计最优；报 `FPR@k`，k=1..8，但 **R7 的操作性读数固定 `k=8`**（`FPR_R7@8` / `TPR_R7@8`）；k=1..7 仅作描述性曲线，**该曲线 Task 4 必须报告且不受 k=8 约束**。`TPR_R7@8` 的候选用 POSITIVE 族保标签 bootstrap（`C_pos(source_pool, i=0, j)`），不得用重排候选；曲线端点 k=1＝候选块 (i,1)，≠ 池本身，也不得替代 k=8
   - 依预注册三分支给 `verdict_branch`；(ii) 的判定式为
     `FPR@8(R1) < WilsonLower95(FPR@8(R2))` 且 `< WilsonLower95(FPR@8(R7))`（k=8 固定，不得改用其它 k）
 
