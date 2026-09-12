@@ -124,10 +124,17 @@
   MIT, 含上游链接）。
   状态：confirmed。
 
-- **C23 · 已知局限：所有 headline 数字为单次运行，run-to-run 方差未量化**
-  证据：`README.md` Honest semantics（40 题单次运行观测到 0.65→0.75 的漂移）；
-  `PREREG-round4.md:17`（temperature 0、无种子控制）。这是本工作**剩余的真实 Soundness 短板**。
-  状态：confirmed。禁止据单次运行宣称精确幅度；大效应（p≈1e-6）不受影响。
+- **C23 · 运行间方差已量化（2026-09-12）：定性判定稳定，幅度限 ±0.025 量级**
+  证据：`results/rounds/round4/ROUND4-VARIANCE.md`；3 次重复、360 次调用（qwen2.5:7b, heldout40,
+  {step-calc, cot-zero, concise-reason}）。逐策略准确率极差 ≤0.025（cot-zero/concise-reason 为 0.000）；
+  **显著性判定翻转的配对数 = 0**（step-calc vs cot-zero p=0.625/1.00/1.00；
+  vs concise-reason p=0.500/0.250/0.250）。复算：`scripts/variance_report.py`。
+  残余限制：3 次重复、单模型、n=40（n=200 合并集未重复）。
+  状态：confirmed。**本条由"方差未量化"升级为"已量化"**，README 原 ±10% 漂移估计未被复现（同文件记录，不以此否定新测量）。
+
+- **C24 · 跨环境差异与 run-to-run 差异同量级（噪声包络 ±1–2/40）**
+  证据：同一模型同一 40 题，云端 `cot-zero` 39/40、本地 38/40（差 1 题）；本地 3 次重复极差 ≤1 题。
+  状态：confirmed。故任何单次 40 题结果只应在 ±0.025–0.05 内解读。
 
 ## 明确不成立的声明（禁止写入正文）
 

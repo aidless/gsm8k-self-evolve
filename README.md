@@ -66,9 +66,12 @@ Key IDs: stable version `eecacc0312d7` · bundle `step-calc@ad35903f5cb4`
   are a 240-of-1319 **subset**, so do **not** read any number here as a
   "full GSM8K test" score. Re-verify: `tools/verify_question_provenance.py`;
   attribution: `THIRD_PARTY_NOTICES.md`.
-- **All headline numbers are single runs** (temperature 0, no seed control):
-  run-to-run variance is **not quantified**. Large effects (p≈1e-6) are
-  unaffected; precise magnitudes are not claimed.
+- **Run-to-run variance is now quantified** (2026-09-12: 3 repeats / 360 calls,
+  qwen2.5:7b on heldout40): per-policy accuracy spread ≤ 0.025 and **zero
+  significance-verdict flips across repeats**. Read any single 40-question
+  number within ≈±0.025–0.05; the qualitative verdicts are stable. (The older
+  ≈±10% estimate from round 1 is not reproduced by this measurement; both are
+  recorded in `results/rounds/round4/ROUND4-VARIANCE.md`.)
 
 ## Reproduce
 
