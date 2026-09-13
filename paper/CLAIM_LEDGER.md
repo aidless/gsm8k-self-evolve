@@ -136,6 +136,47 @@
   证据：同一模型同一 40 题，云端 `cot-zero` 39/40、本地 38/40（差 1 题）；本地 3 次重复极差 ≤1 题。
   状态：confirmed。故任何单次 40 题结果只应在 ±0.025–0.05 内解读。
 
+## 决策规则消融类（2026-09-12，round5 新颖性 head-to-head）
+
+> 比较对象是**决策程序**（与相关工作公开描述一致的 idealised decision rules），不是
+> REMO/SPHERE/TextGrad 那些系统本身（PREREG-round5.md Global Constraints）。零来自**置换 null**
+> （对 discordant 题逐题独立以 0.5 交换 chal/inc 标签，真效应恒 0），非独立抽样。
+
+- **C25 · 五键门控（R1）在置换零上的 FPR 显著低于任何"无错误控制"基线决策程序**
+  证据：`results/rounds/round5/ablation.json:270-274`（R1 pooled `promoted=10, total=800, rate=0.0125,
+  wilson95_upper=0.022855707711738636`）；`ablation.json:296-300`（R2 `330/800=0.4125`）；
+  `ablation.json:428-432`（R7@8 `786/800=0.9825`）。R3=12/800、R5=33/800、R6=217/800
+  （`ablation.json:322-326, 375-379, 401-405`）；复算入口 `scripts/ablation_gate.py`（零模型调用）。
+  状态：confirmed。
+
+- **C26 · 同一批 800 置换零上的配对精确 McNemar 支持 R1 的 FPR 优势（方向一致且 p<α）**
+  证据：`ablation.json:825-844`（R1 vs R2：`r1_only_b=0, baseline_only_c=320, exact_two_sided_p=
+  9.363352709384397e-97 ≈ 2⁻³¹⁹`；R1 vs R7@8：`r1_only_b=0, baseline_only_c=776, exact_two_sided_p=
+  5.0321474762477604e-234 ≈ 2⁻⁷⁷⁵`），配对单位 = `(source_pool, null_index)`，四个源池方向全一致。
+  状态：confirmed。这是"区间不重叠"读数的**操作性校验**（PREREG §5.1 独立性保障）。
+
+- **C27 · 判定分支为 (i)：「门控价值成立」（gate value established）**
+  证据：`ablation.json:878`（`verdict_branch="i"`）；`ablation.json:812-856`（三分支逐条款）；
+  判定式 `scripts/ablation_gate.py:336-384`（clause a 区间 disjoint+下方 / clause b paired McNemar
+  一致 / clause c TPR 不下降）。状态：confirmed。该分支是 N 由 2→3 的预注册依据（PLAN-NOVELTY Task 7）。
+
+- **C28 · 消融比较的是决策程序，不是 REMO/SPHERE/TextGrad 系统本身（且不声称复现/击败）**
+  证据：`results/rounds/round5/PREREG-round5.md`（Global Constraints 第 2 条、§3 池族、§2 规则表）；
+  `paper/PLAN-NOVELTY.md` Global Constraints。7 条规则均为 idealised 决策程序的重实现，
+  不运行相关系统的代码。状态：confirmed（边界声明，正文与摘要必须同步写明）。
+
+- **C29 · 零池来自 relabelling、非独立抽样；Wilson 区间按保守界读，操作性结论靠 McNemar**
+  证据：`ablation.json:869`（`independence_note`：单源池 200 个零共享该池题目、非独立 Bernoulli）；
+  `PREREG-round5.md` §1（"Null pools derived from one real pool share that pool's questions"）、
+  §5.1 独立性保障。状态：confirmed。这是 FPR 读数的诚实边界，正文必须披露。
+
+- **C30 · R4（non-blind）是定义性对照（分母 6），非发现，且无 R4 FPR 可声称**
+  证据：`ablation.json:670-750`（`r4` 区块：`denominator=6`、`promoted=2`、
+  `r1_by_construction_refuses_all=true`、`no_r4_fpr_is_claimed=true`、`r1_vs_r4_contrast_is_definitional=true`）；
+  `ablation_gate.py:289-325`。R1 因要求 `blind is True` **按定义**拒绝全部 6 个非盲选择集池，
+  R4 晋升其中 2/6——这是门控盲约束的定义后果，不是测量发现；无非盲零集，故无 R4 FPR。
+  状态：confirmed（定义性，正文不得叙述成发现）。
+
 ## 明确不成立的声明（禁止写入正文）
 
 - 不声称"自进化显著超越标准 CoT 基线"（被 C11 证伪为 inconclusive）。
@@ -143,3 +184,8 @@
 - 不声称"盲集是自建的"（**已被 C21 证伪**：240 题逐字为官方 GSM8K test 原题）。
 - 不声称 0.925 是**完整** GSM8K test 分数（它是 1319 题 test split 中散布的 240 题子集上的
   分数，非全集 1319 题；跨集/跨子集比较无效）。
+- 不声称消融"复现了"或"击败了" REMO / SPHERE / TextGrad：C28——比较对象是与这些工作**公开描述一致的
+  决策程序**（idealised decision rules），不是那些系统本身。
+- 不声称 R4 的 FPR：C30——无非盲零集，R4 是分母 6 的定义性对照，不是泛化发现。
+- 不声称 R1 在 TPR 上优于 R2/R7：POSITIVE 分母 = 1，clause (c) 是防空转 sanity guard、无鉴别力
+  （`ablation.json:846-854`）。

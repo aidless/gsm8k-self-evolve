@@ -1,7 +1,7 @@
 # Fail-Closed Auditable Promotion Gates for Self-Evolving Prompt Policies: A Cross-Model Boundary Result
 
 > **Draft status.** Repository-level reconstruction assembled from verified
-> evidence (see `paper/CLAIM_LEDGER.md`, claims C1–C24). Anonymised for
+> evidence (see `paper/CLAIM_LEDGER.md`, claims C1–C30). Anonymised for
 > double-blind review. Every number is recomputable from the artefacts listed
 > in Appendix A. Bibliographic details of the arXiv references in §2 are cited
 > by identifier only and **must be verified against the primary sources before
@@ -20,8 +20,15 @@ held-out set that is provably disjoint from the selection set, zero safety
 violations, an available rollback, and a cryptographically signed evidence
 bundle that binds the exact artefacts evaluated. The gate is deliberately
 *self-signed*: it provides integrity and auditability, not third-party
-endorsement, and we say so explicitly. We then use the gate as a measurement
-instrument and report what it finds. On standard GSM8K test items, the gate
+endorsement, and we say so explicitly. We then use the gate as a
+measurement instrument and report what it finds. To turn our differentiation
+from the self-improvement literature from an *assertion* into a *measurement*,
+we ablate the promotion decision itself: on identical permutation-null data the
+five-key gate attains a false-promotion rate of 0.0125, versus 0.4125 for a
+point-estimate rule and 0.9825 for best-of-8 selection pressure (paired exact
+McNemar p = 2⁻³¹⁹ between the gate and the point estimate) — a comparison of
+decision procedures, not of the corresponding systems, which we do not run.
+On standard GSM8K test items, the gate
 accepts a genuine large gain (185/200 vs 156/200, exact McNemar
 p = 1.08e-06), rejects a negative result, and — the result this paper is
 really about — **rejects the claim that the self-evolved policy is better than
@@ -59,7 +66,10 @@ condition (§3.3) combining an exact paired test, blind held-out disjointness,
 safety, rollback availability, and a signed artefact-binding bundle, with an
 append-only registry recording every transition and an independent verifier that
 recomputes the entire chain from repository files rather than trusting cached
-claims.
+claims. A decision-rule ablation (§5.6) isolates the source of this behaviour:
+on permutation-null data the gate's false-promotion rate is 0.0125 versus 0.4125
+(point estimate) and 0.9825 (best-of-8), establishing the differentiation from
+the self-improvement literature as a measurement rather than an assertion.
 
 **(2) A boundary result obtained by using the gate honestly.** We apply the gate
 to a concrete system and report the outcome even though it is unflattering: the
@@ -90,9 +100,18 @@ surveys the landscape. Reflections and surveys alike focus on *producing*
 improvement; the gate mechanism by which a candidate is accepted or rejected —
 paired significance, blind disjointness, signed artefact binding, rollback —
 is not their object of study. We therefore take these works as adjacent
-context, not as prior art for the gate, and we are explicit that this
-differentiation is currently an argument rather than an experimentally
-established contrast (§8, item N).
+context, not as prior art for the gate. Where earlier drafts had to note that
+this differentiation was **an argument rather than an experimentally
+established contrast**, we now make the contrast measurable rather than
+asserted: §5.6 reports a same-corpus decision-rule ablation in which our
+five-key gate (R1) and the decision procedures those works imply (a point
+estimate, an unpaired test, a relaxed threshold, and best-of-k selection
+pressure) are evaluated head-to-head on identical permutation-null data. The
+gate attains a false-promotion rate of 0.0125 versus 0.4125 (point estimate) and
+0.9825 (best-of-8), a paired exact McNemar p of 2⁻³¹⁹ on the former comparison.
+This is a comparison of **decision procedures**, not of those systems
+themselves: we do not run, reproduce, or claim to beat REMO, SPHERE, or
+TextGrad (§7).
 
 **Evaluation discipline.** Paired significance testing for classifier-style
 comparisons dates to McNemar (1947); we use the exact two-sided binomial form
@@ -305,6 +324,61 @@ same items, of the same magnitude. We additionally note that an earlier
 informal "≈±10%" drift estimate from the first round was **not** reproduced
 here; we record both rather than quietly replacing the older figure.
 
+### 5.6 Decision-rule ablation: the gate suppresses false promotions
+
+The results above show the gate *behaving* correctly (accepting a true gain,
+rejecting a negative and a null). They do not isolate *which part* of the gate
+produces the fail-closed behaviour, nor whether the differentiation from the
+self-improvement literature is real rather than asserted. We therefore run a
+decision-rule ablation (preregistered, `results/rounds/round5/PREREG-round5.md`):
+we re-implement seven idealised promotion **decision procedures** — our
+five-key gate (R1), a point-estimate rule (R2, promote iff gain > 0), an
+unpaired two-proportion test (R3), the gate's paired test computed on the
+non-blind selection set (R4), a relaxed significance threshold (R5, α = 0.20),
+the gate with the significance test removed but the magnitude criterion kept
+(R6), and best-of-k selection pressure (R7, promote the best of k = 8 candidates
+by point estimate) — and evaluate each on the **same** permutation-null data.
+
+Nulls are constructed by, for each discordant item of a real paired pool,
+independently swapping the challenger/incumbent labels with probability 0.5
+(seed fixed, `SEED = 20260912`), so the true effect is identically zero while
+the discordance structure is preserved. Four source pools × 200 nulls give 800
+null pools, decided in each pool's own declared `(challenger, incumbent)`
+orientation; everything is recomputed by a script from the committed pool
+artefact with **zero model calls**.
+
+| rule | semantics (abridged) | false-promotion rate (n = 800) |
+| --- | --- | --- |
+| R1 `gate` (ours) | five keys: blind paired exact McNemar p < 0.05 **and** gain ≥ 0.02 | **0.0125** (10 / 800) |
+| R2 `point` | promote iff gain > 0 (no test) | 0.4125 (330 / 800) |
+| R3 `unpaired` | unpaired two-proportion test, p < 0.05 and gain ≥ 0.02 | 0.015 (12 / 800) |
+| R5 `loose` | gate with α = 0.20 | 0.04125 (33 / 800) |
+| R6 `no-stat` | gate minus the significance test, magnitude criterion kept | 0.27125 (217 / 800) |
+| R7 `best-of-8` | promote the point-estimate best of 8 candidates | **0.9825** (786 / 800) |
+
+The preregistered verdict device lands in **branch (i), "gate value
+established"**: (i) the Wilson 95% intervals are disjoint with R1 below —
+WilsonUpper95(R1) = 0.022856 < WilsonLower95(R2) = 0.37888 < WilsonLower95(R7@8) =
+0.97084 — and (ii) a paired exact McNemar test on the same 800 nulls, pairing by
+(source pool, null index), agrees in the same direction: R1 vs R2 has
+discordant counts 0 vs 320, p = 2⁻³¹⁹ ≈ 9.3634e-97; R1 vs R7@8 has 0 vs 776,
+p = 2⁻⁷⁷⁵ ≈ 5.0321e-234; the direction is unanimous across all four source
+pools. Under best-of-8 selection pressure, the point-estimate rule promotes
+nearly every null, while the five-key gate holds its false-promotion rate at
+0.0125 — the paired significance test, not the population of candidates, is
+what resists the noise.
+
+Three caveats bound this result. First, the nulls from one source pool share
+that pool's questions, so they are **not independent Bernoulli trials**; the
+Wilson interval is a conservative descriptive bound, and the operative check is
+the paired McNemar. Second, the true-positive denominator is **one** (a single
+positive pool), so TPR = 1/1 for every rule is an anti-vacuity sanity guard
+with no discriminating power and must not be read as a TPR ranking. Third,
+R4 — the gate's paired test computed on the non-blind selection set — is a
+**definitional** contrast, not a finding: R1 refuses all six non-blind sets by
+construction (it requires the set to be blind), R4 promotes 2/6, and no R4
+false-promotion rate is claimed (a non-blind null set does not exist).
+
 ## 6. Discussion
 
 The gate's value is not that it accepts improvements; it is that it refuses.
@@ -347,8 +421,13 @@ make the evaluated artefacts and item sets independently recomputable.
   is itself three repeats of 40 items, not a distribution.
 - **Signatures.** Self-signed and integrity-only; the signer is the same agent
   that produced the result. This is an audit mechanism, not a trust boundary.
-- **Preregistration coverage.** Only the cross-model study (§5.4) was
-  preregistered; Rounds 1–3 were not, and are reported as exploratory.
+- **Decision procedures, not systems.** The decision-rule ablation (§5.6)
+  compares idealised promotion *decision procedures* re-implemented from the
+  public descriptions of prior self-improvement work; it does not run, and we do
+  not claim to reproduce or beat, REMO, SPHERE, TextGrad, or any other system.
+- **Preregistration coverage.** Only the cross-model study (§5.4) and the
+  decision-rule ablation (§5.6) were preregistered; Rounds 1–3 were not, and are
+  reported as exploratory.
 
 ## 8. Conclusion
 
@@ -358,14 +437,19 @@ gate accepts a large genuine gain and rejects both a negative result and a
 non-improvement. Under that gate, the self-evolved policy does not significantly
 beat standard zero-shot chain-of-thought on any of four model families, its
 original gain over a weaker incumbent does not replicate, and the only robust
-effect is that CoT-style prompting beats number-only answering. We argue that
+effect is that CoT-style prompting beats number-only answering. A decision-rule
+ablation on permutation-null data isolates *why* the gate behaves this way:
+its false-promotion rate is 0.0125 against 0.4125 for a point estimate and 0.9825
+for best-of-8 selection pressure, so the paired significance test — combined
+with blind disjointness — is what resists noise, not the population of
+candidates. We argue that
 self-improvement research needs gates that can say no, and reports that show
 them saying it.
 
 ## Appendix A. Reproducibility
 
 Every claim in this paper maps to a verified entry in the claim ledger
-(`paper/CLAIM_LEDGER.md`, C1–C24), which in turn maps to artefacts. Principal
+(`paper/CLAIM_LEDGER.md`, C1–C30), which in turn maps to artefacts. Principal
 entry points:
 
 | purpose | command / artefact |
@@ -374,6 +458,7 @@ entry points:
 | recompute the merged 200-item statistics | merge script for the primary track |
 | recompute cross-model statistics | per-model result files + summariser |
 | recompute run-to-run variance | three repeat files + variance report |
+| recompute the decision-rule ablation (§5.6) | `scripts/ablation_gate.py` (zero model calls) + `scripts/audit_gate_rules.py` |
 | verify question provenance | provenance script (fetches official GSM8K) |
 | gate the released artefact | publish gate (excludes internal dirs, logs, keys) |
 

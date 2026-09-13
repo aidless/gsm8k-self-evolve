@@ -118,6 +118,50 @@ Headline 配对（精确 McNemar）：
 - 故单次 40 题结果只应在 **±0.025–0.05** 内解读；定性结论稳健。
 - 完整记录：`ROUND4-VARIANCE.md`；复算：`scripts/variance_report.py`。
 
+## 6. 决策规则消融（2026-09-12，新颖性 head-to-head，C25–C30）
+
+**问题**：门控的"拒绝假增益"能力，到底来自哪一步？我们把晋升决策抽象成 7 种**决策程序**
+（R1–R7，`PREREG-round5.md` §2），在**同一批置换零**上比较它们的假阳性率（FPR）。
+置换零的构造：对真实配对池的 `d` 道 discordant 题**逐题独立**以概率 0.5 交换 challenger/incumbent
+标签，真处理效应恒为 0 而 discordance 结构保留；`SEED=20260912`，每源池 200 个零、共 4 源池 × 200 = 800 零
+（`PREREG-round5.md` §1）。**零模型调用**：全部数字由 `scripts/ablation_gate.py` 从
+`results/rounds/round5/pools.json` 重算。
+
+| 规则 | 语义（简化） | 假阳性 FPR（800 零池） |
+| --- | --- | --- |
+| **R1 `gate`** | **本工作五键门控**（盲配对精确 McNemar p<0.05 **且** gain≥0.02，α=0.05, ε=0.02, 盲集） | **10 / 800 = 0.0125** |
+| R2 `point` | 仅 `gain > 0`（无任何检验） | 330 / 800 = 0.4125 |
+| R3 `unpaired` | 非配对两比例检验 p<0.05 且 gain≥0.02 | 12 / 800 = 0.015 |
+| R5 `loose` | 门控但 α=0.20 | 33 / 800 = 0.04125 |
+| R6 `no-stat` | 保留 gain≥ε=0.02、去掉显著性检验（AMENDMENT 1 语义） | 217 / 800 = 0.27125 |
+| **R7 `bestofk`@8** | k=8 个候选取点估计最优即晋升（选择压力） | **786 / 800 = 0.9825** |
+
+**判定分支 = (i)「门控价值成立」**（`ablation.json` `verdict_branch="i"`，`verdict_meaning="gate value established"`）：
+
+- **(a) Wilson 95% 区间不重叠且 R1 在下方**（保守描述界）：WilsonUpper95(R1) = 0.0228557… <
+  WilsonLower95(R2) = 0.3788842…，且 < WilsonLower95(R7@8) = 0.9708409…。
+- **(b) 同一批 800 零池上的配对精确 McNemar 一致**（操作性校验，配对单位 `(source_pool, null_index)`）：
+  R1 vs R2 → better=0, worse=320 ⇒ **p = 2⁻³¹⁹ ≈ 9.3634e-97**；
+  R1 vs R7@8 → better=0, worse=776 ⇒ **p = 2⁻⁷⁷⁵ ≈ 5.0321e-234**。四个源池方向全一致。
+- **(c) R1 不掉真阳（sanity guard）**：TPR = 1/1（POSITIVE 分母 = 1，**无鉴别力**，
+  不得据此声称 R1 在 TPR 上优于 R2/R7；该款仅防空转，见下）。
+
+**诚实边界（必须随正文披露）：**
+
+1. **零来自 relabelling、非独立抽样**：同一源池的 200 个置换零共享该池的题目，不是独立 Bernoulli 试验。
+   Wilson 区间只是**保守的描述界**，不是独立性假设成立下的推断；操作性结论由**配对 McNemar**承载
+   （`ablation.json` `verdict.null_set.independence_note`，`PREREG-round5.md` §5.1 独立性保障）。
+2. **R4 是定义性对照，非发现，且无 R4 FPR**：R4 = 在选择集（非盲）上计算配对检验。六个非盲选择集池
+   上 R1 **按定义**拒绝全部（要求 `blind=True`），R4 晋升 2/6——这是门控盲约束的定义后果，分母 6，
+   **不读作泛化发现**；无非盲零集，故不声称任何 R4 FPR。
+3. **TPR 分母 = 1**：POSITIVE 池仅 1 个（cot-zero vs direct），每条规则的 TPR 都是单次 0/1 决定；
+   clause (c) 是防空转 sanity guard，`no_discriminating_power=true`。
+4. **比较的是决策程序，不是相关系统本身**：R1–R7 是与相关工作（REMO/SPHERE/TextGrad 等）公开描述一致的
+   *idealised* 决策程序重实现，**不运行、不声称复现或击败任何系统**（`PREREG-round5.md` Global Constraints）。
+5. R2 的 FPR 期望 = `(1 − P(tie))/2`（构造使然，非发现）；pooled 期望 0.43639（按各池 `d` 加权，
+   `ablation.json` `pooled_r2_null_expectation`），观测 0.4125 与之同量级，符合"无错误控制"的定义。
+
 **一句话定位**：本工作证明了一套**fail-closed 的审计门控**能诚实地区分真增益与假增益/无增益，
-并在此过程中发现其自身进化产物未显著超越标准 CoT 基线——这是一个**被诚实复现的边界结果**，
-而非一个被夸大的 SOTA 声称。
+并在此过程中（i）发现其自身进化产物未显著超越标准 CoT 基线——一个**被诚实复现的边界结果**，
+（ii）用同条件决策规则消融**实测**了该门控的拒绝能力来源（FPR 0.0125 vs 0.4125 vs 0.9825，
+McNemar p<1e-96）——而非自我声明——因此它不是一个被夸大的 SOTA 声称。
