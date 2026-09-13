@@ -1,0 +1,883 @@
+{
+  "fpr": {
+    "per_source_pool": [
+      {
+        "chal_policy": "cot-zero",
+        "d": 159,
+        "inc_policy": "direct",
+        "n_null": 200,
+        "r2_null_expectation": 0.5,
+        "rules": {
+          "R1": {
+            "promoted": 5,
+            "rate": 0.025,
+            "total": 200,
+            "wilson95_lower": 0.010724719651761264,
+            "wilson95_upper": 0.05717834040664198
+          },
+          "R2": {
+            "promoted": 97,
+            "rate": 0.485,
+            "total": 200,
+            "wilson95_lower": 0.41667385171877513,
+            "wilson95_upper": 0.5538915080725427
+          },
+          "R3": {
+            "promoted": 11,
+            "rate": 0.055,
+            "total": 200,
+            "wilson95_lower": 0.03098534170345884,
+            "wilson95_upper": 0.09578699877230841
+          },
+          "R4": {
+            "promoted": 5,
+            "rate": 0.025,
+            "total": 200,
+            "wilson95_lower": 0.010724719651761264,
+            "wilson95_upper": 0.05717834040664198
+          },
+          "R5": {
+            "promoted": 17,
+            "rate": 0.085,
+            "total": 200,
+            "wilson95_lower": 0.05374575017747561,
+            "wilson95_upper": 0.13189587071565567
+          },
+          "R6": {
+            "promoted": 74,
+            "rate": 0.37,
+            "total": 200,
+            "wilson95_lower": 0.3061260840985912,
+            "wilson95_upper": 0.4387737007594981
+          },
+          "R7": {
+            "k": 8,
+            "promoted": 199,
+            "rate": 0.995,
+            "total": 200,
+            "wilson95_lower": 0.9722262956021069,
+            "wilson95_upper": 0.9991168312843989
+          }
+        },
+        "source_pool": "positive-cotzero-vs-direct",
+        "source_pool_index": 0
+      },
+      {
+        "chal_policy": "step-calc",
+        "d": 16,
+        "inc_policy": "cot-zero",
+        "n_null": 200,
+        "r2_null_expectation": 0.4018096923828125,
+        "rules": {
+          "R1": {
+            "promoted": 0,
+            "rate": 0.0,
+            "total": 200,
+            "wilson95_lower": 1.7020320458977177e-18,
+            "wilson95_upper": 0.018845326377266575
+          },
+          "R2": {
+            "promoted": 79,
+            "rate": 0.395,
+            "total": 200,
+            "wilson95_lower": 0.32984101013207967,
+            "wilson95_upper": 0.46411650840714636
+          },
+          "R3": {
+            "promoted": 0,
+            "rate": 0.0,
+            "total": 200,
+            "wilson95_lower": 1.7020320458977177e-18,
+            "wilson95_upper": 0.018845326377266575
+          },
+          "R4": {
+            "promoted": 0,
+            "rate": 0.0,
+            "total": 200,
+            "wilson95_lower": 1.7020320458977177e-18,
+            "wilson95_upper": 0.018845326377266575
+          },
+          "R5": {
+            "promoted": 4,
+            "rate": 0.02,
+            "total": 200,
+            "wilson95_lower": 0.007804426416349469,
+            "wilson95_upper": 0.05028708690582644
+          },
+          "R6": {
+            "promoted": 45,
+            "rate": 0.225,
+            "total": 200,
+            "wilson95_lower": 0.1726236971508913,
+            "wilson95_upper": 0.2877412323566053
+          },
+          "R7": {
+            "k": 8,
+            "promoted": 197,
+            "rate": 0.985,
+            "total": 200,
+            "wilson95_lower": 0.9568342712073097,
+            "wilson95_upper": 0.9948857622067417
+          }
+        },
+        "source_pool": "mid-stepcalc-vs-cotzero",
+        "source_pool_index": 1
+      },
+      {
+        "chal_policy": "step-calc",
+        "d": 23,
+        "inc_policy": "few-shot",
+        "n_null": 200,
+        "r2_null_expectation": 0.5,
+        "rules": {
+          "R1": {
+            "promoted": 2,
+            "rate": 0.01,
+            "total": 200,
+            "wilson95_lower": 0.0027466581335444384,
+            "wilson95_upper": 0.0357217617161768
+          },
+          "R2": {
+            "promoted": 88,
+            "rate": 0.44,
+            "total": 200,
+            "wilson95_lower": 0.37297819251185865,
+            "wilson95_upper": 0.5092832466534134
+          },
+          "R3": {
+            "promoted": 1,
+            "rate": 0.005,
+            "total": 200,
+            "wilson95_lower": 0.0008831687156009805,
+            "wilson95_upper": 0.02777370439789293
+          },
+          "R4": {
+            "promoted": 2,
+            "rate": 0.01,
+            "total": 200,
+            "wilson95_lower": 0.0027466581335444384,
+            "wilson95_upper": 0.0357217617161768
+          },
+          "R5": {
+            "promoted": 9,
+            "rate": 0.045,
+            "total": 200,
+            "wilson95_lower": 0.023852543001492994,
+            "wilson95_upper": 0.08329670400181959
+          },
+          "R6": {
+            "promoted": 32,
+            "rate": 0.16,
+            "total": 200,
+            "wilson95_lower": 0.11567412031587018,
+            "wilson95_upper": 0.21714070162067106
+          },
+          "R7": {
+            "k": 8,
+            "promoted": 199,
+            "rate": 0.995,
+            "total": 200,
+            "wilson95_lower": 0.9722262956021069,
+            "wilson95_upper": 0.9991168312843989
+          }
+        },
+        "source_pool": "mid-stepcalc-vs-fewshot",
+        "source_pool_index": 2
+      },
+      {
+        "chal_policy": "step-calc",
+        "d": 6,
+        "inc_policy": "concise-reason",
+        "n_null": 200,
+        "r2_null_expectation": 0.34375,
+        "rules": {
+          "R1": {
+            "promoted": 3,
+            "rate": 0.015,
+            "total": 200,
+            "wilson95_lower": 0.005114237793258312,
+            "wilson95_upper": 0.04316572879269027
+          },
+          "R2": {
+            "promoted": 66,
+            "rate": 0.33,
+            "total": 200,
+            "wilson95_lower": 0.26857425870603957,
+            "wilson95_upper": 0.39783315226223115
+          },
+          "R3": {
+            "promoted": 0,
+            "rate": 0.0,
+            "total": 200,
+            "wilson95_lower": 1.7020320458977177e-18,
+            "wilson95_upper": 0.018845326377266575
+          },
+          "R4": {
+            "promoted": 3,
+            "rate": 0.015,
+            "total": 200,
+            "wilson95_lower": 0.005114237793258312,
+            "wilson95_upper": 0.04316572879269027
+          },
+          "R5": {
+            "promoted": 3,
+            "rate": 0.015,
+            "total": 200,
+            "wilson95_lower": 0.005114237793258312,
+            "wilson95_upper": 0.04316572879269027
+          },
+          "R6": {
+            "promoted": 66,
+            "rate": 0.33,
+            "total": 200,
+            "wilson95_lower": 0.26857425870603957,
+            "wilson95_upper": 0.39783315226223115
+          },
+          "R7": {
+            "k": 8,
+            "promoted": 191,
+            "rate": 0.955,
+            "total": 200,
+            "wilson95_lower": 0.9167032959981803,
+            "wilson95_upper": 0.976147456998507
+          }
+        },
+        "source_pool": "marginal-stepcalc-vs-concise",
+        "source_pool_index": 3
+      }
+    ],
+    "pooled": {
+      "R1": {
+        "orientation_note": "the pooled rate aggregates the four declared blind null sources; each null pool is decided in its OWN declared (chal_policy, inc_policy) orientation, listed in 'orientations' (Ruling 20)",
+        "orientations": [
+          {
+            "chal_policy": "cot-zero",
+            "inc_policy": "direct"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "cot-zero"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "few-shot"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "concise-reason"
+          }
+        ],
+        "promoted": 10,
+        "rate": 0.0125,
+        "total": 800,
+        "wilson95_lower": 0.006803696588795502,
+        "wilson95_upper": 0.022855707711738636
+      },
+      "R2": {
+        "orientation_note": "the pooled rate aggregates the four declared blind null sources; each null pool is decided in its OWN declared (chal_policy, inc_policy) orientation, listed in 'orientations' (Ruling 20)",
+        "orientations": [
+          {
+            "chal_policy": "cot-zero",
+            "inc_policy": "direct"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "cot-zero"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "few-shot"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "concise-reason"
+          }
+        ],
+        "promoted": 330,
+        "rate": 0.4125,
+        "total": 800,
+        "wilson95_lower": 0.378884262215177,
+        "wilson95_upper": 0.4469520411208164
+      },
+      "R3": {
+        "orientation_note": "the pooled rate aggregates the four declared blind null sources; each null pool is decided in its OWN declared (chal_policy, inc_policy) orientation, listed in 'orientations' (Ruling 20)",
+        "orientations": [
+          {
+            "chal_policy": "cot-zero",
+            "inc_policy": "direct"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "cot-zero"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "few-shot"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "concise-reason"
+          }
+        ],
+        "promoted": 12,
+        "rate": 0.015,
+        "total": 800,
+        "wilson95_lower": 0.008601110881191311,
+        "wilson95_upper": 0.026034399038314445
+      },
+      "R4": {
+        "note": "R4 evaluated on the BLIND null set (blindness requirement vacuous -> coincides with R1). This is NOT the §5A 'R4 FPR' over a non-blind null set: no non-blind null set exists and no R4 FPR is claimed (§5A); the §5A R4 column (denominator 6) is the 'r4' block below.",
+        "orientation_note": "the pooled rate aggregates the four declared blind null sources; each null pool is decided in its OWN declared (chal_policy, inc_policy) orientation, listed in 'orientations' (Ruling 20)",
+        "orientations": [
+          {
+            "chal_policy": "cot-zero",
+            "inc_policy": "direct"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "cot-zero"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "few-shot"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "concise-reason"
+          }
+        ],
+        "promoted": 10,
+        "rate": 0.0125,
+        "total": 800,
+        "wilson95_lower": 0.006803696588795502,
+        "wilson95_upper": 0.022855707711738636
+      },
+      "R5": {
+        "orientation_note": "the pooled rate aggregates the four declared blind null sources; each null pool is decided in its OWN declared (chal_policy, inc_policy) orientation, listed in 'orientations' (Ruling 20)",
+        "orientations": [
+          {
+            "chal_policy": "cot-zero",
+            "inc_policy": "direct"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "cot-zero"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "few-shot"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "concise-reason"
+          }
+        ],
+        "promoted": 33,
+        "rate": 0.04125,
+        "total": 800,
+        "wilson95_lower": 0.02952098381464647,
+        "wilson95_upper": 0.0573636351040613
+      },
+      "R6": {
+        "orientation_note": "the pooled rate aggregates the four declared blind null sources; each null pool is decided in its OWN declared (chal_policy, inc_policy) orientation, listed in 'orientations' (Ruling 20)",
+        "orientations": [
+          {
+            "chal_policy": "cot-zero",
+            "inc_policy": "direct"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "cot-zero"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "few-shot"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "concise-reason"
+          }
+        ],
+        "promoted": 217,
+        "rate": 0.27125,
+        "total": 800,
+        "wilson95_lower": 0.24158846255074787,
+        "wilson95_upper": 0.303097873313349
+      },
+      "R7": {
+        "k": 8,
+        "orientation_note": "FPR_R7@8 = FPR@8(R7): bestofk FPR at the pinned k=8 over the NULL-family relabelling candidates (§5.2), decided per null unit in its source pool's declared orientation",
+        "orientations": [
+          {
+            "chal_policy": "cot-zero",
+            "inc_policy": "direct"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "cot-zero"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "few-shot"
+          },
+          {
+            "chal_policy": "step-calc",
+            "inc_policy": "concise-reason"
+          }
+        ],
+        "promoted": 786,
+        "rate": 0.9825,
+        "total": 800,
+        "wilson95_lower": 0.970840927975432,
+        "wilson95_upper": 0.9895474564860909
+      }
+    },
+    "pooled_r2_null_expectation": 0.4363899230957031,
+    "r4_note": "R4 appears twice with distinct meanings. (1) In this FPR table, R4 is the rule evaluated on the 800 BLIND null pools, where its blindness requirement is vacuous and it therefore coincides with R1 — this is NOT the §5A 'R4 FPR'. (2) The §5A R4 column — the six non-blind selection-set per-pool decisions, denominator 6, with NO FPR claimed — is the 'r4' block below."
+  },
+  "fpr_r7_at8": 0.9825,
+  "generated_by": "scripts/ablation_gate.py",
+  "k_curve": {
+    "1": {
+      "fpr_at_k": 0.42,
+      "k": 1,
+      "operative": false,
+      "orientations": [
+        {
+          "chal_policy": "cot-zero",
+          "inc_policy": "direct"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "cot-zero"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "few-shot"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "concise-reason"
+        }
+      ],
+      "promoted_units": 336,
+      "role": "descriptive curve point; NOT a decision device (§4)",
+      "total_units": 800,
+      "wilson95_lower": 0.3862607567216071,
+      "wilson95_upper": 0.4545038634713011
+    },
+    "2": {
+      "fpr_at_k": 0.675,
+      "k": 2,
+      "operative": false,
+      "orientations": [
+        {
+          "chal_policy": "cot-zero",
+          "inc_policy": "direct"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "cot-zero"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "few-shot"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "concise-reason"
+        }
+      ],
+      "promoted_units": 540,
+      "role": "descriptive curve point; NOT a decision device (§4)",
+      "total_units": 800,
+      "wilson95_lower": 0.6417744180229198,
+      "wilson95_upper": 0.7065529753050938
+    },
+    "3": {
+      "fpr_at_k": 0.815,
+      "k": 3,
+      "operative": false,
+      "orientations": [
+        {
+          "chal_policy": "cot-zero",
+          "inc_policy": "direct"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "cot-zero"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "few-shot"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "concise-reason"
+        }
+      ],
+      "promoted_units": 652,
+      "role": "descriptive curve point; NOT a decision device (§4)",
+      "total_units": 800,
+      "wilson95_lower": 0.7866096930224872,
+      "wilson95_upper": 0.8403796149679369
+    },
+    "4": {
+      "fpr_at_k": 0.88875,
+      "k": 4,
+      "operative": false,
+      "orientations": [
+        {
+          "chal_policy": "cot-zero",
+          "inc_policy": "direct"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "cot-zero"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "few-shot"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "concise-reason"
+        }
+      ],
+      "promoted_units": 711,
+      "role": "descriptive curve point; NOT a decision device (§4)",
+      "total_units": 800,
+      "wilson95_lower": 0.8650758122050848,
+      "wilson95_upper": 0.9087086115450023
+    },
+    "5": {
+      "fpr_at_k": 0.93875,
+      "k": 5,
+      "operative": false,
+      "orientations": [
+        {
+          "chal_policy": "cot-zero",
+          "inc_policy": "direct"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "cot-zero"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "few-shot"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "concise-reason"
+        }
+      ],
+      "promoted_units": 751,
+      "role": "descriptive curve point; NOT a decision device (§4)",
+      "total_units": 800,
+      "wilson95_lower": 0.9199447612601239,
+      "wilson95_upper": 0.9533617748693954
+    },
+    "6": {
+      "fpr_at_k": 0.95625,
+      "k": 6,
+      "operative": false,
+      "orientations": [
+        {
+          "chal_policy": "cot-zero",
+          "inc_policy": "direct"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "cot-zero"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "few-shot"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "concise-reason"
+        }
+      ],
+      "promoted_units": 765,
+      "role": "descriptive curve point; NOT a decision device (§4)",
+      "total_units": 800,
+      "wilson95_lower": 0.9397628999519083,
+      "wilson95_upper": 0.9683763755104124
+    },
+    "7": {
+      "fpr_at_k": 0.9675,
+      "k": 7,
+      "operative": false,
+      "orientations": [
+        {
+          "chal_policy": "cot-zero",
+          "inc_policy": "direct"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "cot-zero"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "few-shot"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "concise-reason"
+        }
+      ],
+      "promoted_units": 774,
+      "role": "descriptive curve point; NOT a decision device (§4)",
+      "total_units": 800,
+      "wilson95_lower": 0.9528056546078484,
+      "wilson95_upper": 0.9777260961398446
+    },
+    "8": {
+      "fpr_at_k": 0.9825,
+      "k": 8,
+      "operative": true,
+      "orientations": [
+        {
+          "chal_policy": "cot-zero",
+          "inc_policy": "direct"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "cot-zero"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "few-shot"
+        },
+        {
+          "chal_policy": "step-calc",
+          "inc_policy": "concise-reason"
+        }
+      ],
+      "promoted_units": 786,
+      "role": "pinned k = 8 endpoint — FPR_R7@8, the operative R7 statistic of §5.1/§5.2",
+      "total_units": 800,
+      "wilson95_lower": 0.970840927975432,
+      "wilson95_upper": 0.9895474564860909
+    }
+  },
+  "orientation_convention": "chal = the candidate being promoted; inc = the incumbent; gain = (total_chal - total_inc)/n; every row declares (chal_policy, inc_policy) (PREREG §1.1, Ruling 20)",
+  "pools_artefact": "results/rounds/round5/pools.json",
+  "prereg": "results/rounds/round5/PREREG-round5.md",
+  "r2_null_expectation_note": "E[FPR_R2] = (1 - P(tie))/2 is CONSTRUCTIVE — what 'no error control' means — never reported as a finding (PREREG §4.1)",
+  "r4": {
+    "denominator": 6,
+    "framing": "R4 is EVALUATED on the six non-blind selection-set pools of roster indices 4-9 (§5A). The R1-vs-R4 contrast is DEFINITIONAL: R1 requires pool['blind'] is True, so it refuses all six non-blind pools by construction — a definitional consequence, not a finding. The denominator is exactly 6 per-pool decisions; there is no non-blind null set, so no R4 FPR may be claimed (§5A). These selection-set decisions carry no generalisation claim.",
+    "no_r4_fpr_is_claimed": true,
+    "per_pool": [
+      {
+        "R1_promote": false,
+        "R4_promote": true,
+        "chal_policy": "concise-reason",
+        "exact_mcnemar_p": 1.9073486328125e-06,
+        "gain": 0.5,
+        "inc_policy": "direct",
+        "n": 40,
+        "pool": "nonblind-concise-vs-direct",
+        "roster_index": 4
+      },
+      {
+        "R1_promote": false,
+        "R4_promote": false,
+        "chal_policy": "double-check",
+        "exact_mcnemar_p": 0.6875,
+        "gain": -0.05,
+        "inc_policy": "direct",
+        "n": 40,
+        "pool": "nonblind-doublecheck-vs-direct",
+        "roster_index": 5
+      },
+      {
+        "R1_promote": false,
+        "R4_promote": true,
+        "chal_policy": "step-calc",
+        "exact_mcnemar_p": 0.021484375,
+        "gain": 0.2,
+        "inc_policy": "concise-reason",
+        "n": 40,
+        "pool": "nonblind-stepcalc-vs-concise",
+        "roster_index": 6
+      },
+      {
+        "R1_promote": false,
+        "R4_promote": false,
+        "chal_policy": "rectify",
+        "exact_mcnemar_p": 0.7265625,
+        "gain": 0.05,
+        "inc_policy": "concise-reason",
+        "n": 40,
+        "pool": "nonblind-rectify-vs-concise",
+        "roster_index": 7
+      },
+      {
+        "R1_promote": false,
+        "R4_promote": false,
+        "chal_policy": "reflect-retry",
+        "exact_mcnemar_p": 1.0,
+        "gain": 0.0,
+        "inc_policy": "step-calc",
+        "n": 40,
+        "pool": "nonblind-reflect-vs-stepcalc",
+        "roster_index": 8
+      },
+      {
+        "R1_promote": false,
+        "R4_promote": false,
+        "chal_policy": "rounding-aware",
+        "exact_mcnemar_p": 0.109375,
+        "gain": 0.15,
+        "inc_policy": "concise-reason",
+        "n": 40,
+        "pool": "nonblind-roundingaware-vs-concise",
+        "roster_index": 9
+      }
+    ],
+    "promoted": 2,
+    "r1_by_construction_refuses_all": true,
+    "r1_vs_r4_contrast_is_definitional": true,
+    "reconciled_with": {
+      "r4_evaluable": true,
+      "r4_status": "evaluated (6 non-blind selection-set pool(s) in this artefact)"
+    },
+    "total": 6
+  },
+  "schema_version": 1,
+  "tpr": {
+    "R1": {
+      "chal_policy": "cot-zero",
+      "denominator": 1,
+      "inc_policy": "direct",
+      "promoted": 1,
+      "rate": 1.0,
+      "total": 1
+    },
+    "R2": {
+      "chal_policy": "cot-zero",
+      "denominator": 1,
+      "inc_policy": "direct",
+      "promoted": 1,
+      "rate": 1.0,
+      "total": 1
+    },
+    "R3": {
+      "chal_policy": "cot-zero",
+      "denominator": 1,
+      "inc_policy": "direct",
+      "promoted": 1,
+      "rate": 1.0,
+      "total": 1
+    },
+    "R4": {
+      "chal_policy": "cot-zero",
+      "denominator": 1,
+      "inc_policy": "direct",
+      "promoted": 1,
+      "rate": 1.0,
+      "total": 1
+    },
+    "R5": {
+      "chal_policy": "cot-zero",
+      "denominator": 1,
+      "inc_policy": "direct",
+      "promoted": 1,
+      "rate": 1.0,
+      "total": 1
+    },
+    "R6": {
+      "chal_policy": "cot-zero",
+      "denominator": 1,
+      "inc_policy": "direct",
+      "promoted": 1,
+      "rate": 1.0,
+      "total": 1
+    },
+    "R7": {
+      "candidate_family": "POSITIVE (label-preserving item bootstrap, §1 rule 5 / §5.2)",
+      "chal_policy": "cot-zero",
+      "denominator": 1,
+      "inc_policy": "direct",
+      "k": 8,
+      "promoted": 1,
+      "rate": 1.0,
+      "total": 1
+    }
+  },
+  "verdict": {
+    "branch_i": {
+      "clause_a_intervals_disjoint_r1_below": {
+        "met": true,
+        "r1_below_r2": true,
+        "r1_below_r7at8": true,
+        "wilson_lower_r2": 0.378884262215177,
+        "wilson_lower_r7at8": 0.970840927975432,
+        "wilson_upper_r1": 0.022855707711738636
+      },
+      "clause_b_paired_mcnemar_agrees": {
+        "met": true,
+        "pairing_unit": "(source_pool, null_index)",
+        "r2_comparison": {
+          "agrees": true,
+          "baseline": "R2",
+          "baseline_only_c": 320,
+          "direction_consistent": true,
+          "exact_two_sided_p": 9.363352709384397e-97,
+          "n_paired_units": 800,
+          "p_lt_alpha": true,
+          "r1_only_b": 0
+        },
+        "r7at8_comparison": {
+          "agrees": true,
+          "baseline": "R7@8",
+          "baseline_only_c": 776,
+          "direction_consistent": true,
+          "exact_two_sided_p": 5.0321474762477604e-234,
+          "n_paired_units": 800,
+          "p_lt_alpha": true,
+          "r1_only_b": 0
+        }
+      },
+      "clause_c_no_true_positive_loss": {
+        "denominator": 1,
+        "disclosure": "the POSITIVE set contains exactly one pool, so every TPR here is a single 0/1 decision over denominator 1; clause (c) is an anti-vacuity sanity guard only and MUST NOT be reported as evidence that R1 outperforms R2 or R7 on TPR (§5.1(c))",
+        "met": true,
+        "no_discriminating_power": true,
+        "tpr_r1": 1.0,
+        "tpr_r2": 1.0,
+        "tpr_r7at8": 1.0
+      },
+      "met": true
+    },
+    "branch_ii": {
+      "fpr_at_8_r1": 0.0125,
+      "fpr_at_8_r2": 0.4125,
+      "fpr_at_8_r7": 0.9825,
+      "met": false,
+      "note": "if branch (i) is met the verdict is (i) regardless of the FPR@8 comparison (§5.1 branch (ii)); computed for completeness",
+      "r1_below_r2_lower": true,
+      "r1_below_r7at8_lower": true,
+      "wilson_lower_r2": 0.378884262215177,
+      "wilson_lower_r7at8": 0.970840927975432
+    },
+    "null_set": {
+      "independence_note": "the 200 permutation nulls of one source pool share that pool's questions and are NOT independent Bernoulli trials (Ruling 8); Wilson intervals are read conservatively",
+      "n_null": 800,
+      "sources": [
+        "positive-cotzero-vs-direct",
+        "mid-stepcalc-vs-cotzero",
+        "mid-stepcalc-vs-fewshot",
+        "marginal-stepcalc-vs-concise"
+      ]
+    },
+    "verdict_branch": "i",
+    "verdict_meaning": "gate value established"
+  },
+  "verdict_branch": "i",
+  "zero_model_calls": true
+}
