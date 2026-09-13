@@ -40,3 +40,12 @@
 ## 数据源
 
 - 结果 JSON：`transfer-svamp.json`、`transfer-multiarith.json`、`transfer-asdiv.json`（均有 ledger 断言）。
+
+## Amendment 1 注记（2026-09-13）
+
+本记录是 `step-calc vs direct`，按 PREREG-round4.md **Amendment 1** 降级为
+sanity check（direct 是稻草人，此对比**无信息量**，仅证明"CoT 式 ≫ 纯数字"
+泛化——已知且预期内）。**主对照已修订为 `step-calc vs cot-zero`**（同一三集，
+逐题配对，决策规则见 Amendment 1），**尚未运行**。运行命令见
+`scripts/run_transfer_cotzero.py --help` 前的 docstring；跑完后的结果另写
+`transfer-cotzero-*.json` + 新判定记录。
