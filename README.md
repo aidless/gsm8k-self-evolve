@@ -185,6 +185,28 @@ Boundaries: n=40 for the three new models is underpowered; "not replicated" ≠
 compared across sets for significance. Full record:
 `results/rounds/round4/ROUND4-TRACKC-RESULT.md`.
 
+### Round 4 — Track B: transfer to new datasets (data axis)
+
+The frozen `step-calc` vs `direct` was also paired over three external
+arithmetic word-problem sets (runtime-fetched, never vendored; qwen2.5:7b,
+temperature 0), per `PREREG-round4.md`:
+
+| dataset | direct | step-calc | McNemar p | gain |
+|---|---|---|---|---|
+| SVAMP (1000) | 647 | 920 | 2.8e-65 | +0.273 |
+| MultiArith (180) | 87 | 180 | 2.0e-28 | +0.517 |
+| ASDiv (2249) | 1589 | 2026 | 1.2e-84 | +0.194 |
+
+The preregistered generalization rule fired (SVAMP `p < 0.05` AND `gain > 0`
+on all three sets). **Honest reading:** this is `direct` (the number-only
+trivial baseline) once again, not standard CoT — it confirms the robust
+effect "CoT-style ≫ number-only generalizes across datasets" and adds
+nothing to the Track A null (`step-calc` ≈ `cot-zero`, p = 0.80). ASDiv:
+56 non-numeric-answer rows excluded at fetch (disclosed in
+`inputs/asdiv.exclusions.json`; inputs never committed — ASDiv is
+CC-BY-NC-4.0, MultiArith license unclear). Full record:
+`results/rounds/round4/TRANSFER_RECORD.md`.
+
 ## License
 
 MIT — see `LICENSE`.

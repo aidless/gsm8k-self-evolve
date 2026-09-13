@@ -15,3 +15,23 @@ Status: preregistered, no measurements yet
 - Track C models: gemma3:4b (local, Google family, 4B) primary; llama3.1:8b via `ollama pull` (6 GB VRAM fits ~4.9 GB Q4), fallback qwen2:7b (local) with fallback recorded. Per-model digests recorded in MODELS-round4.json.
 - Track C scope per model: {direct, step-calc, concise-reason, cot-zero, few-shot} × heldout40 (200 calls ≈ 25 min), same-window per model. Headline: step-calc vs concise-reason (Round-2 claim replication) + step-calc vs cot-zero (Round-4 extension). Expansion to batch2-160 iff headline pair has p < 0.2 AND |gain| ≥ 0.02 (weak-signal spend rule).
 - Nondeterminism note: temperature 0, one run per (policy, question); Ollama offers no seed control — documented limitation, same as Rounds 1–3.
+
+## Amendment 1 (2026-09-13, appended BEFORE the Track B cot-zero run — no frozen text edited)
+
+- Reason: the original Track B (line 13–14) compares `step-calc` against `direct`
+  ONLY. Track A already proved `direct` is a strawman (number-only). A
+  `step-calc` ≫ `direct` result across datasets is therefore **uninformative**
+  (it re-derives "CoT-style ≫ number-only generalizes", already known and known
+  to be expected). This was flagged in SELF_ASSESSMENT.md ("Track B 只与 direct
+  对照…结果无信息量…运行前必须显式修订预注册并加入 cot-zero 对照").
+- Amendment: the **primary Track B contrast is now `step-calc` vs `cot-zero`**
+  (frozen `step-calc` and frozen `cot-zero`, 1 paired call each, over the same
+  three fetch-at-runtime sets SVAMP / MultiArith / ASDiv). `direct` is demoted
+  to a sanity check only (already run; see TRANSFER_RECORD.md).
+- Decision rule (decidable, exhaustive): on EACH of the three sets, report the
+  paired exact McNemar `step-calc` vs `cot-zero` (+ gain, + latency ratio).
+  (i) if `step-calc` beats OR loses to `cot-zero` with p < 0.05 on any set →
+  that is a new, informative finding (the self-evolved step-calc is NOT merely
+  CoT beyond GSM8K); (ii) if none of the three is significant → consistent with
+  the Track A null (step-calc ≈ cot-zero generalizes across datasets);
+  (iii) any mixed pattern is reported as-is. No promotion machinery; observational.
