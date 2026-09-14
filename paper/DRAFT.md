@@ -368,6 +368,18 @@ nearly every null, while the five-key gate holds its false-promotion rate at
 0.0125 — the paired significance test, not the population of candidates, is
 what resists the noise.
 
+A fourth comparison sharpens the verdict. R1 is **not** significantly better
+than R3, another error-controlled rule: the plain *unpaired* two-proportion
+test holds 0.0150 (12/800) against R1's 0.0125 (10/800), the Wilson intervals
+overlap ([0.00680, 0.02286] vs [0.00860, 0.02603]), and the paired exact
+McNemar on the same 800 nulls gives b = 4, c = 6 (p = 0.754): the two rules are
+indistinguishable on these nulls. Pairing therefore contributes no measurable
+protection. The measurable lever is the test's *size*: R5 (the same gate at
+α = 0.20) rises to 0.0413, significantly worse than R1 (b = 0, c = 23,
+p ≈ 2.38e-7). The ablation therefore certifies that **having a valid
+significance test at α = 0.05** is what suppresses false promotions — not the
+five-key conjunction, and not the pairing.
+
 Three caveats bound this result. First, the nulls from one source pool share
 that pool's questions, so they are **not independent Bernoulli trials**; the
 Wilson interval is a conservative descriptive bound, and the operative check is
