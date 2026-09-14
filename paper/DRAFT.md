@@ -379,6 +379,26 @@ R4 — the gate's paired test computed on the non-blind selection set — is a
 construction (it requires the set to be blind), R4 promotes 2/6, and no R4
 false-promotion rate is claimed (a non-blind null set does not exist).
 
+### 5.7 Proposer-substitution arm: the verdict does not depend on the proposer
+
+To test whether the gate's refusal behaviour is an artefact of a specific
+proposer, we ran the optional proposer-substitution arm (Task 6 in the
+preregistration; the backbone swap is recorded as a dated amendment,
+AMENDMENT-2). A text-critique proposer (TextGrad/Reflexion-style) rewrites the
+zero-shot CoT answer against a critique prompt, and its product is compared
+against standard zero-shot CoT on the same blind held-out set, at temperature 0,
+with two replicates.
+
+On a new-generation backbone — Qwen3.8-27B served in AWQ-INT4 quantisation,
+400 calls (40 items × 5 policies × 2 replicates) — the proposer product scores
+13/40 against 14/40 for zero-shot CoT (exact McNemar b = 0, c = 1, p = 1.0,
+gain −0.025): the proposer product does not beat the standard baseline. Across
+the two replicates, 198 of 200 cells agree and the headline comparison is
+identical in both. The only robust ordering remains chain-of-thought-style
+prompting ≫ number-only answering (1/40 vs 12–14/40). We read this as
+proposer-agnostic behaviour: the gate's conclusion survives a change of proposer
+and of backbone generation, within the limits stated in §7.
+
 ## 6. Discussion
 
 The gate's value is not that it accepts improvements; it is that it refuses.
@@ -428,6 +448,11 @@ make the evaluated artefacts and item sets independently recomputable.
 - **Preregistration coverage.** Only the cross-model study (§5.4) and the
   decision-rule ablation (§5.6) were preregistered; Rounds 1–3 were not, and are
   reported as exploratory.
+- **Proposer-substitution arm (§5.7).** One backbone (Qwen3.8-27B, AWQ-INT4,
+  self-hosted), one item set, one proposer type. A single observation, not a
+  cross-backbone trend; it is not numerically comparable to the 4B–8B results in
+  §5.4, and AWQ-INT4 quantisation is part of the instrument. The earlier partial
+  run on a superseded backbone is not reported.
 
 ## 8. Conclusion
 
