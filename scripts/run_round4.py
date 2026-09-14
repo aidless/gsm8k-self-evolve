@@ -22,7 +22,14 @@ from evokit.stats import ledger_ok, mcnemar_two_sided
 
 
 def run_one(policy: str, prompt_file: str | None, question: str, expected: float,
-            model: str) -> dict:
+            model: str, subprocess_timeout: float = 150,
+            env_extra: dict | None = None) -> dict:
+    """One evaluator cell.  Both extra arguments are opt-in and transport-related:
+    ``subprocess_timeout`` must cover the worst-case inner request budget of a remote
+    27B backbone (or a retried slow call is guillotined as a failure), and
+    ``env_extra`` carries the resolved transport to the child explicitly instead of
+    mutating the parent's environment.  Defaults keep every existing caller identical."""
+
     cand = {"answer_policy": policy}
     if prompt_file:
         cand["prompt_file"] = prompt_file
@@ -30,11 +37,12 @@ def run_one(policy: str, prompt_file: str | None, question: str, expected: float
         json.dump(cand, f)
         cand_path = f.name
     env = dict(os.environ, EVO_MODEL=model, EVO_CANDIDATE=cand_path,
-               EVO_INPUT=json.dumps(question), EVO_EXPECTED=json.dumps(expected))
+               EVO_INPUT=json.dumps(question), EVO_EXPECTED=json.dumps(expected),
+               **(env_extra or {}))
     try:
         p = subprocess.run(["python3", str(ROOT / "examples" / "gsm8k_evaluator.py")],
                            capture_output=True, text=True, env=env, cwd=str(ROOT),
-                           timeout=150)
+                           timeout=subprocess_timeout)
         out = json.loads(p.stdout)
         return {"passed": bool(out["passed"]),
                 "latency": float(out.get("latency_s", 0.0)),

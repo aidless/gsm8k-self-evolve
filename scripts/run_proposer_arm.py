@@ -85,6 +85,32 @@ Usage
   python3 scripts/run_proposer_arm.py --dry-run           # print the plan only
   python3 scripts/run_proposer_arm.py --limit 2           # smoke test (20 calls)
   python3 scripts/run_proposer_arm.py --repeats 1         # 200-call variant
+
+Transport (round-5 addition — the ONLY thing this runner gained)
+----------------------------------------------------------------
+The arm's panel, prompts, scoring, budget guard, incremental saving and output
+shape are frozen.  What was added is a second model transport, selectable at the
+launch:
+
+  * default (unchanged): local ollama at ``EVO_OLLAMA_URL`` (``/api/generate``).
+  * new: OpenAI-compatible server, selected with ``--openai-base URL`` or
+    ``EVO_OPENAI_BASE`` — ``POST {base}/v1/chat/completions`` with
+    ``{"model", "messages":[{"role":"user","content":…}], "max_tokens":N,
+    "temperature":0}``; the answer is read from ``choices[0].message.content``
+    and ``usage.completion_tokens``.
+
+The new backend exists for the new-generation backbone ``Qwen3.8-27B-AWQ``,
+served by vLLM under model id ``qwen3.8-27b`` (the default for this backend;
+``--model`` overrides it).  A 27B at ~8 tokens/s needs minutes per call, so
+``--request-timeout`` defaults to 900 s and transient failures (connection error
+/ 5xx) are retried a bounded number of times (``--request-retries``, default 2)
+with logged exponential backoff.  A retry is a transport event, not an arm call:
+the budget is counted in completed cells, so a retry can never consume it.
+
+Backend provenance (kind, base URL, served model id, timeout) is written into
+``meta.backend``, and a resumed run refuses to continue when the backend, its
+base URL or the served model id differs from the recorded one — the same
+config-drift discipline already applied to dataset/model/policies/repeats.
 """
 import argparse
 import hashlib
@@ -98,6 +124,15 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 from evokit.stats import ledger_ok, mcnemar_two_sided  # noqa: E402
+from llm_backends import (  # noqa: E402
+    OLLAMA, OPENAI, OPENAI_BASE_ENV, REQUEST_TIMEOUT_ENV, BackendConfig,
+    DEFAULT_MAX_TOKENS, DEFAULT_OLLAMA_REQUEST_TIMEOUT, DEFAULT_OPENAI_MODEL,
+    DEFAULT_REQUEST_RETRIES, DEFAULT_REQUEST_TIMEOUT, DEFAULT_RETRY_BACKOFF,
+    models_url, normalize_base,
+    openai_chat,  # re-exported: tests drive the request/parse path through it
+    preflight_openai,
+    TransportError,  # re-exported: tests assert the timeout/no-retry contract
+)
 from run_round4 import run_one  # noqa: E402
 from run_paired_incremental import compute  # noqa: E402
 
@@ -106,6 +141,8 @@ CALL_CAP_PREREG = 400
 
 # --- arm definition ---------------------------------------------------------
 DEFAULT_MODEL = os.environ.get("EVO_MODEL", "qwen2.5:7b")
+# The new backend's default served model id (vLLM): Qwen3.8-27B-AWQ -> qwen3.8-27b.
+NEW_BACKBONE_MODEL = DEFAULT_OPENAI_MODEL
 DEFAULT_DATASET = ROOT / "examples" / "heldout40.json"
 PROPOSER_SCRIPT = "scripts/textgrad_rewrite.py"
 PROPOSER_PRODUCT_FILE = ROOT / "examples" / "prompts" / "textgrad-prompt.txt"
@@ -156,6 +193,61 @@ def resolve_ollama_url(explicit) -> str:
     return raw
 
 
+def resolve_backend(a, model: str) -> BackendConfig:
+    """Select the transport.  Ollama stays the default; an OpenAI-compatible base
+    (``--openai-base`` or ``EVO_OPENAI_BASE``) selects the vLLM path.  Only the
+    transport changes — the panel, prompts, scoring and budget guard are shared."""
+    raw_base = a.openai_base or os.environ.get(OPENAI_BASE_ENV) or None
+    backoff = float(DEFAULT_RETRY_BACKOFF if a.retry_backoff is None else a.retry_backoff)
+    # --request-timeout wins; EVO_REQUEST_TIMEOUT (the evaluator's own knob, honoured
+    # by the ollama path before this change) is the second source, then the default.
+    env_timeout = os.environ.get(REQUEST_TIMEOUT_ENV)
+    override = (float(a.request_timeout) if a.request_timeout is not None
+                else (float(env_timeout) if env_timeout else None))
+    if raw_base:
+        return BackendConfig(
+            kind=OPENAI, model=model,
+            timeout=override if override is not None else float(DEFAULT_REQUEST_TIMEOUT),
+            retries=int(DEFAULT_REQUEST_RETRIES if a.request_retries is None
+                        else a.request_retries),
+            max_tokens=int(DEFAULT_MAX_TOKENS if a.max_tokens is None else a.max_tokens),
+            backoff_base=backoff,
+            base_url=normalize_base(raw_base), base_arg=raw_base,
+        )
+    return BackendConfig(
+        kind=OLLAMA, model=model, retries=0, max_tokens=0, backoff_base=backoff,
+        # ollama keeps its frozen 90 s request default
+        timeout=override if override is not None else float(DEFAULT_OLLAMA_REQUEST_TIMEOUT),
+        ollama_url=resolve_ollama_url(a.ollama_url),
+    )
+
+
+def child_transport_env(cfg: BackendConfig) -> dict:
+    """Transport for the evaluator subprocess (handed to run_one(env_extra=...)).
+
+    Deliberately NOT ``os.environ``: the runner reads ``EVO_OPENAI_BASE``/``EVO_MODEL``
+    from the operator, so writing them back would make a second invocation in the
+    same process silently adopt the previous backend and defeat the resume guard.
+    """
+    return cfg.child_env()
+
+
+def preflight_openai_or_die(cfg: BackendConfig) -> list:
+    """Same job as the ollama preflight: protect the 400-call budget from a bad target."""
+    probe = models_url(cfg.base_url)
+    try:
+        names = preflight_openai(cfg.base_url, timeout=30.0, retries=cfg.retries,
+                                 backoff_base=cfg.backoff_base)
+    except Exception as exc:  # noqa: BLE001 - preflight must report, not raise
+        die(6, "openai-compatible server not reachable at %s (%s: %s); "
+               "use --skip-preflight to bypass"
+               % (probe, type(exc).__name__, exc))
+    if cfg.model not in names:
+        die(6, "model %r not served at %s; available: %s (use --skip-preflight to bypass)"
+               % (cfg.model, probe, ", ".join(names) or "(none advertised)"))
+    return names
+
+
 def preflight(url: str, model: str) -> list:
     """Non-model reachability probe: protect the 400-call budget from a bad target."""
     tags_url = url.split("/api/")[0] + "/api/tags"
@@ -176,7 +268,7 @@ def sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def proposer_provenance(url: str) -> dict:
+def proposer_provenance(url, cfg: BackendConfig) -> dict:
     if not PROPOSER_PRODUCT_FILE.exists():
         die(7, "proposer product %s missing; the frozen text-critique product must exist"
                % rel(PROPOSER_PRODUCT_FILE))
@@ -197,12 +289,15 @@ def proposer_provenance(url: str) -> dict:
         "product_header": parsed,
         "product_file_stored_brace_escaped": "{{" in header,
         "evaluator": "examples/gsm8k_evaluator.py",
+        # The frozen product was produced by the ollama proposer; the arm's own
+        # evaluation transport is recorded separately in meta.backend.
         "ollama_url": url,
+        "arm_backend": cfg.as_meta(),
         "regenerated_by_this_runner": False,
     }
 
 
-def load_state(out: Path, args, policies, model) -> dict:
+def load_state(out: Path, args, policies, model, cfg: BackendConfig) -> dict:
     """Load a previous run's rows for resume; refuse configuration drift."""
     state = {r: {} for r in range(1, args.repeats + 1)}
     if not out.exists():
@@ -213,11 +308,20 @@ def load_state(out: Path, args, policies, model) -> dict:
         die(8, "existing %s is not valid JSON (%s); move it aside to restart"
                % (out, type(exc).__name__))
     meta = doc.get("meta", {})
+    stored_backend = meta.get("backend") or {}
     drift = {
         "dataset": (meta.get("dataset"), rel(args.dataset)),
         "model": (meta.get("model"), model),
         "policies": (meta.get("policies"), list(policies)),
         "repeats": (meta.get("repeats"), args.repeats),
+        # Backend provenance drift (round-5 addition).  A file written before this
+        # key existed has no meta.backend, so the check is skipped for it; the
+        # ollama URL check below covers the legacy shape.
+        "backend_kind": (stored_backend.get("kind"), cfg.kind),
+        "backend_base_url": (stored_backend.get("base_url"), cfg.base_url),
+        "backend_model_id": (stored_backend.get("served_model_id"), model),
+        "ollama_url": ((meta.get("ollama_url"), cfg.ollama_url)
+                       if cfg.kind == OLLAMA else (None, None)),
     }
     bad = {k: v for k, v in drift.items() if v[0] is not None and v[0] != v[1]}
     if bad:
@@ -294,7 +398,7 @@ def headline_block(rep1: dict, policies, pairs: dict) -> dict:
     }
 
 
-def build_doc(args, cases, policies, model, state, url, provenance) -> dict:
+def build_doc(args, cases, policies, model, state, url, provenance, cfg: BackendConfig) -> dict:
     rep1 = state[1]
     done1, totals1, pairs1 = compute(rep1, policies)
     grid = len(cases) * len(policies) * args.repeats
@@ -310,6 +414,7 @@ def build_doc(args, cases, policies, model, state, url, provenance) -> dict:
             "policies": list(policies),
             "model": model,
             "ollama_url": url,
+            "backend": cfg.as_meta(),
             "n": len(done1),
             "repeats": args.repeats,
             "calls_cap": args.cap,
@@ -354,8 +459,26 @@ def main() -> None:
     ap.add_argument("--dataset", default=str(DEFAULT_DATASET))
     ap.add_argument("--out", default=None)
     ap.add_argument("--policies", default=",".join(PANEL))
-    ap.add_argument("--model", default=DEFAULT_MODEL)
+    ap.add_argument("--model", default=None,
+                    help="served model id; ollama default qwen2.5:7b, "
+                         "openai backend default %s" % NEW_BACKBONE_MODEL)
     ap.add_argument("--ollama-url", default=None)
+    ap.add_argument("--openai-base", default=None,
+                    help="OpenAI-compatible base URL (vLLM); also EVO_OPENAI_BASE. "
+                         "Setting it switches the whole arm to that backend")
+    ap.add_argument("--request-timeout", type=float, default=None,
+                    help="per-request timeout in seconds (openai backend default %g; "
+                         "ollama default %g, unchanged)"
+                         % (DEFAULT_REQUEST_TIMEOUT, DEFAULT_OLLAMA_REQUEST_TIMEOUT))
+    ap.add_argument("--request-retries", type=int, default=None,
+                    help="bounded retries on connection error / 5xx (openai backend; "
+                         "default %d)" % DEFAULT_REQUEST_RETRIES)
+    ap.add_argument("--retry-backoff", type=float, default=None,
+                    help="base seconds for exponential retry backoff (default %g)"
+                         % DEFAULT_RETRY_BACKOFF)
+    ap.add_argument("--max-tokens", type=int, default=None,
+                    help="max_tokens sent to the openai backend (default %d)"
+                         % DEFAULT_MAX_TOKENS)
     ap.add_argument("--repeats", type=int, default=2)
     ap.add_argument("--limit", type=int, default=0,
                     help="use only the first N questions (smoke test)")
@@ -364,6 +487,13 @@ def main() -> None:
     ap.add_argument("--skip-preflight", action="store_true")
     ap.add_argument("--allow-other-dataset", action="store_true")
     a = ap.parse_args()
+
+    # Transport parameters (flags only; the EVO_* names are an operator input for the
+    # backend choice and an OUTPUT to the evaluator subprocess, never a write-back).
+    if a.request_timeout is not None and a.request_timeout <= 0:
+        die(2, "--request-timeout must be > 0 seconds")
+    if a.request_retries is not None and a.request_retries < 0:
+        die(2, "--request-retries must be >= 0")
 
     if a.cap > CALL_CAP_PREREG:
         die(2, "--cap %d exceeds the preregistered cap of %d calls (PREREG-round5.md §6)"
@@ -393,9 +523,21 @@ def main() -> None:
     if not dataset.exists():
         die(5, "dataset %s does not exist" % dataset)
 
-    model = a.model or "qwen2.5:7b"
-    url = resolve_ollama_url(a.ollama_url)
-    os.environ["EVO_OLLAMA_URL"] = url
+    if a.model:
+        model = a.model
+    elif os.environ.get("EVO_MODEL"):
+        model = os.environ["EVO_MODEL"]
+    elif (a.openai_base or os.environ.get(OPENAI_BASE_ENV)):
+        model = NEW_BACKBONE_MODEL          # new backend default: the served vLLM id
+    else:
+        model = DEFAULT_MODEL               # frozen arm default: qwen2.5:7b
+    cfg = resolve_backend(a, model)
+    url = cfg.ollama_url
+    child_env = child_transport_env(cfg)
+    # A remote 27B call may take minutes; the outer subprocess timeout must cover the
+    # whole inner retry budget or a retried slow call would be killed as a failure.
+    # For the ollama default (90 s, no retries) this is exactly the frozen 150 s.
+    subprocess_timeout = cfg.timeout * (cfg.retries + 1) + 60
     out = Path(a.out) if a.out else (
         ROOT / "results" / "rounds" / "round5" / ("proposer-arm-%s.json" % model_slug(model)))
     if not out.is_absolute():
@@ -412,18 +554,32 @@ def main() -> None:
           % (planned, a.cap, len(cases), len(policies), a.repeats), flush=True)
     print("headline pair: %s (chal) vs %s (inc)   out=%s"
           % (HEADLINE_CHALLENGER, HEADLINE_INCUMBENT, rel(out)), flush=True)
+    print("transport: backend=%s model=%s endpoint=%s request_timeout=%gs "
+          "retries=%d max_tokens=%s"
+          % (cfg.kind, cfg.model, cfg.endpoint(), cfg.timeout, cfg.retries,
+             cfg.max_tokens if cfg.kind == OPENAI else "n/a (not an ollama field)"),
+          flush=True)
     if planned > a.cap:
         die(2, "planned %d calls exceed the cap of %d — refusing to start "
                "-- no model call was made" % (planned, a.cap))
-    if model != "qwen2.5:7b":
+    if cfg.kind == OPENAI:
+        if model != NEW_BACKBONE_MODEL:
+            print("WARNING: --model %s differs from the registered vLLM model id %s"
+                  % (model, NEW_BACKBONE_MODEL), flush=True)
+    elif model != "qwen2.5:7b":
         print("WARNING: --model %s differs from the pinned arm model qwen2.5:7b" % model,
               flush=True)
 
     if not a.skip_preflight:
-        names = preflight(url, model)
-        print("preflight ok: %s reachable, %d models, %r present"
-              % (url.split("/api/")[0], len(names), model), flush=True)
-    provenance = proposer_provenance(url)
+        if cfg.kind == OPENAI:
+            names = preflight_openai_or_die(cfg)
+            print("preflight ok: %s reachable, %d models, %r present"
+                  % (models_url(cfg.base_url), len(names), model), flush=True)
+        else:
+            names = preflight(url, model)
+            print("preflight ok: %s reachable, %d models, %r present"
+                  % (url.split("/api/")[0], len(names), model), flush=True)
+    provenance = proposer_provenance(url, cfg)
     print("proposer product: %s sha256=%s"
           % (provenance["product_file"], provenance["product_sha256"][:16]), flush=True)
 
@@ -431,7 +587,7 @@ def main() -> None:
         print("dry-run: no model call made", flush=True)
         return
 
-    state = load_state(out, a, policies, model)
+    state = load_state(out, a, policies, model, cfg)
     used = sum(len(rows) for rows in state.values() for rows in rows.values())
     print("resume: %d/%d calls already recorded in %s" % (used, planned, rel(out)), flush=True)
 
@@ -445,14 +601,18 @@ def main() -> None:
                 if used >= a.cap:
                     die(2, "call cap %d reached mid-run — refusing call %d"
                            % (a.cap, used + 1))
-                row[pol] = run_one(pol, None, c["input"], float(c["expected"]), model)
+                # One completed cell = one budgeted call; transport retries inside the
+                # evaluator are not arm calls and never increment `used`.
+                row[pol] = run_one(pol, None, c["input"], float(c["expected"]), model,
+                                   subprocess_timeout=subprocess_timeout,
+                                   env_extra=child_env)
                 used += 1
-                save(out, build_doc(a, cases, policies, model, state, url, provenance))
+                save(out, build_doc(a, cases, policies, model, state, url, provenance, cfg))
                 print(json.dumps({"qid": qid, "policy": pol, "rep": r,
                                   "passed": row[pol]["passed"],
                                   "call": used, "of": planned}), flush=True)
 
-    doc = build_doc(a, cases, policies, model, state, url, provenance)
+    doc = build_doc(a, cases, policies, model, state, url, provenance, cfg)
     save(out, doc)
     print("FINAL model=%s n=%d totals=%s" % (model, doc["meta"]["n"], doc["totals"]),
           flush=True)

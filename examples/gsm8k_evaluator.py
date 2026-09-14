@@ -6,6 +6,9 @@ Candidate policy knob: answer_policy in {
 }.
 Calls cloud ollama (qwen2.5:7b, temperature 0), extracts the numeric answer,
 compares against EVO_EXPECTED with exact float equality.
+Transport note: ``EVO_BACKEND=openai`` + ``EVO_OPENAI_BASE`` route the same prompt
+to an OpenAI-compatible server (vLLM) instead; prompts, extraction and scoring are
+identical either way (see scripts/llm_backends.py).
 """
 import json
 import os
@@ -100,7 +103,16 @@ REASONING_POLICIES = {"concise-reason", "step-calc", "rounding-aware", "rectify"
 NUM_RE = re.compile(r"-?[\d,]*\.?\d+")
 
 
-def call_model(prompt: str, timeout: int = 90) -> tuple[str, float]:
+def call_model(prompt: str, timeout: int | None = None) -> tuple[str, float]:
+    """Transport only.  ``EVO_BACKEND=openai`` (set by run_proposer_arm.py when a
+    vLLM/OpenAI-compatible base is selected) routes the SAME prompt to
+    ``POST {EVO_OPENAI_BASE}/v1/chat/completions``; anything else keeps the frozen
+    ollama path below, byte-for-byte.  Prompts, extraction and scoring are not
+    touched by the backend choice."""
+    if timeout is None:
+        timeout = int(float(os.environ.get("EVO_REQUEST_TIMEOUT", 90)))
+    if os.environ.get("EVO_BACKEND", "ollama").strip().lower() == "openai":
+        return call_model_openai(prompt, timeout)
     body = json.dumps({
         "model": MODEL, "prompt": prompt, "stream": False,
         "options": {"temperature": 0},
@@ -111,6 +123,26 @@ def call_model(prompt: str, timeout: int = 90) -> tuple[str, float]:
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         data = json.load(resp)
     return data.get("response", ""), time.monotonic() - t0
+
+
+def call_model_openai(prompt: str, timeout: int) -> tuple[str, float]:
+    """OpenAI-compatible transport (vLLM).  Lazily imported so the default path
+    cannot break if the scripts/ helper is unavailable."""
+    import sys as _sys
+    _sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    from llm_backends import openai_chat  # noqa: E402 - lazy, transport-only
+
+    base = os.environ.get("EVO_OPENAI_BASE")
+    if not base:
+        raise RuntimeError("EVO_BACKEND=openai requires EVO_OPENAI_BASE")
+    res = openai_chat(
+        prompt, model=MODEL, base=base,
+        max_tokens=int(os.environ.get("EVO_MAX_TOKENS", 4096)),
+        timeout=timeout,
+        retries=int(os.environ.get("EVO_REQUEST_RETRIES", 2)),
+        backoff_base=float(os.environ.get("EVO_RETRY_BACKOFF", 2.0)),
+    )
+    return res["text"], res["latency_s"]
 
 
 def extract_number(text: str, policy: str) -> float | None:
