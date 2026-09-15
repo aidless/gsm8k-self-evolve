@@ -91,7 +91,7 @@ claims are comparative and bounded, as stated in §7.
 ## 2. Related Work
 
 **Self-improving and self-evolving agents.** Self-Refine-style self-critique
-and Reflexion (Shinn et al., 2023) improve outputs by iterative verbal feedback
+(Madaan et al., 2023) and Reflexion (Shinn et al., 2023) improve outputs by iterative verbal feedback
 without weight updates. TextGrad (Yuksekgonul et al., 2024; arXiv:2406.07496)
 treats textual feedback as a gradient-like signal for optimising prompts and
 solutions. REMO (arXiv:2508.18749) and SPHERE (arXiv:2503.04813) report
@@ -535,16 +535,25 @@ documented with the exact pristine hash.
 
 ## References
 
-- Cobbe, K., et al. (2021). *Training Verifiers to Solve Math Word Problems* (GSM8K). arXiv:2110.14168.
-- McNemar, Q. (1947). Note on the sampling error of the difference between correlated proportions or percentages. *Psychometrika* 12(2), 153–160.
-- Josefsson, S., & Liusvaara, I. (2017). *Edwards-Curve Digital Signature Algorithm (Ed25519)*. RFC 8032.
-- Shinn, N., et al. (2023). *Reflexion: Language Agents with Verbal Reinforcement Learning*. arXiv:2303.11366.
-- Yuksekgonul, M., et al. (2024). *TextGrad: Automatic Differentiation via Text*. arXiv:2406.07496.
-- *REMO: meta-optimisation / self-evolution of reasoning pipelines.* arXiv:2508.18749v1.
-- *SPHERE: self-evolving reasoning methods.* arXiv:2503.04813v1.
-- *Survey of self-evolution / self-improvement.* arXiv:2508.07407v2.
-- Qwen2.5 technical report (model family used as the primary backend).
-- Gemma 3, Llama 3.1: model cards for the cross-model backends.
+> **Verification note (2026-09-16).** Every entry below was checked against its
+> primary source: arXiv abs pages fetched directly (号-题-作者 match), McNemar
+> via Crossref DOI metadata, RFC 8032 via the IETF datatracker, both model-card
+> URLs fetched and content-checked. **One error found and fixed**: McNemar
+> (1947) pages are **153–157**, not 153–160. Checklist item (i) is thereby
+> complete; the model cards carry no verifiable publication year on their
+> fetched pages, so only an access date is given.
+
+- Cobbe, K., Kosaraju, V., Bavarian, M., Chen, M., Jun, H., Kaiser, L., Plappert, M., Tworek, J., Hilton, J., Nakano, R., Hesse, C., & Schulman, J. (2021). *Training Verifiers to Solve Math Word Problems* (GSM8K). arXiv:2110.14168.
+- McNemar, Q. (1947). Note on the sampling error of the difference between correlated proportions or percentages. *Psychometrika* 12(2), 153–157. doi:10.1007/BF02295996.
+- Josefsson, S., & Liusvaara, I. (2017). *Edwards-Curve Digital Signature Algorithm (EdDSA)*. RFC 8032, IETF.
+- Shinn, N., Cassano, F., Berman, E., Gopinath, A., Narasimhan, K., & Yao, S. (2023). *Reflexion: Language Agents with Verbal Reinforcement Learning*. arXiv:2303.11366.
+- Madaan, A., et al. (2023). *Self-Refine: Iterative Refinement with Self-Feedback*. arXiv:2303.17651.
+- Yuksekgonul, M., Bianchi, F., Boen, J., Liu, S., Huang, Z., Guestrin, C., & Zou, J. (2024). *TextGrad: Automatic "Differentiation" via Text*. arXiv:2406.07496.
+- Wu, C., & Qu, Z. (2025). *Reflection-Enhanced Meta-Optimization Integrating TextGrad-style Prompt Optimization with Memory-Driven Self-Evolution* (REMO). arXiv:2508.18749.
+- Singh, J., Chakraborty, T., & Nambi, A. (2025). *Self-Evolved Preference Optimization for Enhancing Mathematical Reasoning in Small Language Models* (SPHERE). arXiv:2503.04813.
+- Fang, J., et al. (2025). *A Comprehensive Survey of Self-Evolving AI Agents: A New Paradigm Bridging Foundation Models and Lifelong Agentic Systems*. arXiv:2508.07407.
+- Yang, A., et al. (2024). *Qwen2.5 Technical Report*. arXiv:2412.15115.
+- Model cards for the cross-model backends: *Gemma 3 (4B-it)* — https://huggingface.co/google/gemma-3-4b-it ; *Llama 3.1 (8B)* — https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/MODEL_CARD.md (both accessed 2026-09-16).
 
 > **Pre-submission checklist.** (i) verify every reference above against its
 > primary source and complete missing author lists; (ii) finalise the
