@@ -182,6 +182,14 @@ McNemar **b=4、c=6、p=0.754 —— 不可区分**。而真正可测的杠杆�
 非配对检验 R3 不可区分，p=0.754）——而非自我声明——因此它不是一个被夸大的 SOTA 声称。
 ## 7. 提议器替代臂（Task 6，2026-09-14，新一代骨干，C31）
 
+> **[已隔离 2026-09-16 · 本节全部数字作废 · 禁止引用]** 首跑 400 调用中仅前 140 次
+> （held-01..14）真实到达模型；云端 vLLM 服务于 09-14 15:17:56 被外部 SIGTERM 终止
+> （非崩溃，同 GPU 现有其它工作负载），held-15..40 的 260 格全部为传输层失败
+> （latency=0/parsed=None），被 runner 误记为有效数据混入 totals/headline/一致性指标。
+> **有效样本仅 n=14，一切 n=40 口径的数字不成立。** 取证与重跑要求见
+> `results/rounds/round5/proposer-arm-qwen38-27b.QUARANTINE.md`；账本 C31 = invalidated。
+> 以下原文仅作事故记录保留。
+
 **问题**：门控的结论是否与提议器解耦？把「文本批判式提议器」的产物（TextGrad/Reflexion 风格：
 对 cot-zero 输出按批判提示词反思改写）与其余 4 个策略同池、同指标比较，headline = 提议器产物 vs
 零样本 CoT（`PREREG-round5.md` §6；骨干变更见 `AMENDMENT-2-task6-backbone.md`）。

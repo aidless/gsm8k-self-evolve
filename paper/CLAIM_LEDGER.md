@@ -187,18 +187,19 @@
 
 ## 提议器替代臂（Task 6，round5，新一代骨干，2026-09-14）
 
-- **C31 · 文本批判提议器的产物在 Qwen3.8-27B-AWQ 上不优于零样本 CoT；唯一稳健效应仍是 CoT 式 ≫ 纯数字**
-  证据：`results/rounds/round5/proposer-arm-qwen38-27b.json`（`totals`：direct=1 / step-calc=13 /
-  cot-zero=14 / few-shot=12 / textgrad=13，n=40 heldout40，温度 0，2 重复）；
-  `headline.cot-zero_vs_textgrad`：b=0、c=1、精确 McNemar p=1.0、gain=−0.025、`ledger_ok=true`。
-  重复一致性（`repeats.agreement_vs_rep1.2`）：200 单元格中 198 一致；headline 对（textgrad 与 cot-zero）
-  **两次重复 100% 一致**；唯一差异是 few-shot 的 2 格（held-03/held-09），与 C23 的近确定性一致。
-  状态：confirmed（单一骨干的复现观察，边界见下）。
-  边界（必须随正文披露，绝不省略）：
-  1. **这与 Track A/C 不可数值比**——骨干不同（7B/4B/8B → 27B）；见 AMENDMENT-2。
-  2. **单一骨干**，不构成"跨新一代模型成立"的推广；27B 与 7B 混淆代际与规模。
-  3. 骨干是**自托管 AWQ-INT4 量化**（compressed-tensors），非厂商全精度——量化是仪器的一部分。
-  4. 被政策叫停的 `qwen2.5:7b` 部分跑（263/400）**不可引用**，仅作审计痕迹保留。
+- **C31 · [已作废 INVALIDATED，2026-09-16，等待重跑]** 原声明：文本批判提议器的产物在
+  Qwen3.8-27B-AWQ 上不优于零样本 CoT。
+  **作废原因（数据取证）**：原 400 调用中仅前 140 次（held-01..14 × 5 策略 × 2 重复）真实到达模型。
+  云端 vLLM 服务在运行中被外部 SIGTERM 优雅终止（`vllm-27b2.log`：09-14 15:17:56 shutdown 序列；
+  同 GPU 现有其它工作负载），其后 260 次调用全部传输层失败——签名：latency=0、parsed=None、
+  恰为 held-15..40 全部 26 题 × 5 策略 × 2 重复（`full.log` call 141 起）。runner 将传输失败
+  误记为"模型答错"并计入 totals/headline，故 **totals（direct 1 / step-calc 13 / cot-zero 14 /
+  few-shot 12 / textgrad 13，"n=40"）与 headline（b=0,c=1,p=1.0）不成立**——有效样本仅 n=14。
+  处置：① 产物隔离（`results/rounds/round5/proposer-arm-qwen38-27b.QUARANTINE.md`；原 JSON
+  作为证据原样保留、不修改）；② runner 缺陷修复（传输失败不计为有效数据、resume 重试失败格）；
+  ③ 预算修订（400 有效格之外允许补偿性重试）后重跑 held-15..40。重跑完成前，正文不得引用
+  任何 T6 数字（DRAFT §5.7 已改为隔离声明）。
+  状态：**invalidated**（原 confirmed 判定撤回；教训已记 `.agent-memory/ledger/lessons.md`）。
 
 ## 明确不成立的声明（禁止写入正文）
 
