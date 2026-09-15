@@ -44,9 +44,21 @@ def run_one(policy: str, prompt_file: str | None, question: str, expected: float
                            capture_output=True, text=True, env=env, cwd=str(ROOT),
                            timeout=subprocess_timeout)
         out = json.loads(p.stdout)
-        return {"passed": bool(out["passed"]),
-                "latency": float(out.get("latency_s", 0.0)),
-                "parsed": out.get("details", {}).get("parsed")}
+        details = out.get("details") or {}
+        res = {"passed": bool(out["passed"]),
+               "latency": float(out.get("latency_s", 0.0)),
+               "parsed": details.get("parsed")}
+        # Propagate the evaluator's transport error (details.error, e.g.
+        # "TransportError") so callers can separate "the model answered wrong"
+        # (data) from "the call never reached the model" (NOT data).  Additive
+        # only: without details.error the returned keys/defaults are exactly the
+        # pre-fix shape, so callers that ignore "error" are unaffected
+        # (run_paired_incremental.compute and run_round4.main read only
+        # passed/latency/parsed).
+        err = details.get("error")
+        if err:
+            res["error"] = str(err)
+        return res
     except Exception as exc:
         return {"passed": False, "latency": 0.0, "parsed": None,
                 "error": type(exc).__name__}

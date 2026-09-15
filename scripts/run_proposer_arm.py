@@ -57,11 +57,16 @@ Budget guard (fail loudly, enforced in code)
 --------------------------------------------
 `CALL_CAP_PREREG = 400` (prereg §6).  `planned_calls = n_questions × n_policies
 × repeats` is computed and PRINTED before any model call; if it exceeds the cap
-the runner exits non-zero WITHOUT calling the model.  Every recorded cell is
-exactly one evaluator call, so the cap is enforced over the same unit the budget
-is stated in.  Evaluator policies with a variable per-question call count
-(`reflect-retry` makes 2-3 calls) are refused by default: they would make the
-400-call cap unverifiable against a fixed cell grid.
+the runner exits non-zero WITHOUT calling the model.  Since the transport-
+failure validity fix (incident 2026-09-14, see the dedicated section below),
+`--cap` bounds VALID cells — a transport-failed cell is not data and does not
+consume the valid-cell budget — and `--attempts-cap` (default
+`DEFAULT_ATTEMPTS_CAP = 800`) bounds TOTAL attempts (valid + failed cells), the
+compensating-retry headroom of AMENDMENT-2 rev.1.  Exceeding either cap refuses
+further calls (exit 2) without making them.  Evaluator policies with a variable
+per-question call count (`reflect-retry` makes 2-3 calls) are refused by
+default: they would make the 400-call cap unverifiable against a fixed cell
+grid.
 
 Resumability
 ------------
@@ -69,7 +74,9 @@ The output file is rewritten after EVERY single call (same discipline as
 `scripts/run_paired_incremental.py`), so an interrupted long spend loses at most
 one call and a re-run continues where it stopped.  A resumed file whose
 dataset / model / policies no longer match the current invocation is refused
-(configuration drift) rather than silently merged.
+(configuration drift) rather than silently merged.  Since the validity fix:
+VALID cells are skipped on resume; cells marked `call_failed` are RETRIED, each
+retry counted as a new attempt in `meta.progress.attempts_total`.
 
 Output
 ------
@@ -111,6 +118,40 @@ Backend provenance (kind, base URL, served model id, timeout) is written into
 ``meta.backend``, and a resumed run refuses to continue when the backend, its
 base URL or the served model id differs from the recorded one — the same
 config-drift discipline already applied to dataset/model/policies/repeats.
+
+Transport-failure validity (round-5 fix — incident 2026-09-14)
+---------------------------------------------------------------
+On 2026-09-14 the vLLM process serving Qwen3.8-27B-AWQ was externally SIGTERMed
+at call 140 of the first full 400-call run; the remaining 260 calls failed at
+the transport layer, yet the runner of the time recorded them as valid
+``passed=false`` DATA: they polluted totals/headline/agreement, consumed the
+whole 400-call budget, were never retried on resume, and the run reported
+"completed 400/400" with no alarm.  Forensics:
+``results/rounds/round5/proposer-arm-qwen38-27b.QUARANTINE.md`` (quarantined
+2026-09-16; the artefact is kept unmodified as evidence).  Rules enforced since
+the fix:
+
+  * A recorded cell is a TRANSPORT FAILURE (not data) iff it carries a non-empty
+    ``error`` — propagated by ``run_round4.run_one`` from the evaluator's
+    ``details.error`` — OR, for legacy cells recorded before the fix, matches
+    the migration signature ``latency == 0 AND parsed is None AND passed is
+    False``.
+  * A genuine wrong answer (``latency > 0``, any ``parsed``, ``passed`` False)
+    is VALID data and is never retried.
+  * Failed cells are stored as ``{"call_failed": true, "error": <str or
+    "legacy-signature">}`` (latency/parsed kept alongside, harmless) and are
+    EXCLUDED from totals / pairs / headline / agreement / questions_done, which
+    are computed over valid cells only and carry ``n_valid`` so a shrunken valid
+    set can never masquerade as the planned n.  Legacy polluted files load with
+    signature-matching cells auto-marked failed (absence of the new meta keys
+    is not drift).
+  * ``meta.progress`` reports ``valid_cells`` / ``failed_cells`` /
+    ``attempts_total``; ``meta.calls_used`` counts the budgeted unit (VALID
+    cells).
+  * Circuit breaker: >= ``CIRCUIT_BREAKER_LIMIT`` (5) CONSECUTIVE transport-
+    failure attempts in the current process → exit 4 ("circuit breaker: ..."),
+    with the state already saved — the runner saves after every cell and the
+    breaker check runs after the save, so no completed cell is ever lost.
 """
 import argparse
 import hashlib
@@ -138,6 +179,15 @@ from run_paired_incremental import compute  # noqa: E402
 
 # --- prereg-pinned budget (PREREG-round5.md §6) -----------------------------
 CALL_CAP_PREREG = 400
+# Total-attempt hard stop (valid + transport-failed cells): the valid-cell cap
+# (<=400) plus compensating-retry headroom (AMENDMENT-2 rev.1 budgeted 260
+# retries after the 2026-09-14 incident; 800 is the default ceiling beyond
+# which no further call is ever made).
+DEFAULT_ATTEMPTS_CAP = 800
+# Circuit breaker: this many CONSECUTIVE transport-failure attempts in the
+# current process means the server is presumed down — save state and exit 4
+# instead of burning attempts on garbage cells.
+CIRCUIT_BREAKER_LIMIT = 5
 
 # --- arm definition ---------------------------------------------------------
 DEFAULT_MODEL = os.environ.get("EVO_MODEL", "qwen2.5:7b")
@@ -184,6 +234,55 @@ def rel(path: Path) -> str:
 def model_slug(model: str) -> str:
     """qwen2.5:7b -> qwen25-7b (matches results/rounds/round4/variance-qwen25-7b-*.json)."""
     return model.replace(":", "-").replace(".", "")
+
+
+# --- transport-failure validity (2026-09-14 incident fix; module docstring) ---
+
+def is_failed_cell(cell) -> bool:
+    """True iff a recorded cell is a TRANSPORT FAILURE (not data).
+
+    Rule: a non-empty ``error`` (propagated by ``run_round4.run_one`` from the
+    evaluator's ``details.error``, or from run_one's own subprocess-exception
+    path), OR — for legacy cells recorded before the fix — the migration
+    signature ``latency == 0 AND parsed is None AND passed is False``.  A
+    genuine wrong answer (latency > 0, any parsed, passed False) is VALID data.
+    """
+    if not isinstance(cell, dict):
+        return False
+    if cell.get("call_failed"):
+        return True
+    err = cell.get("error")
+    if isinstance(err, str) and err:
+        return True
+    return (cell.get("passed") is False
+            and cell.get("parsed") is None
+            and float(cell.get("latency") or 0.0) == 0.0)
+
+
+def mark_failed(cell: dict) -> dict:
+    """Normalize a transport-failure cell for storage: additive keys only
+    (``call_failed``, ``error``); latency/parsed are kept alongside (harmless,
+    and forensically useful)."""
+    out = dict(cell)
+    out["call_failed"] = True
+    if not out.get("error"):
+        out["error"] = "legacy-signature"
+    return out
+
+
+def cell_counts(state: dict):
+    """(valid_cells, failed_cells) over every replicate — the single source of
+    truth used by both the run loop and build_doc so counters cannot drift."""
+    cells = [c for rows in state.values() for row in rows.values() for c in row.values()]
+    failed = sum(1 for c in cells if is_failed_cell(c))
+    return len(cells) - failed, failed
+
+
+def valid_view(rep: dict) -> dict:
+    """Copy of one replicate's details dict keeping ONLY valid cells, so
+    totals/pairs/headline/agreement compute strictly over data."""
+    return {q: {p: c for p, c in row.items() if not is_failed_cell(c)}
+            for q, row in rep.items()}
 
 
 def resolve_ollama_url(explicit) -> str:
@@ -297,11 +396,20 @@ def proposer_provenance(url, cfg: BackendConfig) -> dict:
     }
 
 
-def load_state(out: Path, args, policies, model, cfg: BackendConfig) -> dict:
-    """Load a previous run's rows for resume; refuse configuration drift."""
+def load_state(out: Path, args, policies, model, cfg: BackendConfig):
+    """Load a previous run's rows for resume; refuse configuration drift.
+
+    Returns ``(state, attempts)``.  Since the transport-failure validity fix:
+    legacy cells matching the failure signature (recorded before the fix, e.g.
+    the quarantined 2026-09-14 artefact's shape) are auto-marked ``call_failed``
+    in memory so the run loop retries them; and ``attempts`` is recovered from
+    ``meta.progress.attempts_total`` when present, else derived from the
+    recorded cell count (every recorded cell cost >= 1 attempt).  The drift
+    check never REQUIRES the new keys — their absence in a legacy meta is OK.
+    """
     state = {r: {} for r in range(1, args.repeats + 1)}
     if not out.exists():
-        return state
+        return state, 0
     try:
         doc = json.loads(out.read_text(encoding="utf-8"))
     except Exception as exc:  # noqa: BLE001 - corrupt file must not be silently merged
@@ -331,7 +439,18 @@ def load_state(out: Path, args, policies, model, cfg: BackendConfig) -> dict:
     for r in range(2, args.repeats + 1):
         block = reps.get(str(r), {}) or {}
         state[r] = block.get("details", {}) or {}
-    return state
+    # Legacy migration: mark pre-fix transport failures (in memory only; the file
+    # on disk is rewritten with the marks only if this run proceeds).
+    for rows in state.values():
+        for row in rows.values():
+            for pol, cell in list(row.items()):
+                if is_failed_cell(cell):
+                    row[pol] = mark_failed(cell)
+    stored = (meta.get("progress") or {}).get("attempts_total")
+    cells = sum(len(row) for rows in state.values() for row in rows.values())
+    attempts = (stored if (isinstance(stored, int) and not isinstance(stored, bool)
+                           and stored >= cells) else cells)
+    return state, attempts
 
 
 def agreement(d1: dict, d2: dict, policies) -> dict:
@@ -378,6 +497,7 @@ def headline_block(rep1: dict, policies, pairs: dict) -> dict:
                              "inc = incumbent; b = chal-only, c = inc-only, "
                              "gain = (total_chal - total_inc) / n."),
         "n": n,
+        "n_valid": n,   # computed over VALID cells only (transport failures excluded)
         "total_chal": tot_chal,
         "total_inc": tot_inc,
         "b_chal_only": b,
@@ -398,11 +518,22 @@ def headline_block(rep1: dict, policies, pairs: dict) -> dict:
     }
 
 
-def build_doc(args, cases, policies, model, state, url, provenance, cfg: BackendConfig) -> dict:
+def build_doc(args, cases, policies, model, state, url, provenance, cfg: BackendConfig,
+              attempts: int | None = None) -> dict:
+    """Assemble the output document.  totals/pairs/headline/agreement compute
+    over the VALID-cell view only (transport failures are not data); `details`
+    keeps the full state so failed cells remain visible as `call_failed`."""
     rep1 = state[1]
-    done1, totals1, pairs1 = compute(rep1, policies)
+    rep1_valid = valid_view(rep1)
+    done1, totals1, pairs1 = compute(rep1_valid, policies)
     grid = len(cases) * len(policies) * args.repeats
-    used = sum(len(rows) for rows in state.values() for rows in rows.values())
+    valid_cells, failed_cells = cell_counts(state)
+    if attempts is None:                     # defensive: derive from recorded cells
+        attempts = valid_cells + failed_cells
+    n_valid = len(done1)
+    totals1["n_valid"] = n_valid             # additive: a shrunken valid set can
+    for entry in pairs1.values():            # never masquerade as the planned n
+        entry["n_valid"] = n_valid
     doc = {
         "meta": {
             "arm": "proposer-substitution",
@@ -418,17 +549,23 @@ def build_doc(args, cases, policies, model, state, url, provenance, cfg: Backend
             "n": len(done1),
             "repeats": args.repeats,
             "calls_cap": args.cap,
+            "attempts_cap": getattr(args, "attempts_cap", DEFAULT_ATTEMPTS_CAP),
             "planned_calls": grid,
-            "calls_used": used,
+            # Budget unit since the validity fix: VALID cells.  Total attempts
+            # (valid + failed, incl. retries) live in progress.attempts_total.
+            "calls_used": valid_cells,
             "headline_pair": "%s_vs_%s" % (HEADLINE_INCUMBENT, HEADLINE_CHALLENGER),
             "panel_derivation": PANEL_DERIVATION,
             "panel_is_default_derivation": list(policies) == list(PANEL),
             "proposer": provenance,
             "progress": {
-                "calls_done": used,
+                "calls_done": valid_cells,
                 "calls_total": grid,
                 "questions_done": len(done1),
                 "questions_total": len(cases),
+                "valid_cells": valid_cells,
+                "failed_cells": failed_cells,
+                "attempts_total": attempts,
             },
         },
         "totals": totals1,
@@ -439,12 +576,16 @@ def build_doc(args, cases, policies, model, state, url, provenance, cfg: Backend
         reps = {}
         agree = {}
         for r in range(2, args.repeats + 1):
-            _, totals_r, pairs_r = compute(state[r], policies)
+            rep_r_valid = valid_view(state[r])
+            done_r, totals_r, pairs_r = compute(rep_r_valid, policies)
+            totals_r["n_valid"] = len(done_r)
+            for entry in pairs_r.values():
+                entry["n_valid"] = len(done_r)
             reps[str(r)] = {"totals": totals_r, "pairs": pairs_r, "details": state[r]}
-            agree[str(r)] = agreement(state[1], state[r], policies)
+            agree[str(r)] = agreement(rep1_valid, rep_r_valid, policies)
         doc["repeats"] = {"n_repeats": args.repeats, "replicates": reps,
                           "agreement_vs_rep1": agree}
-    doc["headline"] = headline_block(rep1, policies, pairs1)
+    doc["headline"] = headline_block(rep1_valid, policies, pairs1)
     return doc
 
 
@@ -482,7 +623,13 @@ def main() -> None:
     ap.add_argument("--repeats", type=int, default=2)
     ap.add_argument("--limit", type=int, default=0,
                     help="use only the first N questions (smoke test)")
-    ap.add_argument("--cap", type=int, default=CALL_CAP_PREREG)
+    ap.add_argument("--cap", type=int, default=CALL_CAP_PREREG,
+                    help="cap on VALID cells (transport failures do not consume "
+                         "it); default %d" % CALL_CAP_PREREG)
+    ap.add_argument("--attempts-cap", type=int, default=DEFAULT_ATTEMPTS_CAP,
+                    help="hard cap on TOTAL attempts (valid + transport-failed "
+                         "cells, incl. retries on resume); default %d"
+                         % DEFAULT_ATTEMPTS_CAP)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--skip-preflight", action="store_true")
     ap.add_argument("--allow-other-dataset", action="store_true")
@@ -550,8 +697,10 @@ def main() -> None:
 
     print("proposer-arm: model=%s dataset=%s(%d questions) policies=%s repeats=%d"
           % (model, rel(dataset), len(cases), policies, a.repeats), flush=True)
-    print("PLANNED CALLS: %d  (cap %d; formula = %d questions × %d policies × %d repeats)"
-          % (planned, a.cap, len(cases), len(policies), a.repeats), flush=True)
+    print("PLANNED CALLS: %d  (cap %d valid cells; attempts cap %d; formula = "
+          "%d questions × %d policies × %d repeats)"
+          % (planned, a.cap, a.attempts_cap, len(cases), len(policies), a.repeats),
+          flush=True)
     print("headline pair: %s (chal) vs %s (inc)   out=%s"
           % (HEADLINE_CHALLENGER, HEADLINE_INCUMBENT, rel(out)), flush=True)
     print("transport: backend=%s model=%s endpoint=%s request_timeout=%gs "
@@ -562,6 +711,9 @@ def main() -> None:
     if planned > a.cap:
         die(2, "planned %d calls exceed the cap of %d — refusing to start "
                "-- no model call was made" % (planned, a.cap))
+    if planned > a.attempts_cap:
+        die(2, "planned %d calls exceed the attempts cap of %d — refusing to start "
+               "-- no model call was made" % (planned, a.attempts_cap))
     if cfg.kind == OPENAI:
         if model != NEW_BACKBONE_MODEL:
             print("WARNING: --model %s differs from the registered vLLM model id %s"
@@ -587,41 +739,76 @@ def main() -> None:
         print("dry-run: no model call made", flush=True)
         return
 
-    state = load_state(out, a, policies, model, cfg)
-    used = sum(len(rows) for rows in state.values() for rows in rows.values())
-    print("resume: %d/%d calls already recorded in %s" % (used, planned, rel(out)), flush=True)
+    state, attempts = load_state(out, a, policies, model, cfg)
+    valid_cells, failed_cells = cell_counts(state)
+    print("resume: %d/%d calls already recorded in %s (valid=%d failed=%d attempts=%d)"
+          % (valid_cells, planned, rel(out), valid_cells, failed_cells, attempts),
+          flush=True)
 
+    consecutive_failures = 0
     for c in cases:
         qid = c["id"]
         for pol in policies:
             for r in range(1, a.repeats + 1):
                 row = state[r].setdefault(qid, {})
-                if pol in row:
-                    continue
-                if used >= a.cap:
-                    die(2, "call cap %d reached mid-run — refusing call %d"
-                           % (a.cap, used + 1))
-                # One completed cell = one budgeted call; transport retries inside the
-                # evaluator are not arm calls and never increment `used`.
-                row[pol] = run_one(pol, None, c["input"], float(c["expected"]), model,
-                                   subprocess_timeout=subprocess_timeout,
-                                   env_extra=child_env)
-                used += 1
-                save(out, build_doc(a, cases, policies, model, state, url, provenance, cfg))
+                existing = row.get(pol)
+                if existing is not None and not is_failed_cell(existing):
+                    continue    # valid data — even a wrong answer is never re-called
+                # Both caps are checked BEFORE any call is made; exceeding either
+                # refuses without further calls.
+                if valid_cells >= a.cap:
+                    die(2, "valid-cell cap %d reached mid-run — refusing call %d"
+                           % (a.cap, valid_cells + 1))
+                if attempts >= a.attempts_cap:
+                    die(2, "attempts cap %d reached — refusing attempt %d (%d valid "
+                           "+ %d failed cells recorded; state saved in %s)"
+                           % (a.attempts_cap, attempts + 1, valid_cells, failed_cells,
+                              rel(out)))
+                # One attempt = one evaluator call; transport retries INSIDE the
+                # evaluator are not attempts.  A retried `call_failed` cell is a
+                # NEW attempt but can still only produce one valid cell.
+                cell = run_one(pol, None, c["input"], float(c["expected"]), model,
+                               subprocess_timeout=subprocess_timeout,
+                               env_extra=child_env)
+                attempts += 1
+                if is_failed_cell(cell):
+                    cell = mark_failed(cell)   # transport failure: NOT data
+                    consecutive_failures += 1
+                else:
+                    consecutive_failures = 0
+                row[pol] = cell
+                valid_cells, failed_cells = cell_counts(state)
+                # Save BEFORE the breaker check, so the cell that trips the
+                # breaker is already on disk — no completed cell is ever lost.
+                save(out, build_doc(a, cases, policies, model, state, url, provenance,
+                                    cfg, attempts=attempts))
                 print(json.dumps({"qid": qid, "policy": pol, "rep": r,
-                                  "passed": row[pol]["passed"],
-                                  "call": used, "of": planned}), flush=True)
+                                  "passed": cell["passed"],
+                                  "call_failed": bool(cell.get("call_failed")),
+                                  "call": valid_cells, "failed": failed_cells,
+                                  "attempt": attempts, "of": planned}), flush=True)
+                if consecutive_failures >= CIRCUIT_BREAKER_LIMIT:
+                    die(4, "circuit breaker: %d consecutive transport failures — "
+                           "server likely down; state saved, resume after restoring "
+                           "service" % consecutive_failures)
 
-    doc = build_doc(a, cases, policies, model, state, url, provenance, cfg)
+    doc = build_doc(a, cases, policies, model, state, url, provenance, cfg,
+                    attempts=attempts)
     save(out, doc)
+    valid_cells, failed_cells = cell_counts(state)
+    if failed_cells:
+        print("WARNING: %d transport-failure cell(s) recorded as call_failed — "
+              "excluded from totals/pairs/headline/agreement; resume to retry them"
+              % failed_cells, flush=True)
     print("FINAL model=%s n=%d totals=%s" % (model, doc["meta"]["n"], doc["totals"]),
           flush=True)
     print("FINAL headline %s: b=%s c=%s p=%.6g gain=%.6g"
           % (doc["headline"]["pair"], doc["headline"]["b_chal_only"],
              doc["headline"]["c_inc_only"], doc["headline"]["p"],
              doc["headline"]["gain_chal_minus_inc"]), flush=True)
-    print("FINAL wrote %s (calls_used=%d/%d)"
-          % (rel(out), doc["meta"]["calls_used"], doc["meta"]["calls_cap"]), flush=True)
+    print("FINAL wrote %s (calls_used=%d/%d valid cells; failed=%d; attempts=%d/%d)"
+          % (rel(out), doc["meta"]["calls_used"], doc["meta"]["calls_cap"],
+             failed_cells, attempts, a.attempts_cap), flush=True)
 
 
 if __name__ == "__main__":

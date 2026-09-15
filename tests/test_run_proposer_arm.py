@@ -147,6 +147,11 @@ class _StubHandler(http.server.BaseHTTPRequestHandler):
             return
         if self.server.slow_s:                 # simulate a very slow backbone
             time.sleep(self.server.slow_s)
+        if self.server.fail_after is not None:  # persistent outage: every POST
+            posts = sum(1 for r in self.server.requests if r["method"] == "POST")
+            if posts > self.server.fail_after:  # beyond the first N gets a 503
+                self._send(503, {"error": {"message": "engine down (stub)"}})
+                return
         if self.server.fail_next > 0:          # inject a transient 5xx on demand
             self.server.fail_next -= 1
             self._send(503, {"error": {"message": "engine busy"}})
@@ -166,6 +171,7 @@ def stub_vllm():
     srv.requests = []
     srv.answer = "Answer: 42"
     srv.fail_next = 0
+    srv.fail_after = None   # int N => every POST after the first N answers 503
     srv.slow_s = 0.0
     srv.model_ids = [STUB_MODEL]
     # the slow-response test disconnects a still-sleeping handler: keep that quiet
@@ -223,11 +229,16 @@ def test_ollama_backend_meta_records_the_timeout_that_was_actually_used(
         monkeypatch, tmp_path):
     """Frozen default path (no openai base): the recorded provenance must describe
     the call really made — 90 s request timeout, no retries, no max_tokens field.
-    The ollama URL points at a closed port so this stays offline and instant."""
+    The ollama URL points at a closed port so this stays offline and instant.
+
+    Updated by the transport-failure validity fix (2026-09-14 incident): a closed
+    port now yields 5 CONSECUTIVE transport failures, which trip the circuit
+    breaker (exit 4) instead of silently "completing" 5 garbage cells; the failed
+    cells are recorded call_failed and consume ZERO valid-cell budget."""
     out = tmp_path / "ollama-run.json"
     code = run_main(monkeypatch, "--limit", "1", "--repeats", "1", "--skip-preflight",
                     "--ollama-url", "http://127.0.0.1:1", "--out", str(out))
-    assert code == 0
+    assert code == 4                           # circuit breaker: 5 consecutive failures
     doc = json.loads(out.read_text(encoding="utf-8"))
     backend = doc["meta"]["backend"]
     assert backend["kind"] == "ollama"
@@ -238,7 +249,11 @@ def test_ollama_backend_meta_records_the_timeout_that_was_actually_used(
     assert backend["base_url"] is None
     assert doc["meta"]["ollama_url"] == "http://127.0.0.1:1/api/generate"
     assert doc["meta"]["model"] == "qwen2.5:7b"   # pinned arm model, unchanged
-    assert doc["meta"]["calls_used"] == 5         # 1 question × 5 policies × 1 repeat
+    assert doc["meta"]["calls_used"] == 0         # budget counts VALID cells only
+    prog = doc["meta"]["progress"]
+    assert (prog["valid_cells"], prog["failed_cells"], prog["attempts_total"]) == (0, 5, 5)
+    cells = [doc["details"]["held-01"][p] for p in arm.PANEL]
+    assert all(c["call_failed"] is True and c["error"] for c in cells)
     assert all(doc["totals"][p] == 0 for p in arm.PANEL)   # nothing answered, no crash
 
 
@@ -460,4 +475,375 @@ def test_openai_preflight_refuses_a_model_the_server_does_not_serve(
     assert code == 6
     assert "not-served" in capsys.readouterr().err
     assert [r["path"] for r in stub_vllm.requests] == ["/v1/models"]   # refused before any call
+
+
+# ---------------------------------------------------------------------------
+# Round-5 T6 validity fix: TRANSPORT FAILURES ARE NOT DATA.
+#
+# Incident (2026-09-14, forensics in
+# results/rounds/round5/proposer-arm-qwen38-27b.QUARANTINE.md): the vLLM server
+# was SIGTERMed at call 140/400; the runner recorded the remaining 260 transport
+# failures as valid `passed=false` data, burned the whole 400-call budget, never
+# retried them on resume and reported "completed 400/400" with no alarm.
+#
+# Validity rule locked by these tests:
+#   a recorded cell is a TRANSPORT FAILURE (not data) iff it carries a non-empty
+#   `error`, OR (migration signature for cells recorded before the fix)
+#   `latency == 0 AND parsed is None AND passed is False`;
+#   a genuine wrong answer (latency > 0, any parsed, passed False) is VALID.
+# Failed cells are stored `{"call_failed": true, "error": ...}`, excluded from
+# totals/pairs/headline/agreement/questions_done (which all carry `n_valid`),
+# retried on resume, bounded by --attempts-cap, and 5 consecutive failures trip
+# the circuit breaker (exit 4, state saved).
+#
+# All tests here are offline: the "remote" server is the in-process stub above.
+# ---------------------------------------------------------------------------
+import argparse  # noqa: E402 - test-local
+
+POLICIES2 = "cot-zero,textgrad"   # the minimal panel that still carries the headline pair
+
+
+def case_ids(n: int) -> list:
+    cases = json.loads((ROOT / "examples" / "heldout40.json").read_text(encoding="utf-8"))["cases"]
+    return [c["id"] for c in cases[:n]]
+
+
+def case_expected(i: int) -> float:
+    cases = json.loads((ROOT / "examples" / "heldout40.json").read_text(encoding="utf-8"))["cases"]
+    return float(cases[i]["expected"])
+
+
+def progress_of(doc: dict) -> dict:
+    return doc["meta"]["progress"]
+
+
+# --- fix 1: run_one propagates the evaluator's details.error -----------------
+
+def test_run_one_propagates_evaluator_details_error(monkeypatch):
+    """The evaluator reports a transport failure as details.error; run_one's
+    success path must surface it as "error" instead of dropping it."""
+    import scripts.run_round4 as rr  # noqa: PLC0415 - patched subprocess boundary
+
+    class _Done:
+        stdout = json.dumps({"passed": False, "score": 0.0, "cost": 0.0, "latency_s": 0.0,
+                             "details": {"policy": "direct", "error": "TransportError"}})
+
+    monkeypatch.setattr(rr.subprocess, "run", lambda cmd, **kw: _Done())
+    res = rr.run_one("direct", None, "q", 18.0, "m")
+    assert res == {"passed": False, "latency": 0.0, "parsed": None,
+                   "error": "TransportError"}
+
+
+def test_run_one_success_path_stays_byte_compatible_without_error(monkeypatch):
+    """No details.error => exactly the pre-fix keys (passed/latency/parsed), so
+    every existing caller that ignores the extra key is unaffected."""
+    import scripts.run_round4 as rr  # noqa: PLC0415 - patched subprocess boundary
+
+    class _Done:
+        stdout = json.dumps({"passed": True, "score": 1.0, "cost": 0.0,
+                             "latency_s": 1.5, "details": {"parsed": 18.0}})
+
+    monkeypatch.setattr(rr.subprocess, "run", lambda cmd, **kw: _Done())
+    res = rr.run_one("direct", None, "q", 18.0, "m")
+    assert res == {"passed": True, "latency": 1.5, "parsed": 18.0}
+    assert "error" not in res
+
+
+def test_paired_compute_tolerates_the_extra_error_key():
+    """run_paired_incremental.compute (shared with the arm) must not choke on
+    cells carrying the new additive "error" key."""
+    from scripts.run_paired_incremental import compute
+    details = {"q1": {"a": {"passed": True, "latency": 1.0, "parsed": 1.0,
+                            "error": "TransportError"},
+                      "b": {"passed": False, "latency": 2.0, "parsed": None}}}
+    done, totals, pairs = compute(details, ["a", "b"])
+    assert len(done) == 1
+    assert totals == {"a": 1, "b": 0}
+    assert pairs["a_vs_b"]["ledger_ok"]
+
+
+# --- fix 2: the validity rule itself ------------------------------------------
+
+def test_validity_rule_separates_wrong_answers_from_transport_failures():
+    # genuine wrong answers (latency > 0) are VALID data, whatever parsed is
+    assert not arm.is_failed_cell({"passed": False, "latency": 0.812, "parsed": 7.0})
+    assert not arm.is_failed_cell({"passed": False, "latency": 1.3, "parsed": None})
+    assert not arm.is_failed_cell({"passed": True, "latency": 2.0, "parsed": 18.0})
+    # latency 0 but an answer was parsed: something really came back => valid
+    assert not arm.is_failed_cell({"passed": False, "latency": 0.0, "parsed": 5.0})
+    # new-format transport failure: non-empty error (propagated details.error)
+    assert arm.is_failed_cell({"passed": False, "latency": 0.0, "parsed": None,
+                               "error": "TransportError"})
+    # legacy migration signature: latency == 0 AND parsed is None AND passed False
+    assert arm.is_failed_cell({"passed": False, "latency": 0.0, "parsed": None})
+    # already-marked cells stay failed
+    assert arm.is_failed_cell({"passed": False, "latency": 0.0, "parsed": None,
+                               "call_failed": True, "error": "legacy-signature"})
+
+
+def test_circuit_breaker_threshold_is_five():
+    assert arm.CIRCUIT_BREAKER_LIMIT == 5
+
+
+# --- (a) a 503 run records call_failed cells, excluded from every datum -------
+
+def test_503_run_records_call_failed_cells_excluded_from_all_data(
+        stub_vllm, monkeypatch, tmp_path):
+    stub_vllm.fail_after = 0                     # every POST gets a 503
+    out = tmp_path / "all-failed.json"
+    code = run_main(monkeypatch, "--limit", "1", "--repeats", "1", "--skip-preflight",
+                    "--openai-base", stub_base(stub_vllm), "--out", str(out),
+                    "--policies", POLICIES2,
+                    "--request-retries", "0", "--retry-backoff", "0")
+    assert code == 0                             # 2 failures < breaker threshold
+    assert post_count(stub_vllm) == 2            # one attempt per cell, retries 0
+    doc = json.loads(out.read_text(encoding="utf-8"))
+    for p in ("cot-zero", "textgrad"):
+        cell = doc["details"]["held-01"][p]
+        assert cell["call_failed"] is True
+        assert cell["error"]                     # non-empty, from the evaluator
+        assert cell["passed"] is False
+    # excluded from totals / pairs / headline
+    assert all(doc["totals"][p] == 0 for p in ("cot-zero", "textgrad"))
+    assert doc["totals"]["n_valid"] == 0
+    assert doc["pairs"]["cot-zero_vs_textgrad"]["n_valid"] == 0
+    assert doc["headline"]["n_valid"] == 0 and doc["headline"]["n"] == 0
+    prog = progress_of(doc)
+    assert prog["valid_cells"] == 0
+    assert prog["failed_cells"] == 2
+    assert prog["attempts_total"] == 2
+    assert prog["questions_done"] == 0
+    assert doc["meta"]["calls_used"] == 0        # failed cells consume no valid budget
+    assert doc["meta"]["attempts_cap"] == arm.DEFAULT_ATTEMPTS_CAP == 800
+
+
+# --- (b) resume retries failed cells and never re-calls valid ones ------------
+
+def test_resume_retries_failed_cells_and_never_recalls_valid_ones(
+        stub_vllm, monkeypatch, tmp_path):
+    stub_vllm.answer = "Answer: %g" % first_case_expected()
+    stub_vllm.fail_after = 1                     # POST #1 ok, POST #2 dies
+    out = tmp_path / "mixed.json"
+    argv = ("--limit", "1", "--repeats", "1", "--skip-preflight",
+            "--openai-base", stub_base(stub_vllm), "--out", str(out),
+            "--policies", POLICIES2, "--request-retries", "0", "--retry-backoff", "0")
+    assert run_main(monkeypatch, *argv) == 0
+    doc1 = json.loads(out.read_text(encoding="utf-8"))
+    good_before = doc1["details"]["held-01"]["cot-zero"]
+    assert "call_failed" not in good_before and good_before["passed"] is True
+    assert doc1["details"]["held-01"]["textgrad"]["call_failed"] is True
+    assert post_count(stub_vllm) == 2
+
+    stub_vllm.fail_after = None                  # service restored
+    assert run_main(monkeypatch, *argv) == 0
+    assert post_count(stub_vllm) == 3            # ONLY the failed cell was retried
+    doc2 = json.loads(out.read_text(encoding="utf-8"))
+    assert doc2["details"]["held-01"]["cot-zero"] == good_before   # untouched
+    retried = doc2["details"]["held-01"]["textgrad"]
+    assert "call_failed" not in retried and retried["passed"] is True
+    prog = progress_of(doc2)
+    assert (prog["valid_cells"], prog["failed_cells"]) == (2, 0)
+    assert prog["attempts_total"] == 3           # the retry counted as a new attempt
+    assert doc2["totals"]["n_valid"] == 1 and doc2["headline"]["n_valid"] == 1
+
+
+# --- (c) circuit breaker -------------------------------------------------------
+
+def test_circuit_breaker_trips_at_five_consecutive_failures_with_state_saved(
+        stub_vllm, monkeypatch, tmp_path, capsys):
+    stub_vllm.fail_after = 0
+    out = tmp_path / "breaker.json"
+    code = run_main(monkeypatch, "--limit", "1", "--repeats", "1", "--skip-preflight",
+                    "--openai-base", stub_base(stub_vllm), "--out", str(out),
+                    "--request-retries", "0", "--retry-backoff", "0")
+    assert code == 4
+    err = capsys.readouterr().err
+    assert "circuit breaker: 5 consecutive transport failures" in err
+    assert "server likely down" in err and "state saved" in err
+    assert post_count(stub_vllm) == 5            # no POST after the breaker tripped
+    doc = json.loads(out.read_text(encoding="utf-8"))   # state saved BEFORE die
+    prog = progress_of(doc)
+    assert (prog["valid_cells"], prog["failed_cells"], prog["attempts_total"]) == (0, 5, 5)
+    cells = [doc["details"]["held-01"][p] for p in arm.PANEL]
+    assert len(cells) == 5 and all(c["call_failed"] is True for c in cells)
+
+
+# --- (d) a genuine wrong answer is valid data, never retried -------------------
+
+def test_genuine_wrong_answer_is_valid_and_never_retried(
+        stub_vllm, monkeypatch, tmp_path):
+    stub_vllm.answer = "Answer: -12345"          # parses cleanly, scores False
+    stub_vllm.slow_s = 0.01                      # guarantee a measurable latency
+    out = tmp_path / "wrong.json"
+    argv = ("--limit", "1", "--repeats", "1", "--skip-preflight",
+            "--openai-base", stub_base(stub_vllm), "--out", str(out),
+            "--request-retries", "0", "--retry-backoff", "0")
+    assert run_main(monkeypatch, *argv) == 0
+    assert post_count(stub_vllm) == 5
+    doc = json.loads(out.read_text(encoding="utf-8"))
+    for p in arm.PANEL:
+        cell = doc["details"]["held-01"][p]
+        assert cell["passed"] is False           # wrong...
+        assert cell["latency"] > 0               # ...but really answered => DATA
+        assert cell["parsed"] == -12345.0
+        assert "call_failed" not in cell and "error" not in cell
+    prog = progress_of(doc)
+    assert (prog["valid_cells"], prog["failed_cells"]) == (5, 0)
+    assert prog["questions_done"] == 1
+    assert doc["totals"]["n_valid"] == 1         # complete valid row, all answers wrong
+    assert all(doc["totals"][p] == 0 for p in arm.PANEL)
+    assert doc["headline"]["n_valid"] == 1
+    # resume: a wrong answer is data — it is NEVER re-called
+    assert run_main(monkeypatch, *argv) == 0
+    assert post_count(stub_vllm) == 5
+
+
+# --- (e) legacy polluted-file migration ----------------------------------------
+
+def legacy_doc(base_url: str) -> dict:
+    """A synthetic file of the EXACT quarantined artefact's shape (cells recorded
+    before the fix): old 4-key meta.progress (no attempts_total), cells without
+    call_failed/error keys, repeats.replicates, old totals/pairs/headline blocks.
+    held-01 = good cells (latency > 0), held-02 = the transport-failure signature
+    (latency 0.0 / parsed None / passed False).  The real quarantined JSON is
+    never read, modified or copied."""
+    qids = case_ids(2)
+    good_q, bad_q = qids[0], qids[1]
+    expected1 = case_expected(0)
+
+    def rep_details(latency: float) -> dict:
+        det = {good_q: {}, bad_q: {}}
+        for p in arm.PANEL:
+            det[good_q][p] = {"passed": p in ("cot-zero", "textgrad"),
+                              "latency": latency, "parsed": expected1}
+            det[bad_q][p] = {"passed": False, "latency": 0.0, "parsed": None}
+        return det
+
+    return {
+        "meta": {
+            "arm": "proposer-substitution",
+            "plan": "paper/PLAN-NOVELTY.md Task 6",
+            "dataset": "examples/heldout40.json",
+            "policies": list(arm.PANEL),
+            "model": "qwen3.8-27b",
+            "ollama_url": None,
+            "backend": {"kind": "openai", "base_url": base_url,
+                        "served_model_id": "qwen3.8-27b"},
+            "n": 2, "repeats": 2, "calls_cap": 400,
+            "planned_calls": 20, "calls_used": 20,
+            "progress": {"calls_done": 20, "calls_total": 20,
+                         "questions_done": 2, "questions_total": 2},
+        },
+        "totals": {p: 2 for p in arm.PANEL},
+        "pairs": {},
+        "details": rep_details(6.5),
+        "repeats": {"n_repeats": 2,
+                    "replicates": {"2": {"totals": {p: 2 for p in arm.PANEL},
+                                         "pairs": {},
+                                         "details": rep_details(7.25)}},
+                    "agreement_vs_rep1": {}},
+        "headline": {"pair": "cot-zero_vs_textgrad", "n": 2},
+    }
+
+
+def test_legacy_polluted_file_loads_with_bad_cells_marked_failed(
+        stub_vllm, tmp_path):
+    out = tmp_path / "legacy.json"
+    out.write_text(json.dumps(legacy_doc(stub_base(stub_vllm))), encoding="utf-8")
+    args = argparse.Namespace(repeats=2, dataset=ROOT / "examples" / "heldout40.json")
+    cfg = arm.BackendConfig(kind=arm.OPENAI, model="qwen3.8-27b", timeout=900.0,
+                            retries=0, max_tokens=4096, backoff_base=0.0,
+                            base_url=stub_base(stub_vllm))
+    state, attempts = arm.load_state(out, args, list(arm.PANEL), "qwen3.8-27b", cfg)
+    # no attempts_total in the legacy meta => derived from recorded cell count
+    assert attempts == 20
+    qids = case_ids(2)
+    good = state[1][qids[0]]["direct"]
+    assert "call_failed" not in good                     # latency > 0 => VALID
+    for r in (1, 2):
+        for p in arm.PANEL:
+            bad = state[r][qids[1]][p]
+            assert bad["call_failed"] is True
+            assert bad["error"] == "legacy-signature"
+
+
+def test_legacy_polluted_file_resumes_by_retrying_only_bad_cells(
+        stub_vllm, monkeypatch, tmp_path):
+    out = tmp_path / "legacy-resume.json"
+    out.write_text(json.dumps(legacy_doc(stub_base(stub_vllm))), encoding="utf-8")
+    stub_vllm.answer = "Answer: %g" % case_expected(1)   # retried cells become valid
+    code = run_main(monkeypatch, "--limit", "2", "--skip-preflight",
+                    "--openai-base", stub_base(stub_vllm), "--out", str(out),
+                    "--request-retries", "0", "--retry-backoff", "0")
+    assert code == 0
+    qids = case_ids(2)
+    assert post_count(stub_vllm) == 10     # ONLY held-02's 5 policies × 2 reps retried
+    doc = json.loads(out.read_text(encoding="utf-8"))
+    prog = progress_of(doc)
+    assert (prog["valid_cells"], prog["failed_cells"]) == (20, 0)
+    assert prog["attempts_total"] == 30    # 20 legacy attempts + 10 retries
+    assert prog["questions_done"] == 2
+    assert doc["headline"]["n_valid"] == 2
+    assert doc["totals"]["n_valid"] == 2
+    good = doc["details"][qids[0]]["direct"]
+    assert "call_failed" not in good and good["latency"] == 6.5   # never re-called
+    assert doc["repeats"]["replicates"]["2"]["totals"]["n_valid"] == 2
+
+
+# --- (f) n_valid reflects only valid cells --------------------------------------
+
+def test_n_valid_counts_only_valid_cells(stub_vllm, monkeypatch, tmp_path):
+    stub_vllm.answer = "Answer: %g" % first_case_expected()
+    stub_vllm.fail_after = 2       # q1's 2 POSTs ok; q2+q3's 4 POSTs all 503
+    out = tmp_path / "shrunk.json"
+    code = run_main(monkeypatch, "--limit", "3", "--repeats", "1", "--skip-preflight",
+                    "--openai-base", stub_base(stub_vllm), "--out", str(out),
+                    "--policies", POLICIES2,
+                    "--request-retries", "0", "--retry-backoff", "0")
+    assert code == 0               # 4 consecutive failures < breaker threshold 5
+    assert post_count(stub_vllm) == 6
+    doc = json.loads(out.read_text(encoding="utf-8"))
+    assert doc["meta"]["n"] == 1
+    assert doc["totals"]["n_valid"] == 1
+    assert doc["pairs"]["cot-zero_vs_textgrad"]["n_valid"] == 1
+    assert doc["headline"]["n_valid"] == 1 and doc["headline"]["n"] == 1
+    prog = progress_of(doc)
+    assert (prog["valid_cells"], prog["failed_cells"], prog["attempts_total"]) == (2, 4, 6)
+    assert prog["questions_done"] == 1
+    assert prog["calls_total"] == doc["meta"]["planned_calls"] == 6
+    assert doc["meta"]["calls_used"] == 2
+
+
+# --- (g) attempts cap -----------------------------------------------------------
+
+def test_attempts_cap_refuses_further_calls_with_zero_requests(
+        stub_vllm, monkeypatch, tmp_path, capsys):
+    stub_vllm.fail_after = 0
+    out = tmp_path / "attcap.json"
+    argv = ("--limit", "1", "--repeats", "1", "--skip-preflight",
+            "--openai-base", stub_base(stub_vllm), "--out", str(out),
+            "--policies", POLICIES2, "--request-retries", "0", "--retry-backoff", "0",
+            "--attempts-cap", "2")
+    assert run_main(monkeypatch, *argv) == 0     # grid exhausted: 2 attempts, 2 failed
+    baseline = post_count(stub_vllm)
+    assert baseline == 2
+    doc = json.loads(out.read_text(encoding="utf-8"))
+    assert doc["meta"]["attempts_cap"] == 2
+    assert progress_of(doc)["attempts_total"] == 2
+
+    code = run_main(monkeypatch, *argv)          # resume => refused BEFORE any HTTP
+    assert code == 2
+    assert post_count(stub_vllm) == baseline     # zero new HTTP requests
+    assert "attempts cap" in capsys.readouterr().err
+
+
+def test_planned_beyond_attempts_cap_is_refused_before_any_request(
+        stub_vllm, monkeypatch, tmp_path):
+    code = run_main(monkeypatch, "--limit", "1", "--repeats", "1", "--dry-run",
+                    "--skip-preflight", "--attempts-cap", "1",
+                    "--openai-base", stub_base(stub_vllm),
+                    "--policies", POLICIES2,
+                    "--out", str(tmp_path / "x.json"))
+    assert code == 2                             # planned 2 > attempts cap 1
+    assert stub_vllm.requests == []
 
