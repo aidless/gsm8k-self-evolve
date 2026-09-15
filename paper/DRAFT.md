@@ -276,10 +276,22 @@ blind set at Qwen2.5-7B:
 
 The gate fails both headline comparisons. This is the preregistered
 **inconclusive** branch: no significant advantage, and no significant
-disadvantage, relative to standard CoT. The substantive reading is that the
-headline "0.125 → 0.925" improvement of Round 2 is mostly the jump from
-number-only answering to CoT-style prompting, not a distinct contribution of
-the evolution mechanism.
+disadvantage, relative to standard CoT.
+
+Two provenance notes keep these numbers reconcilable against earlier ones.
+First, the promoted policy scores 184/200 here but 185/200 in the
+promotion-round evaluation of §5.1: those are two independent temperature-0
+runs of the same policy on the same blind set, and the one-question difference
+is within the run-to-run spread quantified in §5.5. Second, the substantive
+reading — that Round 2's headline "0.125 → 0.925" improvement is mostly the
+jump from number-only answering to CoT-style prompting, not a distinct
+contribution of the evolution mechanism — deserves an extra caveat we can now
+state precisely: the two endpoints of that headline were measured on
+**different sets**. The 0.125 was `direct` on the 40-item held-out set (5/40);
+the 0.925 was `step-calc` on the merged 200-item set (185/200, signed bundle).
+No promotion-era `direct` run on the merged 200 exists. The same-set comparison
+is the table above (0.135 → 0.920), and it carries the same substantive
+conclusion: the gain is the number-only → CoT-style jump.
 
 ### 5.4 Cross-model validation
 

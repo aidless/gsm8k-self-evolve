@@ -94,6 +94,12 @@ Headline 配对（精确 McNemar）：
 - **C12（caveated）成立**：0.125 → 0.925 的跳跃，**主要来自 `direct` → CoT 式提示**那一跳
   （direct 27 vs cot-zero 186，gain +0.795）；`step-calc` 相对 `cot-zero` 无独特增量。
   早先 Round-2 的对照基线 `direct`（number-only）是 weak strawman，未包含 cot-zero。
+  **溯源注记（2026-09-15 核验）**：旧 headline「0.125 → 0.925」的两个端点来自**不同集合**——
+  0.125 = `direct` 在 held1-40（5/40，`results/heldout-result.json`），0.925 = `step-calc` 在
+  merged-200（185/200，签名 bundle）；Round-2 时期**不存在** `direct` 在 merged-200 上的运行。
+  同集比较应取 Round-4 的 0.135 → 0.920（direct 27/200 vs step-calc 184/200），实质结论不变。
+  又：§1 晋升评估（185/200）与 §3 重跑（184/200）是同一策略在同一盲集上的两次独立
+  temperature-0 运行，1 题之差在 §5 量化过的运行间方差之内。
 - **C13 成立**："无显著差异"**不是**"证明等价"——未预注册等价边际，n=200 对 ±2 题效应功效不足，
   temperature 0 无种子控制、单次运行。**禁止**把本结论演绎为"自进化无效"。
 - **C17 成立**：`step-calc` 相对 `cot-zero` 无显著优势，**4 个模型一致**（p=0.804/0.500/1.000/0.500）。

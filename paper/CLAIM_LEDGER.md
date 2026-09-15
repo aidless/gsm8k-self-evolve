@@ -67,6 +67,10 @@
 - **C12 · 0.925 的增量主要来自 direct→CoT 式提示，而非自进化超越标准 CoT 基线的独特增量**
   证据：`trackA-merged.json` direct=27 vs cot-zero=186（gain +0.795）；step-calc vs cot-zero 无显著差异（C11）。
   状态：caveated。这是对早先 Round-2 叙事（对照 weak strawman `direct`）的诚实修正，正文必须披露。
+  溯源注记（2026-09-15）：旧 headline「0.125→0.925」两端点来自**不同集合**（0.125 = held1-40 的
+  direct 5/40，`results/heldout-result.json`；0.925 = merged-200 的 step-calc 185/200，签名 bundle）；
+  Round-2 时期无 direct 在 merged-200 上的运行，同集比较 = Round-4 的 0.135→0.920。
+  185（晋升评估）与 184（Round-4 重跑）为同一策略两次独立 temperature-0 运行之差（§5 方差范围内）。
 
 - **C13 · "无显著差异"≠"证明等价"（未预注册等价边际，n=200 对小效应功效不足）**
   证据：`results/rounds/round4/PREREG-round4.md:16`（temperature 0、单次、无种子控制）；
