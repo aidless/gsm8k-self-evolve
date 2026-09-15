@@ -514,6 +514,38 @@ candidates. We argue that
 self-improvement research needs gates that can say no, and reports that show
 them saying it.
 
+## 9. Broader Impact
+
+This paper contributes an evaluation methodology, not a self-improving system:
+the released artefacts are the gate implementation, the decision-rule ablation
+scripts, run logs and question-provenance records.
+
+*Potential benefits.* A promotion decision that is fail-closed, preregistered
+and independently recomputable reduces one specific risk of prompt-level
+self-improvement: deploying an update whose claimed gain does not survive a
+preregistered comparison against a standard baseline. The error-control
+measurement (§5.6) gives practitioners a way to audit a decision rule before
+trusting it, and the boundary result (§5.3) shows that audit working against
+our own promoted policy.
+
+*Potential risks.* (i) A "gate passed" outcome can be over-read as a general
+capability endorsement; the gate certifies only the preregistered comparison
+on the preregistered item set — which is why the paper's central result is the
+gate *rejecting* our own policy. (ii) The machinery is metric-agnostic: the
+same gate that refuses unsupported claims could approve a genuinely harmful
+prompt update if the metric were mis-specified; the blind set, the ledger
+identity and preregistration mitigate but do not eliminate metric gaming.
+(iii) All results are on GSM8K-style arithmetic word problems with 4B–27B open
+weights models; nothing here licenses claims about safety-critical domains or
+frontier systems.
+
+*Compute and data.* Measured inference compute is on the order of ten GPU-hours
+(a consumer laptop GPU for rounds 1–4 and cross-model runs; one remote 48 GB
+GPU for the 27B arm; the compute declaration with per-run latency sums is in
+the evidence protocol). No training was performed, all questions are official
+GSM8K test items (MIT licence), and no human subjects or newly collected data
+are involved.
+
 ## Appendix A. Reproducibility
 
 Every claim in this paper maps to a verified entry in the claim ledger
