@@ -180,43 +180,41 @@ McNemar **b=4、c=6、p=0.754 —— 不可区分**。而真正可测的杠杆�
 （ii）用同条件决策规则消融**实测并定位**了该拒绝能力的来源——是「有一个 α=0.05 的有效显著性
 检验」，而非五键合取、也非配对（FPR 0.0125 vs 0.4125 vs 0.9825，McNemar p<1e-96；且 R1 与普通
 非配对检验 R3 不可区分，p=0.754）——而非自我声明——因此它不是一个被夸大的 SOTA 声称。
-## 7. 提议器替代臂（Task 6，2026-09-14，新一代骨干，C31）
 
-> **[已隔离 2026-09-16 · 本节全部数字作废 · 禁止引用]** 首跑 400 调用中仅前 140 次
-> （held-01..14）真实到达模型；云端 vLLM 服务于 09-14 15:17:56 被外部 SIGTERM 终止
-> （非崩溃，同 GPU 现有其它工作负载），held-15..40 的 260 格全部为传输层失败
-> （latency=0/parsed=None），被 runner 误记为有效数据混入 totals/headline/一致性指标。
-> **有效样本仅 n=14，一切 n=40 口径的数字不成立。** 取证与重跑要求见
-> `results/rounds/round5/proposer-arm-qwen38-27b.QUARANTINE.md`；账本 C31 = invalidated。
-> 以下原文仅作事故记录保留。
+## 7. 提议器替代臂（Task 6，2026-09-14 首跑 / 2026-09-16 重跑，新一代骨干，C31）
 
 **问题**：门控的结论是否与提议器解耦？把「文本批判式提议器」的产物（TextGrad/Reflexion 风格：
 对 cot-zero 输出按批判提示词反思改写）与其余 4 个策略同池、同指标比较，headline = 提议器产物 vs
-零样本 CoT（`PREREG-round5.md` §6；骨干变更见 `AMENDMENT-2-task6-backbone.md`）。
+零样本 CoT（`PREREG-round5.md` §6；骨干与预算见 `AMENDMENT-2-task6-backbone.md` 含 rev.1）。
 
 **骨干与环境**：Qwen3.8-27B 的 AWQ-INT4 量化（自托管 vLLM，新一代骨干），heldout40（盲），温度 0，
-2 重复 = 400 调用（`results/rounds/round5/proposer-arm-qwen38-27b.json`）。**零本机模型调用**，
-全程在远端算力上完成。
+2 重复 = 400 有效格（`results/rounds/round5/proposer-arm-qwen38-27b-run2.json`）。
+
+**首跑事故与重跑（2026-09-16）**：首跑进行到 call 140 时云端服务被外部 SIGTERM，其余 260 格
+传输失败被旧版 runner 误记为数据 → 首跑产物整批隔离（`proposer-arm-qwen38-27b.QUARANTINE.md`，
+原样保留、数字禁止引用）；runner 修复（传输失败≠数据、resume 重试、熔断）+ 预算修订（rev.1：
+有效格 ≤400 + 总尝试 ≤800 + 熔断）后重跑。run2 通过全部验收门：valid=400 / failed=0 /
+全格 latency>0（min 6.0s / max 366.5s / Σ 363.3min）/ attempts 660≤800。
 
 | 策略 | passed（n=40）rep1 / rep2 |
 | --- | --- |
-| `direct`（纯数字） | 1 / 1 |
-| `step-calc` | 13 / 13 |
-| `cot-zero`（标准零样本 CoT） | 14 / 14 |
-| `few-shot` | 12 / 14 |
-| `textgrad`（文本批判提议器产物） | 13 / 13 |
+| `direct`（纯数字） | 3 / 3 |
+| `step-calc` | 37 / 37 |
+| `cot-zero`（标准零样本 CoT） | 38 / 38 |
+| `few-shot` | 34 / 36 |
+| `textgrad`（文本批判提议器产物） | 37 / 37 |
 
-**headline**（`textgrad` 为 challenger、`cot-zero` 为 incumbent，§1.1 方向）：b=0、c=1、
+**headline**（`textgrad` 为 challenger、`cot-zero` 为 incumbent，§1.1 方向）：b=1、c=2、
 精确 McNemar **p=1.0**、gain=−0.025 —— **提议器产物不优于零样本 CoT**。
 
-**重复一致性**：200 单元格中 **198 一致**；headline 对在两次重复中 **100% 一致**；唯一差异是
-few-shot 的 2 格（held-03 / held-09），与 §5 方差节的近确定性一致。
+**重复一致性**：400 格中 **398 一致**（仅 few-shot 2 格，held-03/held-09），与 §5 方差节的
+近确定性一致；**首跑 140 个有效格在 run2 中复现 0 不一致**（rev.1 复用合法性的实证）。
 
-**诚实边界（随正文披露，不省略）：**
+**诚实边界（随正文披露，不省略）**：
 1. **单一骨干**——这是「结论在 27B 上复现」的单次观察，不构成"跨新一代模型都成立"的推广；
    27B 与 Track A/C 的 7B/4B/8B 混淆了代际与规模，**不可数值比**。
 2. **AWQ-INT4 量化是仪器的一部分**（自托管压缩权重 ≠ 厂商全精度）。
 3. 被平台政策叫停的 `qwen2.5:7b` 部分跑（263/400）**不可引用**，仅作审计痕迹保留（未提交）。
 
-**一句话定位**：主结论（CoT 式提示 ≫ 纯数字 = 1 vs 12–14）与 headline（提议器产物 ≈ 标准 CoT）在
-**新一代 27B 骨干上复现**——门控的结论不随提议器类型与骨干代际而变。
+**一句话定位**：主结论（CoT 式提示 ≫ 纯数字 = 3 vs 34–38）与 headline（提议器产物 ≈ 标准 CoT）
+在**新一代 27B 骨干上复现**（干净 n=40）——门控的结论不随提议器类型与骨干代际而变。

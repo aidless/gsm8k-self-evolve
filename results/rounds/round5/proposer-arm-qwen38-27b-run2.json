@@ -1,0 +1,2565 @@
+{
+ "meta": {
+  "arm": "proposer-substitution",
+  "plan": "paper/PLAN-NOVELTY.md Task 6",
+  "prereg": "results/rounds/round5/PREREG-round5.md §6 (optional arm capped at 400 calls = heldout40 × 5 policies × 2; recorded as 'not executed' if not run, never substituted)",
+  "dataset": "examples/heldout40.json",
+  "policies": [
+   "direct",
+   "step-calc",
+   "cot-zero",
+   "few-shot",
+   "textgrad"
+  ],
+  "model": "qwen3.8-27b",
+  "ollama_url": null,
+  "backend": {
+   "kind": "openai",
+   "protocol": "openai /v1/chat/completions",
+   "base_url": "http://127.0.0.1:8000",
+   "base_arg": "http://127.0.0.1:8000",
+   "chat_endpoint": "http://127.0.0.1:8000/v1/chat/completions",
+   "served_model_id": "qwen3.8-27b",
+   "request_timeout_s": 900.0,
+   "max_request_retries": 2,
+   "retry_backoff_base_s": 2.0,
+   "max_tokens": 1536,
+   "temperature": 0
+  },
+  "n": 40,
+  "repeats": 2,
+  "calls_cap": 400,
+  "attempts_cap": 800,
+  "planned_calls": 400,
+  "calls_used": 400,
+  "headline_pair": "cot-zero_vs_textgrad",
+  "panel_derivation": "PREREG-round5.md §6 states the cap as 'heldout40 × 5 policies × 2' without naming the 5 policies. Resolved as: results/rounds/round4/trackA-heldout40.json meta.policies (=direct,step-calc,cot-zero,few-shot — the only committed 4-policy heldout40 panel on the pinned model qwen2.5:7b) + the substituted text-critique proposer product ('textgrad') = 5 policies on the same model and dataset. Alternative reading (Track C's 5-policy panel on qwen2:7b with the product substituted for step-calc) is disclosed but not implemented. Headline pair = product (textgrad) vs cot-zero.",
+  "panel_is_default_derivation": true,
+  "proposer": {
+   "kind": "text-critique (TextGrad / Reflexion style)",
+   "proposer_script": "scripts/textgrad_rewrite.py",
+   "product_policy": "textgrad",
+   "product_file": "examples/prompts/textgrad-prompt.txt",
+   "product_sha256": "557084fd15ef7cc8ebb954c6526200ae5c00df208428988d8b968ab54b095c03",
+   "product_header": {
+    "rewritten_from": "step-calc",
+    "oracle": "train-only",
+    "frozen": true
+   },
+   "product_file_stored_brace_escaped": true,
+   "evaluator": "examples/gsm8k_evaluator.py",
+   "ollama_url": null,
+   "arm_backend": {
+    "kind": "openai",
+    "protocol": "openai /v1/chat/completions",
+    "base_url": "http://127.0.0.1:8000",
+    "base_arg": "http://127.0.0.1:8000",
+    "chat_endpoint": "http://127.0.0.1:8000/v1/chat/completions",
+    "served_model_id": "qwen3.8-27b",
+    "request_timeout_s": 900.0,
+    "max_request_retries": 2,
+    "retry_backoff_base_s": 2.0,
+    "max_tokens": 1536,
+    "temperature": 0
+   },
+   "regenerated_by_this_runner": false
+  },
+  "progress": {
+   "calls_done": 400,
+   "calls_total": 400,
+   "questions_done": 40,
+   "questions_total": 40,
+   "valid_cells": 400,
+   "failed_cells": 0,
+   "attempts_total": 660
+  }
+ },
+ "totals": {
+  "direct": 3,
+  "step-calc": 37,
+  "cot-zero": 38,
+  "few-shot": 34,
+  "textgrad": 37,
+  "n_valid": 40
+ },
+ "pairs": {
+  "direct_vs_step-calc": {
+   "better": 34,
+   "worse": 0,
+   "p": 1.1641532182693481e-10,
+   "gain": 0.85,
+   "ledger_ok": true,
+   "lat_x": 20.78275,
+   "lat_y": 52.877649999999996,
+   "lat_ratio": 2.5443047719863827,
+   "n_valid": 40
+  },
+  "direct_vs_cot-zero": {
+   "better": 35,
+   "worse": 0,
+   "p": 5.820766091346741e-11,
+   "gain": 0.875,
+   "ledger_ok": true,
+   "lat_x": 20.78275,
+   "lat_y": 44.401050000000005,
+   "lat_ratio": 2.1364376706643733,
+   "n_valid": 40
+  },
+  "direct_vs_few-shot": {
+   "better": 32,
+   "worse": 1,
+   "p": 7.916241884231567e-09,
+   "gain": 0.775,
+   "ledger_ok": true,
+   "lat_x": 20.78275,
+   "lat_y": 105.68327500000001,
+   "lat_ratio": 5.085143929460731,
+   "n_valid": 40
+  },
+  "direct_vs_textgrad": {
+   "better": 34,
+   "worse": 0,
+   "p": 1.1641532182693481e-10,
+   "gain": 0.85,
+   "ledger_ok": true,
+   "lat_x": 20.78275,
+   "lat_y": 52.43844999999999,
+   "lat_ratio": 2.5231718612791854,
+   "n_valid": 40
+  },
+  "step-calc_vs_cot-zero": {
+   "better": 1,
+   "worse": 0,
+   "p": 1.0,
+   "gain": 0.025,
+   "ledger_ok": true,
+   "lat_x": 52.877649999999996,
+   "lat_y": 44.401050000000005,
+   "lat_ratio": 0.8396940862538333,
+   "n_valid": 40
+  },
+  "step-calc_vs_few-shot": {
+   "better": 1,
+   "worse": 4,
+   "p": 0.375,
+   "gain": -0.075,
+   "ledger_ok": true,
+   "lat_x": 52.877649999999996,
+   "lat_y": 105.68327500000001,
+   "lat_ratio": 1.9986378933254412,
+   "n_valid": 40
+  },
+  "step-calc_vs_textgrad": {
+   "better": 2,
+   "worse": 2,
+   "p": 1.0,
+   "gain": 0.0,
+   "ledger_ok": true,
+   "lat_x": 52.877649999999996,
+   "lat_y": 52.43844999999999,
+   "lat_ratio": 0.9916940333014042,
+   "n_valid": 40
+  },
+  "cot-zero_vs_few-shot": {
+   "better": 1,
+   "worse": 5,
+   "p": 0.21875,
+   "gain": -0.1,
+   "ledger_ok": true,
+   "lat_x": 44.401050000000005,
+   "lat_y": 105.68327500000001,
+   "lat_ratio": 2.3801976529834317,
+   "n_valid": 40
+  },
+  "cot-zero_vs_textgrad": {
+   "better": 1,
+   "worse": 2,
+   "p": 1.0,
+   "gain": -0.025,
+   "ledger_ok": true,
+   "lat_x": 44.401050000000005,
+   "lat_y": 52.43844999999999,
+   "lat_ratio": 1.1810182416857256,
+   "n_valid": 40
+  },
+  "few-shot_vs_textgrad": {
+   "better": 4,
+   "worse": 1,
+   "p": 0.375,
+   "gain": 0.075,
+   "ledger_ok": true,
+   "lat_x": 105.68327500000001,
+   "lat_y": 52.43844999999999,
+   "lat_ratio": 0.49618494506344535,
+   "n_valid": 40
+  }
+ },
+ "details": {
+  "held-01": {
+   "direct": {
+    "passed": false,
+    "latency": 6.264,
+    "parsed": 8.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 21.239,
+    "parsed": 18.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 18.532,
+    "parsed": 18.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 102.21,
+    "parsed": 18.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 24.114,
+    "parsed": 18.0
+   }
+  },
+  "held-02": {
+   "direct": {
+    "passed": false,
+    "latency": 39.897,
+    "parsed": 10.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 95.099,
+    "parsed": 140.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 44.107,
+    "parsed": 140.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 116.908,
+    "parsed": 140.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 86.324,
+    "parsed": 140.0
+   }
+  },
+  "held-03": {
+   "direct": {
+    "passed": false,
+    "latency": 8.014,
+    "parsed": 14.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 29.147,
+    "parsed": 448.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 17.937,
+    "parsed": 448.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 179.927,
+    "parsed": 3.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 29.46,
+    "parsed": 448.0
+   }
+  },
+  "held-04": {
+   "direct": {
+    "passed": false,
+    "latency": 43.512,
+    "parsed": 1.25
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 46.677,
+    "parsed": 750.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 87.165,
+    "parsed": 750.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 94.418,
+    "parsed": 750.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 38.433,
+    "parsed": 750.0
+   }
+  },
+  "held-05": {
+   "direct": {
+    "passed": false,
+    "latency": 6.294,
+    "parsed": 40.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 14.71,
+    "parsed": 10.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 17.885,
+    "parsed": 10.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 53.986,
+    "parsed": 10.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 17.631,
+    "parsed": 10.0
+   }
+  },
+  "held-06": {
+   "direct": {
+    "passed": false,
+    "latency": 6.461,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 95.591,
+    "parsed": 22.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 17.314,
+    "parsed": 22.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 35.745,
+    "parsed": 22.0
+   },
+   "textgrad": {
+    "passed": false,
+    "latency": 20.667,
+    "parsed": 16.0
+   }
+  },
+  "held-07": {
+   "direct": {
+    "passed": false,
+    "latency": 11.314,
+    "parsed": 80.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 31.743,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 37.981,
+    "parsed": 9.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 68.464,
+    "parsed": 9.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 48.91,
+    "parsed": 9.0
+   }
+  },
+  "held-08": {
+   "direct": {
+    "passed": false,
+    "latency": 6.307,
+    "parsed": 3.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 17.721,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 19.938,
+    "parsed": 4.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 39.244,
+    "parsed": 4.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 19.469,
+    "parsed": 4.0
+   }
+  },
+  "held-09": {
+   "direct": {
+    "passed": false,
+    "latency": 48.914,
+    "parsed": 89719210086.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 177.922,
+    "parsed": 718689.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 72.282,
+    "parsed": 98.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 178.55,
+    "parsed": 93.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 168.882,
+    "parsed": 98.0
+   }
+  },
+  "held-10": {
+   "direct": {
+    "passed": false,
+    "latency": 23.523,
+    "parsed": 20.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 69.964,
+    "parsed": 38.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 70.556,
+    "parsed": 38.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 89.991,
+    "parsed": 38.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 138.603,
+    "parsed": 38.0
+   }
+  },
+  "held-11": {
+   "direct": {
+    "passed": false,
+    "latency": 20.336,
+    "parsed": 5.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 52.816,
+    "parsed": 91.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 53.892,
+    "parsed": 91.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 110.366,
+    "parsed": 91.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 71.203,
+    "parsed": 91.0
+   }
+  },
+  "held-12": {
+   "direct": {
+    "passed": false,
+    "latency": 37.761,
+    "parsed": 40.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 81.755,
+    "parsed": 160.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 78.025,
+    "parsed": 160.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 364.297,
+    "parsed": 160.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 56.242,
+    "parsed": 160.0
+   }
+  },
+  "held-13": {
+   "direct": {
+    "passed": true,
+    "latency": 15.499,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 54.167,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 43.91,
+    "parsed": 4.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 366.486,
+    "parsed": 4.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 24.914,
+    "parsed": 4.0
+   }
+  },
+  "held-14": {
+   "direct": {
+    "passed": false,
+    "latency": 7.505,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 26.553,
+    "parsed": 24.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 18.765,
+    "parsed": 24.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 70.358,
+    "parsed": 24.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 21.67,
+    "parsed": 24.0
+   }
+  },
+  "held-15": {
+   "direct": {
+    "passed": false,
+    "latency": 29.697,
+    "parsed": 2.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 102.545,
+    "parsed": 300.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 56.821,
+    "parsed": 300.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 218.309,
+    "parsed": 300.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 107.003,
+    "parsed": 300.0
+   }
+  },
+  "held-16": {
+   "direct": {
+    "passed": false,
+    "latency": 17.919,
+    "parsed": 10000.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 59.048,
+    "parsed": 5600.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 42.908,
+    "parsed": 5600.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 59.296,
+    "parsed": 5600.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 32.64,
+    "parsed": 5600.0
+   }
+  },
+  "held-17": {
+   "direct": {
+    "passed": false,
+    "latency": 7.605,
+    "parsed": 3.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 21.636,
+    "parsed": 621.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 21.423,
+    "parsed": 621.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 34.911,
+    "parsed": 621.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 26.899,
+    "parsed": 621.0
+   }
+  },
+  "held-18": {
+   "direct": {
+    "passed": false,
+    "latency": 10.06,
+    "parsed": 900.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 20.806,
+    "parsed": 75.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 20.588,
+    "parsed": 75.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 48.346,
+    "parsed": 75.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 22.822,
+    "parsed": 75.0
+   }
+  },
+  "held-19": {
+   "direct": {
+    "passed": false,
+    "latency": 8.852,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 22.47,
+    "parsed": 34.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 20.227,
+    "parsed": 34.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 69.37,
+    "parsed": 34.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 23.153,
+    "parsed": 34.0
+   }
+  },
+  "held-20": {
+   "direct": {
+    "passed": false,
+    "latency": 13.76,
+    "parsed": 5.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 39.054,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 58.354,
+    "parsed": 9.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 72.265,
+    "parsed": 9.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 60.289,
+    "parsed": 9.0
+   }
+  },
+  "held-21": {
+   "direct": {
+    "passed": false,
+    "latency": 7.396,
+    "parsed": 252.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 23.882,
+    "parsed": 294.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 23.651,
+    "parsed": 294.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 72.954,
+    "parsed": 294.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 24.421,
+    "parsed": 294.0
+   }
+  },
+  "held-22": {
+   "direct": {
+    "passed": false,
+    "latency": 8.628,
+    "parsed": 4000.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 31.056,
+    "parsed": 17000.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 23.498,
+    "parsed": 17000.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 53.228,
+    "parsed": 17000.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 31.877,
+    "parsed": 17000.0
+   }
+  },
+  "held-23": {
+   "direct": {
+    "passed": false,
+    "latency": 12.299,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 28.466,
+    "parsed": 24.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.211,
+    "parsed": 24.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 52.531,
+    "parsed": 24.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 48.35,
+    "parsed": 24.0
+   }
+  },
+  "held-24": {
+   "direct": {
+    "passed": true,
+    "latency": 18.666,
+    "parsed": 2.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 107.269,
+    "parsed": 2.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 58.694,
+    "parsed": 2.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 150.673,
+    "parsed": 12.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 42.687,
+    "parsed": 2.0
+   }
+  },
+  "held-25": {
+   "direct": {
+    "passed": false,
+    "latency": 6.053,
+    "parsed": 5.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 24.479,
+    "parsed": 15.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 20.438,
+    "parsed": 15.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 60.9,
+    "parsed": 15.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 25.521,
+    "parsed": 15.0
+   }
+  },
+  "held-26": {
+   "direct": {
+    "passed": false,
+    "latency": 15.821,
+    "parsed": 3.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 31.793,
+    "parsed": 27.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 23.021,
+    "parsed": 27.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 39.227,
+    "parsed": 27.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 24.101,
+    "parsed": 27.0
+   }
+  },
+  "held-27": {
+   "direct": {
+    "passed": false,
+    "latency": 6.001,
+    "parsed": 40.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 20.465,
+    "parsed": 310.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 14.852,
+    "parsed": 310.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 66.621,
+    "parsed": 310.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 24.05,
+    "parsed": 310.0
+   }
+  },
+  "held-28": {
+   "direct": {
+    "passed": false,
+    "latency": 88.405,
+    "parsed": 5.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 149.153,
+    "parsed": 30.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 157.944,
+    "parsed": 5.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 151.964,
+    "parsed": 5.0
+   },
+   "textgrad": {
+    "passed": false,
+    "latency": 151.527,
+    "parsed": 30.0
+   }
+  },
+  "held-29": {
+   "direct": {
+    "passed": false,
+    "latency": 84.441,
+    "parsed": 5.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 103.628,
+    "parsed": 2350.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 130.11,
+    "parsed": 2350.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 158.47,
+    "parsed": 10.0
+   },
+   "textgrad": {
+    "passed": false,
+    "latency": 156.595,
+    "parsed": 20.0
+   }
+  },
+  "held-30": {
+   "direct": {
+    "passed": false,
+    "latency": 6.092,
+    "parsed": 7.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 20.208,
+    "parsed": 30.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 19.939,
+    "parsed": 30.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 135.054,
+    "parsed": 30.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 43.974,
+    "parsed": 30.0
+   }
+  },
+  "held-31": {
+   "direct": {
+    "passed": false,
+    "latency": 8.414,
+    "parsed": 18.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 23.064,
+    "parsed": 63.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 18.441,
+    "parsed": 63.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 35.341,
+    "parsed": 63.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 13.648,
+    "parsed": 63.0
+   }
+  },
+  "held-32": {
+   "direct": {
+    "passed": false,
+    "latency": 63.253,
+    "parsed": 600.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 124.176,
+    "parsed": 4400.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 122.829,
+    "parsed": 4400.0
+   },
+   "few-shot": {
+    "passed": false,
+    "latency": 152.443,
+    "parsed": 6.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 142.617,
+    "parsed": 4400.0
+   }
+  },
+  "held-33": {
+   "direct": {
+    "passed": false,
+    "latency": 14.313,
+    "parsed": 2.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 28.994,
+    "parsed": 20.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 23.074,
+    "parsed": 20.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 28.938,
+    "parsed": 20.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 23.897,
+    "parsed": 20.0
+   }
+  },
+  "held-34": {
+   "direct": {
+    "passed": false,
+    "latency": 53.18,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": false,
+    "latency": 154.195,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": false,
+    "latency": 153.524,
+    "parsed": 1.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 131.62,
+    "parsed": 156.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 131.439,
+    "parsed": 156.0
+   }
+  },
+  "held-35": {
+   "direct": {
+    "passed": false,
+    "latency": 7.345,
+    "parsed": 5.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 17.069,
+    "parsed": 15.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 29.156,
+    "parsed": 15.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 49.072,
+    "parsed": 15.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 26.41,
+    "parsed": 15.0
+   }
+  },
+  "held-36": {
+   "direct": {
+    "passed": false,
+    "latency": 7.163,
+    "parsed": 7.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 30.848,
+    "parsed": 109.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 23.252,
+    "parsed": 109.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 66.638,
+    "parsed": 109.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 33.8,
+    "parsed": 109.0
+   }
+  },
+  "held-37": {
+   "direct": {
+    "passed": false,
+    "latency": 13.467,
+    "parsed": 7.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 27.894,
+    "parsed": 42.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 25.574,
+    "parsed": 42.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 152.141,
+    "parsed": 42.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 28.387,
+    "parsed": 42.0
+   }
+  },
+  "held-38": {
+   "direct": {
+    "passed": false,
+    "latency": 7.288,
+    "parsed": 30.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 19.124,
+    "parsed": 110.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 18.527,
+    "parsed": 110.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 131.435,
+    "parsed": 110.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 21.44,
+    "parsed": 110.0
+   }
+  },
+  "held-39": {
+   "direct": {
+    "passed": false,
+    "latency": 24.134,
+    "parsed": 6.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 41.085,
+    "parsed": 21.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 34.32,
+    "parsed": 21.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 106.405,
+    "parsed": 21.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 30.92,
+    "parsed": 21.0
+   }
+  },
+  "held-40": {
+   "direct": {
+    "passed": true,
+    "latency": 9.457,
+    "parsed": 4.0
+   },
+   "step-calc": {
+    "passed": true,
+    "latency": 27.595,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 22.377,
+    "parsed": 4.0
+   },
+   "few-shot": {
+    "passed": true,
+    "latency": 58.229,
+    "parsed": 4.0
+   },
+   "textgrad": {
+    "passed": true,
+    "latency": 32.549,
+    "parsed": 4.0
+   }
+  }
+ },
+ "repeats": {
+  "n_repeats": 2,
+  "replicates": {
+   "2": {
+    "totals": {
+     "direct": 3,
+     "step-calc": 37,
+     "cot-zero": 38,
+     "few-shot": 36,
+     "textgrad": 37,
+     "n_valid": 40
+    },
+    "pairs": {
+     "direct_vs_step-calc": {
+      "better": 34,
+      "worse": 0,
+      "p": 1.1641532182693481e-10,
+      "gain": 0.85,
+      "ledger_ok": true,
+      "lat_x": 21.3712,
+      "lat_y": 51.498675000000006,
+      "lat_ratio": 2.409723132065584,
+      "n_valid": 40
+     },
+     "direct_vs_cot-zero": {
+      "better": 35,
+      "worse": 0,
+      "p": 5.820766091346741e-11,
+      "gain": 0.875,
+      "ledger_ok": true,
+      "lat_x": 21.3712,
+      "lat_y": 43.246425,
+      "lat_ratio": 2.0235843097252375,
+      "n_valid": 40
+     },
+     "direct_vs_few-shot": {
+      "better": 34,
+      "worse": 1,
+      "p": 2.0954757928848267e-09,
+      "gain": 0.825,
+      "ledger_ok": true,
+      "lat_x": 21.3712,
+      "lat_y": 99.65335000000005,
+      "lat_ratio": 4.6629740023957496,
+      "n_valid": 40
+     },
+     "direct_vs_textgrad": {
+      "better": 34,
+      "worse": 0,
+      "p": 1.1641532182693481e-10,
+      "gain": 0.85,
+      "ledger_ok": true,
+      "lat_x": 21.3712,
+      "lat_y": 53.0237,
+      "lat_ratio": 2.4810820169199665,
+      "n_valid": 40
+     },
+     "step-calc_vs_cot-zero": {
+      "better": 1,
+      "worse": 0,
+      "p": 1.0,
+      "gain": 0.025,
+      "ledger_ok": true,
+      "lat_x": 51.498675000000006,
+      "lat_y": 43.246425,
+      "lat_ratio": 0.8397580131916015,
+      "n_valid": 40
+     },
+     "step-calc_vs_few-shot": {
+      "better": 2,
+      "worse": 3,
+      "p": 1.0,
+      "gain": -0.025,
+      "ledger_ok": true,
+      "lat_x": 51.498675000000006,
+      "lat_y": 99.65335000000005,
+      "lat_ratio": 1.9350662905404854,
+      "n_valid": 40
+     },
+     "step-calc_vs_textgrad": {
+      "better": 2,
+      "worse": 2,
+      "p": 1.0,
+      "gain": 0.0,
+      "ledger_ok": true,
+      "lat_x": 51.498675000000006,
+      "lat_y": 53.0237,
+      "lat_ratio": 1.0296128978075647,
+      "n_valid": 40
+     },
+     "cot-zero_vs_few-shot": {
+      "better": 1,
+      "worse": 3,
+      "p": 0.625,
+      "gain": -0.05,
+      "ledger_ok": true,
+      "lat_x": 43.246425,
+      "lat_y": 99.65335000000005,
+      "lat_ratio": 2.304314171633841,
+      "n_valid": 40
+     },
+     "cot-zero_vs_textgrad": {
+      "better": 1,
+      "worse": 2,
+      "p": 1.0,
+      "gain": -0.025,
+      "ledger_ok": true,
+      "lat_x": 43.246425,
+      "lat_y": 53.0237,
+      "lat_ratio": 1.22608284962283,
+      "n_valid": 40
+     },
+     "few-shot_vs_textgrad": {
+      "better": 2,
+      "worse": 1,
+      "p": 1.0,
+      "gain": 0.025,
+      "ledger_ok": true,
+      "lat_x": 99.65335000000005,
+      "lat_y": 53.0237,
+      "lat_ratio": 0.5320814603824153,
+      "n_valid": 40
+     }
+    },
+    "details": {
+     "held-01": {
+      "direct": {
+       "passed": false,
+       "latency": 6.314,
+       "parsed": 8.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 20.986,
+       "parsed": 18.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 18.178,
+       "parsed": 18.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 92.698,
+       "parsed": 18.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 25.745,
+       "parsed": 18.0
+      }
+     },
+     "held-02": {
+      "direct": {
+       "passed": false,
+       "latency": 39.005,
+       "parsed": 10.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 69.234,
+       "parsed": 140.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 45.291,
+       "parsed": 140.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 83.03,
+       "parsed": 140.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 73.537,
+       "parsed": 140.0
+      }
+     },
+     "held-03": {
+      "direct": {
+       "passed": false,
+       "latency": 7.974,
+       "parsed": 14.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 28.684,
+       "parsed": 448.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 18.089,
+       "parsed": 448.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 42.688,
+       "parsed": 448.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 24.979,
+       "parsed": 448.0
+      }
+     },
+     "held-04": {
+      "direct": {
+       "passed": false,
+       "latency": 55.691,
+       "parsed": 1.25
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 39.982,
+       "parsed": 750.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 61.033,
+       "parsed": 750.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 112.367,
+       "parsed": 750.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 71.556,
+       "parsed": 750.0
+      }
+     },
+     "held-05": {
+      "direct": {
+       "passed": false,
+       "latency": 6.065,
+       "parsed": 40.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 14.583,
+       "parsed": 10.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 18.32,
+       "parsed": 10.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 73.862,
+       "parsed": 10.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 17.283,
+       "parsed": 10.0
+      }
+     },
+     "held-06": {
+      "direct": {
+       "passed": false,
+       "latency": 15.413,
+       "parsed": 4.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 76.204,
+       "parsed": 22.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 17.447,
+       "parsed": 22.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 35.245,
+       "parsed": 22.0
+      },
+      "textgrad": {
+       "passed": false,
+       "latency": 20.255,
+       "parsed": 16.0
+      }
+     },
+     "held-07": {
+      "direct": {
+       "passed": false,
+       "latency": 11.195,
+       "parsed": 80.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 31.086,
+       "parsed": 9.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 38.466,
+       "parsed": 9.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 64.94,
+       "parsed": 9.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 48.709,
+       "parsed": 9.0
+      }
+     },
+     "held-08": {
+      "direct": {
+       "passed": false,
+       "latency": 6.174,
+       "parsed": 3.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 17.585,
+       "parsed": 4.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 20.688,
+       "parsed": 4.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 42.144,
+       "parsed": 4.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 18.759,
+       "parsed": 4.0
+      }
+     },
+     "held-09": {
+      "direct": {
+       "passed": false,
+       "latency": 49.819,
+       "parsed": 89719210086.0
+      },
+      "step-calc": {
+       "passed": false,
+       "latency": 176.075,
+       "parsed": 536.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 61.661,
+       "parsed": 98.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 178.806,
+       "parsed": 98.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 180.243,
+       "parsed": 98.0
+      }
+     },
+     "held-10": {
+      "direct": {
+       "passed": false,
+       "latency": 20.808,
+       "parsed": 20.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 68.597,
+       "parsed": 38.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 69.804,
+       "parsed": 38.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 94.831,
+       "parsed": 38.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 133.716,
+       "parsed": 38.0
+      }
+     },
+     "held-11": {
+      "direct": {
+       "passed": false,
+       "latency": 19.234,
+       "parsed": 5.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 56.376,
+       "parsed": 91.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 56.502,
+       "parsed": 91.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 112.8,
+       "parsed": 91.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 67.979,
+       "parsed": 91.0
+      }
+     },
+     "held-12": {
+      "direct": {
+       "passed": false,
+       "latency": 41.095,
+       "parsed": 40.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 79.307,
+       "parsed": 160.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 72.728,
+       "parsed": 160.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 362.059,
+       "parsed": 160.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 60.302,
+       "parsed": 160.0
+      }
+     },
+     "held-13": {
+      "direct": {
+       "passed": true,
+       "latency": 14.717,
+       "parsed": 4.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 54.602,
+       "parsed": 4.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 44.086,
+       "parsed": 4.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 246.274,
+       "parsed": 4.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 24.922,
+       "parsed": 4.0
+      }
+     },
+     "held-14": {
+      "direct": {
+       "passed": false,
+       "latency": 7.555,
+       "parsed": 4.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 27.061,
+       "parsed": 24.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 18.463,
+       "parsed": 24.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 72.885,
+       "parsed": 24.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 21.562,
+       "parsed": 24.0
+      }
+     },
+     "held-15": {
+      "direct": {
+       "passed": false,
+       "latency": 30.744,
+       "parsed": 2.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 100.525,
+       "parsed": 300.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 55.599,
+       "parsed": 300.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 221.217,
+       "parsed": 300.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 107.538,
+       "parsed": 300.0
+      }
+     },
+     "held-16": {
+      "direct": {
+       "passed": false,
+       "latency": 18.041,
+       "parsed": 10000.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 56.766,
+       "parsed": 5600.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 22.711,
+       "parsed": 5600.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 71.336,
+       "parsed": 5600.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 27.368,
+       "parsed": 5600.0
+      }
+     },
+     "held-17": {
+      "direct": {
+       "passed": false,
+       "latency": 7.598,
+       "parsed": 3.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 21.37,
+       "parsed": 621.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 21.192,
+       "parsed": 621.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 33.988,
+       "parsed": 621.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 27.197,
+       "parsed": 621.0
+      }
+     },
+     "held-18": {
+      "direct": {
+       "passed": false,
+       "latency": 10.037,
+       "parsed": 900.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 21.797,
+       "parsed": 75.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 20.263,
+       "parsed": 75.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 48.94,
+       "parsed": 75.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 22.491,
+       "parsed": 75.0
+      }
+     },
+     "held-19": {
+      "direct": {
+       "passed": false,
+       "latency": 8.719,
+       "parsed": 4.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 22.604,
+       "parsed": 34.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 20.261,
+       "parsed": 34.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 69.981,
+       "parsed": 34.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 22.901,
+       "parsed": 34.0
+      }
+     },
+     "held-20": {
+      "direct": {
+       "passed": false,
+       "latency": 13.801,
+       "parsed": 5.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 38.235,
+       "parsed": 9.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 58.345,
+       "parsed": 9.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 72.795,
+       "parsed": 9.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 60.139,
+       "parsed": 9.0
+      }
+     },
+     "held-21": {
+      "direct": {
+       "passed": false,
+       "latency": 7.239,
+       "parsed": 252.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 24.074,
+       "parsed": 294.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 24.031,
+       "parsed": 294.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 73.536,
+       "parsed": 294.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 24.288,
+       "parsed": 294.0
+      }
+     },
+     "held-22": {
+      "direct": {
+       "passed": false,
+       "latency": 8.33,
+       "parsed": 4000.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 31.553,
+       "parsed": 17000.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 23.634,
+       "parsed": 17000.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 52.69,
+       "parsed": 17000.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 32.054,
+       "parsed": 17000.0
+      }
+     },
+     "held-23": {
+      "direct": {
+       "passed": false,
+       "latency": 12.287,
+       "parsed": 4.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 28.0,
+       "parsed": 24.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 14.354,
+       "parsed": 24.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 47.26,
+       "parsed": 24.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 48.791,
+       "parsed": 24.0
+      }
+     },
+     "held-24": {
+      "direct": {
+       "passed": true,
+       "latency": 18.599,
+       "parsed": 2.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 108.474,
+       "parsed": 2.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 59.154,
+       "parsed": 2.0
+      },
+      "few-shot": {
+       "passed": false,
+       "latency": 149.655,
+       "parsed": 12.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 42.793,
+       "parsed": 2.0
+      }
+     },
+     "held-25": {
+      "direct": {
+       "passed": false,
+       "latency": 6.088,
+       "parsed": 5.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 24.638,
+       "parsed": 15.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 20.605,
+       "parsed": 15.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 60.718,
+       "parsed": 15.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 25.592,
+       "parsed": 15.0
+      }
+     },
+     "held-26": {
+      "direct": {
+       "passed": false,
+       "latency": 15.68,
+       "parsed": 3.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 31.978,
+       "parsed": 27.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 22.675,
+       "parsed": 27.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 39.525,
+       "parsed": 27.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 24.275,
+       "parsed": 27.0
+      }
+     },
+     "held-27": {
+      "direct": {
+       "passed": false,
+       "latency": 6.118,
+       "parsed": 40.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 20.291,
+       "parsed": 310.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 14.961,
+       "parsed": 310.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 67.842,
+       "parsed": 310.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 24.387,
+       "parsed": 310.0
+      }
+     },
+     "held-28": {
+      "direct": {
+       "passed": false,
+       "latency": 89.442,
+       "parsed": 5.0
+      },
+      "step-calc": {
+       "passed": false,
+       "latency": 153.603,
+       "parsed": 30.0
+      },
+      "cot-zero": {
+       "passed": false,
+       "latency": 150.006,
+       "parsed": 5.0
+      },
+      "few-shot": {
+       "passed": false,
+       "latency": 154.084,
+       "parsed": 5.0
+      },
+      "textgrad": {
+       "passed": false,
+       "latency": 152.232,
+       "parsed": 30.0
+      }
+     },
+     "held-29": {
+      "direct": {
+       "passed": false,
+       "latency": 87.555,
+       "parsed": 5.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 102.136,
+       "parsed": 2350.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 149.734,
+       "parsed": 2350.0
+      },
+      "few-shot": {
+       "passed": false,
+       "latency": 158.579,
+       "parsed": 10.0
+      },
+      "textgrad": {
+       "passed": false,
+       "latency": 159.194,
+       "parsed": 20.0
+      }
+     },
+     "held-30": {
+      "direct": {
+       "passed": false,
+       "latency": 6.168,
+       "parsed": 7.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 20.305,
+       "parsed": 30.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 19.885,
+       "parsed": 30.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 134.365,
+       "parsed": 30.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 43.923,
+       "parsed": 30.0
+      }
+     },
+     "held-31": {
+      "direct": {
+       "passed": false,
+       "latency": 8.325,
+       "parsed": 18.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 23.041,
+       "parsed": 63.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 18.353,
+       "parsed": 63.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 35.178,
+       "parsed": 63.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 13.676,
+       "parsed": 63.0
+      }
+     },
+     "held-32": {
+      "direct": {
+       "passed": false,
+       "latency": 63.222,
+       "parsed": 600.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 125.191,
+       "parsed": 4400.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 122.234,
+       "parsed": 4400.0
+      },
+      "few-shot": {
+       "passed": false,
+       "latency": 153.137,
+       "parsed": 6.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 145.49,
+       "parsed": 4400.0
+      }
+     },
+     "held-33": {
+      "direct": {
+       "passed": false,
+       "latency": 14.26,
+       "parsed": 2.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 29.095,
+       "parsed": 20.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 22.99,
+       "parsed": 20.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 28.519,
+       "parsed": 20.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 24.084,
+       "parsed": 20.0
+      }
+     },
+     "held-34": {
+      "direct": {
+       "passed": false,
+       "latency": 53.022,
+       "parsed": 4.0
+      },
+      "step-calc": {
+       "passed": false,
+       "latency": 152.982,
+       "parsed": 3.0
+      },
+      "cot-zero": {
+       "passed": false,
+       "latency": 154.589,
+       "parsed": 1.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 129.743,
+       "parsed": 156.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 132.337,
+       "parsed": 156.0
+      }
+     },
+     "held-35": {
+      "direct": {
+       "passed": false,
+       "latency": 7.39,
+       "parsed": 5.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 16.977,
+       "parsed": 15.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 28.92,
+       "parsed": 15.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 48.298,
+       "parsed": 15.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 25.789,
+       "parsed": 15.0
+      }
+     },
+     "held-36": {
+      "direct": {
+       "passed": false,
+       "latency": 7.201,
+       "parsed": 7.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 30.925,
+       "parsed": 109.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 23.685,
+       "parsed": 109.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 68.762,
+       "parsed": 109.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 32.403,
+       "parsed": 109.0
+      }
+     },
+     "held-37": {
+      "direct": {
+       "passed": false,
+       "latency": 13.517,
+       "parsed": 7.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 27.977,
+       "parsed": 42.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 25.486,
+       "parsed": 42.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 153.364,
+       "parsed": 42.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 27.895,
+       "parsed": 42.0
+      }
+     },
+     "held-38": {
+      "direct": {
+       "passed": false,
+       "latency": 7.382,
+       "parsed": 30.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 18.861,
+       "parsed": 110.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 18.574,
+       "parsed": 110.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 134.8,
+       "parsed": 110.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 21.008,
+       "parsed": 110.0
+      }
+     },
+     "held-39": {
+      "direct": {
+       "passed": false,
+       "latency": 23.563,
+       "parsed": 6.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 41.355,
+       "parsed": 21.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 34.308,
+       "parsed": 21.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 105.313,
+       "parsed": 21.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 30.564,
+       "parsed": 21.0
+      }
+     },
+     "held-40": {
+      "direct": {
+       "passed": true,
+       "latency": 9.461,
+       "parsed": 4.0
+      },
+      "step-calc": {
+       "passed": true,
+       "latency": 26.832,
+       "parsed": 4.0
+      },
+      "cot-zero": {
+       "passed": true,
+       "latency": 22.552,
+       "parsed": 4.0
+      },
+      "few-shot": {
+       "passed": true,
+       "latency": 57.88,
+       "parsed": 4.0
+      },
+      "textgrad": {
+       "passed": true,
+       "latency": 32.992,
+       "parsed": 4.0
+      }
+     }
+    }
+   }
+  },
+  "agreement_vs_rep1": {
+   "2": {
+    "direct": {
+     "n": 40,
+     "agree": 40,
+     "disagree": 0,
+     "rep1_pass": 3,
+     "rep2_pass": 3,
+     "disagreements": []
+    },
+    "step-calc": {
+     "n": 40,
+     "agree": 40,
+     "disagree": 0,
+     "rep1_pass": 37,
+     "rep2_pass": 37,
+     "disagreements": []
+    },
+    "cot-zero": {
+     "n": 40,
+     "agree": 40,
+     "disagree": 0,
+     "rep1_pass": 38,
+     "rep2_pass": 38,
+     "disagreements": []
+    },
+    "few-shot": {
+     "n": 40,
+     "agree": 38,
+     "disagree": 2,
+     "rep1_pass": 34,
+     "rep2_pass": 36,
+     "disagreements": [
+      "held-03",
+      "held-09"
+     ]
+    },
+    "textgrad": {
+     "n": 40,
+     "agree": 40,
+     "disagree": 0,
+     "rep1_pass": 37,
+     "rep2_pass": 37,
+     "disagreements": []
+    }
+   }
+  }
+ },
+ "headline": {
+  "pair": "cot-zero_vs_textgrad",
+  "chal_policy": "textgrad",
+  "inc_policy": "cot-zero",
+  "orientation_note": "PREREG-round5.md §1.1: chal = candidate being promoted, inc = incumbent; b = chal-only, c = inc-only, gain = (total_chal - total_inc) / n.",
+  "n": 40,
+  "n_valid": 40,
+  "total_chal": 37,
+  "total_inc": 38,
+  "b_chal_only": 1,
+  "c_inc_only": 2,
+  "gain_chal_minus_inc": -0.025,
+  "p": 1.0,
+  "ledger_ok": true,
+  "recomputable": true,
+  "pairs_entry": {
+   "better": 1,
+   "worse": 2,
+   "p": 1.0,
+   "gain": -0.025,
+   "ledger_ok": true,
+   "lat_x": 44.401050000000005,
+   "lat_y": 52.43844999999999,
+   "lat_ratio": 1.1810182416857256,
+   "n_valid": 40
+  },
+  "pairs_entry_key": "cot-zero_vs_textgrad",
+  "pairs_entry_gain_equals_headline_gain": true,
+  "pairs_entry_note": "run_round4/run_paired_incremental key a pair 'x_vs_y' with y = challenger and store gain = (total_challenger - total_incumbent)/n, so this key (incumbent first) carries exactly 'gain_chal_minus_inc' — machine-checked above, not asserted in prose. Writing the key as 'textgrad_vs_cot-zero' instead would carry the sign-flipped reading."
+ }
+}

@@ -1,6 +1,12 @@
-# QUARANTINE — proposer-arm-qwen38-27b.json（T6 首跑，作废）
+# QUARANTINE — proposer-arm-qwen38-27b.json（T6 首跑，已作废→已被 run2 取代）
 
-**状态：已隔离（INVALIDATED）。本 JSON 的一切 totals/pairs/headline 不得引用。**
+> **状态更新（2026-09-16）**：本件隔离的理由与重跑要求已全部满足——run2
+> （`proposer-arm-qwen38-27b-run2.json`）通过 AMENDMENT-2 rev.1 R1.4 验收门 a–d
+> （valid=400/failed=0/全格 latency>0/重复一致性 398/400），C31 已以干净数据恢复 confirmed。
+> **本件仍有效**：首跑 JSON 的一切数字继续禁止引用；本文件作为事故取证记录保留。
+> 复用区核验：首跑 140 个有效格在 run2 中 0 不一致。
+
+**原始状态：已隔离（INVALIDATED）。本 JSON 的一切 totals/pairs/headline 不得引用。**
 日期：2026-09-16。隔离人：A 线会话（数据取证见下）。原 JSON 作为证据**原样保留、不修改**。
 
 ## 取证结论
