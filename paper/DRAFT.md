@@ -314,16 +314,18 @@ Table 2 (0.135 → 0.920), which supports the same conclusion.
 
 ### 5.4 Cross-model validation
 
+*(gain = `step-calc` − the named baseline; positive favours the promoted policy. b:c = discordant pairs.)*
+
 We repeated the comparison on three further model families (40-item blind set).
 The self-evolved policy is statistically indistinguishable from zero-shot CoT
 on **every** model tested:
 
 | model | `step-calc` vs `cot-zero` | `step-calc` vs `concise-reason` |
 | --- | --- | --- |
-| Qwen2.5-7B (n=200) | p = 0.804, gain +0.010 | (Round 2: p = 1.08e-06, gain +0.145) |
-| Gemma3-4B (n=40) | p = 0.500, gain +0.050 | p = 0.453, gain −0.075 |
-| Qwen2-7B (n=40) | p = 1.000, gain −0.025 | p = 0.688, gain +0.050 |
-| Llama-3.1-8B (n=40) | p = 0.500, gain +0.050 | p = 1.000, gain −0.025 |
+| Qwen2.5-7B (n=200) | p = 0.804, gain −0.010 (b:c 7:9) | Round 2: p = 1.08e-06, gain +0.145 (b:c 33:4) |
+| Gemma3-4B (n=40) | p = 0.500, gain −0.050 (b:c 0:2) | p = 0.453, gain +0.075 (b:c 5:2) |
+| Llama3.1-8B (n=40) | p = 0.500, gain −0.050 (b:c 0:2) | p = 1.000, gain +0.025 (b:c 3:2) |
+| Qwen2-7B (n=40) | p = 1.000, gain +0.025 (b:c 4:3) | p = 0.688, gain +0.050 (b:c 4:2) |
 
 Two things follow. First, the non-significance of the CoT comparison replicates
 across all four models (directions mixed: gains −0.050 to +0.050; discordant
@@ -653,6 +655,8 @@ documented with the exact pristine hash.
 - Fang, J., et al. (2025). *A Comprehensive Survey of Self-Evolving AI Agents: A New Paradigm Bridging Foundation Models and Lifelong Agentic Systems*. arXiv:2508.07407.
 - Yang, A., et al. (2024). *Qwen2.5 Technical Report*. arXiv:2412.15115.
 - Model cards for the cross-model backends: *Gemma 3 (4B-it)* — https://huggingface.co/google/gemma-3-4b-it ; *Llama 3.1 (8B)* — https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/MODEL_CARD.md (both accessed 2026-09-16).
+- Wei, J., et al. (2022). *Chain-of-Thought Prompting Elicits Reasoning in Large Language Models*. arXiv:2201.11903.
+- Kojima, T., et al. (2022). *Large Language Models are Zero-Shot Reasoners*. arXiv:2205.11916.
 
 > **Pre-submission checklist.** (i) verify every reference above against its
 > primary source and complete missing author lists; (ii) finalise the
