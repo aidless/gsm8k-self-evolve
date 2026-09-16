@@ -107,10 +107,11 @@ surveys the landscape. Reflections and surveys alike focus on *producing*
 improvement; the gate mechanism by which a candidate is accepted or rejected —
 paired significance, blind disjointness, signed artefact binding, rollback —
 is not their object of study. We therefore take these works as adjacent
-context, not as prior art for the gate. §5.6 evaluates the decision
-procedures this literature implies head-to-head on identical permutation-null
-data, making the contrast measurable rather than asserted: a same-corpus
-decision-rule ablation in which our
+context, not as prior art for the gate. §5.6 evaluates idealised
+decision procedures — abstract baselines constructed for the comparison, not
+re-implementations of those systems — head-to-head on identical
+permutation-null data, making the contrast measurable rather than asserted: a
+same-corpus ablation in which our
 five-key gate (R1) and the decision procedures those works imply (a point
 estimate, an unpaired test, a relaxed threshold, and best-of-k selection
 pressure) are evaluated head-to-head on identical permutation-null data. The
@@ -246,7 +247,10 @@ GSM8K release: **240/240 items match the GSM8K test split verbatim, 0 items
 overlap the GSM8K train split, and their positions are spread across the split**
 (mean position 644.7 against a uniform expectation of 659.0; quartiles
 344 / 630 / 947; 126 items in the first half and 114 in the second), which
-rules out a biased prefix selection. Because the items are standard test items,
+rules out a biased prefix selection. The redistributed question text carries the upstream MIT licence notice, and
+the study's own released artefacts (gate implementation, ablation scripts, run
+logs, provenance records) will state their licence in the anonymized repository.
+Because the items are standard test items,
 our comparisons are commensurable with the GSM8K literature; because they are a
 240-of-1319 subset, we do not report them as a full-test score (§7). The
 redistributed question text is attributed under its MIT licence.
@@ -434,8 +438,10 @@ false-promotion rate is claimed (a non-blind null set does not exist).
 The optional proposer-substitution arm (Task 6 in the round-5 preregistration;
 the backbone swap and a first-run invalidation with re-execution are recorded
 in a dated amendment, AMENDMENT-2 incl. Revision 1) compares a text-critique
-proposer — the zero-shot CoT answer rewritten against a critique prompt —
-against standard zero-shot CoT on the same blind 40-item set, at temperature 0,
+proposer (our own implementation in the style of TextGrad/Reflexion — not
+either original system): the zero-shot CoT answer rewritten against a critique
+prompt. It is compared against standard zero-shot CoT on the same blind
+40-item set, at temperature 0,
 two replicates, on Qwen3.8-27B served in AWQ-INT4 quantisation. The five prompt
 conditions are `direct`, `step-calc`, `cot-zero`, `few-shot` and the proposer
 product; all 400 recorded cells (40 items × 5 conditions × 2 replicates) are
@@ -446,9 +452,12 @@ On replicate 1 the proposer product scores 37/40 against 38/40 for zero-shot
 CoT (exact McNemar b = 1, c = 2, p = 1.0, gain −0.025): the proposer product
 does not beat the standard baseline. The replicates agree: 198 of the 200
 item-by-condition pairs return the same verdict in both replicates (the two
-disagreements are in `few-shot`, 34 vs 36 passes), and the 140 cells salvaged
-from the invalidated first run were re-verified cell-wise and reproduce
-exactly. The only robust ordering remains chain-of-thought-style prompting ≫
+disagreements are in `few-shot`, 34 vs 36 passes). The first run was invalidated
+after a post-run latency audit found 260 cells with zero recorded latency —
+transport failures that the then-current runner had recorded as data; the run
+was quarantined, the runner fixed, and the 140 cells that had genuinely reached
+the model were re-verified cell-wise and carried over into the re-execution
+(the two runs are identical on those cells, as the amendment requires). The only robust ordering remains chain-of-thought-style prompting ≫
 number-only answering (3/40 vs 34–38/40). In this single arm, one alternative
 proposer and one new-generation backbone leave the gate's conclusion unchanged;
 we do not generalize beyond that.
@@ -509,12 +518,20 @@ measurable without ground-truth safety labels (manuscript in preparation).
 - **Determinism.** Temperature 0 without seed control. We quantified
   run-to-run variance (§5.5) at one model and one item set; the variance study
   is itself three repeats of 40 items, not a distribution.
+- **Pretraining contamination.** The backbones' pretraining corpora almost
+  certainly include GSM8K test items; "zero overlap with the train split"
+  rules out leakage in our own loop, not memorisation by the models.
+  Memorisation would push both arms of any comparison toward the same ceiling,
+  compressing detectable differences and further lowering power — it biases
+  the study toward the nulls we report rather than against them, but it makes
+  the absolute success numbers uninterpretable as reasoning ability.
 - **Signatures.** Self-signed and integrity-only; the signer is the same agent
   that produced the result. This is an audit mechanism, not a trust boundary.
 - **Decision procedures, not systems.** The decision-rule ablation (§5.6)
-  compares idealised promotion *decision procedures* re-implemented from the
-  public descriptions of prior self-improvement work; it does not run, and we do
-  not claim to reproduce or beat, REMO, SPHERE, TextGrad, or any other system.
+  compares idealised promotion *decision procedures* — abstract baselines
+  constructed for the comparison; no published system is re-implemented, run,
+  reproduced or beaten, and the baselines' FPRs are properties of the
+  constructed rules, not of REMO, SPHERE, TextGrad, or any other system.
 - **Preregistration coverage.** The cross-model study (§5.4), the decision-rule
   ablation (§5.6) and its proposer-substitution arm (§5.7, as amended) were
   preregistered; Rounds 1–3 were not, and are reported as exploratory.
@@ -564,13 +581,24 @@ our own promoted policy.
 *Potential risks.* (i) A "gate passed" outcome can be over-read as a general
 capability endorsement; the gate certifies only the preregistered comparison
 on the preregistered item set — which is why the paper's central result is the
-gate *rejecting* our own policy. (ii) The machinery is metric-agnostic: the
-same gate that refuses unsupported claims could approve a genuinely harmful
-prompt update if the metric were mis-specified; the blind set, the ledger
-identity and preregistration mitigate but do not eliminate metric gaming.
+gate *rejecting* our own policy. (ii) The machinery is metric-agnostic and operator-controlled: the same gate
+that refuses unsupported claims could approve a genuinely harmful prompt update
+if the metric were mis-specified — or, deliberately, an operator who controls
+the metric, the gate parameters and the signing key could use the whole
+apparatus as a rubber stamp, lending preregistered, signed evidence to updates
+it was never meant to certify (a credibility-laundering vector; a signed bundle
+certifies process integrity, not content safety or operator intent). The blind
+set, the ledger identity and preregistration mitigate but do not eliminate
+metric gaming.
 (iii) All results are on GSM8K-style arithmetic word problems with 4B–27B open
 weights models; nothing here licenses claims about safety-critical domains or
-frontier systems.
+frontier systems. (iv) A fail-closed gate has a structural false-negative cost
+that this paper measures only on the looseness side: at n = 40 a genuine small
+improvement is routinely refused (§5.4's +0.05 effects at p = 0.5), refused
+updates are usually never reported, and field-wide adoption of strict gates
+without minimum-power guidance would suppress real improvements. Reporting
+standards should require the refused-and-unmeasured cases to be reported
+alongside the accepted ones.
 
 *Compute and data.* Measured inference compute is on the order of ten GPU-hours
 (a consumer laptop GPU for rounds 1–4 and cross-model runs; one remote 48 GB
