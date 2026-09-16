@@ -455,11 +455,11 @@ constructed null, and an ablation with adequate power, respectively — and
 conflating them lets implementation invariants be reported as measurements: our
 own R4 contrast (§5.6) is definitional in exactly this way. Only error control
 is certifiable from data we can construct, and §5.6 certifies it (0.0125 vs
-0.4125/0.9825). A companion study applies the same decomposition to an approval
-gate in multi-agent tool execution and occupies the complementary cells: its
-coverage holds by construction over a thin event base, its benefit is undetected
-at low power, and its error control is not measurable without ground-truth
-safety labels (manuscript in preparation).
+0.4125/0.9825). A companion study applies the same decomposition to approval
+gates in multi-agent tool execution and occupies the complementary cells: its
+coverage zero is derived and falsifiable but does not discriminate between
+mechanisms, its success benefit is undetected, and its error control is not
+measurable without ground-truth safety labels (manuscript in preparation).
 
 ## 7. Limitations
 
