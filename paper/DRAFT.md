@@ -32,11 +32,12 @@ the measured protection comes from the significance test itself, not from the
 five-key structure.
 On standard GSM8K test items, the gate
 accepts a genuine large gain (185/200 vs 156/200, exact McNemar
-p = 1.08e-06), rejects a negative result, and — the result this paper is
+p = 1.08e-6), rejects a negative result, and — the result this paper is
 really about — **rejects the claim that the self-evolved policy is better than
 standard zero-shot chain-of-thought**. Across four model families the
 self-evolved policy shows no detectable difference from zero-shot CoT
-(p = 0.80 / 0.50 / 1.00 / 0.50; directions mixed; no equivalence test was run,
+(p = 0.80 / 0.50 / 0.50 / 1.00 across Qwen2.5-7B, Gemma3-4B, Llama3.1-8B and
+Qwen2-7B; directions mixed; no equivalence test was run,
 so these are non-detections rather than demonstrations of equivalence), and its
 original gain over the incumbent does not detectably replicate on any of the
 three additional models. The only robust effect we
@@ -271,10 +272,10 @@ landed in rather than only the numbers.
 
 Two rounds of prompt-policy evolution on the 40-item selection set produced
 `concise-reason` (from `direct`) and then `step-calc` (from `concise-reason`),
-each with a significant paired gain at the selection level (20:0, p = 1.9e-06;
+each with a significant paired gain at the selection level (20:0, p = 1.9e-6;
 and 9:1, p = 0.022). On the **blind** merged 200-item held-out set, `step-calc`
 scored 185/200 (0.925) against `concise-reason` at 156/200 (0.780), with
-discordant pairs 33:4 and exact McNemar **p = 1.08e-06**; the ledger identity
+discordant pairs 33:4 and exact McNemar **p = 1.08e-6**; the ledger identity
 holds (185 − 156 = 33 − 4 = 29). The five keys were satisfied and the version
 transitioned to *stable* with a signed bundle.
 
@@ -299,7 +300,7 @@ blind set at Qwen2.5-7B:
 | `direct` | 27 (0.135) | gain −0.785 (b:c 0:157), p ≈ 1.1e-47 |
 | `step-calc` (promoted) | 184 (0.920) | — |
 | `cot-zero` (zero-shot CoT) | 186 (0.930) | gain +0.010 (b:c 9:7), **p = 0.804** |
-| `few-shot` (frozen 4-shot) | 179 (0.895) | gain −0.025 (b:c 14:9), **p = 0.405** |
+| `few-shot` (frozen 4-shot) | 179 (0.895) | gain −0.025 (b:c 9:14), **p = 0.405** |
 
 The gate fails both headline comparisons. This is the preregistered
 **inconclusive** branch: no significant advantage, and no significant
@@ -314,7 +315,7 @@ Table 2 (0.135 → 0.920), which supports the same conclusion.
 
 ### 5.4 Cross-model validation
 
-*(gain = `step-calc` − the named baseline; positive favours the promoted policy. b:c = discordant pairs.)*
+*(gain = `step-calc` − the named baseline; positive favours the promoted policy. b:c = discordant pairs, `step-calc`-only : baseline-only.)*
 
 We repeated the comparison on three further model families (40-item blind set).
 The self-evolved policy is statistically indistinguishable from zero-shot CoT
@@ -322,14 +323,15 @@ on **every** model tested:
 
 | model | `step-calc` vs `cot-zero` | `step-calc` vs `concise-reason` |
 | --- | --- | --- |
-| Qwen2.5-7B (n=200) | p = 0.804, gain −0.010 (b:c 7:9) | Round 2: p = 1.08e-06, gain +0.145 (b:c 33:4) |
-| Gemma3-4B (n=40) | p = 0.500, gain −0.050 (b:c 0:2) | p = 0.453, gain +0.075 (b:c 5:2) |
-| Llama3.1-8B (n=40) | p = 0.500, gain −0.050 (b:c 0:2) | p = 1.000, gain +0.025 (b:c 3:2) |
-| Qwen2-7B (n=40) | p = 1.000, gain +0.025 (b:c 4:3) | p = 0.688, gain +0.050 (b:c 4:2) |
+| Qwen2.5-7B (n=200) | p = 0.804, gain −0.010 (b:c 7:9) | Round 2: p = 1.08e-6, gain +0.145 (b:c 33:4) |
+| Gemma3-4B (n=40) | p = 0.500, gain −0.050 (b:c 0:2) | p = 0.453, gain −0.075 (b:c 5:2) |
+| Llama3.1-8B (n=40) | p = 0.500, gain −0.050 (b:c 0:2) | p = 1.000, gain −0.025 (b:c 3:2) |
+| Qwen2-7B (n=40) | p = 1.000, gain +0.025 (b:c 4:3) | p = 0.688, gain −0.050 (b:c 2:4) |
 
 Two things follow. First, the non-significance of the CoT comparison replicates
-across all four models (directions mixed: gains −0.050 to +0.050; discordant
-counts are small relative to n — see Table 3). Second, the original gain of the
+across all four models (directions mixed: the promoted policy's differences span −0.075 to
++0.145 across the eight baseline comparisons; discordant counts are small
+relative to n — see Table 3). Second, the original gain of the
 evolved policy over the weaker incumbent **does not detectably replicate** on
 any of the three new models. The only effect that is large and consistent
 everywhere is `direct` vs any CoT-style policy: on the 200-item set, exact
@@ -435,7 +437,7 @@ selection-set pools recorded across rounds 1–3 (the pools of §5.1–§5.2 wit
 construction (it requires the set to be blind), R4 promotes 2/6, and no R4
 false-promotion rate is claimed (a non-blind null set does not exist).
 
-### 5.7 Proposer-substitution arm: the verdict does not depend on the proposer
+### 5.7 Proposer-substitution arm: one alternative proposer leaves the verdict unchanged
 
 The optional proposer-substitution arm (Task 6 in the round-5 preregistration;
 the backbone swap and a first-run invalidation with re-execution are recorded
@@ -459,7 +461,8 @@ after a post-run latency audit found 260 cells with zero recorded latency —
 transport failures that the then-current runner had recorded as data; the run
 was quarantined, the runner fixed, and the 140 cells that had genuinely reached
 the model were re-verified cell-wise and carried over into the re-execution
-(the two runs are identical on those cells, as the amendment requires). The only robust ordering remains chain-of-thought-style prompting ≫
+(those cells are identical between the two files by construction — carried over,
+not re-measured — as the amendment records). The only robust ordering remains chain-of-thought-style prompting ≫
 number-only answering (3/40 vs 34–38/40). In this single arm, one alternative
 proposer and one new-generation backbone leave the gate's conclusion unchanged;
 we do not generalize beyond that.
@@ -511,12 +514,19 @@ measurable without ground-truth safety labels (manuscript in preparation).
   cross-subset comparisons are invalid.
 - **Backends.** Locally served 4B–8B instruction models, plus one remote
   AWQ-INT4-quantised 27B arm (§5.7); nothing here licenses
-  a claim about frontier models or about transfer to other task families. The
-  preregistered transfer study across SVAMP, MultiArith and ASDiv was **not**
-  run; we note in particular that its preregistered success rule compared only
-  against the number-only baseline, which §5.3 shows to be a strawman, so
-  executing it as written would produce an uninformative "success". It must be
-  amended (adding a CoT baseline) before it is worth running.
+  a claim about frontier models or about transfer to other task families.
+- **The transfer study was executed, and its preregistered rule triggered.**
+  The preregistered cross-dataset rule (`step-calc` beats number-only with
+  p < 0.05 on SVAMP-full and gain > 0 on all three sets) was run on 2026-09-13
+  and **triggered**: SVAMP 920/1000 vs 647/1000 (p = 2.8e-65, gain +0.273),
+  MultiArith 180/180 vs 87/180 (p = 2.0e-28, +0.517), ASDiv 2026/2249 vs
+  1589/2249 (p = 1.2e-84, +0.194; 56 non-numeric-answer items excluded). We
+  report this as what it is: the CoT-style ≫ number-only contrast reproducing on
+  three further arithmetic word-problem datasets — the same expected effect §5.4
+  already documents, and **not** evidence about the evolution mechanism
+  (`step-calc` vs `cot-zero` remains the inconclusive comparison of §5.4). The
+  rule as written would have been uninformative about self-evolution even had it
+  failed, which is why it is a limitation rather than a headline.
 - **Determinism.** Temperature 0 without seed control. We quantified
   run-to-run variance (§5.5) at one model and one item set; the variance study
   is itself three repeats of 40 items, not a distribution.
@@ -543,9 +553,10 @@ measurable without ground-truth safety labels (manuscript in preparation).
   §5.4, and AWQ-INT4 quantisation is part of the instrument. The arm's first
   execution was invalidated by an external termination of the serving process
   and re-executed under a budget amendment; the quarantined first-run artefact
-  is retained as incident evidence: no aggregate number in this paper comes
-  from it, and the 140 cells salvaged from it were re-verified cell-wise and
-  reused as documented in the amendment. The earlier partial run on a
+  is retained as incident evidence: no statistic of this paper is computed from
+  the quarantined file's recorded aggregates — the 140 cells it contributed were
+  re-verified cell-wise and carried into the re-execution, whose 400 valid cells
+  supply every §5.7 statistic, as documented in the amendment. The earlier partial run on a
   superseded backbone (`qwen2.5:7b`) is likewise not reported.
 
 ## 8. Conclusion

@@ -82,19 +82,24 @@
 
 ## 跨模型验证类（Track C，2026-09-12）
 
-- **C17 · `step-calc` 相对 `cot-zero` 在 4 个模型上均无显著优势**
+- **C17 · `step-calc` 相对 `cot-zero` 在 4 个模型上均无显著优势（方向混杂，非「方向一致」）**
   证据：p = 0.804（qwen2.5:7b, n=200）/ 0.500（gemma3:4b）/ 1.000（qwen2:7b）/ 0.500（llama3.1:8b），
   见 `trackA-merged.json`、`trackC-gemma3-4b-heldout40.json`、`trackC-qwen2-7b-heldout40.json`、
   `trackC-llama31-8b-heldout40.json`；`ROUND4-TRACKC-RESULT.md` 第 2 节。
-  状态：confirmed。方向一致（|gain| ≤ 0.05）。
+  状态：confirmed。**方向混杂**（step−cot 的差值：Qwen2.5-7B −0.010、Gemma3-4B −0.050、
+  Llama3.1-8B −0.050、Qwen2-7B +0.025，全部 |gain| ≤ 0.05 且 p ≥ 0.5）。
+  （2026-09-16 R2 对抗审稿同步：正文已由「方向一致」改为「directions mixed」。）
 
 - **C18 · Round-2 的"自进化增益"（step-calc ≫ concise-reason）未在其它模型复现**
-  证据：gemma3:4b −0.075（p=0.453）、qwen2:7b +0.050（p=0.688）、llama3.1:8b −0.025（p=1.000）；
+  证据（约定：差值 = 被评策略 − `step-calc`；与 Table 3 表注一致）：gemma3:4b −0.075（p=0.453）、
+  qwen2:7b +0.050（p=0.688）、llama3.1:8b −0.025（p=1.000）；
   原效应在 qwen2.5:7b 为 better:worse=33:4、p=1.08e-06（`signed/bundle.json` `heldout_evidence`）。
   状态：caveated。n=40 功效不足，"未复现"≠"证明不存在"；三个新模型 p 均 ≥0.45 故按预注册不扩展。
 
 - **C19 · 唯一稳健的正效应是「CoT 式提示 ≫ 纯数字作答」（direct）**
-  证据：direct vs 任一 CoT 式策略在 4 个模型上 p ≈ 1e-9…1e-48、gain +0.70…+0.95。
+  证据：direct vs 任一 CoT 式策略——200 题集 exact p ≤ 3.6e-42（b:c (3,155)–(0,159)，
+  CoT 式领先 0.760–0.795）；三个 40 题集 p ∈ [7.6e-5, 7.3e-12]（领先 0.425–0.950）。
+  跨数据集复现见 C15（SVAMP/MultiArith/ASDiv，预注册规则触发）。
   状态：confirmed。这解释了早期 Round-2 "0.125→0.925" 的来源与自进化机制无关。
 
 - **C20 · fail-closed 门控行为在 4 个模型上一致**
@@ -108,10 +113,15 @@
   证据：`signed/agent-self.pub.hex`（65 字节公钥）；`README.md` Layout 段（"private key never published"）。
   状态：confirmed。
 
-- **C15 · 主实验后端为 qwen2.5:7b（temperature 0）；跨模型扩展见 C17–C20，仍未覆盖公开基准迁移**
+- **C15 · 主实验后端为 qwen2.5:7b（temperature 0）；跨模型扩展见 C17–C20；跨数据集迁移已执行且规则触发**
   证据：`results/rounds/round4/PREREG-round4.md:7`；`ROUND4-TRACKC-RESULT.md`（4 个模型）；
-  Track B（SVAMP/MultiArith/ASDiv 迁移）**未运行**。
-  状态：confirmed。
+  **Track B 迁移已执行**（`results/rounds/round4/TRANSFER_RECORD.md`，2026-09-13）：
+  svamp 920/1000 vs 647/1000（p=2.787e-65, gain +0.273）、multiarith 180/180 vs 87/180
+  （p=2.019e-28, +0.517）、asdiv 2026/2249 vs 1589/2249（p=1.220e-84, +0.194；56 道非数值
+  答案题被排除，清单见 `inputs/asdiv.exclusions.json`）→ 预注册 GENERALIZE 规则**触发**。
+  边界：该规则只对比 number-only 稻草人基线，因此**只复现"CoT 式 ≫ 纯数字"这一已知效应**，
+  对自进化 vs 标准 CoT 不构成新证据（后者见 C17，仍 inconclusive）。
+  状态：confirmed（2026-09-16 R2 对抗审稿纠错：原写"未运行"为**事实错误**）。
 
 - **C16 · 无真实密钥 / 无个人绝对路径残留，可发布（发布门禁 5/5 PASS）**
   证据：`tools/check_publish.py` 运行时 `PUBLISH GATE PASS`；`OPEN_SOURCE_EXCLUSION.md` 第 2 节。
