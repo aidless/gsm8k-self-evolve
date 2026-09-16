@@ -39,7 +39,10 @@
 - **C7 · 独立再验证脚本从头重算整条证据链，不信任任何缓存声称**
   证据：`tools/verify_evidence_chain.py` 5 检查（bundle digest / 5 构件哈希 /
   merged McNemar + ledger / disjoint / Ed25519 envelope），运行时 `PASS [1/5]..[5/5]`。
-  状态：confirmed。
+  状态：confirmed（**限定（2026-09-16，R1 对抗审稿 M7）**：验证定义在晋升 commit 的固定检出上；
+  因 evaluator 此后被追加修改（+70/−2 行，Appendix A 已披露），在仓库 HEAD 上运行会对该文件
+  报告文档化的预期哈希失配——"原 prompt 代码路径未变"是文字断言而非哈希背书。第三方复核应在
+  晋升 commit 检出上进行，或等待 evaluator 重版本化后重签 bundle。）
 
 - **C8 · 回滚可用（round1 原件已备份）**
   证据：`registry/version-registry.json` `rollback_available: true`；
