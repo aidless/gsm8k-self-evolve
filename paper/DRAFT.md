@@ -25,17 +25,21 @@ measurement instrument and report what it finds. To turn our differentiation
 from the self-improvement literature from an *assertion* into a *measurement*,
 we ablate the promotion decision itself: on identical permutation-null data the
 five-key gate attains a false-promotion rate of 0.0125, versus 0.4125 for a
-point-estimate rule and 0.9825 for best-of-8 selection pressure (paired exact
-McNemar p = 2⁻³¹⁹ between the gate and the point estimate) — a comparison of
-decision procedures, not of the corresponding systems, which we do not run.
+point-estimate rule and 0.9825 for best-of-8 selection pressure — a comparison
+of decision procedures, not of the corresponding systems, which we do not run.
+An unpaired test at the same α is indistinguishable from the gate (0.0150), so
+the measured protection comes from the significance test itself, not from the
+five-key structure.
 On standard GSM8K test items, the gate
 accepts a genuine large gain (185/200 vs 156/200, exact McNemar
 p = 1.08e-06), rejects a negative result, and — the result this paper is
 really about — **rejects the claim that the self-evolved policy is better than
 standard zero-shot chain-of-thought**. Across four model families the
-self-evolved policy is statistically indistinguishable from zero-shot CoT
-(p = 0.80 / 0.50 / 1.00 / 0.50), and its original gain over the incumbent does
-not replicate on any of the three additional models. The only robust effect we
+self-evolved policy shows no detectable difference from zero-shot CoT
+(p = 0.80 / 0.50 / 1.00 / 0.50; directions mixed; no equivalence test was run,
+so these are non-detections rather than demonstrations of equivalence), and its
+original gain over the incumbent does not detectably replicate on any of the
+three additional models. The only robust effect we
 observe is that CoT-style prompting beats number-only answering. We quantify
 run-to-run variance (three repeats; accuracy spread ≤ 0.025; zero
 significance-verdict flips) and verify that all questions are official GSM8K
@@ -48,8 +52,9 @@ actual obstacle to progress in self-improving systems.
 Self-improvement loops for language agents are now common: a system proposes a
 new prompt, tool description, or control policy; evaluates it; and promotes it
 if the score improves. The promotion decision is the scientifically load-bearing
-step, and in most reported systems it is a single accuracy number on a single
-model, computed once, with no stated mechanism for *rejecting* a candidate.
+step, and in many reported systems it is a single accuracy number on a single
+model, computed once, with no stated mechanism for *rejecting* a candidate
+(Fang et al., 2025, survey the evaluation practice of self-evolving agents).
 
 That design has two failure modes. First, when the candidate is only slightly
 better, the difference is frequently indistinguishable from evaluation noise;
@@ -68,14 +73,15 @@ append-only registry recording every transition and an independent verifier that
 recomputes the entire chain from repository files rather than trusting cached
 claims. A decision-rule ablation (§5.6) isolates the source of this behaviour:
 on permutation-null data the gate's false-promotion rate is 0.0125 versus 0.4125
-(point estimate) and 0.9825 (best-of-8), establishing the differentiation from
-the self-improvement literature as a measurement rather than an assertion.
+(point estimate) and 0.9825 (best-of-8) — while an unpaired test at the same α
+is indistinguishable from the gate, so the differentiation the literature lacks
+is a significance test, not this gate's five-key structure.
 
 **(2) A boundary result obtained by using the gate honestly.** We apply the gate
 to a concrete system and report the outcome even though it is unflattering: the
 policy that the self-evolution loop selected and promoted does **not**
 significantly outperform standard zero-shot chain-of-thought, on any of four
-model families, and its advantage over the weaker incumbent does not replicate
+model families, and its advantage over the weaker incumbent does not detectably replicate
 beyond the model on which the evolution ran. The only robust effect in the data
 is that CoT-style prompting substantially beats number-only answering.
 
@@ -84,7 +90,8 @@ credible if it can reject, and a field learns more from a well-measured boundary
 than from another reported improvement.
 
 **Scope.** Our experiments use GSM8K (Cobbe et al., 2021) test items on locally
-served 4B–8B models at temperature 0. We do not claim state-of-the-art
+served 4B–8B models at temperature 0, plus one remote AWQ-INT4-quantised 27B
+arm (§5.7). We do not claim state-of-the-art
 accuracy, and we do not claim that prompt self-evolution is ineffective: our
 claims are comparative and bounded, as stated in §7.
 
@@ -100,10 +107,10 @@ surveys the landscape. Reflections and surveys alike focus on *producing*
 improvement; the gate mechanism by which a candidate is accepted or rejected —
 paired significance, blind disjointness, signed artefact binding, rollback —
 is not their object of study. We therefore take these works as adjacent
-context, not as prior art for the gate. Where earlier drafts had to note that
-this differentiation was **an argument rather than an experimentally
-established contrast**, we now make the contrast measurable rather than
-asserted: §5.6 reports a same-corpus decision-rule ablation in which our
+context, not as prior art for the gate. §5.6 evaluates the decision
+procedures this literature implies head-to-head on identical permutation-null
+data, making the contrast measurable rather than asserted: a same-corpus
+decision-rule ablation in which our
 five-key gate (R1) and the decision procedures those works imply (a point
 estimate, an unpaired test, a relaxed threshold, and best-of-k selection
 pressure) are evaluated head-to-head on identical permutation-null data. The
@@ -176,6 +183,14 @@ keys are true:
 | `rollback_available` | the pre-promotion artefact is archived and restorable |
 | `bundle_signature_valid` | the evidence bundle verifies under the pinned key |
 
+In this study's domain the four non-statistical keys are structural:
+`hidden_passed` and `safety_passed` encode checks that no run of this benchmark
+can fail (held-out disjointness holds by construction; arithmetic word problems
+contain no tool actions or safety-relevant behaviour class), and rollback and
+signature are enforced by the registry and bundle machinery (§3.5–3.6). The
+ablation of §5.6 treats them as constants by construction; the gate's measured
+content is the statistical key.
+
 The conjunction is the fail-closed property: any missing or false key yields
 no promotion. A registry records the transition with all evidence.
 
@@ -204,8 +219,11 @@ the entire chain from repository files: (1) the bundle digest binds the
 manifest; (2) all artefact hashes match the committed files; (3) the merged
 paired statistics and the ledger identity are recomputed from per-question
 results; (4) item sets are disjoint; (5) the Ed25519 envelope verifies and is
-unexpired. The verifier trusts no cached claim. Rollback is guaranteed by
-archiving the pre-promotion artefacts.
+unexpired. The verifier trusts no cached claim. Verification is defined at the promotion
+commit: because the evaluator was later extended (Appendix A), the verifier run
+at the repository head reports the documented expected artefact-hash mismatch
+for that one file, while the promotion-time verification passed all five
+checks. Rollback is guaranteed by archiving the pre-promotion artefacts.
 
 ## 4. Experimental Setup
 
@@ -218,8 +236,12 @@ Qwen2-7B, and Llama-3.1-8B.
 
 ### 4.2 Question sets and provenance
 
-The study uses 240 items: a 40-item selection set and a 200-item blind held-out
-set (40 + 160). We verify provenance programmatically against the official
+The study uses 240 items in three files: a 40-item selection set (`gsm8k-01`–`40`,
+used only for rounds 1–2 candidate selection) and a 200-item blind held-out set
+composed of `held-01`–`40` and `held2-001`–`160`. The held-40 subset doubles as
+the item set for the round-3 rejection round (§5.2), the cross-model study
+(§5.4), the variance study (§5.5) and the proposer-substitution arm (§5.7); it
+is disjoint from the selection set and was never used to select candidates. We verify provenance programmatically against the official
 GSM8K release: **240/240 items match the GSM8K test split verbatim, 0 items
 overlap the GSM8K train split, and their positions are spread across the split**
 (mean position 644.7 against a uniform expectation of 659.0; quartiles
@@ -254,8 +276,9 @@ transitioned to *stable* with a signed bundle.
 
 ### 5.2 The gate rejects a negative result
 
-A subsequent round proposed two challengers against the stable incumbent on a
-fresh 40-item blind set. Both failed: `reflect-retry` tied 1:1 (p = 1.0) and
+A subsequent round proposed two challengers against the stable incumbent on
+the 40-item held-out subset of the blind set (disjoint from the selection set;
+the same items later reused in §5.4–§5.7). Both failed: `reflect-retry` tied 1:1 (p = 1.0) and
 was moreover 2.32× slower; `textgrad-prompt` was 2:1 (p = 1.0). Both have
 `gate_pass = false`. The registry records an explicit rejection, and the
 incumbent remains stable. The gate's default answer held.
@@ -267,31 +290,23 @@ beat a *standard* baseline? Round 2 had compared against `direct` (number-only
 answering), which turns out to be a weak comparison. On the merged 200-item
 blind set at Qwen2.5-7B:
 
-| policy | correct / 200 | vs `step-calc` |
+| policy | correct / 200 | row − `step-calc` (b:c = row-only : step-only) |
 | --- | --- | --- |
-| `direct` | 27 (0.135) | gain +0.785, p ≈ 1.1e-47 |
+| `direct` | 27 (0.135) | gain −0.785 (b:c 0:157), p ≈ 1.1e-47 |
 | `step-calc` (promoted) | 184 (0.920) | — |
-| `cot-zero` (zero-shot CoT) | 186 (0.930) | gain +0.010, **p = 0.804** |
-| `few-shot` (frozen 4-shot) | 179 (0.895) | gain −0.025, **p = 0.405** |
+| `cot-zero` (zero-shot CoT) | 186 (0.930) | gain +0.010 (b:c 9:7), **p = 0.804** |
+| `few-shot` (frozen 4-shot) | 179 (0.895) | gain −0.025 (b:c 14:9), **p = 0.405** |
 
 The gate fails both headline comparisons. This is the preregistered
 **inconclusive** branch: no significant advantage, and no significant
 disadvantage, relative to standard CoT.
 
-Two provenance notes keep these numbers reconcilable against earlier ones.
-First, the promoted policy scores 184/200 here but 185/200 in the
-promotion-round evaluation of §5.1: those are two independent temperature-0
-runs of the same policy on the same blind set, and the one-question difference
-is within the run-to-run spread quantified in §5.5. Second, the substantive
-reading — that Round 2's headline "0.125 → 0.925" improvement is mostly the
-jump from number-only answering to CoT-style prompting, not a distinct
-contribution of the evolution mechanism — deserves an extra caveat we can now
-state precisely: the two endpoints of that headline were measured on
-**different sets**. The 0.125 was `direct` on the 40-item held-out set (5/40);
-the 0.925 was `step-calc` on the merged 200-item set (185/200, signed bundle).
-No promotion-era `direct` run on the merged 200 exists. The same-set comparison
-is the table above (0.135 → 0.920), and it carries the same substantive
-conclusion: the gain is the number-only → CoT-style jump.
+Two provenance notes reconcile these numbers with earlier ones. The promoted
+policy's 184/200 here and 185/200 in §5.1 are two independent temperature-0
+runs on the same blind set, within the §5.5 spread. The Round-2 headline
+"0.125 → 0.925" compared different item sets (a 40-item and the 200-item set)
+and must not be read as a same-set effect size; the same-set comparison is
+Table 2 (0.135 → 0.920), which supports the same conclusion.
 
 ### 5.4 Cross-model validation
 
@@ -306,11 +321,16 @@ on **every** model tested:
 | Qwen2-7B (n=40) | p = 1.000, gain −0.025 | p = 0.688, gain +0.050 |
 | Llama-3.1-8B (n=40) | p = 0.500, gain +0.050 | p = 1.000, gain −0.025 |
 
-Two things follow. First, the null comparison against CoT replicates in
-direction and significance across all four models. Second, the original gain of
-the evolved policy over the weaker incumbent **does not replicate** on any of
-the three new models. The only effect that is large and consistent everywhere
-is `direct` vs any CoT-style policy (p ≈ 1e-9 to 1e-48; gain +0.70 to +0.95).
+Two things follow. First, the non-significance of the CoT comparison replicates
+across all four models (directions mixed: gains −0.050 to +0.050; discordant
+counts are small relative to n — see Table 3). Second, the original gain of the
+evolved policy over the weaker incumbent **does not detectably replicate** on
+any of the three new models. The only effect that is large and consistent
+everywhere is `direct` vs any CoT-style policy: on the 200-item set, exact
+p ≤ 3.6e-42 (b:c (3,155)–(0,159); the CoT-style policies lead by 0.760–0.795);
+on the three 40-item sets, p ranges from 7.6e-5 to 7.3e-12 (lead 0.425–0.950).
+This is the established chain-of-thought effect (Wei et al., 2022; Kojima et
+al., 2022) — a baseline sanity check, not a discovery of this paper.
 
 Applying the preregistered expansion rule, no headline pair reached the
 weak-signal threshold (all p ≥ 0.45), so the study was not extended — we report
@@ -368,6 +388,9 @@ artefact with **zero model calls**.
 | R6 `no-stat` | gate minus the significance test, magnitude criterion kept | 0.27125 (217 / 800) |
 | R7 `best-of-8` | promote the point-estimate best of 8 candidates | **0.9825** (786 / 800) |
 
+(R4 is omitted from the table: as a definitional contrast it has no
+false-promotion rate; see the caveats below.)
+
 The preregistered verdict device lands in **branch (i), "gate value
 established"**: (i) the Wilson 95% intervals are disjoint with R1 below —
 WilsonUpper95(R1) = 0.022856 < WilsonLower95(R2) = 0.37888 < WilsonLower95(R7@8) =
@@ -377,8 +400,9 @@ discordant counts 0 vs 320, p = 2⁻³¹⁹ ≈ 9.3634e-97; R1 vs R7@8 has 0 vs 
 p = 2⁻⁷⁷⁵ ≈ 5.0321e-234; the direction is unanimous across all four source
 pools. Under best-of-8 selection pressure, the point-estimate rule promotes
 nearly every null, while the five-key gate holds its false-promotion rate at
-0.0125 — the paired significance test, not the population of candidates, is
-what resists the noise.
+0.0125 — a valid significance test at α = 0.05, not the population of
+candidates, is what resists the noise (pairing itself contributes no measurable
+protection; see below).
 
 A fourth comparison sharpens the verdict. R1 is **not** significantly better
 than R3, another error-controlled rule: the plain *unpaired* two-proportion
@@ -399,29 +423,35 @@ the paired McNemar. Second, the true-positive denominator is **one** (a single
 positive pool), so TPR = 1/1 for every rule is an anti-vacuity sanity guard
 with no discriminating power and must not be read as a TPR ranking. Third,
 R4 — the gate's paired test computed on the non-blind selection set — is a
-**definitional** contrast, not a finding: R1 refuses all six non-blind sets by
+**definitional** contrast, not a finding: R1 refuses all six non-blind
+selection-set pools recorded across rounds 1–3 (the pools of §5.1–§5.2 with
+`blind = false`) by
 construction (it requires the set to be blind), R4 promotes 2/6, and no R4
 false-promotion rate is claimed (a non-blind null set does not exist).
 
 ### 5.7 Proposer-substitution arm: the verdict does not depend on the proposer
 
-The optional proposer-substitution arm (Task 6 in the preregistration; the backbone
-swap and a first-run invalidation with re-execution are recorded as a dated
-amendment, AMENDMENT-2 incl. Revision 1) compares a text-critique proposer
-(TextGrad/Reflexion-style: the zero-shot CoT answer rewritten against a critique
-prompt) against standard zero-shot CoT on the same blind 40-item set, at
-temperature 0, two replicates, on a new-generation backbone — Qwen3.8-27B served
-in AWQ-INT4 quantisation. The recorded run contains 400 valid cells with zero
-transport failures, and every cell's serving latency is recorded (6.0–366.5 s).
+The optional proposer-substitution arm (Task 6 in the round-5 preregistration;
+the backbone swap and a first-run invalidation with re-execution are recorded
+in a dated amendment, AMENDMENT-2 incl. Revision 1) compares a text-critique
+proposer — the zero-shot CoT answer rewritten against a critique prompt —
+against standard zero-shot CoT on the same blind 40-item set, at temperature 0,
+two replicates, on Qwen3.8-27B served in AWQ-INT4 quantisation. The five prompt
+conditions are `direct`, `step-calc`, `cot-zero`, `few-shot` and the proposer
+product; all 400 recorded cells (40 items × 5 conditions × 2 replicates) are
+valid, with zero transport failures and per-cell serving latencies of
+6.0–366.5 s.
 
-The proposer product scores 37/40 against 38/40 for zero-shot CoT (exact McNemar
-b = 1, c = 2, p = 1.0, gain −0.025): the proposer product does not beat the
-standard baseline. Across the two replicates, 398 of 400 cells agree (both
-disagreements in few-shot, 34 vs 36 passes), and the 140 cells reused from the
-invalidated first run reproduce exactly. The only robust ordering remains
-chain-of-thought-style prompting ≫ number-only answering (3/40 vs 34–38/40). We
-read this as proposer-agnostic behaviour: the gate's conclusion survives a change
-of proposer and of backbone generation, within the limits stated in §7.
+On replicate 1 the proposer product scores 37/40 against 38/40 for zero-shot
+CoT (exact McNemar b = 1, c = 2, p = 1.0, gain −0.025): the proposer product
+does not beat the standard baseline. The replicates agree: 198 of the 200
+item-by-condition pairs return the same verdict in both replicates (the two
+disagreements are in `few-shot`, 34 vs 36 passes), and the 140 cells salvaged
+from the invalidated first run were re-verified cell-wise and reproduce
+exactly. The only robust ordering remains chain-of-thought-style prompting ≫
+number-only answering (3/40 vs 34–38/40). In this single arm, one alternative
+proposer and one new-generation backbone leave the gate's conclusion unchanged;
+we do not generalize beyond that.
 
 ## 6. Discussion
 
@@ -468,7 +498,8 @@ measurable without ground-truth safety labels (manuscript in preparation).
 - **Subset, not full split.** The evaluation uses 240 of the 1319 GSM8K test
   items. No number in this paper should be read as a full-test GSM8K score, and
   cross-subset comparisons are invalid.
-- **Backends.** Locally served 4B–8B instruction models; nothing here licenses
+- **Backends.** Locally served 4B–8B instruction models, plus one remote
+  AWQ-INT4-quantised 27B arm (§5.7); nothing here licenses
   a claim about frontier models or about transfer to other task families. The
   preregistered transfer study across SVAMP, MultiArith and ASDiv was **not**
   run; we note in particular that its preregistered success rule compared only
@@ -484,17 +515,19 @@ measurable without ground-truth safety labels (manuscript in preparation).
   compares idealised promotion *decision procedures* re-implemented from the
   public descriptions of prior self-improvement work; it does not run, and we do
   not claim to reproduce or beat, REMO, SPHERE, TextGrad, or any other system.
-- **Preregistration coverage.** Only the cross-model study (§5.4) and the
-  decision-rule ablation (§5.6) were preregistered; Rounds 1–3 were not, and are
-  reported as exploratory.
+- **Preregistration coverage.** The cross-model study (§5.4), the decision-rule
+  ablation (§5.6) and its proposer-substitution arm (§5.7, as amended) were
+  preregistered; Rounds 1–3 were not, and are reported as exploratory.
 - **Proposer-substitution arm (§5.7).** One backbone (Qwen3.8-27B, AWQ-INT4,
   self-hosted), one item set, one proposer type. A single observation, not a
   cross-backbone trend; it is not numerically comparable to the 4B–8B results in
   §5.4, and AWQ-INT4 quantisation is part of the instrument. The arm's first
   execution was invalidated by an external termination of the serving process
   and re-executed under a budget amendment; the quarantined first-run artefact
-  is retained as incident evidence and no number in this paper comes from it.
-  The earlier partial run on a superseded backbone is likewise not reported.
+  is retained as incident evidence: no aggregate number in this paper comes
+  from it, and the 140 cells salvaged from it were re-verified cell-wise and
+  reused as documented in the amendment. The earlier partial run on a
+  superseded backbone (`qwen2.5:7b`) is likewise not reported.
 
 ## 8. Conclusion
 
@@ -507,9 +540,10 @@ original gain over a weaker incumbent does not replicate, and the only robust
 effect is that CoT-style prompting beats number-only answering. A decision-rule
 ablation on permutation-null data isolates *why* the gate behaves this way:
 its false-promotion rate is 0.0125 against 0.4125 for a point estimate and 0.9825
-for best-of-8 selection pressure, so the paired significance test — combined
-with blind disjointness — is what resists noise, not the population of
-candidates. We argue that
+for best-of-8 selection pressure, so having a valid significance test at α = 0.05
+is what resists noise — not the five-key conjunction, and not the pairing (an
+unpaired test at the same α is indistinguishable from the gate on these nulls);
+blind disjointness is enforced by construction rather than measured. We argue that
 self-improvement research needs gates that can say no, and reports that show
 them saying it.
 
@@ -548,7 +582,9 @@ are involved.
 ## Appendix A. Reproducibility
 
 Every claim in this paper maps to a verified entry in the claim ledger
-(`paper/CLAIM_LEDGER.md`, C1–C30), which in turn maps to artefacts. Principal
+(`paper/CLAIM_LEDGER.md`, C1–C31), which in turn maps to artefacts; an
+anonymized repository containing the ledger, the per-question artefacts, the
+ablation pools and all scripts accompanies the submission. Principal
 entry points:
 
 | purpose | command / artefact |

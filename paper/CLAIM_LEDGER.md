@@ -194,7 +194,8 @@
   totals：direct=3 / step-calc=37 / cot-zero=38 / few-shot=34 / textgrad=37
   （n=40 heldout40，温度 0，2 重复）；
   headline（textgrad=chal vs cot-zero=inc）：**b=1、c=2、精确 McNemar p=1.0、gain=−0.025、n_valid=40**。
-  重复一致性：400 格中 398 一致（仅 few-shot 2 格，与 C23 近确定性一致）；
+  重复一致性：198/200 个（题×策略）对在两重复间同判（仅 few-shot 2 对不一致，与 C23
+  近确定性一致）；
   **复用区 140 格 run2 vs 首跑 0 不一致**（AMENDMENT rev.1 复用合法性的实证）。
   首跑事故史：首跑 400 调用中 260 格因服务被外部 SIGTERM 而传输失败、被旧版 runner 误记为数据，
   已整批隔离（`proposer-arm-qwen38-27b.QUARANTINE.md`；首跑 JSON 原样保留，**其一切数字禁止引用**），
