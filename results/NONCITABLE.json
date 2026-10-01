@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "note": "Artifacts listed here MUST NOT be cited in any claim, ledger entry, table or trajectory row. Two independent ways an artifact becomes non-citable are recognised: a *.QUARANTINE.md sidecar next to it, and an entry in this registry. Both are machine-checked by scripts/emit_trajectory.py:is_citable(); neither depends on anyone remembering to read a neighbouring document.",
+  "entries": [
+    {
+      "path": "results/rounds/round5/proposer-arm-qwen38-27b.json",
+      "reason": "INVALIDATED 2026-09-16. Cloud vLLM was externally SIGTERMed at call 140; the remaining 260 of 400 cells were transport failures that the then-current runner recorded as `passed=false` valid data. All totals/pairs/headline in this file treat failures as wrong answers and are systematically depressed. Retained verbatim as forensic evidence. Superseded by proposer-arm-qwen38-27b-run2.json.",
+      "declared_in": "results/rounds/round5/proposer-arm-qwen38-27b.QUARANTINE.md",
+      "marker": "QUARANTINE.md sidecar",
+      "date": "2026-09-16"
+    },
+    {
+      "path": "results/rounds/round5/proposer-arm-qwen25-7b.json",
+      "reason": "NOT CITABLE. Partial run stopped by platform policy at 263/400 calls (n=26 of 40). Retained as an audit trace only; not committed to git. Its totals conflate 'stopped early' with 'answered wrongly'.",
+      "declared_in": "paper/RESULTS.md line 218 (honest-boundary item 3): 被平台政策叫停的 qwen2.5:7b 部分跑（263/400）不可引用，仅作审计痕迹保留（未提交）.",
+      "marker": "registry",
+      "date": "2026-09-16"
+    }
+  ]
+}

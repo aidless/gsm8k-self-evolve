@@ -453,8 +453,21 @@ valid, with zero transport failures and per-cell serving latencies of
 6.0–366.5 s.
 
 On replicate 1 the proposer product scores 37/40 against 38/40 for zero-shot
-CoT (exact McNemar b = 1, c = 2, p = 1.0, gain −0.025): the proposer product
-does not beat the standard baseline. The replicates agree: 198 of the 200
+CoT (exact McNemar b = 1, c = 2, p = 1.0, gain −0.025). The comparison is
+well-formed, but it is a **null arm** and therefore not a test of the proposer
+idea. The shipped artefact `examples/prompts/textgrad-prompt.txt`
+(sha256 `557084fd…03`, identical to the `product_sha256` the run recorded, so this
+is the artefact actually served) consists, after its first JSON provenance line,
+of a body whose sha256 is `4b5dd404…1c6a` at 146 characters, while
+`BASE_PROMPT` in `scripts/textgrad_rewrite.py` is sha256 `834aca82…defb8` at 145
+characters: the body equals the base prompt plus a single newline. The
+provenance line is metadata, not directional guidance. What the arm supports is
+thus that a semantically empty artefact does not beat the incumbent — a
+control-sanity check — and **not** that textual-gradient-style guidance fails to
+help; it neither supports nor refutes that hypothesis. The arm carries no weight
+in the paper's novelty claim, which rests on the round-5 decision-rule ablation
+(§5.1–§5.2, R1 FPR 0.0125 vs R2 0.4125 vs R7 0.9825).
+The replicates agree: 198 of the 200
 item-by-condition pairs return the same verdict in both replicates (the two
 disagreements are in `few-shot`, 34 vs 36 passes). The first run was invalidated
 after a post-run latency audit found 260 cells with zero recorded latency —
@@ -463,9 +476,7 @@ was quarantined, the runner fixed, and the 140 cells that had genuinely reached
 the model were re-verified cell-wise and carried over into the re-execution
 (those cells are identical between the two files by construction — carried over,
 not re-measured — as the amendment records). The only robust ordering remains chain-of-thought-style prompting ≫
-number-only answering (3/40 vs 34–38/40). In this single arm, one alternative
-proposer and one new-generation backbone leave the gate's conclusion unchanged;
-we do not generalize beyond that.
+number-only answering (3/40 vs 34–38/40). We do not generalize beyond this.
 
 ## 6. Discussion
 

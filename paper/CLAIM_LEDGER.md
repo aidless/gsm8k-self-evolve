@@ -200,10 +200,19 @@
 
 ## 提议器替代臂（Task 6，round5，新一代骨干，2026-09-14）
 
-- **C31 · 文本批判提议器的产物在 Qwen3.8-27B-AWQ 上不优于零样本 CoT；唯一稳健效应仍是 CoT 式 ≫ 纯数字（重跑后成立）**
+- **C31 · 改判（2026-10-01）：Task 6 臂为「无效臂（null arm）」，不构成 guidance 检验。**
+  其注入正文与 `BASE_PROMPT` 逐字节相同（仅多一个结尾换行），故其比较只说明**该产物**不优于
+  在位策略；**既不支持也不反驳**「把历史抽象成方向性指引再注入」这一假设。
+  **唯一稳健效应仍是 CoT 式 ≫ 纯数字（重跑后成立，不受本改判影响）。**
   证据（run2，通过 AMENDMENT-2 rev.1 R1.4 验收门 a–d）：
-  `results/rounds/round5/proposer-arm-qwen38-27b-run2.json`（**valid_cells=400、failed_cells=0**、
-  全部有效格 latency>0：min 6.0s / max 366.5s / Σ 363.3min；attempts 660/800）；
+  **空臂证据**（2026-10-01 复核）：`examples/prompts/textgrad-prompt.txt`
+  sha256 `557084fd…03`（= run2 与 7B 臂各自记录的 `meta.proposer.product_sha256`，**即实验实际使用的产物**）；
+  去掉首行 JSON 溯源头后正文 sha256 `4b5dd404…1c6a`、146 字符；
+  `scripts/textgrad_rewrite.py:BASE_PROMPT` sha256 `834aca82…defb8`、145 字符；
+  **正文 == BASE_PROMPT + `chr(10)`，差 1 字符**。首行是溯源元数据，不是方向性指引。
+  该臂因此无法区分假设与噪声——这是「门必须能失败」的反例，不是「guidance 输」。
+  数值证据（run2）：`results/rounds/round5/proposer-arm-qwen38-27b-run2.json`
+  （**valid_cells=400、failed_cells=0**、全部有效格 latency>0：min 6.0s / max 366.5s / Σ 363.3min；attempts 660/800）；
   totals：direct=3 / step-calc=37 / cot-zero=38 / few-shot=34 / textgrad=37
   （n=40 heldout40，温度 0，2 重复）；
   headline（textgrad=chal vs cot-zero=inc）：**b=1、c=2、精确 McNemar p=1.0、gain=−0.025、n_valid=40**。
@@ -213,12 +222,21 @@
   首跑事故史：首跑 400 调用中 260 格因服务被外部 SIGTERM 而传输失败、被旧版 runner 误记为数据，
   已整批隔离（`proposer-arm-qwen38-27b.QUARANTINE.md`；首跑 JSON 原样保留，**其一切数字禁止引用**），
   runner 缺陷修复（b982733）+ 预算修订（AMENDMENT-2 rev.1）后重跑 held-15..40 并复用有效 140 格。
-  状态：confirmed（重跑后）。
+  状态：confirmed（重跑后）；**2026-10-01 降级为无效臂**：比较本身有效，但不支持任何 guidance 主张。
   边界（必须随正文披露，绝不省略）：
   1. **这与 Track A/C 不可数值比**——骨干不同（7B/4B/8B → 27B）；见 AMENDMENT-2。
   2. **单一骨干**，不构成"跨新一代模型成立"的推广；27B 与 7B 混淆代际与规模。
   3. 骨干是**自托管 AWQ-INT4 量化**（compressed-tensors），非厂商全精度——量化是仪器的一部分。
   4. 被政策叫停的 `qwen2.5:7b` 部分跑（263/400）**不可引用**，仅作审计痕迹保留。
+     两条不可引用产物（27B 首跑作废件 + 7B 部分跑）现汇总于机器可读清单
+     `results/NONCITABLE.json`；新增引用前先查该文件。
+  5. **空臂（2026-10-01 新增）**：处理组正文 == `BASE_PROMPT` + 换行，不含任何方向性指引。
+     因此 b=1/c=2/p=1.0 **不得**表述为「文本梯度式指引无效」。该臂唯一支持的结论是
+     「一个语义为空的产物不优于在位策略」——这是对照健全性检查，不是假设检验。
+  6. 该臂**不承重**：N=3 的新颖性主张建立在 round5 **决策规则消融**（R1 FPR 0.0125 vs
+     R2 0.4125 vs R7 0.9825，配对精确 McNemar p=2⁻³¹⁹ / 2⁻⁷⁷⁵）之上，与本臂无关；本改判不动摇它。
+  7. 要真正检验该假设，需先修两项：(a) 注入块必须非空且与对照有可测语义差（运行前门 +
+     空臂反证）；(b) 准确率轴已饱和（cot-zero 在 7B 上 26/26），须换到有裕量的延迟轴。
 
 ## 明确不成立的声明（禁止写入正文）
 

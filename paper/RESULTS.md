@@ -43,6 +43,15 @@ GSM8K 的 MIT 归属见 `THIRD_PARTY_NOTICES.md`（C22）。
 
 两个挑战者均未达 p < 0.05 → 不晋升，`step-calc` 保持 stable。门控正确拒绝了把随机波动当提升。
 
+> **溯源待补（2026-10-01）**：round3 的 `textgrad-prompt` 产物**未记录 sha256**，因此**无法证明**
+> 它与 round5 的 `textgrad-prompt.txt` 是同一份文件。round5 那份已证实为空臂（见 §5 前的改判框）。
+> 本行的正确读法是「门控拒绝了一次晋升尝试」，**不是**「文本梯度式指引无效」。
+> 补齐办法：为 round3 产物补记 `product_sha256` 并登记进 `results/NONCITABLE.json` 或其
+> 对应的可引用清单；在补齐前，任何 guidance 主张都不得引用本行。
+> 另注：round3 记 `textgrad-prompt` gain=+0.025（b:c=2:1），round5 记同一策略名 gain=−0.025
+> （b=1、c=2）。两者方向相反，疑为 AMENDMENT §1.1 方向约定**之前/之后**的口径差异；
+> 本次未追查，登记为待办。
+
 ## 3. 门控拒绝"无增益"：Round 4 真基线对照（inconclusive）
 
 预注册：`results/rounds/round4/PREREG-round4.md`（冻结）。n=200 合并盲集，逐题配对四策略。
@@ -205,7 +214,18 @@ McNemar **b=4、c=6、p=0.754 —— 不可区分**。而真正可测的杠杆�
 | `textgrad`（文本批判提议器产物） | 37 / 37 |
 
 **headline**（`textgrad` 为 challenger、`cot-zero` 为 incumbent，§1.1 方向）：b=1、c=2、
-精确 McNemar **p=1.0**、gain=−0.025 —— **提议器产物不优于零样本 CoT**。
+精确 McNemar **p=1.0**、gain=−0.025 —— **该产物不优于零样本 CoT**。
+
+> **⚠ 空臂改判（2026-10-01）——本臂不是 guidance 检验。**
+> `textgrad` 策略注入的 `examples/prompts/textgrad-prompt.txt`（sha256 `557084fd…03`，
+> = run2 记录的 `meta.proposer.product_sha256`，即实验实际使用者）去掉首行 JSON 溯源头后，
+> 正文 sha256 `4b5dd404…1c6a`、146 字符；`scripts/textgrad_rewrite.py:BASE_PROMPT`
+> sha256 `834aca82…defb8`、145 字符；**正文 == BASE_PROMPT + 一个换行**。首行是溯源元数据，
+> 不是方向性指引。
+> 因此上表只支持「**一个语义为空的产物**不优于在位策略」——这是**对照健全性检查**，
+> 既不支持也不反驳「把历史抽象成方向性指引再注入」。该臂**不承重**：N=3 新颖性建立在
+> round5 决策规则消融（R1 FPR 0.0125 vs R2 0.4125 vs R7 0.9825）之上，与本臂无关。
+> 详见 `paper/CLAIM_LEDGER.md` C31 改判。
 
 **重复一致性**：**198/200 个（题×策略）对在两重复间同判**（仅 few-shot 2 对不一致，
 34 vs 36 passes），与 §5 方差节的近确定性一致；**首跑 140 个有效格在 run2 中复现
@@ -216,6 +236,11 @@ McNemar **b=4、c=6、p=0.754 —— 不可区分**。而真正可测的杠杆�
    27B 与 Track A/C 的 7B/4B/8B 混淆了代际与规模，**不可数值比**。
 2. **AWQ-INT4 量化是仪器的一部分**（自托管压缩权重 ≠ 厂商全精度）。
 3. 被平台政策叫停的 `qwen2.5:7b` 部分跑（263/400）**不可引用**，仅作审计痕迹保留（未提交）。
+4. **本臂为空臂**（2026-10-01 新增，见上方改判框）：处理组正文 == `BASE_PROMPT` + 换行，
+   不含方向性指引。故 b=1/c=2/p=1.0 **只能**读作对照健全性检查，**不得**表述为
+   「文本梯度式指引无效」。本臂不承重（N=3 新颖性在决策规则消融上）。
+5. 待补溯源：round3 的 `textgrad-prompt` 产物未记 sha256，无法证明与本臂同一份文件；
+   在补记之前，任何 guidance 主张都不得引用 round3 那一行。
 
 **一句话定位**：主结论（CoT 式提示 ≫ 纯数字 = 3 vs 34–38）与 headline（提议器产物 ≈ 标准 CoT）
 在**新一代 27B 骨干上复现**（干净 n=40）——门控的结论不随提议器类型与骨干代际而变。
