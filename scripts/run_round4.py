@@ -21,6 +21,22 @@ sys.path.insert(0, str(ROOT))
 from evokit.stats import ledger_ok, mcnemar_two_sided
 
 
+def _rel_to_repo(path: str) -> str:
+    """Repo-relative dataset label for result metadata.
+
+    Callers pass an absolute path (``run_transfer_cotzero.py`` builds
+    ``ROOT / results / ...``), which would embed a personal home directory into a
+    committed results file and trip tools/check_publish.py gate 5. Committed transfer
+    files already store the relative form (``results/rounds/round4/inputs/svamp.json``),
+    so this normalises to it and falls back to the basename when the path is outside
+    the repo (no silent mangling).
+    """
+    try:
+        return Path(path).resolve().relative_to(ROOT).as_posix()
+    except ValueError:
+        return Path(path).name
+
+
 def run_one(policy: str, prompt_file: str | None, question: str, expected: float,
             model: str, subprocess_timeout: float = 150,
             env_extra: dict | None = None) -> dict:
@@ -93,6 +109,38 @@ def main() -> None:
                 print(json.dumps({"id": qid, "policy": pol, "passed": row[pol]["passed"]}),
                       flush=True)
         details[qid] = row
+    # ---- fail-closed: transport failure is NOT data ------------------------------
+    # run_one() records a transport failure as passed=False, which is the right shape
+    # for the incremental consumer (it just skips that cell) but is WRONG for an
+    # aggregate: a call that never reached the model is indistinguishable from a wrong
+    # answer once passed=False, so a run where ollama dropped mid-stream silently
+    # becomes "the policy is terrible". This exact failure invalidated the round-5
+    # Qwen3.8-27B arm (see results/rounds/round5/proposer-arm-qwen38-27b.QUARANTINE.md)
+    # and is registered in results/NONCITABLE.json.
+    #
+    # So: refuse to emit totals/pairs at all when any cell carries an error. The partial
+    # details are still written, so --resume can retry just the failed cells.
+    errors = {(qid, pol): row[pol]["error"] for qid, row in details.items()
+              for pol in policies if pol in row and row[pol].get("error")}
+    # meta.dataset must be repo-relative: a personal absolute path would fail
+    # tools/check_publish.py gate 5 and must never be committed.
+    ds_rel = _rel_to_repo(a.dataset)
+    if errors:
+        by_kind: dict[str, int] = {}
+        for (_, _), e in errors.items():
+            by_kind[e] = by_kind.get(e, 0) + 1
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(json.dumps({
+            "schema_version": 2, "INCOMPLETE": True,
+            "why": "transport failures present; totals/pairs intentionally not computed",
+            "error_counts": by_kind, "meta": {"dataset": ds_rel, "policies": policies,
+                                              "model": a.model, "n": len(details)},
+            "details": details}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        raise SystemExit(
+            "REFUSING TO AGGREGATE: %d cell(s) carry a transport error %s.\n"
+            "A call that never reached the model is not a wrong answer.\n"
+            "Partial details were written to %s; re-run with --resume to retry them."
+            % (len(errors), by_kind, out_path))
     totals = {pol: sum(1 for qid in details for _ in [details[qid][pol]]
                        if details[qid][pol]["passed"]) for pol in policies}
     n = len(details)
@@ -113,7 +161,7 @@ def main() -> None:
             "lat_ratio": (lat[y] / lat[x]) if lat[x] else None}
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps({
-        "meta": {"dataset": a.dataset, "policies": policies, "model": a.model, "n": n},
+        "meta": {"dataset": ds_rel, "policies": policies, "model": a.model, "n": n},
         "totals": totals, "pairs": pairs, "details": details},
         ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print("wrote", out_path, totals)

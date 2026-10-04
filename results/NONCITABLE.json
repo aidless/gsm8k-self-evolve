@@ -17,6 +17,20 @@
       "date": "2026-09-16",
       "on_disk_locally": true,
       "note": "Present in the author's working tree but deliberately never committed. A fresh clone will not have this file, so its absence is expected and is not a missing-artifact defect; is_citable() treats an unlisted-but-untracked path as absent, not as a violation."
+    },
+    {
+      "path": "results/rounds/round4/transfer-cotzero-svamp.json",
+      "reason": "INVALIDATED 2026-10-04. Transport failure storm: 840/1000 cells raised URLError (plus 1 TimeoutError and 1 RemoteDisconnected) against the local ollama endpoint, leaving only 159/158 scored cells. The runner in use at the time recorded a transport failure as `passed=false`, so the emitted totals {step-calc:146, cot-zero:148} over n=1000 -- an apparent 0.146 accuracy for a policy that scores 0.920 on the same model in the same session -- are an artifact of losing calls, not of the policies. The file's own error distribution and latency histogram (p50 25.13s with 841 zero-latency cells, versus p50 3.16s and 3 zero-latency cells in the same-session transfer-svamp.json) are the evidence. Deleted rather than retained: it carried a personal absolute path in meta.dataset and would also fail tools/check_publish.py gate 5. Root cause fixed in scripts/run_round4.py, which now refuses to compute totals/pairs when any cell carries an error; the failure mode is the same one already recorded for proposer-arm-qwen38-27b.json.",
+      "declared_in": "this registry plus the fail-closed gate commit in scripts/run_round4.py",
+      "marker": "registry",
+      "date": "2026-10-04"
+    },
+    {
+      "path": "results/rounds/round4/transfer-cotzero-multiarith.json",
+      "reason": "INVALIDATED 2026-10-04. Same transport failure storm as transfer-cotzero-svamp.json, on the 180-case MultiArith set: every scored cell was lost, so totals were {step-calc:0, cot-zero:0} and pairs were the degenerate {better:0, worse:0, p:1.0}. Those are not measurements. Deleted rather than retained, for the same two reasons as above (absolute path in meta.dataset; the numbers are meaningless).",
+      "declared_in": "this registry plus the fail-closed gate commit in scripts/run_round4.py",
+      "marker": "registry",
+      "date": "2026-10-04"
     }
   ]
 }
