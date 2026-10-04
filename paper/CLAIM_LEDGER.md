@@ -39,7 +39,10 @@
 - **C7 · 独立再验证脚本从头重算整条证据链，不信任任何缓存声称**
   证据：`tools/verify_evidence_chain.py` 5 检查（bundle digest / 5 构件哈希 /
   merged McNemar + ledger / disjoint / Ed25519 envelope），运行时 `PASS [1/5]..[5/5]`。
-  状态：confirmed。
+  状态：confirmed（**限定（2026-09-16，R1 对抗审稿 M7）**：验证定义在晋升 commit 的固定检出上；
+  因 evaluator 此后被追加修改（+70/−2 行，Appendix A 已披露），在仓库 HEAD 上运行会对该文件
+  报告文档化的预期哈希失配——"原 prompt 代码路径未变"是文字断言而非哈希背书。第三方复核应在
+  晋升 commit 检出上进行，或等待 evaluator 重版本化后重签 bundle。）
 
 - **C8 · 回滚可用（round1 原件已备份）**
   证据：`registry/version-registry.json` `rollback_available: true`；
@@ -67,6 +70,10 @@
 - **C12 · 0.925 的增量主要来自 direct→CoT 式提示，而非自进化超越标准 CoT 基线的独特增量**
   证据：`trackA-merged.json` direct=27 vs cot-zero=186（gain +0.795）；step-calc vs cot-zero 无显著差异（C11）。
   状态：caveated。这是对早先 Round-2 叙事（对照 weak strawman `direct`）的诚实修正，正文必须披露。
+  溯源注记（2026-09-15）：旧 headline「0.125→0.925」两端点来自**不同集合**（0.125 = held1-40 的
+  direct 5/40，`results/heldout-result.json`；0.925 = merged-200 的 step-calc 185/200，签名 bundle）；
+  Round-2 时期无 direct 在 merged-200 上的运行，同集比较 = Round-4 的 0.135→0.920。
+  185（晋升评估）与 184（Round-4 重跑）为同一策略两次独立 temperature-0 运行之差（§5 方差范围内）。
 
 - **C13 · "无显著差异"≠"证明等价"（未预注册等价边际，n=200 对小效应功效不足）**
   证据：`results/rounds/round4/PREREG-round4.md:16`（temperature 0、单次、无种子控制）；
@@ -75,19 +82,24 @@
 
 ## 跨模型验证类（Track C，2026-09-12）
 
-- **C17 · `step-calc` 相对 `cot-zero` 在 4 个模型上均无显著优势**
+- **C17 · `step-calc` 相对 `cot-zero` 在 4 个模型上均无显著优势（方向混杂，非「方向一致」）**
   证据：p = 0.804（qwen2.5:7b, n=200）/ 0.500（gemma3:4b）/ 1.000（qwen2:7b）/ 0.500（llama3.1:8b），
   见 `trackA-merged.json`、`trackC-gemma3-4b-heldout40.json`、`trackC-qwen2-7b-heldout40.json`、
   `trackC-llama31-8b-heldout40.json`；`ROUND4-TRACKC-RESULT.md` 第 2 节。
-  状态：confirmed。方向一致（|gain| ≤ 0.05）。
+  状态：confirmed。**方向混杂**（step−cot 的差值：Qwen2.5-7B −0.010、Gemma3-4B −0.050、
+  Llama3.1-8B −0.050、Qwen2-7B +0.025，全部 |gain| ≤ 0.05 且 p ≥ 0.5）。
+  （2026-09-16 R2 对抗审稿同步：正文已由「方向一致」改为「directions mixed」。）
 
 - **C18 · Round-2 的"自进化增益"（step-calc ≫ concise-reason）未在其它模型复现**
-  证据：gemma3:4b −0.075（p=0.453）、qwen2:7b +0.050（p=0.688）、llama3.1:8b −0.025（p=1.000）；
+  证据（约定：差值 = 被评策略 − `step-calc`；与 Table 3 表注一致）：gemma3:4b −0.075（p=0.453）、
+  qwen2:7b +0.050（p=0.688）、llama3.1:8b −0.025（p=1.000）；
   原效应在 qwen2.5:7b 为 better:worse=33:4、p=1.08e-06（`signed/bundle.json` `heldout_evidence`）。
   状态：caveated。n=40 功效不足，"未复现"≠"证明不存在"；三个新模型 p 均 ≥0.45 故按预注册不扩展。
 
 - **C19 · 唯一稳健的正效应是「CoT 式提示 ≫ 纯数字作答」（direct）**
-  证据：direct vs 任一 CoT 式策略在 4 个模型上 p ≈ 1e-9…1e-48、gain +0.70…+0.95。
+  证据：direct vs 任一 CoT 式策略——200 题集 exact p ≤ 3.6e-42（b:c (3,155)–(0,159)，
+  CoT 式领先 0.760–0.795）；三个 40 题集 p ∈ [7.6e-5, 7.3e-12]（领先 0.425–0.950）。
+  跨数据集复现见 C15（SVAMP/MultiArith/ASDiv，预注册规则触发）。
   状态：confirmed。这解释了早期 Round-2 "0.125→0.925" 的来源与自进化机制无关。
 
 - **C20 · fail-closed 门控行为在 4 个模型上一致**
@@ -101,10 +113,15 @@
   证据：`signed/agent-self.pub.hex`（65 字节公钥）；`README.md` Layout 段（"private key never published"）。
   状态：confirmed。
 
-- **C15 · 主实验后端为 qwen2.5:7b（temperature 0）；跨模型扩展见 C17–C20，仍未覆盖公开基准迁移**
+- **C15 · 主实验后端为 qwen2.5:7b（temperature 0）；跨模型扩展见 C17–C20；跨数据集迁移已执行且规则触发**
   证据：`results/rounds/round4/PREREG-round4.md:7`；`ROUND4-TRACKC-RESULT.md`（4 个模型）；
-  Track B（SVAMP/MultiArith/ASDiv 迁移）**未运行**。
-  状态：confirmed。
+  **Track B 迁移已执行**（`results/rounds/round4/TRANSFER_RECORD.md`，2026-09-13）：
+  svamp 920/1000 vs 647/1000（p=2.787e-65, gain +0.273）、multiarith 180/180 vs 87/180
+  （p=2.019e-28, +0.517）、asdiv 2026/2249 vs 1589/2249（p=1.220e-84, +0.194；56 道非数值
+  答案题被排除，清单见 `inputs/asdiv.exclusions.json`）→ 预注册 GENERALIZE 规则**触发**。
+  边界：该规则只对比 number-only 稻草人基线，因此**只复现"CoT 式 ≫ 纯数字"这一已知效应**，
+  对自进化 vs 标准 CoT 不构成新证据（后者见 C17，仍 inconclusive）。
+  状态：confirmed（2026-09-16 R2 对抗审稿纠错：原写"未运行"为**事实错误**）。
 
 - **C16 · 无真实密钥 / 无个人绝对路径残留，可发布（发布门禁 5/5 PASS）**
   证据：`tools/check_publish.py` 运行时 `PUBLISH GATE PASS`；`OPEN_SOURCE_EXCLUSION.md` 第 2 节。
@@ -148,6 +165,10 @@
   `ablation.json:428-432`（R7@8 `786/800=0.9825`）。R3=12/800、R5=33/800、R6=217/800
   （`ablation.json:322-326, 375-379, 401-405`）；复算入口 `scripts/ablation_gate.py`（零模型调用）。
   状态：confirmed。
+  范围澄清（如实，2026-09-14）：该优势**仅在对比「无错误控制」的程序时**成立。对比另一条**有错误控制**
+  的规则 R3（非配对两比例检验）时，R1 不显著更优：配对精确 McNemar **b=4, c=6, p=0.754**，Wilson 区间
+  重叠（R1 [0.00680,0.02286] vs R3 [0.00860,0.02603]）。故「拒绝能力」的准确归因是**有一个 α=0.05 的
+  有效显著性检验**，而非五键合取、也非配对（α 是可测杠杆：R5 α=0.20 显著劣于 R1，b=0,c=23,p≈2.38e-7）。
 
 - **C26 · 同一批 800 置换零上的配对精确 McNemar 支持 R1 的 FPR 优势（方向一致且 p<α）**
   证据：`ablation.json:825-844`（R1 vs R2：`r1_only_b=0, baseline_only_c=320, exact_two_sided_p=
@@ -176,6 +197,46 @@
   `ablation_gate.py:289-325`。R1 因要求 `blind is True` **按定义**拒绝全部 6 个非盲选择集池，
   R4 晋升其中 2/6——这是门控盲约束的定义后果，不是测量发现；无非盲零集，故无 R4 FPR。
   状态：confirmed（定义性，正文不得叙述成发现）。
+
+## 提议器替代臂（Task 6，round5，新一代骨干，2026-09-14）
+
+- **C31 · 改判（2026-10-01）：Task 6 臂为「无效臂（null arm）」，不构成 guidance 检验。**
+  其注入正文与 `BASE_PROMPT` 逐字节相同（仅多一个结尾换行），故其比较只说明**该产物**不优于
+  在位策略；**既不支持也不反驳**「把历史抽象成方向性指引再注入」这一假设。
+  **唯一稳健效应仍是 CoT 式 ≫ 纯数字（重跑后成立，不受本改判影响）。**
+  证据（run2，通过 AMENDMENT-2 rev.1 R1.4 验收门 a–d）：
+  **空臂证据**（2026-10-01 复核）：`examples/prompts/textgrad-prompt.txt`
+  sha256 `557084fd…03`（= run2 与 7B 臂各自记录的 `meta.proposer.product_sha256`，**即实验实际使用的产物**）；
+  去掉首行 JSON 溯源头后正文 sha256 `4b5dd404…1c6a`、146 字符；
+  `scripts/textgrad_rewrite.py:BASE_PROMPT` sha256 `834aca82…defb8`、145 字符；
+  **正文 == BASE_PROMPT + `chr(10)`，差 1 字符**。首行是溯源元数据，不是方向性指引。
+  该臂因此无法区分假设与噪声——这是「门必须能失败」的反例，不是「guidance 输」。
+  数值证据（run2）：`results/rounds/round5/proposer-arm-qwen38-27b-run2.json`
+  （**valid_cells=400、failed_cells=0**、全部有效格 latency>0：min 6.0s / max 366.5s / Σ 363.3min；attempts 660/800）；
+  totals：direct=3 / step-calc=37 / cot-zero=38 / few-shot=34 / textgrad=37
+  （n=40 heldout40，温度 0，2 重复）；
+  headline（textgrad=chal vs cot-zero=inc）：**b=1、c=2、精确 McNemar p=1.0、gain=−0.025、n_valid=40**。
+  重复一致性：198/200 个（题×策略）对在两重复间同判（仅 few-shot 2 对不一致，与 C23
+  近确定性一致）；
+  **复用区 140 格 run2 vs 首跑 0 不一致**（AMENDMENT rev.1 复用合法性的实证）。
+  首跑事故史：首跑 400 调用中 260 格因服务被外部 SIGTERM 而传输失败、被旧版 runner 误记为数据，
+  已整批隔离（`proposer-arm-qwen38-27b.QUARANTINE.md`；首跑 JSON 原样保留，**其一切数字禁止引用**），
+  runner 缺陷修复（b982733）+ 预算修订（AMENDMENT-2 rev.1）后重跑 held-15..40 并复用有效 140 格。
+  状态：confirmed（重跑后）；**2026-10-01 降级为无效臂**：比较本身有效，但不支持任何 guidance 主张。
+  边界（必须随正文披露，绝不省略）：
+  1. **这与 Track A/C 不可数值比**——骨干不同（7B/4B/8B → 27B）；见 AMENDMENT-2。
+  2. **单一骨干**，不构成"跨新一代模型成立"的推广；27B 与 7B 混淆代际与规模。
+  3. 骨干是**自托管 AWQ-INT4 量化**（compressed-tensors），非厂商全精度——量化是仪器的一部分。
+  4. 被政策叫停的 `qwen2.5:7b` 部分跑（263/400）**不可引用**，仅作审计痕迹保留。
+     两条不可引用产物（27B 首跑作废件 + 7B 部分跑）现汇总于机器可读清单
+     `results/NONCITABLE.json`；新增引用前先查该文件。
+  5. **空臂（2026-10-01 新增）**：处理组正文 == `BASE_PROMPT` + 换行，不含任何方向性指引。
+     因此 b=1/c=2/p=1.0 **不得**表述为「文本梯度式指引无效」。该臂唯一支持的结论是
+     「一个语义为空的产物不优于在位策略」——这是对照健全性检查，不是假设检验。
+  6. 该臂**不承重**：N=3 的新颖性主张建立在 round5 **决策规则消融**（R1 FPR 0.0125 vs
+     R2 0.4125 vs R7 0.9825，配对精确 McNemar p=2⁻³¹⁹ / 2⁻⁷⁷⁵）之上，与本臂无关；本改判不动摇它。
+  7. 要真正检验该假设，需先修两项：(a) 注入块必须非空且与对照有可测语义差（运行前门 +
+     空臂反证）；(b) 准确率轴已饱和（cot-zero 在 7B 上 26/26），须换到有裕量的延迟轴。
 
 ## 明确不成立的声明（禁止写入正文）
 

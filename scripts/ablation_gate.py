@@ -114,6 +114,22 @@ def _unit_candidates_blocks(source_pool: dict):
     return by_unit
 
 
+
+# === decisions dump (added 2026-09-21, .evidence/pack_promotion_gate_v2.py) ===
+def _dump_unit_decisions(nulls, rules, path):
+    """逐单元判决落盘：让配对精确 McNemar 的 b/c 第三方可重算（零模型调用）。
+    每行 = 一个 null 池在每条规则下的 promote 位与声明的方向对。"""
+    with open(path, "w", encoding="utf-8") as fh:
+        for p in nulls:
+            m = p.get("meta", {})
+            row = {"source_pool_index": m.get("source_pool_index"),
+                   "null_index": m.get("null_index"),
+                   "chal_policy": p.get("chal_policy"),
+                   "inc_policy": p.get("inc_policy"),
+                   "blind": p.get("blind"),
+                   "promote": {r: bool(gr.decide(r, p).get("promote")) for r in rules}}
+            fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+    return path
 def main() -> int:
     pools = bp.load_pools_json()                       # {"meta","pools"} -> pools (published loader)
     observed = [p for p in pools if p["truth"] == "observed"]
@@ -474,6 +490,7 @@ def main() -> int:
     assert abs(pooled["R2"]["rate"] - fpr_r2) < 1e-15
     assert abs(pooled["R7"]["rate"] - fpr_r7_at8) < 1e-15
 
+    _dump_unit_decisions(nulls, RULES, OUT.parent / "decisions.jsonl")
     OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
                    encoding="utf-8")
 
