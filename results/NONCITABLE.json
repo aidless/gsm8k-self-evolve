@@ -14,7 +14,9 @@
       "reason": "NOT CITABLE. Partial run stopped by platform policy at 263/400 calls (n=26 of 40). Retained as an audit trace only; not committed to git. Its totals conflate 'stopped early' with 'answered wrongly'.",
       "declared_in": "paper/RESULTS.md line 218 (honest-boundary item 3): 被平台政策叫停的 qwen2.5:7b 部分跑（263/400）不可引用，仅作审计痕迹保留（未提交）.",
       "marker": "registry",
-      "date": "2026-09-16"
+      "date": "2026-09-16",
+      "on_disk_locally": true,
+      "note": "Present in the author's working tree but deliberately never committed. A fresh clone will not have this file, so its absence is expected and is not a missing-artifact defect; is_citable() treats an unlisted-but-untracked path as absent, not as a violation."
     }
   ]
 }
