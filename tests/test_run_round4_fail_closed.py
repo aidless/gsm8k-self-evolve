@@ -24,14 +24,31 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
-DATASET = "results/rounds/round4/inputs/multiarith.json"
+
+# The dataset is built HERE, in tmp, not read from the repo. The real
+# results/rounds/round4/inputs/multiarith.json is excluded from the publishable
+# set (see OPEN_SOURCE_EXCLUSION.md), so a clean clone does not contain it --
+# and a test that passes only because the author happens to have a full local
+# checkout is a test that reports "136 passed" to the clone that cannot run it.
+CASES = [
+    {"id": "t1", "input": "If I have 3 apples and buy 4 more, how many do I have?",
+     "expected": "7"},
+    {"id": "t2", "input": "A shirt costs 5 dollars. How much do 4 shirts cost?",
+     "expected": "20"},
+]
 
 
-def _run(out: Path, limit: int, env_extra: dict | None = None) -> subprocess.CompletedProcess:
+def _dataset(tmp_path: Path) -> Path:
+    p = tmp_path / "tiny.json"
+    p.write_text(json.dumps({"cases": CASES}), encoding="utf-8")
+    return p
+
+
+def _run(dataset: Path, out: Path, env_extra: dict | None = None) -> subprocess.CompletedProcess:
     env = dict(os.environ, **(env_extra or {}))
     return subprocess.run(
-        [sys.executable, "scripts/run_round4.py", "--dataset", DATASET,
-         "--policies", "step-calc,cot-zero", "--out", str(out), "--limit", str(limit),
+        [sys.executable, "scripts/run_round4.py", "--dataset", str(dataset),
+         "--policies", "step-calc,cot-zero", "--out", str(out), "--limit", "2",
          "--model", "qwen2.5:7b"],
         capture_output=True, text=True, cwd=str(ROOT), env=env, timeout=900,
     )
@@ -41,7 +58,7 @@ def _run(out: Path, limit: int, env_extra: dict | None = None) -> subprocess.Com
 def test_healthy_run_produces_totals_and_pairs(tmp_path):
     """Counter-proof 1: the gate must NOT block a good run (else it is decorative)."""
     out = tmp_path / "ok.json"
-    r = _run(out, 2)
+    r = _run(_dataset(tmp_path), out)
     assert r.returncode == 0, r.stderr
     d = json.loads(out.read_text(encoding="utf-8"))
     assert "totals" in d and "pairs" in d
@@ -54,7 +71,8 @@ def test_healthy_run_produces_totals_and_pairs(tmp_path):
 def test_transport_failure_blocks_aggregation(tmp_path):
     """Counter-proof 2: injecting a dead endpoint MUST make the run fail loudly."""
     out = tmp_path / "bad.json"
-    r = _run(out, 2, env_extra={"EVO_OLLAMA_URL": "http://127.0.0.1:1/api/generate"})
+    r = _run(_dataset(tmp_path), out,
+             env_extra={"EVO_OLLAMA_URL": "http://127.0.0.1:1/api/generate"})
     assert r.returncode != 0, "a run with transport errors must not exit 0"
     assert "REFUSING TO AGGREGATE" in r.stderr
     d = json.loads(out.read_text(encoding="utf-8"))
@@ -84,3 +102,18 @@ def test_run_one_still_propagates_errors_for_the_incremental_consumer():
     src = (ROOT / "scripts" / "run_round4.py").read_text(encoding="utf-8")
     assert '"error": type(exc).__name__' in src
     assert 'res["error"] = str(err)' in src
+
+
+def test_no_test_reads_a_dataset_that_the_publish_gate_excludes():
+    """A test that needs an unpublished file is a test a clean clone cannot run."""
+    # Assembled at runtime so this guard does not match its own source.
+    needle = "round4" + "/" + "inputs" + "/"
+    for f in sorted((ROOT / "tests").glob("test_*.py")):
+        text = f.read_text(encoding="utf-8")
+        for n, line in enumerate(text.splitlines(), 1):
+            if needle in line and not line.lstrip().startswith("#"):
+                raise AssertionError(
+                    f"{f.name}:{n} reads {needle}, which "
+                    "OPEN_SOURCE_EXCLUSION.md keeps out of the publishable set; "
+                    "build the fixture in tmp_path instead"
+                )
