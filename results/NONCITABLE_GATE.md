@@ -26,7 +26,8 @@ The `note` now says so, in those words, rather than leaving the false claim in p
 
 1. **the declared target exists.** A path that names nothing is a dead exclusion. A
    `#cell` fragment must name a cell the file actually contains, so an entry cannot
-   exclude something that was never there.
+   exclude something that was never there. The single exception is a target this
+   repository itself excludes — see *Targets that are absent by design* below.
 2. **the reason states a cause or an exclusion rule.** An entry that says only "do
    not cite this" gives a reader nothing to tell a measurement from an artifact.
    Both "too short to explain anything" and "long but explains nothing" report
@@ -38,6 +39,65 @@ The `note` now says so, in those words, rather than leaving the false claim in p
    path in the same sentence that calls it valid evidence or citable. Documents
    that mention a non-citable path *to explain why it cannot be used* pass, which
    is most legitimate mentions.
+
+## Targets that are absent by design (`locally_absent`)
+
+One real entry names a target that is in **no clone**, including a fresh one: the
+Track B runtime dataset `results/rounds/round4/inputs/svamp.json`, excluded
+wholesale by `.gitignore` because the upstream licences (ASDiv CC-BY-NC-4.0;
+MultiArith unclear) forbid redistribution. Only the result JSONs are shipped.
+
+Before this exception, that entry — and three others — failed the gate on every
+fresh clone:
+
+```
+NONCITABLE GATE FAIL (4):
+  FAIL entries[2] …proposer-arm-qwen25-7b.json: declared target does not exist
+  FAIL entries[3] …transfer-cotzero-svamp.json: declared target does not exist
+  FAIL entries[4] …transfer-cotzero-multiarith.json: declared target does not exist
+  FAIL entries[5] …inputs/svamp.json#chal-513: declared target does not exist
+```
+
+and `tests/test_noncitable_gate.py::test_the_real_registry_passes` failed with
+it, so `.github/workflows/verify.yml` was red on every push. **A gate that reports
+a missing-artifact defect for its own exclusion list is a gate nobody can keep
+green**, and the fix people reach for is to delete the exclusions. The three
+shippable targets were fixed the honest way — committed, so the exclusion is
+reviewable. The uncommittable one needed a rule.
+
+`locally_absent` is that rule, and it is honoured only when **all** of:
+
+- **this repository's own `.gitignore` excludes the path** — asked of `git
+  check-ignore`, not taken from the entry. An entry that could declare itself
+  ignored would turn the exception into a blanket escape hatch for any missing
+  artifact. Fails closed: no git, not a repo, or a timeout all answer "not ignored".
+- **`locally_absent.why` states a cause** — same test as `reason`, so "it is not
+  here" does not qualify.
+- **`locally_absent.reviewable_from` names at least one file that is present here** —
+  so the exclusion stays openable without the absent file. For the `chal-513`
+  entry that is the shipped SVAMP result (which records the cell's `TimeoutError`
+  and latency), `TRANSFER_RECORD.md`, and `scripts/transfer_subset.py`.
+
+Any of the three missing, or an entry with no `locally_absent` at all, is reported
+exactly as before. Each condition has its own counter-proof, plus one for the case
+that matters most: a plainly missing path, in the very same ignored directory, is
+**still** an error.
+
+## One path, several runs (`schema_version` 2)
+
+A bare path cannot distinguish two runs of the same script, and the registry got
+that wrong in a way that was visible in the artifacts: the entries for
+`transfer-cotzero-svamp.json` and `transfer-cotzero-multiarith.json` said
+*"Deleted rather than retained"*, which described the 2026-10-04 transport storm
+— while the files on disk are the 2026-10-05 reruns, which the `#chal-513` entry
+describes as *"retained rather than deleted"*. The registry contradicted both
+itself and the artifact it pointed at.
+
+`schema_version: 2` gives every path-valued entry a `runs` list, so each run is
+recorded with its own label and `status` (`retained` / `deleted`) under one
+coherent reason. The exclusion itself did not change: both runs of both files stay
+non-citable. What changed is that the record now matches the file.
+
 
 ## What the gate deliberately does not do
 

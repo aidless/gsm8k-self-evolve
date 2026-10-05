@@ -151,6 +151,121 @@ def test_empty_registry_is_an_error(gate, tmp_path):
     errors, _ = gate.check(reg, root)
     assert errors, "an empty registry must not pass"
 
+
+# ---------------------------------------------------------------------------
+# The `locally_absent` exception: a target the repository itself excludes.
+#
+# Why this needs its own counter-proofs. The exception exists because the real
+# registry names one target that is absent from every clone BY DESIGN (a runtime
+# dataset under a .gitignore'd inputs/ directory). Without an exception, that entry
+# failed the gate on every fresh clone -- and the fix people reach for when a gate
+# cannot be kept green is to delete the exclusions. So the exception is deliberately
+# narrow, and every one of its four conditions is pinned below by a counter-proof
+# that injects the violation and asserts a non-empty error list.
+# ---------------------------------------------------------------------------
+
+import subprocess  # noqa: E402  (kept next to the tests that need it)
+
+
+def _git_repo(path: Path, ignore: str | None = None) -> Path:
+    """A real git repo -- the exception is keyed on git, so the tests need one."""
+    subprocess.run(["git", "init", "-q", str(path)], check=True, capture_output=True)
+    if ignore is not None:
+        (path / ".gitignore").write_text(ignore + "\n", encoding="utf-8")
+    return path
+
+
+ABSENT_WHY = ("The declared target is a runtime dataset fetched at run time and never "
+              "committed, because its upstream licence forbids redistribution; only the "
+              "result JSON is shipped.")
+REVIEWABLE = ["results/kept.json"]
+
+
+def _absent_sandbox(tmp_path: Path, sub: str, *, ignore: str | None, entry_patch: dict):
+    """A repo whose ignored inputs/ dir is missing, plus one kept evidence file."""
+    root = _git_repo(tmp_path / sub, ignore)
+    (root / "results").mkdir(parents=True, exist_ok=True)
+    (root / "results" / "kept.json").write_text("{}", encoding="utf-8")
+    entry = {"path": "results/inputs/gone.json#cell-1", "reason": RULE,
+             "declared_in": "this registry",
+             "locally_absent": {"why": ABSENT_WHY, "not_present_in": "any clone",
+                                "reviewable_from": list(REVIEWABLE)}}
+    entry.update(entry_patch)
+    reg = root / "results" / "NONCITABLE.json"
+    reg.write_text(json.dumps({"schema_version": 2, "note": "n", "entries": [entry]}),
+                   encoding="utf-8")
+    return reg, root
+
+
+def test_locally_absent_is_honoured_when_the_repository_ignores_the_target(gate, tmp_path):
+    """The one legitimate case: git says the path is excluded, and it says why."""
+    reg, root = _absent_sandbox(tmp_path, "ok", ignore="results/inputs/", entry_patch={})
+    errors, notes = gate.check(reg, root)
+    assert errors == [], errors
+    assert any("absent from this checkout by the repository's own ignore rule" in n
+               for n in notes), notes
+
+
+def test_counter_proof_locally_absent_is_not_honoured_without_an_ignore_rule(gate, tmp_path):
+    """Self-declared 'absent by design' must not survive without a real .gitignore."""
+    reg, root = _absent_sandbox(tmp_path, "noignore", ignore=None, entry_patch={})
+    errors, _ = gate.check(reg, root)
+    assert any("does not ignore that path" in e for e in errors), errors
+
+
+def test_counter_proof_locally_absent_needs_a_cause(gate, tmp_path):
+    """An absent target needs a reason, exactly as a present one does."""
+    reg, root = _absent_sandbox(
+        tmp_path, "nocause", ignore="results/inputs/",
+        entry_patch={"locally_absent": {"why": "it is not here", "not_present_in": "any clone",
+                                        "reviewable_from": list(REVIEWABLE)}})
+    errors, _ = gate.check(reg, root)
+    assert any("locally_absent.why does not state a cause" in e for e in errors), errors
+
+
+def test_counter_proof_locally_absent_must_name_evidence_that_exists(gate, tmp_path):
+    """The exclusion has to stay reviewable: evidence that is itself absent proves nothing."""
+    reg, root = _absent_sandbox(
+        tmp_path, "noevidence", ignore="results/inputs/",
+        entry_patch={"locally_absent": {"why": ABSENT_WHY, "not_present_in": "any clone",
+                                        "reviewable_from": ["results/never-shipped.json"]}})
+    errors, _ = gate.check(reg, root)
+    assert any("names no reviewable evidence" in e for e in errors), errors
+
+
+def test_counter_proof_locally_absent_needs_reviewable_evidence_at_all(gate, tmp_path):
+    """An empty reviewable_from is the same defect in a quieter form."""
+    reg, root = _absent_sandbox(
+        tmp_path, "emptyevidence", ignore="results/inputs/",
+        entry_patch={"locally_absent": {"why": ABSENT_WHY, "not_present_in": "any clone",
+                                        "reviewable_from": []}})
+    errors, _ = gate.check(reg, root)
+    assert any("names no reviewable evidence" in e for e in errors), errors
+
+
+def test_a_plainly_missing_path_is_still_an_error(gate, tmp_path):
+    """The exception must not become the general answer to 'the file is not here'.
+
+    Same ignored directory, same missing file -- the only difference from the passing
+    case above is that the entry carries no locally_absent block at all."""
+    root = _git_repo(tmp_path / "plain", ignore="results/inputs/")
+    (root / "results").mkdir(parents=True, exist_ok=True)
+    reg = root / "results" / "NONCITABLE.json"
+    reg.write_text(json.dumps({"schema_version": 2, "note": "n", "entries": [
+        {"path": "results/inputs/gone.json#cell-1", "reason": RULE,
+         "declared_in": "this registry"}]}), encoding="utf-8")
+    errors, _ = gate.check(reg, root)
+    assert any("declared target does not exist" in e for e in errors), errors
+
+
+def test_git_ignored_fails_closed_outside_a_git_repo(tmp_path):
+    """A non-repo checkout answers 'is it ignored?' with 'no', not with 'yes'."""
+    mod = _gate()
+    (tmp_path / "results").mkdir()
+    (tmp_path / "results" / "x.json").write_text("{}", encoding="utf-8")
+    assert mod.git_ignored(tmp_path, "results/x.json") is False
+    assert mod.git_ignored(tmp_path, "results/never-created.json") is False
+
 # ---------------------------------------------------------------------------
 # scripts/transfer_subset.py: the subset figure must not be quotable as a trend.
 # ---------------------------------------------------------------------------
