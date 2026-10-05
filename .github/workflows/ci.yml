@@ -84,13 +84,21 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          # The gate hashes active.json (BASENAME_MAP in
-          # tools/verify_evidence_chain.py, check 2). Perturbing the manifest would
-          # only break the digest binding, so perturb the artifact check 2 reads.
-          cp active.json /tmp/active.json.bak
-          python3 - <<'PY'
-          import json, pathlib
-          p = pathlib.Path("active.json")
+          # The gate hashes five artifacts (BASENAME_MAP in
+          # tools/verify_evidence_chain.py, check 2). Perturbing the manifest would only
+          # break the digest binding, so perturb an artifact check 2 hashes.
+          #
+          # It has to be one that actually holds numbers. active.json is
+          # {"answer_policy": "step-calc"} — a single string, no numeric field at all —
+          # so an earlier version that bumped a number in active.json could never have
+          # worked; it exited on "no numeric field to corrupt" and the job reported a
+          # pass for the wrong reason. examples/heldout40.json carries 40 expected
+          # answers, which is what gets hashed.
+          target=examples/heldout40.json
+          cp "$target" /tmp/heldout40.json.bak
+          python3 - "$target" <<'PY'
+          import json, pathlib, sys
+          p = pathlib.Path(sys.argv[1])
           d = json.loads(p.read_text())
           def bump(o):
               if isinstance(o, dict):
@@ -113,10 +121,10 @@ jobs:
           if not bump(d):
               raise SystemExit("no numeric field to corrupt")
           p.write_text(json.dumps(d, indent=2))
-          print("corrupted one numeric field in active.json")
+          print(f"corrupted one numeric field in {p}")
           PY
           if python tools/verify_evidence_chain.py; then
-            echo 'FAIL: the gate accepted a corrupted active.json'
+            echo 'FAIL: the gate accepted a corrupted artifact'
             exit 1
           fi
           echo 'OK: the gate rejected the corrupted artifact'
