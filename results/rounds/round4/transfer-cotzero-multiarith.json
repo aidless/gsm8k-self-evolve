@@ -1,0 +1,2189 @@
+{
+ "meta": {
+  "dataset": "results/rounds/round4/inputs/multiarith.json",
+  "policies": [
+   "step-calc",
+   "cot-zero"
+  ],
+  "model": "qwen2.5:7b",
+  "n": 180
+ },
+ "totals": {
+  "step-calc": 180,
+  "cot-zero": 180
+ },
+ "pairs": {
+  "step-calc_vs_cot-zero": {
+   "better": 0,
+   "worse": 0,
+   "p": 1.0,
+   "gain": 0.0,
+   "ledger_ok": true,
+   "lat_x": 2.672538888888889,
+   "lat_y": 3.615105555555556,
+   "lat_ratio": 1.3526858563538209
+  }
+ },
+ "details": {
+  "ma-000": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.423,
+    "parsed": 10.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.241,
+    "parsed": 10.0
+   }
+  },
+  "ma-001": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.94,
+    "parsed": 17.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.94,
+    "parsed": 17.0
+   }
+  },
+  "ma-002": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.794,
+    "parsed": 79.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.303,
+    "parsed": 79.0
+   }
+  },
+  "ma-003": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.608,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.415,
+    "parsed": 9.0
+   }
+  },
+  "ma-004": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.529,
+    "parsed": 72.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.076,
+    "parsed": 72.0
+   }
+  },
+  "ma-005": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.992,
+    "parsed": 72.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.654,
+    "parsed": 72.0
+   }
+  },
+  "ma-006": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.393,
+    "parsed": 36.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.336,
+    "parsed": 36.0
+   }
+  },
+  "ma-007": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.895,
+    "parsed": 1.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.988,
+    "parsed": 1.0
+   }
+  },
+  "ma-008": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.888,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.997,
+    "parsed": 8.0
+   }
+  },
+  "ma-009": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.741,
+    "parsed": 39.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.096,
+    "parsed": 39.0
+   }
+  },
+  "ma-010": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.552,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.945,
+    "parsed": 7.0
+   }
+  },
+  "ma-011": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.457,
+    "parsed": 39.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.546,
+    "parsed": 39.0
+   }
+  },
+  "ma-012": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.295,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.719,
+    "parsed": 3.0
+   }
+  },
+  "ma-013": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.959,
+    "parsed": 2.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.868,
+    "parsed": 2.0
+   }
+  },
+  "ma-014": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.137,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.25,
+    "parsed": 8.0
+   }
+  },
+  "ma-015": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.931,
+    "parsed": 19.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.914,
+    "parsed": 19.0
+   }
+  },
+  "ma-016": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.022,
+    "parsed": 48.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.943,
+    "parsed": 48.0
+   }
+  },
+  "ma-017": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.987,
+    "parsed": 36.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.146,
+    "parsed": 36.0
+   }
+  },
+  "ma-018": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.505,
+    "parsed": 6.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.403,
+    "parsed": 6.0
+   }
+  },
+  "ma-019": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.143,
+    "parsed": 62.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.814,
+    "parsed": 62.0
+   }
+  },
+  "ma-020": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.353,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.342,
+    "parsed": 4.0
+   }
+  },
+  "ma-021": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.396,
+    "parsed": 64.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.151,
+    "parsed": 64.0
+   }
+  },
+  "ma-022": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.857,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.566,
+    "parsed": 5.0
+   }
+  },
+  "ma-023": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.682,
+    "parsed": 18.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.918,
+    "parsed": 18.0
+   }
+  },
+  "ma-024": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.651,
+    "parsed": 63.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.815,
+    "parsed": 63.0
+   }
+  },
+  "ma-025": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.479,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.778,
+    "parsed": 7.0
+   }
+  },
+  "ma-026": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.037,
+    "parsed": 28.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.103,
+    "parsed": 28.0
+   }
+  },
+  "ma-027": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.83,
+    "parsed": 11.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.96,
+    "parsed": 11.0
+   }
+  },
+  "ma-028": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.838,
+    "parsed": 63.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.044,
+    "parsed": 63.0
+   }
+  },
+  "ma-029": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.707,
+    "parsed": 26.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.04,
+    "parsed": 26.0
+   }
+  },
+  "ma-030": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.549,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.402,
+    "parsed": 3.0
+   }
+  },
+  "ma-031": {
+   "step-calc": {
+    "passed": true,
+    "latency": 4.195,
+    "parsed": 32.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.456,
+    "parsed": 32.0
+   }
+  },
+  "ma-032": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.695,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.356,
+    "parsed": 7.0
+   }
+  },
+  "ma-033": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.39,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.511,
+    "parsed": 5.0
+   }
+  },
+  "ma-034": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.428,
+    "parsed": 35.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.484,
+    "parsed": 35.0
+   }
+  },
+  "ma-035": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.664,
+    "parsed": 45.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.874,
+    "parsed": 45.0
+   }
+  },
+  "ma-036": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.912,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.508,
+    "parsed": 8.0
+   }
+  },
+  "ma-037": {
+   "step-calc": {
+    "passed": true,
+    "latency": 4.296,
+    "parsed": 60.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.901,
+    "parsed": 60.0
+   }
+  },
+  "ma-038": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.305,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.03,
+    "parsed": 4.0
+   }
+  },
+  "ma-039": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.961,
+    "parsed": 24.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.691,
+    "parsed": 24.0
+   }
+  },
+  "ma-040": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.714,
+    "parsed": 43.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.062,
+    "parsed": 43.0
+   }
+  },
+  "ma-041": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.006,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.125,
+    "parsed": 7.0
+   }
+  },
+  "ma-042": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.045,
+    "parsed": 67.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.187,
+    "parsed": 67.0
+   }
+  },
+  "ma-043": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.652,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.625,
+    "parsed": 3.0
+   }
+  },
+  "ma-044": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.399,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.537,
+    "parsed": 8.0
+   }
+  },
+  "ma-045": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.666,
+    "parsed": 46.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.373,
+    "parsed": 46.0
+   }
+  },
+  "ma-046": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.603,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.844,
+    "parsed": 9.0
+   }
+  },
+  "ma-047": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.848,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.049,
+    "parsed": 9.0
+   }
+  },
+  "ma-048": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.873,
+    "parsed": 30.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.27,
+    "parsed": 30.0
+   }
+  },
+  "ma-049": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.368,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.298,
+    "parsed": 5.0
+   }
+  },
+  "ma-050": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.36,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.861,
+    "parsed": 7.0
+   }
+  },
+  "ma-051": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.79,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.615,
+    "parsed": 5.0
+   }
+  },
+  "ma-052": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.14,
+    "parsed": 72.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.09,
+    "parsed": 72.0
+   }
+  },
+  "ma-053": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.423,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.942,
+    "parsed": 7.0
+   }
+  },
+  "ma-054": {
+   "step-calc": {
+    "passed": true,
+    "latency": 5.782,
+    "parsed": 63.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.692,
+    "parsed": 63.0
+   }
+  },
+  "ma-055": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.409,
+    "parsed": 60.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.484,
+    "parsed": 60.0
+   }
+  },
+  "ma-056": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.937,
+    "parsed": 30.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.849,
+    "parsed": 30.0
+   }
+  },
+  "ma-057": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.321,
+    "parsed": 6.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.573,
+    "parsed": 6.0
+   }
+  },
+  "ma-058": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.277,
+    "parsed": 56.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.703,
+    "parsed": 56.0
+   }
+  },
+  "ma-059": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.181,
+    "parsed": 72.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.475,
+    "parsed": 72.0
+   }
+  },
+  "ma-060": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.011,
+    "parsed": 34.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.396,
+    "parsed": 34.0
+   }
+  },
+  "ma-061": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.539,
+    "parsed": 41.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.185,
+    "parsed": 41.0
+   }
+  },
+  "ma-062": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.62,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.18,
+    "parsed": 4.0
+   }
+  },
+  "ma-063": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.825,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.973,
+    "parsed": 9.0
+   }
+  },
+  "ma-064": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.676,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.702,
+    "parsed": 7.0
+   }
+  },
+  "ma-065": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.271,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.33,
+    "parsed": 5.0
+   }
+  },
+  "ma-066": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.738,
+    "parsed": 6.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.162,
+    "parsed": 6.0
+   }
+  },
+  "ma-067": {
+   "step-calc": {
+    "passed": true,
+    "latency": 4.51,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.676,
+    "parsed": 3.0
+   }
+  },
+  "ma-068": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.429,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.225,
+    "parsed": 8.0
+   }
+  },
+  "ma-069": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.45,
+    "parsed": 34.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.325,
+    "parsed": 34.0
+   }
+  },
+  "ma-070": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.21,
+    "parsed": 16.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.559,
+    "parsed": 16.0
+   }
+  },
+  "ma-071": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.447,
+    "parsed": 6.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.037,
+    "parsed": 6.0
+   }
+  },
+  "ma-072": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.587,
+    "parsed": 55.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.053,
+    "parsed": 55.0
+   }
+  },
+  "ma-073": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.048,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.24,
+    "parsed": 9.0
+   }
+  },
+  "ma-074": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.383,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.211,
+    "parsed": 3.0
+   }
+  },
+  "ma-075": {
+   "step-calc": {
+    "passed": true,
+    "latency": 4.539,
+    "parsed": 28.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.541,
+    "parsed": 28.0
+   }
+  },
+  "ma-076": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.868,
+    "parsed": 60.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.685,
+    "parsed": 60.0
+   }
+  },
+  "ma-077": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.284,
+    "parsed": 53.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.546,
+    "parsed": 53.0
+   }
+  },
+  "ma-078": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.097,
+    "parsed": 52.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.904,
+    "parsed": 52.0
+   }
+  },
+  "ma-079": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.982,
+    "parsed": 56.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.468,
+    "parsed": 56.0
+   }
+  },
+  "ma-080": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.065,
+    "parsed": 30.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.71,
+    "parsed": 30.0
+   }
+  },
+  "ma-081": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.569,
+    "parsed": 27.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.584,
+    "parsed": 27.0
+   }
+  },
+  "ma-082": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.294,
+    "parsed": 2.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.399,
+    "parsed": 2.0
+   }
+  },
+  "ma-083": {
+   "step-calc": {
+    "passed": true,
+    "latency": 4.342,
+    "parsed": 90.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.256,
+    "parsed": 90.0
+   }
+  },
+  "ma-084": {
+   "step-calc": {
+    "passed": true,
+    "latency": 5.043,
+    "parsed": 72.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.858,
+    "parsed": 72.0
+   }
+  },
+  "ma-085": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.442,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.293,
+    "parsed": 9.0
+   }
+  },
+  "ma-086": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.439,
+    "parsed": 45.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.373,
+    "parsed": 45.0
+   }
+  },
+  "ma-087": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.901,
+    "parsed": 40.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.804,
+    "parsed": 40.0
+   }
+  },
+  "ma-088": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.632,
+    "parsed": 48.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.972,
+    "parsed": 48.0
+   }
+  },
+  "ma-089": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.764,
+    "parsed": 2.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.522,
+    "parsed": 2.0
+   }
+  },
+  "ma-090": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.572,
+    "parsed": 74.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.35,
+    "parsed": 74.0
+   }
+  },
+  "ma-091": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.769,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.695,
+    "parsed": 9.0
+   }
+  },
+  "ma-092": {
+   "step-calc": {
+    "passed": true,
+    "latency": 4.926,
+    "parsed": 80.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.88,
+    "parsed": 80.0
+   }
+  },
+  "ma-093": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.874,
+    "parsed": 40.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.526,
+    "parsed": 40.0
+   }
+  },
+  "ma-094": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.897,
+    "parsed": 35.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.209,
+    "parsed": 35.0
+   }
+  },
+  "ma-095": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.844,
+    "parsed": 18.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.818,
+    "parsed": 18.0
+   }
+  },
+  "ma-096": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.442,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.552,
+    "parsed": 9.0
+   }
+  },
+  "ma-097": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.666,
+    "parsed": 30.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.486,
+    "parsed": 30.0
+   }
+  },
+  "ma-098": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.98,
+    "parsed": 6.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.773,
+    "parsed": 6.0
+   }
+  },
+  "ma-099": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.955,
+    "parsed": 32.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.829,
+    "parsed": 32.0
+   }
+  },
+  "ma-100": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.108,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.691,
+    "parsed": 8.0
+   }
+  },
+  "ma-101": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.317,
+    "parsed": 40.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.817,
+    "parsed": 40.0
+   }
+  },
+  "ma-102": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.448,
+    "parsed": 54.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.687,
+    "parsed": 54.0
+   }
+  },
+  "ma-103": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.364,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.683,
+    "parsed": 4.0
+   }
+  },
+  "ma-104": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.073,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.603,
+    "parsed": 9.0
+   }
+  },
+  "ma-105": {
+   "step-calc": {
+    "passed": true,
+    "latency": 4.046,
+    "parsed": 32.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.017,
+    "parsed": 32.0
+   }
+  },
+  "ma-106": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.088,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.594,
+    "parsed": 4.0
+   }
+  },
+  "ma-107": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.428,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.948,
+    "parsed": 3.0
+   }
+  },
+  "ma-108": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.875,
+    "parsed": 30.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.061,
+    "parsed": 30.0
+   }
+  },
+  "ma-109": {
+   "step-calc": {
+    "passed": true,
+    "latency": 5.227,
+    "parsed": 72.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.06,
+    "parsed": 72.0
+   }
+  },
+  "ma-110": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.581,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.386,
+    "parsed": 8.0
+   }
+  },
+  "ma-111": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.226,
+    "parsed": 10.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.3,
+    "parsed": 10.0
+   }
+  },
+  "ma-112": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.861,
+    "parsed": 24.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.999,
+    "parsed": 24.0
+   }
+  },
+  "ma-113": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.974,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.388,
+    "parsed": 3.0
+   }
+  },
+  "ma-114": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.721,
+    "parsed": 37.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.429,
+    "parsed": 37.0
+   }
+  },
+  "ma-115": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.772,
+    "parsed": 22.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.089,
+    "parsed": 22.0
+   }
+  },
+  "ma-116": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.713,
+    "parsed": 80.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.772,
+    "parsed": 80.0
+   }
+  },
+  "ma-117": {
+   "step-calc": {
+    "passed": true,
+    "latency": 5.015,
+    "parsed": 72.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 6.283,
+    "parsed": 72.0
+   }
+  },
+  "ma-118": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.009,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.803,
+    "parsed": 9.0
+   }
+  },
+  "ma-119": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.461,
+    "parsed": 6.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.061,
+    "parsed": 6.0
+   }
+  },
+  "ma-120": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.03,
+    "parsed": 27.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.524,
+    "parsed": 27.0
+   }
+  },
+  "ma-121": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.633,
+    "parsed": 2.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.274,
+    "parsed": 2.0
+   }
+  },
+  "ma-122": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.868,
+    "parsed": 20.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.269,
+    "parsed": 20.0
+   }
+  },
+  "ma-123": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.545,
+    "parsed": 2.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.141,
+    "parsed": 2.0
+   }
+  },
+  "ma-124": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.393,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.252,
+    "parsed": 8.0
+   }
+  },
+  "ma-125": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.992,
+    "parsed": 48.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.588,
+    "parsed": 48.0
+   }
+  },
+  "ma-126": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.028,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.789,
+    "parsed": 4.0
+   }
+  },
+  "ma-127": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.033,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.07,
+    "parsed": 7.0
+   }
+  },
+  "ma-128": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.386,
+    "parsed": 48.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.067,
+    "parsed": 48.0
+   }
+  },
+  "ma-129": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.919,
+    "parsed": 54.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.958,
+    "parsed": 54.0
+   }
+  },
+  "ma-130": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.29,
+    "parsed": 16.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.891,
+    "parsed": 16.0
+   }
+  },
+  "ma-131": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.42,
+    "parsed": 20.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.889,
+    "parsed": 20.0
+   }
+  },
+  "ma-132": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.846,
+    "parsed": 36.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.326,
+    "parsed": 36.0
+   }
+  },
+  "ma-133": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.579,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.266,
+    "parsed": 8.0
+   }
+  },
+  "ma-134": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.047,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.892,
+    "parsed": 8.0
+   }
+  },
+  "ma-135": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.531,
+    "parsed": 16.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.993,
+    "parsed": 16.0
+   }
+  },
+  "ma-136": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.856,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.809,
+    "parsed": 3.0
+   }
+  },
+  "ma-137": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.574,
+    "parsed": 11.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.594,
+    "parsed": 11.0
+   }
+  },
+  "ma-138": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.07,
+    "parsed": 4.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.514,
+    "parsed": 4.0
+   }
+  },
+  "ma-139": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.419,
+    "parsed": 48.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.175,
+    "parsed": 48.0
+   }
+  },
+  "ma-140": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.226,
+    "parsed": 11.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.235,
+    "parsed": 11.0
+   }
+  },
+  "ma-141": {
+   "step-calc": {
+    "passed": true,
+    "latency": 4.752,
+    "parsed": 48.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.741,
+    "parsed": 48.0
+   }
+  },
+  "ma-142": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.211,
+    "parsed": 5.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.643,
+    "parsed": 5.0
+   }
+  },
+  "ma-143": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.185,
+    "parsed": 8.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.156,
+    "parsed": 8.0
+   }
+  },
+  "ma-144": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.122,
+    "parsed": 35.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.379,
+    "parsed": 35.0
+   }
+  },
+  "ma-145": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.409,
+    "parsed": 6.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.609,
+    "parsed": 6.0
+   }
+  },
+  "ma-146": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.927,
+    "parsed": 23.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.742,
+    "parsed": 23.0
+   }
+  },
+  "ma-147": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.493,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.38,
+    "parsed": 9.0
+   }
+  },
+  "ma-148": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.758,
+    "parsed": 2.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.031,
+    "parsed": 2.0
+   }
+  },
+  "ma-149": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.544,
+    "parsed": 56.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.508,
+    "parsed": 56.0
+   }
+  },
+  "ma-150": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.065,
+    "parsed": 61.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.048,
+    "parsed": 61.0
+   }
+  },
+  "ma-151": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.529,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.599,
+    "parsed": 9.0
+   }
+  },
+  "ma-152": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.05,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.299,
+    "parsed": 7.0
+   }
+  },
+  "ma-153": {
+   "step-calc": {
+    "passed": true,
+    "latency": 4.0,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.52,
+    "parsed": 7.0
+   }
+  },
+  "ma-154": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.052,
+    "parsed": 31.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.057,
+    "parsed": 31.0
+   }
+  },
+  "ma-155": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.209,
+    "parsed": 19.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.202,
+    "parsed": 19.0
+   }
+  },
+  "ma-156": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.868,
+    "parsed": 63.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.321,
+    "parsed": 63.0
+   }
+  },
+  "ma-157": {
+   "step-calc": {
+    "passed": true,
+    "latency": 5.887,
+    "parsed": 32.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.885,
+    "parsed": 32.0
+   }
+  },
+  "ma-158": {
+   "step-calc": {
+    "passed": true,
+    "latency": 4.882,
+    "parsed": 60.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.665,
+    "parsed": 60.0
+   }
+  },
+  "ma-159": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.411,
+    "parsed": 36.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.27,
+    "parsed": 36.0
+   }
+  },
+  "ma-160": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.266,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.523,
+    "parsed": 9.0
+   }
+  },
+  "ma-161": {
+   "step-calc": {
+    "passed": true,
+    "latency": 4.301,
+    "parsed": 12.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.138,
+    "parsed": 12.0
+   }
+  },
+  "ma-162": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.012,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.16,
+    "parsed": 3.0
+   }
+  },
+  "ma-163": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.641,
+    "parsed": 16.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.091,
+    "parsed": 16.0
+   }
+  },
+  "ma-164": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.494,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.909,
+    "parsed": 7.0
+   }
+  },
+  "ma-165": {
+   "step-calc": {
+    "passed": true,
+    "latency": 4.295,
+    "parsed": 63.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.07,
+    "parsed": 63.0
+   }
+  },
+  "ma-166": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.922,
+    "parsed": 48.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.986,
+    "parsed": 48.0
+   }
+  },
+  "ma-167": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.825,
+    "parsed": 3.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 5.306,
+    "parsed": 3.0
+   }
+  },
+  "ma-168": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.512,
+    "parsed": 18.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.941,
+    "parsed": 18.0
+   }
+  },
+  "ma-169": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.34,
+    "parsed": 7.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.275,
+    "parsed": 7.0
+   }
+  },
+  "ma-170": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.223,
+    "parsed": 21.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.818,
+    "parsed": 21.0
+   }
+  },
+  "ma-171": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.957,
+    "parsed": 2.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.228,
+    "parsed": 2.0
+   }
+  },
+  "ma-172": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.846,
+    "parsed": 9.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 2.863,
+    "parsed": 9.0
+   }
+  },
+  "ma-173": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.284,
+    "parsed": 61.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.566,
+    "parsed": 61.0
+   }
+  },
+  "ma-174": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.492,
+    "parsed": 50.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.491,
+    "parsed": 50.0
+   }
+  },
+  "ma-175": {
+   "step-calc": {
+    "passed": true,
+    "latency": 4.653,
+    "parsed": 15.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.81,
+    "parsed": 15.0
+   }
+  },
+  "ma-176": {
+   "step-calc": {
+    "passed": true,
+    "latency": 5.052,
+    "parsed": 80.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.887,
+    "parsed": 80.0
+   }
+  },
+  "ma-177": {
+   "step-calc": {
+    "passed": true,
+    "latency": 3.867,
+    "parsed": 35.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 4.687,
+    "parsed": 35.0
+   }
+  },
+  "ma-178": {
+   "step-calc": {
+    "passed": true,
+    "latency": 2.675,
+    "parsed": 34.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.767,
+    "parsed": 34.0
+   }
+  },
+  "ma-179": {
+   "step-calc": {
+    "passed": true,
+    "latency": 1.914,
+    "parsed": 26.0
+   },
+   "cot-zero": {
+    "passed": true,
+    "latency": 3.496,
+    "parsed": 26.0
+   }
+  }
+ }
+}
