@@ -1,9 +1,16 @@
 {
-  "schema_version": 1,
-  "note": "Artifacts listed here MUST NOT be cited in any claim, ledger entry, table or trajectory row. Two ways an artifact becomes non-citable are recognised: a *.QUARANTINE.md sidecar next to it, and an entry in this registry. CORRECTION 2026-10-05: an earlier revision of this note stated that both were 'machine-checked by scripts/emit_trajectory.py:is_citable()'. That script does not exist in this repository (no commit ever added it; only a stale scripts/__pycache__/emit_trajectory.cpython-312.pyc remains). Nothing machine-reads this file today, so a registry entry is currently an HONEST RECORD THAT DEPENDS ON A HUMAN READING IT, not an enforced block. See results/NONCITABLE_GATE.md for the enforcement that now wraps it (tools/check_publish.py fails when a registry entry is not declared somewhere in the shipped documents).",
+  "schema_version": 2,
+  "note": "Artifacts listed here MUST NOT be cited in any claim, ledger entry, table or trajectory row. Two ways an artifact becomes non-citable are recognised: a *.QUARANTINE.md sidecar next to it, and an entry in this registry. CORRECTION 2026-10-05: an earlier revision of this note stated that both were 'machine-checked by scripts/emit_trajectory.py:is_citable()'. That script does not exist in this repository (no commit ever added it; only a stale scripts/__pycache__/emit_trajectory.cpython-312.pyc remains). Nothing machine-reads this file at that time, so a registry entry was then an HONEST RECORD THAT DEPENDS ON A HUMAN READING IT, not an enforced block. It is enforced now, by tools/check_noncitable.py; see results/NONCITABLE_GATE.md. SCHEMA_VERSION 2 (2026-10-05) adds run disambiguation, because a bare path cannot distinguish two runs of the same script: one entry per path used to describe the 2026-10-04 storm run as 'deleted' while the file on disk is the 2026-10-05 rerun, so the registry contradicted both itself and the artifact it pointed at. Every path-valued entry now carries `runs`, a list of the concrete runs the entry covers, and entries about DIFFERENT runs of the same path are merged into one entry with one reason per run rather than being left to overwrite each other. SCHEMA_VERSION 2 also adds `locally_absent`, which says why a declared target is legitimately not in the repository instead of leaving the gate to report a missing-artifact defect on every fresh clone.",
   "entries": [
     {
       "path": "results/rounds/round5/proposer-arm-qwen38-27b.json",
+      "runs": [
+        {
+          "label": "2026-09-16 cloud vLLM run",
+          "status": "retained",
+          "note": "The single shipped run of this path."
+        }
+      ],
       "reason": "INVALIDATED 2026-09-16. Cloud vLLM was externally SIGTERMed at call 140; the remaining 260 of 400 cells were transport failures that the then-current runner recorded as `passed=false` valid data. All totals/pairs/headline in this file treat failures as wrong answers and are systematically depressed. Retained verbatim as forensic evidence. Superseded by proposer-arm-qwen38-27b-run2.json.",
       "declared_in": "results/rounds/round5/proposer-arm-qwen38-27b.QUARANTINE.md",
       "marker": "QUARANTINE.md sidecar",
@@ -11,33 +18,81 @@
     },
     {
       "path": "results/rounds/round5/proposer-arm-qwen25-7b.json",
-      "reason": "NOT CITABLE. Cause: the run was stopped externally by platform policy at 263/400 calls, so only 26 of 40 questions completed. The runner of that date recorded the interrupted cells as valid data, which makes the file's totals conflate 'stopped early' with 'answered wrongly' -- the file cannot distinguish a question the policy failed from a question that was never asked. Retained as an audit trace only; deliberately never committed to git. Not a measurement, and not repairable by --resume, because the blocking was a policy decision rather than a transport fault.",
-      "declared_in": "paper/RESULTS.md line 218 (honest-boundary item 3): 被平台政策叫停的 qwen2.5:7b 部分跑（263/400）不可引用，仅作审计痕迹保留（未提交）.",
+      "runs": [
+        {
+          "label": "2026-09-16 qwen2.5:7b partial run, stopped by platform policy",
+          "status": "retained"
+        }
+      ],
+      "reason": "NOT CITABLE. Cause: the run was stopped externally by platform policy at 263/400 calls, so only 26 of 40 questions completed. The runner of that date recorded the interrupted cells as valid data, which makes the file's totals conflate 'stopped early' with 'answered wrongly' -- the file cannot distinguish a question the policy failed from a question that was never asked. Retained as an audit trace only, and now committed so that the exclusion is reviewable: while this file was deliberately never committed, the registry entry pointing at it failed tools/check_noncitable.py on every fresh clone, because a gate that reports a missing-artifact defect for its own exclusion list is a gate nobody can keep green. Not a measurement, and not repairable by --resume, because the blocking was a policy decision rather than a transport fault.",
+      "declared_in": "paper/RESULTS.md line 238 (honest-boundary item 3): 被平台政策叫停的 qwen2.5:7b 部分跑（263/400）不可引用，仅作审计痕迹保留.",
       "marker": "registry",
-      "date": "2026-09-16",
-      "on_disk_locally": true,
-      "note": "Present in the author's working tree but deliberately never committed. A fresh clone will not have this file, so its absence is expected and is not a missing-artifact defect; is_citable() treats an unlisted-but-untracked path as absent, not as a violation."
+      "date": "2026-09-16"
     },
     {
       "path": "results/rounds/round4/transfer-cotzero-svamp.json",
-      "reason": "INVALIDATED 2026-10-04. Transport failure storm: 840/1000 cells raised URLError (plus 1 TimeoutError and 1 RemoteDisconnected) against the local ollama endpoint, leaving only 159/158 scored cells. The runner in use at the time recorded a transport failure as `passed=false`, so the emitted totals {step-calc:146, cot-zero:148} over n=1000 -- an apparent 0.146 accuracy for a policy that scores 0.920 on the same model in the same session -- are an artifact of losing calls, not of the policies. The file's own error distribution and latency histogram (p50 25.13s with 841 zero-latency cells, versus p50 3.16s and 3 zero-latency cells in the same-session transfer-svamp.json) are the evidence. Deleted rather than retained: it carried a personal absolute path in meta.dataset and would also fail tools/check_publish.py gate 5. Root cause fixed in scripts/run_round4.py, which now refuses to compute totals/pairs when any cell carries an error; the failure mode is the same one already recorded for proposer-arm-qwen38-27b.json.",
-      "declared_in": "this registry plus the fail-closed gate commit in scripts/run_round4.py",
+      "runs": [
+        {
+          "label": "2026-10-04 transport failure storm",
+          "status": "deleted",
+          "note": "This run was deleted, not retained. It carried a personal absolute path in meta.dataset and would also have failed tools/check_publish.py gate 5. Its recorded totals {step-calc:146, cot-zero:148} over n=1000 were an artifact of lost calls."
+        },
+        {
+          "label": "2026-10-05 rerun after the fail-closed gate",
+          "status": "retained",
+          "note": "The file on disk is THIS run, not the 2026-10-04 one. schema_version 2, INCOMPLETE: true, error_counts {TimeoutError: 2}, no totals and no pairs, because the same fail-closed gate that fixed the 2026-10-04 storm correctly refused to score this run. Retained because it is the evidence for the chal-513 exclusion below; see the #chal-513 entry."
+        }
+      ],
+      "reason": "TWO RUNS OF THIS PATH, kept separate because a bare path cannot tell them apart. (1) 2026-10-04 storm run, DELETED: 840/1000 cells raised URLError (plus 1 TimeoutError and 1 RemoteDisconnected) against the local ollama endpoint, leaving only 159/158 scored cells. The runner in use at the time recorded a transport failure as `passed=false`, so the emitted totals {step-calc:146, cot-zero:148} over n=1000 -- an apparent 0.146 accuracy for a policy that scores 0.920 on the same model in the same session -- are an artifact of losing calls, not of the policies. The file's own error distribution and latency histogram (p50 25.13s with 841 zero-latency cells, versus p50 3.16s and 3 zero-latency cells in the same-session transfer-svamp.json) are the evidence. Root cause fixed in scripts/run_round4.py, which now refuses to compute totals/pairs when any cell carries an error; the failure mode is the same one already recorded for proposer-arm-qwen38-27b.json. (2) 2026-10-05 rerun, RETAINED: the run that is on disk and shipped. It lost exactly 2 cells to permanent model non-convergence (chal-513, see the #chal-513 entry) and therefore records INCOMPLETE: true with no totals and no pairs, which is a correct fail-closed outcome rather than a defect.",
+      "declared_in": "this registry plus the fail-closed gate commit in scripts/run_round4.py; the retained 2026-10-05 run is cited as audit evidence (never as a measurement) in results/rounds/round4/TRANSFER_RECORD.md honest-boundary items 2 and 5",
       "marker": "registry",
-      "date": "2026-10-04"
+      "date": "2026-10-05",
+      "superseded_prior_entry": "Before schema_version 2 this path had one entry dated 2026-10-04 whose reason said 'Deleted rather than retained', which is true of the storm run and false of the file on disk."
     },
     {
       "path": "results/rounds/round4/transfer-cotzero-multiarith.json",
-      "reason": "INVALIDATED 2026-10-04. Same transport failure storm as transfer-cotzero-svamp.json, on the 180-case MultiArith set: every scored cell was lost, so totals were {step-calc:0, cot-zero:0} and pairs were the degenerate {better:0, worse:0, p:1.0}. Those are not measurements. Deleted rather than retained, for the same two reasons as above (absolute path in meta.dataset; the numbers are meaningless).",
-      "declared_in": "this registry plus the fail-closed gate commit in scripts/run_round4.py",
+      "runs": [
+        {
+          "label": "2026-10-04 transport failure storm",
+          "status": "deleted",
+          "note": "This run was deleted, not retained, for the same two reasons as the SVAMP storm run."
+        },
+        {
+          "label": "2026-10-05 rerun after the fail-closed gate",
+          "status": "retained",
+          "note": "The file on disk is THIS run. Both arms score 180/180 with an empty symmetric difference, so discordant d = 0: the set is SATURATED and has no power, which is not the same as 'no difference'. Recomputed from details, not read off totals."
+        }
+      ],
+      "reason": "TWO RUNS OF THIS PATH, kept separate because a bare path cannot tell them apart. (1) 2026-10-04 storm run, DELETED: same transport failure storm as the SVAMP file above, on the 180-case MultiArith set; every scored cell was lost, so totals were {step-calc:0, cot-zero:0} and pairs were the degenerate {better:0, worse:0, p:1.0}. Those are not measurements, and the file additionally carried a personal absolute path in meta.dataset. (2) 2026-10-05 rerun, RETAINED: the file on disk and shipped. Zero transport errors; both arms 180/180 with an identical correct-answer set (empty symmetric difference, discordant d = 0). That d = 0 is why this set cannot support decision-rule branch (ii): with the correct sets identical, no sample size changes the statistic. Reported as saturation with zero evidential weight, never as 'the arms agree'.",
+      "declared_in": "this registry plus the fail-closed gate commit in scripts/run_round4.py; the retained 2026-10-05 run is cited as audit evidence (never as a measurement) in results/rounds/round4/TRANSFER_RECORD.md honest-boundary item 1, where the power analysis is reproduced by scripts/trackB_power.py",
       "marker": "registry",
-      "date": "2026-10-04"
+      "date": "2026-10-05",
+      "superseded_prior_entry": "Before schema_version 2 this path had one entry dated 2026-10-04 whose reason said 'Deleted rather than retained' and 'totals were {step-calc:0, cot-zero:0}', which is true of the storm run and false of the file on disk."
     },
     {
       "path": "results/rounds/round4/inputs/svamp.json#chal-513",
+      "runs": [
+        {
+          "label": "2026-10-05 rerun of transfer-cotzero-svamp.json",
+          "status": "retained",
+          "note": "The dataset itself is fetched at runtime and never committed; only the result JSON is shipped. This entry names one cell inside that uncommitted dataset."
+        }
+      ],
       "reason": "EXCLUDED CELL 2026-10-05, permanent model non-convergence, not a transport fault. On this single question qwen2.5:7b loops: it computes Zachary = 38 - 56, sees a negative, restates the same subtraction, and repeats. With no token cap the call never returns (still spinning at 220s). With num_predict 1200 it returns done_reason='length' after 41.9s with the final 30 characters repeated 34 times; at the default 4096 it still hits done_reason='length' (129.8s). The step-calc prompt answers the same question correctly in 5.2s (parsed 20.0), so the failure is specific to the cot-zero prompt on this item. Consequence for evidence: the 2026-10-05 SVAMP run of transfer-cotzero-svamp.json recorded TimeoutError on this cell for BOTH arms, which trips the fail-closed gate in scripts/run_round4.py (INCOMPLETE: true, error_counts {'TimeoutError': 2}, no totals, no pairs). --resume cannot fix it: four retries at the same prompt all timed out again. The pair is dropped from the paired comparison under the exclusion rule recorded in results/rounds/round4/TRANSFER_RECORD.md, and the remaining 999 questions are reported. That subset's exact McNemar is p=0.0541 (better 30 / worse 16), one or two cells away from p<0.05 (b=31,c=16 gives 0.040; b=30,c=15 gives 0.036) and therefore NOT to be read as a trend. The whole run is retained rather than deleted: it is the evidence for the exclusion, and its INCOMPLETE record is itself a correct fail-closed outcome.",
-      "declared_in": "results/rounds/round4/TRANSFER_RECORD.md (Amendment-1 section, exclusion rule and honest-boundary item 6) plus this registry",
+      "declared_in": "results/rounds/round4/TRANSFER_RECORD.md (Amendment-1 section, exclusion rule and honest-boundary items 5 and 6) plus this registry",
       "marker": "registry",
       "date": "2026-10-05",
+      "locally_absent": {
+        "why": "The declared target is the runtime dataset under results/rounds/round4/inputs/, which .gitignore:13 excludes wholesale: Track B inputs are fetched at run time and never committed (ASDiv is CC-BY-NC-4.0; MultiArith licence unclear), and only the result JSONs are shipped. So this target is absent from every clone by design, including a fresh one, and its absence is not a missing-artifact defect.",
+        "not_present_in": "any clone",
+        "evidence_that_the_cell_is_real": "results/rounds/round4/transfer-cotzero-svamp.json (shipped) records error_counts {'TimeoutError': 2} and per-cell latency for chal-513 under both policies, and scripts/transfer_subset.py recomputes the 999-cell subset from its retained details. The cell's non-convergence is therefore reviewable from shipped evidence without the dataset.",
+        "declared_before_examining_the_subset": true,
+        "reviewable_from": [
+          "results/rounds/round4/transfer-cotzero-svamp.json",
+          "results/rounds/round4/TRANSFER_RECORD.md",
+          "scripts/transfer_subset.py"
+        ]
+      },
       "exclusion_rule": "A (policy, question) cell is excluded from the paired comparison iff the model provably fails to terminate on that question under that policy's prompt. The rule was stated before the subset was examined; it does not depend on which direction the remaining cells fall. One-sided non-convergence on a single question is recorded as a property of the model, not as a difference between arms, because it cannot be attributed to the prompt alone: the step-calc prompt terminates on the same question."
     }
   ]

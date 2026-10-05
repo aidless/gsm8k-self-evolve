@@ -11,7 +11,10 @@ What it checks, per entry:
 
   1. the path exists in the registry's declared form -- a file, a *.QUARANTINE.md
      sidecar, or a `#cell` fragment identifying one (policy, question) cell inside
-     an otherwise-valid result file;
+     an otherwise-valid result file. The one exception is a target the repository
+     itself excludes (a runtime dataset under a .gitignore'd inputs/ directory),
+     which is honoured only when the ignore rule, a stated cause and at least one
+     reviewable evidence file are all present -- see _absent_target_verdict();
   2. the entry's own `reason` is non-empty and specific (a stated exclusion rule or
      an invalidation cause), not a bare path;
   3. `declared_in` names a file that exists in the shipped set, so an entry cannot
@@ -22,13 +25,20 @@ What it checks, per entry:
      documents legitimately mention a non-citable path to explain why it is not
      citable.
 
-Counter-proofs are in tests/test_noncitable_gate.py: each of the four checks has a
-counter-proof that injects the violation and asserts a non-zero exit.
+Why check 1 needs its exception at all. Before schema_version 2 every entry had to
+name a file in the checkout, so four entries failed the gate on any fresh clone --
+including one whose target is a dataset that is never committed by design. A gate
+that reports a missing-artifact defect for its own exclusion list is a gate nobody
+can keep green, and the fix people reach for is to delete the exclusions. So the
+exception is deliberately narrow: it is keyed on `git check-ignore`, a fact the
+entry cannot assert about itself, and it requires the exclusion to name evidence
+that IS in the checkout. A path that is merely missing stays an error.
 """
 from __future__ import annotations
 
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -43,6 +53,89 @@ CITING_CONTEXT = re.compile(
     r"|可引用|可作为证据)",
     re.IGNORECASE,
 )
+
+# What a stated cause looks like. Shared by `reason` and `locally_absent.why`,
+# because "explain nothing" and "explain nothing in a different field" is one defect.
+CAUSE = re.compile(
+    r"(rule|because|cause|non-converg|invalidat|fail|error|transport|loop"
+    r"|licen[cs]e|gitignore|never committed|fetched at runtime"
+    r"|规则|因为|成因|不收敛|失败|许可)",
+    re.IGNORECASE,
+)
+
+
+def states_a_cause(text: str) -> bool:
+    """True when `text` is specific enough to explain something AND names a cause.
+
+    Two failure modes collapse into one verdict because from a reader's point of
+    view they are one defect: too short to explain anything, and long but
+    explaining nothing.
+    """
+    text = (text or "").strip()
+    return len(text) >= 40 and bool(CAUSE.search(text))
+
+
+def git_ignored(root: Path, rel: str) -> bool:
+    """True only if this repository's own ignore rules exclude `rel`.
+
+    Deliberately asked of git rather than taken from the registry entry: an entry
+    that could declare itself ignored would turn the exception into a blanket
+    escape hatch for any missing artifact. Fails closed -- any problem answering
+    the question (no git, not a repo, timeout) returns False, which leaves the
+    entry an error.
+    """
+    try:
+        p = subprocess.run(
+            ["git", "-C", str(root), "-c", "safe.directory=*", "check-ignore", "-q",
+             "--", rel],
+            capture_output=True, timeout=20)
+    except Exception:
+        return False
+    return p.returncode == 0
+
+
+def _absent_target_verdict(tag: str, entry: dict, base: str,
+                           root: Path) -> tuple[list[str], str | None]:
+    """Verdict for a declared target that is absent from this checkout.
+
+    Returns (errors, note). `locally_absent` is honoured only when all of:
+
+      * the repository's own .gitignore excludes the path (git_ignored);
+      * `locally_absent.why` states a cause, not merely "it is absent";
+      * `locally_absent.reviewable_from` names at least one file that IS present
+        here, so the exclusion stays reviewable without the absent file.
+
+    Every failure path returns an error. An entry without `locally_absent`, or
+    with one that cannot be checked, is reported exactly as before.
+    """
+    missing = "%s: declared target does not exist: %s" % (tag, base)
+
+    la = entry.get("locally_absent")
+    if not isinstance(la, dict):
+        return [missing], None
+
+    why = str(la.get("why") or "").strip()
+    if not states_a_cause(why):
+        return ["%s, and locally_absent.why does not state a cause (%d chars); an "
+                "absent target needs a reason a reader can check" % (missing, len(why))], None
+
+    if not git_ignored(root, base):
+        return ["%s, and locally_absent is not honoured because this repository does "
+                "not ignore that path; 'absent by design' has to be backed by a "
+                ".gitignore rule, not asserted by the entry" % missing], None
+
+    reviewable = [str(p).strip() for p in (la.get("reviewable_from") or []) if str(p).strip()]
+    gone = [p for p in reviewable if not (root / p).exists()]
+    if not reviewable or gone:
+        return ["%s, and locally_absent names no reviewable evidence in this "
+                "checkout (reviewable_from=%s); an exclusion nobody can open is the "
+                "weak form of 'must not cite' that this registry exists to avoid"
+                % (missing, gone or "empty")], None
+
+    note = ("%s: target absent from this checkout by the repository's own ignore "
+            "rule; %s. Reviewable from %s" % (tag, la.get("not_present_in", "not shipped"),
+                                               ", ".join(reviewable)))
+    return [], note
 
 
 def shipped_documents(root: Path | None = None) -> list[Path]:
@@ -82,7 +175,11 @@ def check(registry_path: Path = REGISTRY, root: Path = ROOT) -> tuple[list[str],
         frag = raw.split("#", 1)[1] if "#" in raw else None
         target = root / base
         if not target.exists():
-            errors.append("%s: declared target does not exist: %s" % (tag, base))
+            absent_errors, absent_note = _absent_target_verdict(tag, e, base, root)
+            if absent_errors:
+                errors.extend(absent_errors)
+            elif absent_note:
+                notes.append(absent_note)
         elif frag:
             # The fragment must name a cell that the file actually contains.
             text = target.read_text(encoding="utf-8", errors="replace")
@@ -100,15 +197,11 @@ def check(registry_path: Path = REGISTRY, root: Path = ROOT) -> tuple[list[str],
         # point of view "too short to explain anything" and "too long but explains
         # nothing" are one defect.
         reason = (e.get("reason") or "").strip()
-        no_cause_msg = (
-            "%s: reason does not state a cause or an exclusion rule (%d chars); it "
-            "must say WHY, so that a future reader can tell a measurement from an "
-            "artifact" % (tag, len(reason)))
-        if len(reason) < 40:
-            errors.append(no_cause_msg)
-        elif not re.search(r"(rule|because|cause|non-converg|invalidat|fail|error|"
-                           r"transport|loop|规则|因为|成因|不收敛|失败)", reason, re.I):
-            errors.append(no_cause_msg)
+        if not states_a_cause(reason):
+            errors.append(
+                "%s: reason does not state a cause or an exclusion rule (%d chars); it "
+                "must say WHY, so that a future reader can tell a measurement from an "
+                "artifact" % (tag, len(reason)))
 
         # 3) declared_in must point at a shipped document that exists.
         declared = (e.get("declared_in") or "").strip()
@@ -153,9 +246,10 @@ def main() -> int:
         for e in errors:
             print("  FAIL %s" % e)
         return 1
-    print("\nNONCITABLE GATE PASS: every registry entry names an existing target, "
-          "states a cause or rule, points at a shipped declaration, and no shipped "
-          "document cites it as usable.")
+    print("\nNONCITABLE GATE PASS: every registry entry names an existing target (or a "
+          "target this repository excludes by its own ignore rule, with a stated "
+          "cause and reviewable evidence), states a cause or rule, points at a "
+          "shipped declaration, and no shipped document cites it as usable.")
     return 0
 
 
