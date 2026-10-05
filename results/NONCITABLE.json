@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "note": "Artifacts listed here MUST NOT be cited in any claim, ledger entry, table or trajectory row. Two independent ways an artifact becomes non-citable are recognised: a *.QUARANTINE.md sidecar next to it, and an entry in this registry. Both are machine-checked by scripts/emit_trajectory.py:is_citable(); neither depends on anyone remembering to read a neighbouring document.",
+  "note": "Artifacts listed here MUST NOT be cited in any claim, ledger entry, table or trajectory row. Two ways an artifact becomes non-citable are recognised: a *.QUARANTINE.md sidecar next to it, and an entry in this registry. CORRECTION 2026-10-05: an earlier revision of this note stated that both were 'machine-checked by scripts/emit_trajectory.py:is_citable()'. That script does not exist in this repository (no commit ever added it; only a stale scripts/__pycache__/emit_trajectory.cpython-312.pyc remains). Nothing machine-reads this file today, so a registry entry is currently an HONEST RECORD THAT DEPENDS ON A HUMAN READING IT, not an enforced block. See results/NONCITABLE_GATE.md for the enforcement that now wraps it (tools/check_publish.py fails when a registry entry is not declared somewhere in the shipped documents).",
   "entries": [
     {
       "path": "results/rounds/round5/proposer-arm-qwen38-27b.json",
@@ -11,7 +11,7 @@
     },
     {
       "path": "results/rounds/round5/proposer-arm-qwen25-7b.json",
-      "reason": "NOT CITABLE. Partial run stopped by platform policy at 263/400 calls (n=26 of 40). Retained as an audit trace only; not committed to git. Its totals conflate 'stopped early' with 'answered wrongly'.",
+      "reason": "NOT CITABLE. Cause: the run was stopped externally by platform policy at 263/400 calls, so only 26 of 40 questions completed. The runner of that date recorded the interrupted cells as valid data, which makes the file's totals conflate 'stopped early' with 'answered wrongly' -- the file cannot distinguish a question the policy failed from a question that was never asked. Retained as an audit trace only; deliberately never committed to git. Not a measurement, and not repairable by --resume, because the blocking was a policy decision rather than a transport fault.",
       "declared_in": "paper/RESULTS.md line 218 (honest-boundary item 3): 被平台政策叫停的 qwen2.5:7b 部分跑（263/400）不可引用，仅作审计痕迹保留（未提交）.",
       "marker": "registry",
       "date": "2026-09-16",
@@ -31,6 +31,14 @@
       "declared_in": "this registry plus the fail-closed gate commit in scripts/run_round4.py",
       "marker": "registry",
       "date": "2026-10-04"
+    },
+    {
+      "path": "results/rounds/round4/inputs/svamp.json#chal-513",
+      "reason": "EXCLUDED CELL 2026-10-05, permanent model non-convergence, not a transport fault. On this single question qwen2.5:7b loops: it computes Zachary = 38 - 56, sees a negative, restates the same subtraction, and repeats. With no token cap the call never returns (still spinning at 220s). With num_predict 1200 it returns done_reason='length' after 41.9s with the final 30 characters repeated 34 times; at the default 4096 it still hits done_reason='length' (129.8s). The step-calc prompt answers the same question correctly in 5.2s (parsed 20.0), so the failure is specific to the cot-zero prompt on this item. Consequence for evidence: the 2026-10-05 SVAMP run of transfer-cotzero-svamp.json recorded TimeoutError on this cell for BOTH arms, which trips the fail-closed gate in scripts/run_round4.py (INCOMPLETE: true, error_counts {'TimeoutError': 2}, no totals, no pairs). --resume cannot fix it: four retries at the same prompt all timed out again. The pair is dropped from the paired comparison under the exclusion rule recorded in results/rounds/round4/TRANSFER_RECORD.md, and the remaining 999 questions are reported. That subset's exact McNemar is p=0.0541 (better 30 / worse 16), one or two cells away from p<0.05 (b=31,c=16 gives 0.040; b=30,c=15 gives 0.036) and therefore NOT to be read as a trend. The whole run is retained rather than deleted: it is the evidence for the exclusion, and its INCOMPLETE record is itself a correct fail-closed outcome.",
+      "declared_in": "results/rounds/round4/TRANSFER_RECORD.md (Amendment-1 section, exclusion rule and honest-boundary item 6) plus this registry",
+      "marker": "registry",
+      "date": "2026-10-05",
+      "exclusion_rule": "A (policy, question) cell is excluded from the paired comparison iff the model provably fails to terminate on that question under that policy's prompt. The rule was stated before the subset was examined; it does not depend on which direction the remaining cells fall. One-sided non-convergence on a single question is recorded as a property of the model, not as a difference between arms, because it cannot be attributed to the prompt alone: the step-calc prompt terminates on the same question."
     }
   ]
 }

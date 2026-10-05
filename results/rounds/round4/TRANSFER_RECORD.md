@@ -62,9 +62,12 @@ sanity check（direct 是稻草人，此对比**无信息量**，仅证明"CoT �
 
 | 数据集 | n | step-calc | cot-zero | better:worse | McNemar p | gain | 延迟比 | 判定 |
 |---|---|---|---|---|---|---|---|---|
-| MultiArith | 180 | 180 | 180 | 0:0 | 1.0000 | +0.000 | 1.353 | **饱和（见下）** |
-| SVAMP | 1000 | 见 `transfer-cotzero-svamp.json` | | | | | | |
+| MultiArith | 180 | 180 | 180 | 0:0 | 1.0000 | +0.000 | 1.353 | **饱和（见边界 1）** |
+| SVAMP | 999 / 1000 | 919 | 933 | 30:16 | 0.0541 | −0.0140 | 1.092 | 未达显著，**距门槛 1~2 格（边界 2）** |
 | ASDiv | 2249 | 未运行 | | | | | | |
+
+SVAMP 的 n 是 999：整跑 1000 格因 `chal-513` 永久不收敛被 fail-closed 门拦下，
+未产出正式 totals；此行为从保留的 `details` 复算的子集，见边界 2 与边界 5。
 
 ### 诚实边界
 
@@ -75,16 +78,37 @@ sanity check（direct 是稻草人，此对比**无信息量**，仅证明"CoT �
    也需 `d ≥ 6` 才可能达到 `p < 0.05`（由 `scripts/trackB_power.py` 复算）。
    因此判定规则分支 (ii)（"三集全不显著 → 证实无差异"）**不能**靠 MultiArith
    支撑；这一集对该分支的贡献是零证据。把「饱和」写成「无差异」是统计上的偷换。
-2. **SVAMP 那格是「未检出差异」，其检验力本身有限。**
-   见下节外推：SVAMP 在乐观假设下才约 40% 概率显著，不显著本身信息量弱。
+2. **SVAMP：整跑被 fail-closed 门拦下，故无正式 totals；999 格子集**，
+   step-calc **919/999 = 0.9199** vs cot-zero **933/999 = 0.9339**，
+   better:worse = **30:16**，discordant d = 46，
+   exact McNemar **p = 0.054076031858869555**（gain −0.0140，cot-zero 更高）。
+   方向为 cot-zero 更好；若显著，按判定规则分支 (i) 属「step-calc **输**给
+   cot-zero」，同样是新发现。**该 p 不可解读为趋势**：b=31,c=16 即得 0.03999、
+   b=32,c=16 得 0.02930、b=30,c=15 得 0.03570 —— 距离 0.05 门槛只差 1~2 格，
+   任何一格翻转都会跨线。参见 [结果文件](transfer-cotzero-svamp.json)（保留为
+   审计痕迹，含 2 格永久不收敛，见边界 5）。
 3. **ASDiv 未运行**，而它才是判定规则能否落地分支 (ii) 的承重墙（外推约 60%+）。
    本记录因此**不足以**给出 Amendment 1 的最终三支判定，只给出已测两集。
 4. **未运行的原因**：2026-10-05 复跑时确认整机处于内存 thrashing（swap 占 7.8G/16G，
    `llama-server` 自身 2.9G 被换出），正是 2026-10-04 那次 840/1000 运输失败风暴的
    成因。已测两集零运输错误；ASDiv 2249 题 × 2 臂 ≈ 4.5h 连跑，被判定为风险高于收益，
    待内存空出后另跑。**这不是"数据不支持"，是"尚未测"。**
-5. 本节所有数字由 `python3 scripts/trackB_power.py` 与 `python3 tools/verify_evidence_chain.py`
-   可复算；`INCOMPLETE` 文件不参与本表（该脚本会显式 skip）。
+5. **SVAMP 唯一两格超时是模型永久不收敛，不是运输故障。**
+   `chal-513`（`David did 56 more push-ups than Zachary ... If David did 38
+   push-ups ... altogether?`，expected 20）上 qwen2.5:7b 算出负数 `38-56` 后
+   陷入自纠循环：`num_predict=1200` 时 41.9s 返回、`done_reason=length`、末段
+   重复 34 次；默认 4096 仍 `length`（129.8s）；8192 时 220s 仍未返回。
+   **同一题的 step-calc 提示 5.2s 正常答对**（parsed 20.0），cot-zero 提示连试
+   4 次全部 TimeoutError，`--resume` 无法修复。已登记为
+   `results/rounds/round4/inputs/svamp.json#chal-513`（见 `results/NONCITABLE.json`
+   第 5 条），排除规则**先于检视子集声明**：一个 (策略, 题) 格当且仅当模型在该策略
+   提示下可证明不终止时退出配对比较；该规则不依赖剩余格子的方向。
+   整跑因该格触发门 → `INCOMPLETE: true` / `error_counts {'TimeoutError': 2}` /
+   **无 totals 无 pairs**，故上表 999 格为子集复算而非整跑产出。
+6. 本节所有数字由 `python3 scripts/trackB_power.py` 与
+   `python3 tools/check_noncitable.py` 可复算；`INCOMPLETE` 文件不参与正式聚合
+   （该脚本会显式 skip）。999 格子集的 d 与 p 可由
+   `python3 scripts/transfer_subset.py` 从 `details` 重算。
 
 ### Track-B 主对照的检验力（由 `scripts/trackB_power.py` 复算）
 
