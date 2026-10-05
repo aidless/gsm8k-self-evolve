@@ -49,3 +49,51 @@ sanity check（direct 是稻草人，此对比**无信息量**，仅证明"CoT �
 逐题配对，决策规则见 Amendment 1），**尚未运行**。运行命令见
 `scripts/run_transfer_cotzero.py --help` 前的 docstring；跑完后的结果另写
 `transfer-cotzero-*.json` + 新判定记录。
+
+## Amendment 1 主对照结果（2026-10-05，qwen2.5:7b，temperature 0）
+
+运行：`EVO_MODEL=qwen2.5:7b python3 scripts/run_transfer_cotzero.py`
+产物：`transfer-cotzero-{multiarith,svamp}.json`（ASDiv 未跑，见下方边界 4）
+判定规则：**verbatim 复制** PREREG-round4.md Amendment 1 的三支：
+(i) 任一集 `p < 0.05` → 新发现；(ii) 三集全不显著 → 与 Track A null 一致；
+(iii) 混合 → 原样报告。
+
+### 已测集
+
+| 数据集 | n | step-calc | cot-zero | better:worse | McNemar p | gain | 延迟比 | 判定 |
+|---|---|---|---|---|---|---|---|---|
+| MultiArith | 180 | 180 | 180 | 0:0 | 1.0000 | +0.000 | 1.353 | **饱和（见下）** |
+| SVAMP | 1000 | 见 `transfer-cotzero-svamp.json` | | | | | | |
+| ASDiv | 2249 | 未运行 | | | | | | |
+
+### 诚实边界
+
+1. **MultiArith 那格是「饱和/无检验力」，不是「两臂无差异」。**
+   两臂各 180/180，且**逐题答对集合完全相同**（对称差为空），故 discordant
+   `d = b + c = 0`。d=0 时**任何样本量都救不回来**——统计量由同一对相同的答对集合
+   算出，增大 n 只会把两个相同的集合一起放大。即使把全部 discordant 归到一侧，
+   也需 `d ≥ 6` 才可能达到 `p < 0.05`（由 `scripts/trackB_power.py` 复算）。
+   因此判定规则分支 (ii)（"三集全不显著 → 证实无差异"）**不能**靠 MultiArith
+   支撑；这一集对该分支的贡献是零证据。把「饱和」写成「无差异」是统计上的偷换。
+2. **SVAMP 那格是「未检出差异」，其检验力本身有限。**
+   见下节外推：SVAMP 在乐观假设下才约 40% 概率显著，不显著本身信息量弱。
+3. **ASDiv 未运行**，而它才是判定规则能否落地分支 (ii) 的承重墙（外推约 60%+）。
+   本记录因此**不足以**给出 Amendment 1 的最终三支判定，只给出已测两集。
+4. **未运行的原因**：2026-10-05 复跑时确认整机处于内存 thrashing（swap 占 7.8G/16G，
+   `llama-server` 自身 2.9G 被换出），正是 2026-10-04 那次 840/1000 运输失败风暴的
+   成因。已测两集零运输错误；ASDiv 2249 题 × 2 臂 ≈ 4.5h 连跑，被判定为风险高于收益，
+   待内存空出后另跑。**这不是"数据不支持"，是"尚未测"。**
+5. 本节所有数字由 `python3 scripts/trackB_power.py` 与 `python3 tools/verify_evidence_chain.py`
+   可复算；`INCOMPLETE` 文件不参与本表（该脚本会显式 skip）。
+
+### Track-B 主对照的检验力（由 `scripts/trackB_power.py` 复算）
+
+| 数据集 | n | step-calc | cot-zero | discordant d | McNemar p | 状态 |
+|---|---|---|---|---|---|---|
+| multiarith | 180 | 180 | 180 | 0 | 1.0000 | **饱和（无检验力）** |
+
+- 最极端偏斜（全部 discordant 归一侧）时仍需 **d ≥ 6** 才可能达到 `p < 0.05`；实测 MultiArith 的 d = 0，任何 n 都无法改变该统计量，因为正确题集合完全相同。
+
+- 本节每个数字由 `python3 scripts/trackB_power.py` 从仓内文件复算；其 McNemar 本地实现与 `evokit.stats.mcnemar_two_sided` 在 5 组 (b, c) 上断言一致（abs 差 < 1e-12），未通过则脚本直接抛错。
+- 外推（乐观假设：discordant 仅为 `direct` 对照的 15%，且 70% 的 discordant 偏斜给 step-calc），asdiv / svamp 仍会触发分支 (i)。因此 ASDiv 是该判定规则能否落地分支 (ii) 的承重墙，不是可选补充。
+- 反面：外推在「discordant 砍到 15% 且偏斜仅 60%」时会失效（svamp 投影 p = 0.302）。所以「ASDiv 一定能显著」**不是**预注册的承诺，只是当前先验下的期望；分支 (ii) 仍可能被触发。
