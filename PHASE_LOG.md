@@ -54,6 +54,35 @@
 - 未迁移（诚实边界）：真实 KTO 训练、模型前向、权重加载均未实现（本机无对应权重/GPU）；
   Dreamer 式 rollout 与量化/Medusa 评测加速本轮不做（缺真实环境/GPU 时做易沦为装饰）。
 
+## 2026-10-05 — verify_evidence_chain 的 exit 1：定位到函数级，不改门
+
+上面两段把 `tools/verify_evidence_chain.py` 的 exit 1 记作"刻意的诚实 FAIL、与本轮无关"。
+那句话是对的，但它没回答**为什么**会 FAIL。本轮把它查到底，结论如下（全部可复算）：
+
+- bundle 记录的哈希 `4a23f694…eb400e` **不是**漂移，它逐字等于
+  `git show f80af2f:examples/gsm8k_evaluator.py | sha256sum`。也就是说，门比的是**签名前**
+  的文件，而该文件在 `f80af2f` 之后被合法演进过。
+- 函数级 diff（`f80af2f` → HEAD，`git diff f80af2f HEAD -- examples/gsm8k_evaluator.py`）：
+  - 新增 `call_model_openai` / `load_lessons` / `run_reflex_retry`（加法）；
+  - 改 `call_model`：**只加了 9 行**（`timeout` 默认值改为可空 + docstring + `EVO_REQUEST_TIMEOUT`
+    + `EVO_BACKEND` 分支），**零删除**——签名行 1 换 1、原 ollama 请求体逐行未动；
+  - 改 `extract_number`：**只加了** `no-skill` 分支（新策略无格式指令，取末位数字），
+    原有分支一字未动；
+  - 改 `main`：策略分派扩到新策略，并给 `no-skill` 换成无指令模板
+    （旧行 `PROMPTS.get(policy, PROMPTS["direct"]).format(...)` 被新分支取代，
+    原有各策略的取值不变）。
+- 因此 **bundle 所证明的三个数字（concise 156 / step-calc 185 / paired 33:4）所依赖的
+  评分与传输路径至今未变**。门仍然红，是因为它比的是文件整体哈希。
+
+**为什么不把它改绿。** 让它变绿只有两条路：改门（放宽为"允许演进过的哈希"）或回滚
+evaluator。两条都破坏这个门存在的理由——它证明的是"这三个数字是在**这一份**评测器上
+量出来的"，放宽即等于不再证明任何东西。所以**保持红**，把上面的定位写进本日志，
+让下一个读者不必重查一遍。
+
+- 复算命令：`git show f80af2f:examples/gsm8k_evaluator.py | sha256sum`；
+  函数级 diff 见 `git diff f80af2f HEAD -- examples/gsm8k_evaluator.py`。
+- 边界：本段只说"评分与传输核心未变"，**不说**"证据链已通过"——它没有通过。
+
 ## P4-RESOLVE：签名工件保留 + 证据门转绿（2026-10-17）
 
 - 背景：此前所有段落记录的 `FAIL: artifact hash mismatch for gsm8k_evaluator.py` 是**门侧缺陷，不是工件缺陷**。
