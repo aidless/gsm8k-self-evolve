@@ -213,7 +213,11 @@
             "p_value": 1.0,
             "gain": 0.025,
             "latency_ratio": 1.043,
-            "ledger_ok": true
+            "ledger_ok": true,
+            "product_file": "examples/prompts/textgrad-prompt.txt",
+            "product_sha256": "557084fd15ef7cc8ebb954c6526200ae5c00df208428988d8b968ab54b095c03",
+            "product_sha256_provenance": "BACKFILLED 2026-10-05, not recorded by the 2026-09-10 run itself. The runner that produced this result read exactly this path: scripts/run_heldout_round3.py:57 sets TEXTGRAD_PROMPT = ROOT / 'examples' / 'prompts' / 'textgrad-prompt.txt' and passes it as answer_policy 'textgrad' prompt_file (scripts/run_heldout_round3.py:150-151). 'git log --follow examples/prompts/textgrad-prompt.txt' returns exactly ONE commit, c8651e5 'round3: frozen textgrad-prompt challenger', so the file has not been modified since the round3 arm was run; its sha256 at that commit equals the value above. That value is also the product_sha256 recorded independently by BOTH round5 runs (proposer-arm-qwen38-27b-run2.json and proposer-arm-qwen25-7b.json), so the round3 arm and the round5 arm provably consumed the same bytes. This closes the provenance gap recorded in paper/RESULTS.md lines 46-50 ('round3 的 textgrad-prompt 产物未记录 sha256'). The gap was a missing record, not a differing file.",
+            "empty_arm": "the 220-byte file's body equals scripts/textgrad_rewrite.py:BASE_PROMPT plus a newline, so this arm is a null-arm control, not a guidance test"
           }
         },
         "incumbent": "step-calc 36/40",

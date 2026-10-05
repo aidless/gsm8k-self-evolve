@@ -43,11 +43,21 @@ GSM8K 的 MIT 归属见 `THIRD_PARTY_NOTICES.md`（C22）。
 
 两个挑战者均未达 p < 0.05 → 不晋升，`step-calc` 保持 stable。门控正确拒绝了把随机波动当提升。
 
-> **溯源待补（2026-10-01）**：round3 的 `textgrad-prompt` 产物**未记录 sha256**，因此**无法证明**
-> 它与 round5 的 `textgrad-prompt.txt` 是同一份文件。round5 那份已证实为空臂（见 §5 前的改判框）。
-> 本行的正确读法是「门控拒绝了一次晋升尝试」，**不是**「文本梯度式指引无效」。
-> 补齐办法：为 round3 产物补记 `product_sha256` 并登记进 `results/NONCITABLE.json` 或其
-> 对应的可引用清单；在补齐前，任何 guidance 主张都不得引用本行。
+> **溯源已补齐（2026-10-05 追补，2026-09-10 当时未记录）**：round3 的 `textgrad-prompt`
+> 产物当时未记录 sha256。现已补记为
+> `557084fd15ef7cc8ebb954c6526200ae5c00df208428988d8b968ab54b095c03`
+> （`registry/version-registry.json` 的 `provisional-rejected` 条目）。三条独立证据：
+> ① 生成该结果的 runner 读的就是这个路径（`scripts/run_heldout_round3.py:57` 的
+> `TEXTGRAD_PROMPT = ROOT / "examples" / "prompts" / "textgrad-prompt.txt`，
+> 并以 `prompt_file` 传入 `answer_policy: textgrad`，见 `:150-151`）；
+> ② `git log --follow examples/prompts/textgrad-prompt.txt` **只有一个 commit**
+> `c8651e5`，即该文件自 round3 那一臂运行以来未被改动，其在该 commit 的 sha256
+> 即上值；
+> ③ 该值与 round5 两次运行各自记录的 `meta.proposer.product_sha256`
+> **逐字相同**。
+> 故 round3 与 round5 两臂**可证明消费了同一份字节**，缺口是「没记录」而非「不是同一份」。
+> 本行读法不变：门控拒绝了一次晋升尝试，**不是**「文本梯度式指引无效」——
+> 该产物另已证实为空臂（见 §5 前的改判框）。
 > 另注：round3 记 `textgrad-prompt` gain=+0.025（b:c=2:1），round5 记同一策略名 gain=−0.025
 > （b=1、c=2）。两者方向相反，疑为 AMENDMENT §1.1 方向约定**之前/之后**的口径差异；
 > 本次未追查，登记为待办。
@@ -240,8 +250,11 @@ McNemar **b=4、c=6、p=0.754 —— 不可区分**。而真正可测的杠杆�
 4. **本臂为空臂**（2026-10-01 新增，见上方改判框）：处理组正文 == `BASE_PROMPT` + 换行，
    不含方向性指引。故 b=1/c=2/p=1.0 **只能**读作对照健全性检查，**不得**表述为
    「文本梯度式指引无效」。本臂不承重（N=3 新颖性在决策规则消融上）。
-5. 待补溯源：round3 的 `textgrad-prompt` 产物未记 sha256，无法证明与本臂同一份文件；
-   在补记之前，任何 guidance 主张都不得引用 round3 那一行。
+5. 溯源已补齐（2026-10-05）：round3 的 `textgrad-prompt` 产物 sha256 已追补为
+   `557084fd…5c03`，与本臂实际使用的产物**同一份字节**——`git log --follow` 证明该
+   文件自 round3 起只有一个 commit，且两个 round5 运行各自独立记录的
+   `meta.proposer.product_sha256` 与之逐字相同（详见 §2 改判框）。
+   登记于 `registry/version-registry.json` 的 `provisional-rejected` 条目。
 
 **一句话定位**：主结论（CoT 式提示 ≫ 纯数字 = 3 vs 34–38）与 headline（提议器产物 ≈ 标准 CoT）
 在**新一代 27B 骨干上复现**（干净 n=40）——门控的结论不随提议器类型与骨干代际而变。
