@@ -52,6 +52,16 @@ PROMPTS = {
         Path("examples/prompts/fewshot-4.txt").read_text(encoding="utf-8")
         + "\nQ: {q}\n"
     ),
+    # No-skill arm for the SANKEN-style retention report (arXiv:2609.39148):
+    # the question alone, with NO instruction about how to answer. It exists to
+    # supply a_empty = G_test(a_empty), the no-skill baseline the form requires;
+    # every contrast in this repo is otherwise artifact-vs-artifact, and the
+    # number-only `direct` policy is NOT a substitute -- it is still an answer
+    # format instruction, so it would systematically depress every retention.
+    # Keep it OUT of REASONING_POLICIES as well: the model reasons freely here,
+    # so the last-line convention the reasoning policies share does not apply
+    # either. See extract_number for how the two branches are kept apart.
+    "no-skill": "{q}",
 }
 
 LESSONS_PATH = os.environ.get("EVO_LESSONS", "examples/lessons-round3.json")
@@ -153,6 +163,28 @@ def extract_number(text: str, policy: str) -> float | None:
         m = NUM_RE.findall(pool)
         if not m:
             m = NUM_RE.findall(text)
+    elif policy == "no-skill":
+        # The no-skill arm gives no format instruction at all, so neither
+        # convention can be assumed. Taking the FIRST number in the output
+        # (what the non-reasoning branch does) reads the question's own numerals
+        # back and scores an unanswerable "wrong"; taking the LAST number reads a
+        # sentence-final value the model chose to state. The honest rule for an
+        # un-instructed arm is the standard free-form convention: the last
+        # number the model produced anywhere in its answer.
+        #
+        # Why this matters: with m[0] the no-skill arm would be scored on a
+        # parsing artifact, and the retention form subtracts a_empty from every
+        # G. An artifact-inflated a_empty would report LOW retention for arms
+        # that in fact retain what they learned -- the exact error
+        # scripts/retention_report.py refuses to make when asked to substitute
+        # `direct` for this arm.
+        m = NUM_RE.findall(text)
+        if not m:
+            return None
+        try:
+            return float(m[-1])
+        except ValueError:
+            return None
     else:
         m = NUM_RE.findall(text)
     if not m:
