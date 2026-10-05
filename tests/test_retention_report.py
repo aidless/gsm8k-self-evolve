@@ -13,6 +13,7 @@ reason it cannot yet produce a Retention in the sense of arXiv:2609.39148.
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 from pathlib import Path
 
@@ -59,12 +60,147 @@ def test_a_flip_cannot_change_the_p_value():
     assert rr.mcnemar_two_sided(157, 0) == pytest.approx(rr.mcnemar_two_sided(0, 157))
 
 
-def test_script_refuses_to_fabricate_a_no_skill_arm():
+def test_a_measured_no_skill_arm_is_reported_not_fabricated():
+    """The arm exists now (175/200), so this pins that it is READ, not invented.
+
+    The original assertion here was `no_skill_arm_present is False` -- true when the
+    arm had never been run. What must not change is the refusal to fabricate one:
+    a_empty comes from the merged no-skill file and from nothing else, and 'direct'
+    is still never substituted for it.
+    """
     res = rr.report(None)
-    assert res["no_skill_arm_present"] is False
-    assert "a_empty is NOT measured" in res["blocking_gap"]
-    # 'direct' must NOT be silently used as the no-skill arm
+    assert res["no_skill_arm_present"] is True
+    ns = res["a_empty_measured"]
+    assert ns["n"] == 200 and ns["count"] == 175
+    assert ns["rate"] == pytest.approx(0.875, abs=1e-12)
+    assert ns["model"] == "qwen2.5:7b"
+    # 'direct' must still not be standing in for the empty arm
     assert "direct" not in json_text_without_direct(res)
+
+
+def test_G_test_is_computed_from_the_measured_a_empty():
+    """G must be 100*(a - a_empty) off the real baseline, not an assumed one."""
+    rows = {r["contrast"]: r for r in rr.report(None)["measured"]}
+    a_empty = 0.875
+    for r in rows.values():
+        assert r["a_empty"] == pytest.approx(a_empty, abs=1e-12)
+        assert r["G_test_100"] == pytest.approx(100.0 * (r["a_challenger"] - a_empty),
+                                                abs=1e-3)
+    assert rows["step-calc vs cot-zero"]["G_test_100"] == pytest.approx(5.50, abs=1e-3)
+    assert rows["step-calc vs direct"]["G_test_100"] == pytest.approx(-74.00, abs=1e-3)
+
+
+def test_retention_is_still_refused_even_with_a_measured_a_empty():
+    """Having a_empty does not make G_test a retention: G_train is never measured here.
+
+    This is the claim most likely to be over-read, so it is pinned explicitly rather
+    than left to prose.
+    """
+    res = rr.report(None)
+    assert res["retention_reported"] is False
+    why = res["retention_why"]
+    assert "G_train" in why and "TRAINING split" in why
+    assert "G_test" in why
+    # no bare "Retention =" number may appear in the payload
+    assert "retention_" not in json.dumps(res["measured"], ensure_ascii=False)
+
+
+def test_counter_proof_a_no_skill_file_for_another_arm_is_refused(tmp_path):
+    """'direct' renamed into a no-skill file must not silently become a_empty."""
+    real_root = rr.ROOT
+    src = json.loads((real_root / "results/rounds/round4/no-skill-merged.json")
+                     .read_text(encoding="utf-8"))
+    src["meta"]["policies"] = ["direct"]
+    (tmp_path / "results/rounds/round4").mkdir(parents=True)
+    (tmp_path / "results/rounds/round4/no-skill-merged.json").write_text(
+        json.dumps(src, ensure_ascii=False), encoding="utf-8")
+    try:
+        rr.ROOT = tmp_path
+        with pytest.raises(SystemExit, match="expected exactly"):
+            rr._load_no_skill()
+    finally:
+        rr.ROOT = real_root
+
+
+def test_counter_proof_a_no_skill_file_with_a_transport_error_is_refused():
+    """A lost call is not a wrong answer, so an errored a_empty must stop the report."""
+    import copy
+    real_root = rr.ROOT
+    data = json.loads((real_root / "results/rounds/round4/no-skill-merged.json")
+                      .read_text(encoding="utf-8"))
+    assert data["meta"]["policies"] == ["no-skill"]
+    # the guard is exercised against the loader's own contract, using a tmp root
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        (d / "results/rounds/round4").mkdir(parents=True)
+        bad = copy.deepcopy(data)
+        k = next(iter(bad["details"]))
+        bad["details"][k]["no-skill"]["error"] = "TimeoutError"
+        (d / "results/rounds/round4/no-skill-merged.json").write_text(
+            json.dumps(bad, ensure_ascii=False), encoding="utf-8")
+        try:
+            rr.ROOT = d
+            with pytest.raises(SystemExit, match="transport error"):
+                rr._load_no_skill()
+        finally:
+            rr.ROOT = real_root
+
+
+def test_counter_proof_totals_disagreeing_with_details_is_refused():
+    """The one number that shifts every G must agree with its own per-id evidence."""
+    import tempfile
+    real_root = rr.ROOT
+    data = json.loads((real_root / "results/rounds/round4/no-skill-merged.json")
+                      .read_text(encoding="utf-8"))
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        (d / "results/rounds/round4").mkdir(parents=True)
+        bad = json.loads(json.dumps(data))
+        bad["totals"]["no-skill"] = bad["totals"]["no-skill"] + 1
+        (d / "results/rounds/round4/no-skill-merged.json").write_text(
+            json.dumps(bad, ensure_ascii=False), encoding="utf-8")
+        try:
+            rr.ROOT = d
+            with pytest.raises(SystemExit, match="recomputing from details"):
+                rr._load_no_skill()
+        finally:
+            rr.ROOT = real_root
+
+
+def test_counter_proof_a_empty_on_a_different_question_set_is_refused():
+    """G subtracts one rate from another, so the two must share a question set.
+
+    Builds a full tmp root, because the loader needs the artifact arms (n=200) too
+    and the report's refusal IS the point: a 40-question a_empty is internally
+    consistent and still cannot be subtracted from a 200-question arm.
+    """
+    import shutil
+    import tempfile
+    real_root = rr.ROOT
+    src40 = json.loads((real_root / "results/rounds/round4/no-skill-heldout40.json")
+                       .read_text(encoding="utf-8"))
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        for rel in ("results/rounds/round3/heldout40-round3.json",
+                    "results/rounds/round4/trackA-merged.json"):
+            (d / rel).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(real_root / rel, d / rel)
+        det = src40["details"]
+        (d / "results/rounds/round4/no-skill-merged.json").write_text(json.dumps({
+            "meta": {"dataset": ["examples/heldout40.json"], "policies": ["no-skill"],
+                     "model": "qwen2.5:7b", "n": len(det), "sources": ["x"]},
+            "totals": {"no-skill": sum(1 for r in det.values() if r["no-skill"]["passed"])},
+            "pairs": {}, "details": det}, ensure_ascii=False), encoding="utf-8")
+        try:
+            rr.ROOT = d
+            # internally consistent, so the loader accepts it ...
+            assert rr._load_no_skill()["n"] == 40
+            # ... and the report refuses to subtract it from a 200-question arm
+            with pytest.raises(SystemExit, match="same question set"):
+                rr.report(None)
+        finally:
+            rr.ROOT = real_root
 
 
 def json_text_without_direct(res: dict) -> str:

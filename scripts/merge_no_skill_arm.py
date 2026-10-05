@@ -82,8 +82,11 @@ def main() -> None:
         "expected %d unique ids, got %d" % (EXPECTED_N, len(details)))
 
     passed = sum(1 for row in details.values() if row[POLICY]["passed"])
+    # run_round4.run_one() returns {passed, latency, parsed, [error]} -- `parsed` sits
+    # at the cell's top level, not under a nested "details" key (that is the shape
+    # gsm8k_evaluator.py prints on stdout, which run_one flattens before writing).
     unparsed = sum(1 for row in details.values()
-                   if row[POLICY]["details"].get("parsed") is None)
+                   if row[POLICY].get("parsed") is None)
 
     OUT.write_text(json.dumps({
         "meta": {"dataset": datasets, "policies": [POLICY], "model": model,

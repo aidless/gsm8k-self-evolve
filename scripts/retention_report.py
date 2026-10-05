@@ -95,14 +95,71 @@ def load() -> dict:
     for k in ("step_calc", "reflect_retry", "textgrad"):
         v = r3[k]
         r3arms[k] = {"count": int(v["passed"]), "rate": float(v["score"]), "n": n3}
-    return {"trackA_merged_200": arms, "round3_heldout40": r3arms,
-            "trackA_pairs": ta["pairs"]}
+    out = {"trackA_merged_200": arms, "round3_heldout40": r3arms,
+           "trackA_pairs": ta["pairs"]}
+    out["no_skill"] = _load_no_skill()
+    return out
+
+
+def _load_no_skill() -> dict | None:
+    """The measured a_empty, or None when no no-skill arm has been merged yet.
+
+    Read from results/rounds/round4/no-skill-merged.json, which
+    scripts/merge_no_skill_arm.py produces from the two per-set run files after
+    re-deriving their totals from their own details. It is deliberately NOT read
+    from the per-set files or recomputed here: a_empty enters every G, so the one
+    number that shifts all of them deserves the same verification the other arms
+    get, and that verification lives in the merge script.
+
+    n must match trackA-merged: a_empty measured on a different question set is not
+    the denominator of these G values, so a mismatch is an error rather than a
+    warning. `direct` is never accepted as a stand-in here -- it is an
+    instruction-conditioned arm, not an empty prompt.
+    """
+    path = ROOT / "results/rounds/round4/no-skill-merged.json"
+    if not path.exists():
+        return None
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if set(data) != {"meta", "totals", "pairs", "details"}:
+        raise SystemExit("no-skill-merged.json: unexpected top-level keys %s"
+                         % sorted(data))
+    if data["meta"]["policies"] != ["no-skill"]:
+        raise SystemExit("no-skill-merged.json: policies is %s, expected exactly "
+                         "['no-skill']; another arm's file would redefine a_empty"
+                         % data["meta"]["policies"])
+    n = int(data["meta"]["n"])
+    det = data["details"]
+    if len(det) != n:
+        raise SystemExit("no-skill-merged.json: meta.n is %d but details holds %d rows"
+                         % (n, len(det)))
+    bad = [q for q, row in det.items() if row["no-skill"].get("error")]
+    if bad:
+        raise SystemExit("no-skill-merged.json: %d cell(s) carry a transport error %s; "
+                         "a call that never reached the model is not a wrong answer"
+                         % (len(bad), bad[:5]))
+    passed = sum(1 for row in det.values() if row["no-skill"]["passed"])
+    if passed != data["totals"]["no-skill"]:
+        raise SystemExit("no-skill-merged.json: totals claims %s but recomputing from "
+                         "details gives %d" % (data["totals"]["no-skill"], passed))
+    return {"count": passed, "rate": passed / n, "n": n,
+            "sources": data["meta"].get("sources"),
+            "model": data["meta"].get("model")}
 
 
 def report(empty: float | None) -> dict:
     d = load()
     arms = d["trackA_merged_200"]
     inc = arms["step-calc"]["rate"]
+    ns = d["no_skill"]
+    if ns is not None and ns["n"] != arms["step-calc"]["n"]:
+        raise SystemExit(
+            "a_empty was measured on n=%d but the artifact arms on n=%d; retention "
+            "subtracts one from the other, so the two must be the same question set"
+            % (ns["n"], arms["step-calc"]["n"]))
+    # With a measured a_empty, the G values stop being a function of an assumption
+    # and become numbers. They are still G on the TEST side only: G_train needs the
+    # training-split a_empty, which this repo never measures, so what follows is a
+    # G_test column, NOT a retention.
     rows = []
     for name, a in sorted(arms.items(), key=lambda kv: -kv[1]["rate"]):
         if name == "step-calc":
@@ -114,6 +171,10 @@ def report(empty: float | None) -> dict:
             "signed_gain_vs_step_calc": round(a["rate"] - inc, 6),
             "n": a["n"],
         }
+        if ns is not None:
+            row["a_empty"] = round(ns["rate"], 6)
+            row["G_test_100"] = round(100.0 * (a["rate"] - ns["rate"]), 4)
+            row["G_step_calc_test_100"] = round(100.0 * (inc - ns["rate"]), 4)
         # The pairs block is keyed by orientation, and the direct-vs-step-calc pair is
         # stored the other way round. Look the pair up in whichever orientation exists,
         # then FLIP b/c when it is reversed so "better" always means "challenger better".
@@ -138,20 +199,36 @@ def report(empty: float | None) -> dict:
         rows.append(row)
 
     out = {
-        "schema_version": 1,
+        "schema_version": 2,
         "zero_model_calls": True,
         "reference_paper": "arXiv:2609.39148 (Retention = G_test - G_train, G = 100*(a - a_noskill))",
         "measured": rows,
         "heldout_40_round3": d["round3_heldout40"],
-        "no_skill_arm_present": False,
-        "blocking_gap": (
+        "no_skill_arm_present": ns is not None,
+    }
+    if ns is not None:
+        out["a_empty_measured"] = ns
+        out["retention_reported"] = False
+        out["retention_why"] = (
+            "a_empty is now MEASURED on the same %d-question blind set "
+            "(%d/%d = %.6f, model %s, sources %s), so every G above is a measured "
+            "quantity rather than a function of an assumption. But Retention is "
+            "G_test - G_train, and G_train needs a_empty on the TRAINING split. This "
+            "repo never measures the training split -- every round runs on the same "
+            "held-out blind set, and the held-out files never feed back into "
+            "challengers, lessons or prompts. So what is reported here is a G_test "
+            "column, and calling it retention would be a category error."
+            % (ns["n"], ns["count"], ns["n"], ns["rate"], ns["model"],
+               ", ".join(ns["sources"] or [])))
+    else:
+        out["blocking_gap"] = (
             "a_empty is NOT measured in this repo. Every contrast here is artifact-vs-"
             "artifact. 'direct' (number-only) is not a no-skill arm; using it as one "
             "would subtract a_q(direct) from every G and bias all retention downward. "
             "Running a true no-skill arm (empty prompt) on the 200-question blind set is "
-            "400 model calls and closes this."
-        ),
-    }
+            "200 model calls and closes this: EVO_MODEL=qwen2.5:7b python3 "
+            "scripts/run_no_skill_arm.py && python3 scripts/merge_no_skill_arm.py"
+        )
 
     if empty is not None:
         hypothetical = {}
@@ -195,7 +272,22 @@ def main() -> int:
             print(f"{r['contrast']:28s} {r['a_step_calc']:13.3f} {r['a_challenger']:9.3f} "
                   f"{r['signed_gain_vs_step_calc']:+8.3f} {bw:>14s} {p:>11s} {rc:>11s}")
         print(f"\nno_skill_arm_present = {res['no_skill_arm_present']}")
-        print(f"BLOCKING GAP: {res['blocking_gap']}")
+        if res["no_skill_arm_present"]:
+            ns = res["a_empty_measured"]
+            print(f"a_empty (MEASURED) = {ns['count']}/{ns['n']} = {ns['rate']:.6f}"
+                  f"   [model {ns['model']}]")
+            print("-" * 100)
+            print(f"{'contrast':28s} {'a(chal)':>9s} {'G_test':>9s} {'G_step-calc':>13s} "
+                  f"{'better:worse':>14s} {'McNemar p':>11s}")
+            for r in res["measured"]:
+                bw = f"{r.get('better')}:{r.get('worse')}" if "better" in r else "-"
+                p = f"{r['mcnemar_p']:.4g}" if "mcnemar_p" in r else "-"
+                print(f"{r['contrast']:28s} {r['a_challenger']:9.3f} "
+                      f"{r['G_test_100']:+9.2f} {r['G_step_calc_test_100']:+13.2f} "
+                      f"{bw:>14s} {p:>11s}")
+            print(f"\nRETENTION IS NOT REPORTED. {res['retention_why']}")
+        else:
+            print(f"BLOCKING GAP: {res['blocking_gap']}")
         if a.empty is not None:
             print(f"\n--- ILLUSTRATIVE what-if at a_empty = {a.empty} ---")
             for k, v in sorted(res["hypothetical_at_assumed_empty"]["arms"].items()):

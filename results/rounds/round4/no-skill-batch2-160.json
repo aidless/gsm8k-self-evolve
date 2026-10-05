@@ -1,0 +1,1136 @@
+{
+ "meta": {
+  "dataset": "examples/heldout-batch2-160.json",
+  "policies": [
+   "no-skill"
+  ],
+  "model": "qwen2.5:7b",
+  "n": 160
+ },
+ "totals": {
+  "no-skill": 139
+ },
+ "pairs": {},
+ "details": {
+  "held2-001": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.29,
+    "parsed": 25.0
+   }
+  },
+  "held2-002": {
+   "no-skill": {
+    "passed": true,
+    "latency": 22.603,
+    "parsed": 56.0
+   }
+  },
+  "held2-003": {
+   "no-skill": {
+    "passed": true,
+    "latency": 17.366,
+    "parsed": 110.0
+   }
+  },
+  "held2-004": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.335,
+    "parsed": 315.0
+   }
+  },
+  "held2-005": {
+   "no-skill": {
+    "passed": true,
+    "latency": 16.222,
+    "parsed": 56.0
+   }
+  },
+  "held2-006": {
+   "no-skill": {
+    "passed": true,
+    "latency": 20.485,
+    "parsed": 45.0
+   }
+  },
+  "held2-007": {
+   "no-skill": {
+    "passed": true,
+    "latency": 14.834,
+    "parsed": 12.0
+   }
+  },
+  "held2-008": {
+   "no-skill": {
+    "passed": true,
+    "latency": 14.137,
+    "parsed": 100.0
+   }
+  },
+  "held2-009": {
+   "no-skill": {
+    "passed": true,
+    "latency": 16.929,
+    "parsed": 26.0
+   }
+  },
+  "held2-010": {
+   "no-skill": {
+    "passed": false,
+    "latency": 21.556,
+    "parsed": 20.0
+   }
+  },
+  "held2-011": {
+   "no-skill": {
+    "passed": true,
+    "latency": 15.753,
+    "parsed": 250.0
+   }
+  },
+  "held2-012": {
+   "no-skill": {
+    "passed": true,
+    "latency": 16.734,
+    "parsed": 250.0
+   }
+  },
+  "held2-013": {
+   "no-skill": {
+    "passed": true,
+    "latency": 20.185,
+    "parsed": 5.0
+   }
+  },
+  "held2-014": {
+   "no-skill": {
+    "passed": true,
+    "latency": 16.724,
+    "parsed": 6.0
+   }
+  },
+  "held2-015": {
+   "no-skill": {
+    "passed": true,
+    "latency": 15.475,
+    "parsed": 16.0
+   }
+  },
+  "held2-016": {
+   "no-skill": {
+    "passed": true,
+    "latency": 13.955,
+    "parsed": 13.0
+   }
+  },
+  "held2-017": {
+   "no-skill": {
+    "passed": false,
+    "latency": 19.244,
+    "parsed": 3.0
+   }
+  },
+  "held2-018": {
+   "no-skill": {
+    "passed": true,
+    "latency": 17.459,
+    "parsed": 150.0
+   }
+  },
+  "held2-019": {
+   "no-skill": {
+    "passed": true,
+    "latency": 14.629,
+    "parsed": -10.0
+   }
+  },
+  "held2-020": {
+   "no-skill": {
+    "passed": true,
+    "latency": 19.063,
+    "parsed": 25.0
+   }
+  },
+  "held2-021": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.491,
+    "parsed": 700.0
+   }
+  },
+  "held2-022": {
+   "no-skill": {
+    "passed": true,
+    "latency": 21.206,
+    "parsed": 800.0
+   }
+  },
+  "held2-023": {
+   "no-skill": {
+    "passed": true,
+    "latency": 15.476,
+    "parsed": 110.0
+   }
+  },
+  "held2-024": {
+   "no-skill": {
+    "passed": true,
+    "latency": 16.568,
+    "parsed": 122.0
+   }
+  },
+  "held2-025": {
+   "no-skill": {
+    "passed": true,
+    "latency": 13.75,
+    "parsed": 4.0
+   }
+  },
+  "held2-026": {
+   "no-skill": {
+    "passed": true,
+    "latency": 15.605,
+    "parsed": 6.0
+   }
+  },
+  "held2-027": {
+   "no-skill": {
+    "passed": true,
+    "latency": 17.143,
+    "parsed": 15.0
+   }
+  },
+  "held2-028": {
+   "no-skill": {
+    "passed": true,
+    "latency": 21.452,
+    "parsed": 1800.0
+   }
+  },
+  "held2-029": {
+   "no-skill": {
+    "passed": true,
+    "latency": 13.664,
+    "parsed": 195.0
+   }
+  },
+  "held2-030": {
+   "no-skill": {
+    "passed": true,
+    "latency": 17.399,
+    "parsed": 50.0
+   }
+  },
+  "held2-031": {
+   "no-skill": {
+    "passed": true,
+    "latency": 19.39,
+    "parsed": 240.0
+   }
+  },
+  "held2-032": {
+   "no-skill": {
+    "passed": true,
+    "latency": 14.874,
+    "parsed": 215.0
+   }
+  },
+  "held2-033": {
+   "no-skill": {
+    "passed": true,
+    "latency": 17.927,
+    "parsed": 6.0
+   }
+  },
+  "held2-034": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.384,
+    "parsed": 15.0
+   }
+  },
+  "held2-035": {
+   "no-skill": {
+    "passed": true,
+    "latency": 19.957,
+    "parsed": 5600.0
+   }
+  },
+  "held2-036": {
+   "no-skill": {
+    "passed": true,
+    "latency": 23.193,
+    "parsed": 3140.0
+   }
+  },
+  "held2-037": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.505,
+    "parsed": 540.0
+   }
+  },
+  "held2-038": {
+   "no-skill": {
+    "passed": true,
+    "latency": 24.693,
+    "parsed": 7.0
+   }
+  },
+  "held2-039": {
+   "no-skill": {
+    "passed": true,
+    "latency": 19.407,
+    "parsed": 9.0
+   }
+  },
+  "held2-040": {
+   "no-skill": {
+    "passed": true,
+    "latency": 32.121,
+    "parsed": 91.0
+   }
+  },
+  "held2-041": {
+   "no-skill": {
+    "passed": true,
+    "latency": 16.459,
+    "parsed": 4.0
+   }
+  },
+  "held2-042": {
+   "no-skill": {
+    "passed": true,
+    "latency": 16.159,
+    "parsed": 3.0
+   }
+  },
+  "held2-043": {
+   "no-skill": {
+    "passed": true,
+    "latency": 14.911,
+    "parsed": 350.0
+   }
+  },
+  "held2-044": {
+   "no-skill": {
+    "passed": true,
+    "latency": 14.889,
+    "parsed": 8.0
+   }
+  },
+  "held2-045": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.263,
+    "parsed": 22.0
+   }
+  },
+  "held2-046": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.145,
+    "parsed": 163.0
+   }
+  },
+  "held2-047": {
+   "no-skill": {
+    "passed": true,
+    "latency": 30.297,
+    "parsed": 27000.0
+   }
+  },
+  "held2-048": {
+   "no-skill": {
+    "passed": true,
+    "latency": 17.149,
+    "parsed": 1.0
+   }
+  },
+  "held2-049": {
+   "no-skill": {
+    "passed": true,
+    "latency": 20.31,
+    "parsed": 2640.0
+   }
+  },
+  "held2-050": {
+   "no-skill": {
+    "passed": true,
+    "latency": 21.55,
+    "parsed": 38.0
+   }
+  },
+  "held2-051": {
+   "no-skill": {
+    "passed": true,
+    "latency": 36.154,
+    "parsed": 69.0
+   }
+  },
+  "held2-052": {
+   "no-skill": {
+    "passed": true,
+    "latency": 29.805,
+    "parsed": 2100.0
+   }
+  },
+  "held2-053": {
+   "no-skill": {
+    "passed": true,
+    "latency": 26.415,
+    "parsed": 17.0
+   }
+  },
+  "held2-054": {
+   "no-skill": {
+    "passed": true,
+    "latency": 44.383,
+    "parsed": 6000.0
+   }
+  },
+  "held2-055": {
+   "no-skill": {
+    "passed": false,
+    "latency": 30.273,
+    "parsed": 8.0
+   }
+  },
+  "held2-056": {
+   "no-skill": {
+    "passed": true,
+    "latency": 29.486,
+    "parsed": 13.0
+   }
+  },
+  "held2-057": {
+   "no-skill": {
+    "passed": true,
+    "latency": 22.15,
+    "parsed": 8.0
+   }
+  },
+  "held2-058": {
+   "no-skill": {
+    "passed": true,
+    "latency": 24.102,
+    "parsed": 142.0
+   }
+  },
+  "held2-059": {
+   "no-skill": {
+    "passed": true,
+    "latency": 60.673,
+    "parsed": 1000.0
+   }
+  },
+  "held2-060": {
+   "no-skill": {
+    "passed": true,
+    "latency": 23.403,
+    "parsed": 66.0
+   }
+  },
+  "held2-061": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.253,
+    "parsed": 3360.0
+   }
+  },
+  "held2-062": {
+   "no-skill": {
+    "passed": true,
+    "latency": 24.995,
+    "parsed": 150.0
+   }
+  },
+  "held2-063": {
+   "no-skill": {
+    "passed": true,
+    "latency": 32.555,
+    "parsed": 18.0
+   }
+  },
+  "held2-064": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.253,
+    "parsed": 7.0
+   }
+  },
+  "held2-065": {
+   "no-skill": {
+    "passed": true,
+    "latency": 22.8,
+    "parsed": 250.0
+   }
+  },
+  "held2-066": {
+   "no-skill": {
+    "passed": true,
+    "latency": 32.644,
+    "parsed": 132.0
+   }
+  },
+  "held2-067": {
+   "no-skill": {
+    "passed": true,
+    "latency": 38.666,
+    "parsed": 195.0
+   }
+  },
+  "held2-068": {
+   "no-skill": {
+    "passed": true,
+    "latency": 31.203,
+    "parsed": 14.0
+   }
+  },
+  "held2-069": {
+   "no-skill": {
+    "passed": false,
+    "latency": 30.219,
+    "parsed": 12.0
+   }
+  },
+  "held2-070": {
+   "no-skill": {
+    "passed": false,
+    "latency": 31.771,
+    "parsed": 5.0
+   }
+  },
+  "held2-071": {
+   "no-skill": {
+    "passed": true,
+    "latency": 31.614,
+    "parsed": 58.0
+   }
+  },
+  "held2-072": {
+   "no-skill": {
+    "passed": true,
+    "latency": 25.123,
+    "parsed": 2.0
+   }
+  },
+  "held2-073": {
+   "no-skill": {
+    "passed": false,
+    "latency": 27.082,
+    "parsed": 170.0
+   }
+  },
+  "held2-074": {
+   "no-skill": {
+    "passed": true,
+    "latency": 27.364,
+    "parsed": 168.0
+   }
+  },
+  "held2-075": {
+   "no-skill": {
+    "passed": true,
+    "latency": 24.65,
+    "parsed": 15.0
+   }
+  },
+  "held2-076": {
+   "no-skill": {
+    "passed": true,
+    "latency": 24.504,
+    "parsed": 410.0
+   }
+  },
+  "held2-077": {
+   "no-skill": {
+    "passed": true,
+    "latency": 49.958,
+    "parsed": 450.0
+   }
+  },
+  "held2-078": {
+   "no-skill": {
+    "passed": true,
+    "latency": 47.141,
+    "parsed": 20.0
+   }
+  },
+  "held2-079": {
+   "no-skill": {
+    "passed": true,
+    "latency": 27.296,
+    "parsed": 270.0
+   }
+  },
+  "held2-080": {
+   "no-skill": {
+    "passed": true,
+    "latency": 28.482,
+    "parsed": 15.0
+   }
+  },
+  "held2-081": {
+   "no-skill": {
+    "passed": true,
+    "latency": 19.752,
+    "parsed": 12.0
+   }
+  },
+  "held2-082": {
+   "no-skill": {
+    "passed": true,
+    "latency": 25.751,
+    "parsed": 80.0
+   }
+  },
+  "held2-083": {
+   "no-skill": {
+    "passed": true,
+    "latency": 24.251,
+    "parsed": 374.0
+   }
+  },
+  "held2-084": {
+   "no-skill": {
+    "passed": false,
+    "latency": 24.96,
+    "parsed": 7.0
+   }
+  },
+  "held2-085": {
+   "no-skill": {
+    "passed": false,
+    "latency": 35.729,
+    "parsed": 80.0
+   }
+  },
+  "held2-086": {
+   "no-skill": {
+    "passed": true,
+    "latency": 25.665,
+    "parsed": 4.0
+   }
+  },
+  "held2-087": {
+   "no-skill": {
+    "passed": true,
+    "latency": 19.913,
+    "parsed": 138.0
+   }
+  },
+  "held2-088": {
+   "no-skill": {
+    "passed": true,
+    "latency": 20.417,
+    "parsed": 5.0
+   }
+  },
+  "held2-089": {
+   "no-skill": {
+    "passed": true,
+    "latency": 21.605,
+    "parsed": 120.0
+   }
+  },
+  "held2-090": {
+   "no-skill": {
+    "passed": true,
+    "latency": 23.224,
+    "parsed": 1125.0
+   }
+  },
+  "held2-091": {
+   "no-skill": {
+    "passed": false,
+    "latency": 30.126,
+    "parsed": -2.5
+   }
+  },
+  "held2-092": {
+   "no-skill": {
+    "passed": true,
+    "latency": 22.943,
+    "parsed": 220.0
+   }
+  },
+  "held2-093": {
+   "no-skill": {
+    "passed": true,
+    "latency": 21.08,
+    "parsed": 84.0
+   }
+  },
+  "held2-094": {
+   "no-skill": {
+    "passed": true,
+    "latency": 34.907,
+    "parsed": 180.0
+   }
+  },
+  "held2-095": {
+   "no-skill": {
+    "passed": true,
+    "latency": 33.404,
+    "parsed": 40.0
+   }
+  },
+  "held2-096": {
+   "no-skill": {
+    "passed": true,
+    "latency": 24.711,
+    "parsed": 288.0
+   }
+  },
+  "held2-097": {
+   "no-skill": {
+    "passed": true,
+    "latency": 44.267,
+    "parsed": 35.0
+   }
+  },
+  "held2-098": {
+   "no-skill": {
+    "passed": true,
+    "latency": 32.478,
+    "parsed": 15.0
+   }
+  },
+  "held2-099": {
+   "no-skill": {
+    "passed": true,
+    "latency": 15.062,
+    "parsed": 12.0
+   }
+  },
+  "held2-100": {
+   "no-skill": {
+    "passed": true,
+    "latency": 16.207,
+    "parsed": 100.0
+   }
+  },
+  "held2-101": {
+   "no-skill": {
+    "passed": true,
+    "latency": 17.655,
+    "parsed": 70000.0
+   }
+  },
+  "held2-102": {
+   "no-skill": {
+    "passed": true,
+    "latency": 13.795,
+    "parsed": 82.0
+   }
+  },
+  "held2-103": {
+   "no-skill": {
+    "passed": true,
+    "latency": 16.546,
+    "parsed": 3.0
+   }
+  },
+  "held2-104": {
+   "no-skill": {
+    "passed": true,
+    "latency": 16.271,
+    "parsed": 33.0
+   }
+  },
+  "held2-105": {
+   "no-skill": {
+    "passed": false,
+    "latency": 15.198,
+    "parsed": 5.0
+   }
+  },
+  "held2-106": {
+   "no-skill": {
+    "passed": true,
+    "latency": 14.349,
+    "parsed": 4500.0
+   }
+  },
+  "held2-107": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.002,
+    "parsed": 14.0
+   }
+  },
+  "held2-108": {
+   "no-skill": {
+    "passed": true,
+    "latency": 14.258,
+    "parsed": 1800.0
+   }
+  },
+  "held2-109": {
+   "no-skill": {
+    "passed": true,
+    "latency": 15.708,
+    "parsed": 27.0
+   }
+  },
+  "held2-110": {
+   "no-skill": {
+    "passed": true,
+    "latency": 17.02,
+    "parsed": 842.0
+   }
+  },
+  "held2-111": {
+   "no-skill": {
+    "passed": false,
+    "latency": 17.685,
+    "parsed": 160.0
+   }
+  },
+  "held2-112": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.098,
+    "parsed": 70.0
+   }
+  },
+  "held2-113": {
+   "no-skill": {
+    "passed": false,
+    "latency": 15.547,
+    "parsed": 57.0
+   }
+  },
+  "held2-114": {
+   "no-skill": {
+    "passed": true,
+    "latency": 19.08,
+    "parsed": 26.0
+   }
+  },
+  "held2-115": {
+   "no-skill": {
+    "passed": true,
+    "latency": 14.307,
+    "parsed": 80.0
+   }
+  },
+  "held2-116": {
+   "no-skill": {
+    "passed": true,
+    "latency": 17.644,
+    "parsed": 50.0
+   }
+  },
+  "held2-117": {
+   "no-skill": {
+    "passed": false,
+    "latency": 22.008,
+    "parsed": 107.0
+   }
+  },
+  "held2-118": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.173,
+    "parsed": 60.0
+   }
+  },
+  "held2-119": {
+   "no-skill": {
+    "passed": true,
+    "latency": 19.61,
+    "parsed": 370.0
+   }
+  },
+  "held2-120": {
+   "no-skill": {
+    "passed": true,
+    "latency": 17.719,
+    "parsed": 98.0
+   }
+  },
+  "held2-121": {
+   "no-skill": {
+    "passed": true,
+    "latency": 19.055,
+    "parsed": 3430.0
+   }
+  },
+  "held2-122": {
+   "no-skill": {
+    "passed": true,
+    "latency": 19.933,
+    "parsed": 5.0
+   }
+  },
+  "held2-123": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.159,
+    "parsed": 482.0
+   }
+  },
+  "held2-124": {
+   "no-skill": {
+    "passed": true,
+    "latency": 22.557,
+    "parsed": 20.0
+   }
+  },
+  "held2-125": {
+   "no-skill": {
+    "passed": false,
+    "latency": 17.021,
+    "parsed": 120.0
+   }
+  },
+  "held2-126": {
+   "no-skill": {
+    "passed": true,
+    "latency": 20.626,
+    "parsed": 2450.0
+   }
+  },
+  "held2-127": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.495,
+    "parsed": 108.0
+   }
+  },
+  "held2-128": {
+   "no-skill": {
+    "passed": true,
+    "latency": 16.473,
+    "parsed": 5.0
+   }
+  },
+  "held2-129": {
+   "no-skill": {
+    "passed": false,
+    "latency": 20.658,
+    "parsed": 400.0
+   }
+  },
+  "held2-130": {
+   "no-skill": {
+    "passed": true,
+    "latency": 21.09,
+    "parsed": 4.0
+   }
+  },
+  "held2-131": {
+   "no-skill": {
+    "passed": false,
+    "latency": 17.495,
+    "parsed": 1440.0
+   }
+  },
+  "held2-132": {
+   "no-skill": {
+    "passed": false,
+    "latency": 22.759,
+    "parsed": 108.0
+   }
+  },
+  "held2-133": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.404,
+    "parsed": 64.0
+   }
+  },
+  "held2-134": {
+   "no-skill": {
+    "passed": true,
+    "latency": 13.208,
+    "parsed": 70.0
+   }
+  },
+  "held2-135": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.481,
+    "parsed": 44.0
+   }
+  },
+  "held2-136": {
+   "no-skill": {
+    "passed": true,
+    "latency": 16.992,
+    "parsed": 2125.0
+   }
+  },
+  "held2-137": {
+   "no-skill": {
+    "passed": false,
+    "latency": 18.932,
+    "parsed": 9.5
+   }
+  },
+  "held2-138": {
+   "no-skill": {
+    "passed": true,
+    "latency": 12.675,
+    "parsed": 90.0
+   }
+  },
+  "held2-139": {
+   "no-skill": {
+    "passed": true,
+    "latency": 13.473,
+    "parsed": 21.0
+   }
+  },
+  "held2-140": {
+   "no-skill": {
+    "passed": true,
+    "latency": 15.432,
+    "parsed": 45.0
+   }
+  },
+  "held2-141": {
+   "no-skill": {
+    "passed": true,
+    "latency": 20.313,
+    "parsed": 170.0
+   }
+  },
+  "held2-142": {
+   "no-skill": {
+    "passed": true,
+    "latency": 21.409,
+    "parsed": 68.0
+   }
+  },
+  "held2-143": {
+   "no-skill": {
+    "passed": true,
+    "latency": 19.592,
+    "parsed": 17.0
+   }
+  },
+  "held2-144": {
+   "no-skill": {
+    "passed": true,
+    "latency": 12.497,
+    "parsed": 71.0
+   }
+  },
+  "held2-145": {
+   "no-skill": {
+    "passed": true,
+    "latency": 28.694,
+    "parsed": 500.0
+   }
+  },
+  "held2-146": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.545,
+    "parsed": 20.0
+   }
+  },
+  "held2-147": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.443,
+    "parsed": 40.0
+   }
+  },
+  "held2-148": {
+   "no-skill": {
+    "passed": true,
+    "latency": 21.15,
+    "parsed": 3000.0
+   }
+  },
+  "held2-149": {
+   "no-skill": {
+    "passed": true,
+    "latency": 15.886,
+    "parsed": 312.0
+   }
+  },
+  "held2-150": {
+   "no-skill": {
+    "passed": true,
+    "latency": 15.032,
+    "parsed": 25.0
+   }
+  },
+  "held2-151": {
+   "no-skill": {
+    "passed": false,
+    "latency": 20.429,
+    "parsed": 16.0
+   }
+  },
+  "held2-152": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.286,
+    "parsed": 45.0
+   }
+  },
+  "held2-153": {
+   "no-skill": {
+    "passed": true,
+    "latency": 15.798,
+    "parsed": 36.0
+   }
+  },
+  "held2-154": {
+   "no-skill": {
+    "passed": false,
+    "latency": 20.474,
+    "parsed": 30.0
+   }
+  },
+  "held2-155": {
+   "no-skill": {
+    "passed": false,
+    "latency": 15.772,
+    "parsed": 2.0
+   }
+  },
+  "held2-156": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.867,
+    "parsed": 9.0
+   }
+  },
+  "held2-157": {
+   "no-skill": {
+    "passed": true,
+    "latency": 18.724,
+    "parsed": 5.0
+   }
+  },
+  "held2-158": {
+   "no-skill": {
+    "passed": true,
+    "latency": 19.999,
+    "parsed": 18.0
+   }
+  },
+  "held2-159": {
+   "no-skill": {
+    "passed": true,
+    "latency": 16.223,
+    "parsed": 10.0
+   }
+  },
+  "held2-160": {
+   "no-skill": {
+    "passed": true,
+    "latency": 13.729,
+    "parsed": 5.0
+   }
+  }
+ }
+}
