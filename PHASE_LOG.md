@@ -83,6 +83,29 @@ evaluator。两条都破坏这个门存在的理由——它证明的是"这三�
   函数级 diff 见 `git diff f80af2f HEAD -- examples/gsm8k_evaluator.py`。
 - 边界：本段只说"评分与传输核心未变"，**不说**"证据链已通过"——它没有通过。
 
+## 2026-10-07/08 — ASDiv 主对照完成：传输预算修复、一次作业树被杀、分支 (ii) 落地
+
+- **26 题探针（关键定性）**：driver4 的 28 格 TimeoutError（26 题）不是不收敛——用 evaluator
+  自己的提示直连 ollama 复测，52/52 格 `done_reason=stop`、有 `Answer`、零循环，耗时 52–154s。
+  是旧传输预算（内层 90s + 外层 150s）把慢生成断头。修复：`scripts/run_round4.py` 加
+  `RUN4_SUBPROCESS_TIMEOUT` 环境变量（默认 150 不变，已记录运行逐字节可复现），运行时用
+  300/420，两臂同预算。
+- **asdiv-1304 排除**：与 26 慢题不同类——两臂 400-token 探针 `done_reason=length` 无
+  `Answer`（step-calc 重复 `(x = -3 - 2)` 20+ 次，cot-zero 陷 "Revisiting the setup"），
+  跨两个运行 4 次 TimeoutError。按 chal-513 预注册规则排除（应用非新立），运行集改为
+  `asdiv-rest.json`（2249→2248）。已登记 NONCITABLE `#asdiv-1304`。
+- **driver5 整树被杀（2026-10-07 18:02:58）**：无 OOM、无 reboot、dmesg 干净，driver+runner
+  同时消失、harness 作业注册表清空 → 会话宿主生命周期事件。checkpoint 设计兑现：产物停在
+  meta.n=1800 无损，内存里的 145 格丢弃重跑。
+- **速率真相**：修复后实测 3–9s/格（driver6 于 1.5h 跑完剩余 896 格）——L-ops-287 的
+  "每格 ~20s 加载"是竞争负载把模型逐出所致；宿主空闲时模型常驻，prereg 的 ~4s/call
+  估算本来就是对的。
+- **最终数字（n=2248）**：step-calc 2031/2248 = 0.9035（延迟中位 15.47s）vs cot-zero
+  2035/2248 = 0.9052（15.81s）；b=34 / c=38，d=72，exact McNemar p=0.7239，gain −0.0018
+  （表内约定 step−cot）。三集全不显著 → **Amendment 1 分支 (ii)**：与 Track A null 一致
+  （MultiArith 零证据、SVAMP p=0.0541 距门槛 1~2 格、ASDiv 有 discordant 的实打实 null）。
+  写入 `results/rounds/round4/TRANSFER_RECORD.md`「Amendment 1 最终判定」。
+
 ## P4-RESOLVE：签名工件保留 + 证据门转绿（2026-10-17）
 
 - 背景：此前所有段落记录的 `FAIL: artifact hash mismatch for gsm8k_evaluator.py` 是**门侧缺陷，不是工件缺陷**。

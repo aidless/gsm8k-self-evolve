@@ -62,6 +62,9 @@
 ## 6. 未做
 
 - Track B（transfer：SVAMP / MultiArith / ASDiv）未运行。
+  - **（2026-10-08 更新）Track B 已运行**：vs `direct` 见 `TRANSFER_RECORD.md`（2026-09-13，GENERALIZE）；
+    Amendment 1 主对照 `step-calc vs cot-zero` 三集于 2026-10-05 / 2026-10-07-08 跑完，分支 (ii)（三集全不显著），
+    见同文件「Amendment 1 最终判定」。
   **设计提示（重要）**：PREREG 第 14 行的 Track B 成功规则只与 `direct` 对照，
   而本 Track C 已证明 `direct` 是稻草人基线；若运行 Track B，应**同时加入 `cot-zero` 对照**
   才能区分"step-calc 好"与"任何 CoT 式提示都好"。这属于对冻结预注册的**修订**，

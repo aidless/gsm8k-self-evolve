@@ -42,10 +42,15 @@ The `note` now says so, in those words, rather than leaving the false claim in p
 
 ## Targets that are absent by design (`locally_absent`)
 
-One real entry names a target that is in **no clone**, including a fresh one: the
-Track B runtime dataset `results/rounds/round4/inputs/svamp.json`, excluded
-wholesale by `.gitignore` because the upstream licences (ASDiv CC-BY-NC-4.0;
-MultiArith unclear) forbid redistribution. Only the result JSONs are shipped.
+Two real entries name targets that are in **no clone**, including a fresh one:
+the Track B runtime datasets `results/rounds/round4/inputs/svamp.json` and
+`results/rounds/round4/inputs/asdiv.json`, excluded wholesale by `.gitignore`
+because the upstream licences (ASDiv CC-BY-NC-4.0; MultiArith unclear) forbid
+redistribution. Only the result JSONs are shipped. The `asdiv.json` entry
+(`#asdiv-1304`) differs from `#chal-513` in one way that its `runs[0].note`
+records: the excluded question was removed from the run set *before* the
+retained run, so the shipped result JSON cannot even show it failing — the
+non-termination evidence lives in `TRANSFER_RECORD.md` boundary 7 instead.
 
 Before this exception, that entry — and three others — failed the gate on every
 fresh clone:

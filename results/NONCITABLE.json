@@ -94,6 +94,31 @@
         ]
       },
       "exclusion_rule": "A (policy, question) cell is excluded from the paired comparison iff the model provably fails to terminate on that question under that policy's prompt. The rule was stated before the subset was examined; it does not depend on which direction the remaining cells fall. One-sided non-convergence on a single question is recorded as a property of the model, not as a difference between arms, because it cannot be attributed to the prompt alone: the step-calc prompt terminates on the same question."
+    },
+    {
+      "path": "results/rounds/round4/inputs/asdiv.json#asdiv-1304",
+      "runs": [
+        {
+          "label": "2026-10-07/08 ASDiv main-contrast run",
+          "status": "retained",
+          "note": "The dataset itself is fetched at runtime and never committed; only the result JSON (results/rounds/round4/transfer-cotzero-asdiv.json, meta.n=2248, zero error cells) is shipped. This entry names one cell inside that uncommitted dataset. Unlike chal-513, the run JSON cannot show this cell failing, because the question was removed from the run set before the retained run started; the non-termination evidence is quoted in results/rounds/round4/TRANSFER_RECORD.md (boundary 7 and the ASDiv run record)."
+        }
+      ],
+      "reason": "The Peter/Margaret/Jack consecutive-odd-ages question (expected 7.0) fails to terminate under BOTH policies: the step-calc prompt repeats the literal line (x = -3 - 2) 20+ times and the cot-zero prompt enters a Revisiting-the-setup self-repair loop; 400-token probes for both arms return done_reason=length with no Answer, and the question raised TimeoutError in four attempts across two independent runs. This is the pre-registered exclusion rule applied, not a new rule: a (policy, question) cell exits the paired comparison iff the model provably fails to terminate on that question under that policy's prompt -- the rule registered with chal-513 on 2026-10-05, before the ASDiv run existed. Applying it to both cells of asdiv-1304 removes the question from the paired comparison entirely (chal-513 kept its step-calc cell because that prompt terminates in 5.2s; asdiv-1304 has no surviving cell). Because scripts/run_round4.py can only slice cases[:limit] and cannot skip a middle question, the run set was rebuilt as asdiv-rest.json (2249 -> 2248 cases, exactly that id removed; sha256 of asdiv-rest.json dc67d3ac9ab14a2bedc0108e048fddd3396167c939d608ac5ca31f83ee8d7218, of the pre-registered asdiv.json 2e2f5c4f62a9a89c63e9d5a737d8d34286007b888ea8fafe465b142e076eb97a) so the retained artifact physically cannot contain the excluded cell. The ~26 other slow questions in the same range (52-154s per generation) all terminate and are recorded normally once the transport budget was raised (EVO_REQUEST_TIMEOUT=300, RUN4_SUBPROCESS_TIMEOUT=420, identical for both arms); they are not exclusions.",
+      "declared_in": "results/rounds/round4/TRANSFER_RECORD.md (ASDiv run record, honest-boundary items 3, 4 and 7) plus this registry",
+      "marker": "registry",
+      "date": "2026-10-08",
+      "exclusion_rule": "A (policy, question) cell is excluded from the paired comparison iff the model provably fails to terminate on that question under that policy's prompt. The rule was stated before the subset was examined; it does not depend on which direction the remaining cells fall. One-sided non-convergence on a single question is recorded as a property of the model, not as a difference between arms, because it cannot be attributed to the prompt alone: the step-calc prompt terminates on the same question.",
+      "locally_absent": {
+        "why": "The declared target is the runtime dataset under results/rounds/round4/inputs/, which .gitignore:13 excludes wholesale: Track B inputs are fetched at run time and never committed (ASDiv is CC-BY-NC-4.0), and only the result JSONs are shipped. So this target is absent from every clone by design, including a fresh one, and its absence is not a missing-artifact defect.",
+        "not_present_in": "any clone",
+        "evidence_that_the_cell_is_real": "results/rounds/round4/transfer-cotzero-asdiv.json (shipped) has meta.n=2248 and its details keys contain no asdiv-1304, while the id exists in the pre-registered 2249-case dataset. The non-termination evidence (both-arm 400-token probes with done_reason=length and no Answer, the repeated (x = -3 - 2) lines under step-calc, four TimeoutErrors across two runs) is quoted in results/rounds/round4/TRANSFER_RECORD.md boundary 7, which is shipped.",
+        "declared_before_examining_the_subset": true,
+        "reviewable_from": [
+          "results/rounds/round4/transfer-cotzero-asdiv.json",
+          "results/rounds/round4/TRANSFER_RECORD.md"
+        ]
+      }
     }
   ]
 }
