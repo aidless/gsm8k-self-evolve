@@ -91,6 +91,18 @@ def main() -> None:
     ap.add_argument("--resume", action="store_true")
     ap.add_argument("--model", default=os.environ.get("EVO_MODEL", "qwen2.5:7b"))
     a = ap.parse_args()
+    # Outer guillotine, opt-in through the environment so every existing caller and
+    # every recorded run keeps the 150s default byte-for-byte. Why it exists at all:
+    # run_one()'s docstring warns that a timeout "must cover the worst-case inner
+    # request budget ... or a retried slow call is guillotined as a failure", and
+    # that is not hypothetical. On the 2026-10-07 ASDiv contrast, 26 questions
+    # terminate naturally (probe: done_reason=stop, 'Answer' produced, no
+    # repetition) but need 60-160s under memory pressure -- both the 90s inner
+    # EVO_REQUEST_TIMEOUT and this 150s outer default behead them, and the
+    # fail-closed gate then refuses to aggregate. Transport, not scoring: raising
+    # it changes which cells get RECORDED, never how an answer is judged, and
+    # both arms always run under the same budget.
+    subprocess_timeout = float(os.environ.get("RUN4_SUBPROCESS_TIMEOUT", "150"))
     policies = a.policies.split(",")
     cases = json.load(Path(a.dataset).open(encoding="utf-8"))["cases"]
     if a.limit:
@@ -105,7 +117,10 @@ def main() -> None:
         row = details.get(qid, {})
         for pol in policies:
             if pol not in row:
-                row[pol] = run_one(pol, None, c["input"], float(c["expected"]), a.model)
+                row[pol] = run_one(pol, None, c["input"], float(c["expected"]), a.model,
+                                   subprocess_timeout=subprocess_timeout,
+                                   env_extra={"EVO_REQUEST_TIMEOUT":
+                                              os.environ.get("EVO_REQUEST_TIMEOUT", "90")})
                 print(json.dumps({"id": qid, "policy": pol, "passed": row[pol]["passed"]}),
                       flush=True)
         details[qid] = row
