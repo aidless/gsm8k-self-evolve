@@ -19,7 +19,9 @@ import json
 import os
 import subprocess
 import sys
+import urllib.request
 from pathlib import Path
+from urllib.parse import urlsplit
 
 import pytest
 
@@ -54,8 +56,38 @@ def _run(dataset: Path, out: Path, env_extra: dict | None = None) -> subprocess.
     )
 
 
+MODEL = "qwen2.5:7b"
+
+
+@pytest.fixture(scope="module")
+def live_model():
+    """Counter-proof 1 drives scripts/run_round4.py against a real model.
+
+    A GitHub runner has no model endpoint, so an unconditional run there reports a
+    URLError that says nothing about this repository (it is the same "answered with a
+    transport error" state the gate is built to refuse). Probe the endpoint first and
+    skip loudly when it is absent; the transport-failure counter-proof needs no live
+    model, since a closed port is exactly what it injects. Point EVO_OLLAMA_URL at a
+    running ollama with qwen2.5:7b pulled to run this one.
+    """
+    url = os.environ.get("EVO_OLLAMA_URL", "http://127.0.0.1:11434/api/generate")
+    parts = urlsplit(url)
+    base = f"{parts.scheme}://{parts.netloc}"
+    try:
+        with urllib.request.urlopen(f"{base}/api/tags", timeout=5) as resp:
+            tags = json.loads(resp.read().decode("utf-8"))
+    except Exception as exc:
+        pytest.skip(f"no live model endpoint at {base} ({type(exc).__name__}); "
+                    "set EVO_OLLAMA_URL to a running ollama to run this counter-proof")
+    names = {m.get("name", "") for m in tags.get("models", [])}
+    if MODEL not in names:
+        pytest.skip(f"{MODEL} is not pulled on {base} "
+                    f"(have: {sorted(n for n in names if n) or 'none'})")
+    return base
+
+
 @pytest.mark.slow
-def test_healthy_run_produces_totals_and_pairs(tmp_path):
+def test_healthy_run_produces_totals_and_pairs(tmp_path, live_model):
     """Counter-proof 1: the gate must NOT block a good run (else it is decorative)."""
     out = tmp_path / "ok.json"
     r = _run(_dataset(tmp_path), out)
