@@ -34,7 +34,11 @@ REPO = Path(__file__).resolve().parent.parent
 
 BASENAME_MAP = {
     "active.json": REPO / "active.json",
-    "gsm8k_evaluator.py": REPO / "examples" / "gsm8k_evaluator.py",
+    # The bundle pins the round-2 evaluator. The working-tree copy kept
+    # growing after signing (rounds 3-5; additive changes, see
+    # signed/artifacts/README.md), so hashing it could only ever report a
+    # mismatch. Verify the preserved signed bytes instead.
+    "gsm8k_evaluator.py": REPO / "signed" / "artifacts" / "gsm8k_evaluator.py",
     "gsm8k40.json": REPO / "examples" / "gsm8k40.json",
     "heldout40.json": REPO / "examples" / "heldout40.json",
     "heldout-batch2-160.json": REPO / "examples" / "heldout-batch2-160.json",

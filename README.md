@@ -33,12 +33,13 @@ not the five-key structure.
 
 Why this repo is worth reading: **every claim above — including the ones that weaken
 the headline — is recomputable from raw files in this repository**
-(`tools/verify_evidence_chain.py`, `scripts/audit_gate_rules.py`), with one
-deliberately documented FAIL on HEAD explained in place rather than hidden.
+(`tools/verify_evidence_chain.py`, `scripts/audit_gate_rules.py`), and the signed
+bundle's five artifacts are preserved byte-exact, so the evidence chain verifies on
+any checkout instead of only on the machine that produced it.
 
 ```bash
 pip install -r requirements.txt
-python tools/verify_evidence_chain.py    # 5-check chain; exits 1 on HEAD by design (see below)
+python tools/verify_evidence_chain.py    # 5-check chain; all 5 pass on HEAD
 python tools/verify_question_provenance.py
 python -m pytest -q                      # 137 tests (135 fast + 2 needing a live model)
 python scripts/audit_gate_rules.py        # recomputes all 340 round-5 figures from pool rows
@@ -349,22 +350,32 @@ rejecting power in *having a significance test at α=0.05*, not in the five-key 
 The value of this repo is that every one of those statements — including the ones that
 weaken the headline — is recomputable from raw files in this repository.
 
-## Known honest FAIL on HEAD
+## Signed artifacts, and why one of them is a preserved copy
 
-`python tools/verify_evidence_chain.py` exits 1 on the current HEAD by design:
-`PASS [1/5] bundle.sha256 == sha256(canonical manifest)` then
-`FAIL: artifact hash mismatch for gsm8k_evaluator.py`. The evaluator gained +70/−2 lines
-after the promotion commit, so HEAD no longer matches the hash the bundle certifies.
-The documented clean value is the one at the promotion commit:
+`python tools/verify_evidence_chain.py` passes all five checks on HEAD.
+
+It used to fail, and the history is worth keeping. The bundle pins the round-2
+evaluator; `examples/gsm8k_evaluator.py` kept growing after signing, because
+rounds 3–5 added policies **additively** (`+70/−2` lines, the original
+`step-calc` / `concise-reason` paths untouched — `OPEN_SOURCE_EXCLUSION.md` §3).
+Hashing the working-tree copy therefore reported `FAIL: artifact hash mismatch
+for gsm8k_evaluator.py` on every run since publication, and it could never have
+been otherwise: passing would have required freezing the evaluator forever.
+
+The fix verifies the **signed bytes** rather than the live file. Those bytes are
+preserved at `signed/artifacts/gsm8k_evaluator.py` and are independently
+obtainable from history:
 
 ```bash
 git show f80af2f:examples/gsm8k_evaluator.py | sha256sum
 # 4a23f69463293b380bfd7a52be5f9e616af3d02f6e822f7be721b95015eb400e  (matches the bundle)
 ```
 
-Third-party verification should check out the promotion commit, or wait for the evaluator
-to be re-versioned and the bundle re-signed. See `FINAL_ACCEPTANCE.md`, `PHASE_LOG.md`,
-and claim C7 in `paper/CLAIM_LEDGER.md`.
+Nothing was re-signed and no recorded hash changed. The check can still fail —
+the `mutation-control` CI job perturbs a hashed artifact and requires a non-zero
+exit. The in-tree copy also means verification works from a tarball or a shallow
+clone, where `git show` would not. See `signed/artifacts/README.md`,
+`FINAL_ACCEPTANCE.md`, and claim C7 in `paper/CLAIM_LEDGER.md`.
 
 ## License
 

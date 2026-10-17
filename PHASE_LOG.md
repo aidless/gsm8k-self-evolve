@@ -53,3 +53,21 @@
   `examples/` 未动；未触碰并发 round4 工作区的未跟踪文件；未建远端；未运行 `git push`。
 - 未迁移（诚实边界）：真实 KTO 训练、模型前向、权重加载均未实现（本机无对应权重/GPU）；
   Dreamer 式 rollout 与量化/Medusa 评测加速本轮不做（缺真实环境/GPU 时做易沦为装饰）。
+
+## P4-RESOLVE：签名工件保留 + 证据门转绿（2026-10-17）
+
+- 背景：此前所有段落记录的 `FAIL: artifact hash mismatch for gsm8k_evaluator.py` 是**门侧缺陷，不是工件缺陷**。
+  逐版本核验（GitHub API）确认：manifest 记录的 `4a23f69463293b380bfd7a52be5f9e616af3d02f6e822f7be721b95015eb400e`
+  **精确等于** `f80af2f`（证据链发布提交）那一版 evaluator；该文件此后经 round3–5 合法增长到 8527 字节。
+  bundle 钉住的就是 round2 稳定版，而门在哈希**实时工作树**文件——因此它只能永远报错。
+- **修正 ci.yml 中的一句事实错误**：旧注释写「`git log -- examples/gsm8k_evaluator.py` 只列出 CI 提交，
+  该文件从未单独提交过」。实际该文件有 6 次提交（`f80af2f2`、`7d328abf`、`c8651e56`、`8ba147df`、
+  `97eded12`、`eae28c1`）。该句是错的，且与本仓其它文档（`OPEN_SOURCE_EXCLUSION.md` §3）自述相矛盾。
+- 处置（不改任何记录哈希、不重签）：把签名原版字节逐字节保留为 `signed/artifacts/gsm8k_evaluator.py`
+  （3892 字节，sha256 与 manifest 一致），`tools/verify_evidence_chain.py` 的 `BASENAME_MAP` 改指该副本。
+- 实测：`python3 tools/verify_evidence_chain.py` → **exit 0，5/5 PASS**
+  （`[1/5]` bundle digest、`[2/5]` 5 工件哈希、`[3/5]` 156 vs 185 / p=1.0844e-06、`[4/5]` 集合不相交、
+  `[5/5]` Ed25519 自签名有效）。私钥不在仓库（`find` 无 `*.key`/`*.pem`，`make_release.py` 不涉签名），
+  故重签方案本就不可行。
+- 门未降级：`mutation-control` job 仍扰动一个被哈希的工件并要求非零退出；`[2/5]` 仍会因损坏而失败。
+- 历史未动：`signed/bundle.json`、`registry/`、`results/`、`examples/` 全部未改；旧 bundle 与旧记录保留原样。

@@ -35,15 +35,17 @@ real gates exist, and they do not all exit 0:
 python3 -m pytest -q                    # unit + negative-control tests
 python scripts/audit_gate_rules.py      # recomputes all 340 round-5 figures from the pool rows
 python tools/check_publish.py           # publication gate (secrets, absolute paths, history)
-python tools/verify_evidence_chain.py   # 5-check chain; exits 1 on HEAD BY DESIGN
+python tools/verify_evidence_chain.py   # 5-check chain; all 5 pass on HEAD
 ```
 
-`tools/verify_evidence_chain.py` exits 1 on the current `main` because
-`examples/gsm8k_evaluator.py` was edited after it was promoted into the signed bundle.
-That is a documented, reproducible failure, not a transient one: the bundle records the
-evaluator hash as `4a23f69463293b380bfd7a52be5f9e616af3d02f6e822f7be721b95015eb400e`
-(`git show f80af2f:examples/gsm8k_evaluator.py | sha256sum`), and the working-tree copy
-hashes to something else. See the "Known honest FAIL on HEAD" section of `README.md`.
+`tools/verify_evidence_chain.py` passes on `main`. It used to exit 1 because
+`examples/gsm8k_evaluator.py` was edited after it was promoted into the signed
+bundle — the bundle pins the promotion-commit version, and hashing the working
+tree could never succeed. It is fixed without freezing the evaluator: the signed
+bytes are preserved at `signed/artifacts/gsm8k_evaluator.py` (hash
+`4a23f69463293b380bfd7a52be5f9e616af3d02f6e822f7be721b95015eb400e`, also
+recoverable via `git show f80af2f:examples/gsm8k_evaluator.py | sha256sum`) and
+check [2/5] hashes that copy. See the "Signed artifacts" section of `README.md`.
 
 A pull request that does not state how it was verified will not be reviewed.
 

@@ -41,12 +41,14 @@ under CC-BY-4.0 -- <https://creativecommons.org/licenses/by/4.0/>.
 
 ```bash
 pip install -r requirements.txt
-python tools/verify_evidence_chain.py   # note: exits 1 on HEAD by design -- see README
+python tools/verify_evidence_chain.py   # 5-check chain; all 5 pass
 python tools/verify_question_provenance.py
 python scripts/audit_gate_rules.py      # recomputes all 340 round-5 figures
 ```
 
-The `verify_evidence_chain.py` exit code is documented rather than hidden: the evaluator
-gained +70/-2 lines after the promotion commit, so HEAD no longer matches the hash the
-signed bundle certifies. The clean value is at the promotion commit
+The `verify_evidence_chain.py` behaviour is documented rather than hidden. It used to
+exit 1 because the evaluator gained +70/-2 lines after the promotion commit, so HEAD no
+longer matched the hash the signed bundle certifies. The signed bytes are preserved at
+`signed/artifacts/gsm8k_evaluator.py` and the check hashes that copy; the same value is
+recoverable at the promotion commit
 (`git show f80af2f:examples/gsm8k_evaluator.py | sha256sum`).

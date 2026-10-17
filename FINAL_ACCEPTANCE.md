@@ -19,6 +19,17 @@ Close commit: see `git log --oneline -1` after P1-CLOSE (additive: PHASE_LOG.md 
 - Recorded as the round3-additive-evolution honest FAIL. History files
   (results/, signed/, registry/, examples/) untouched.
 
+### Addendum (2026-10-17): resolved
+
+The mismatch above was a **gate-side** defect, not an artifact defect. The bundle
+pins the promotion-commit evaluator, so hashing the working tree could never
+succeed — it would have required freezing the evaluator forever. The signed bytes
+are now preserved at `signed/artifacts/gsm8k_evaluator.py` and check [2/5] hashes
+that copy, so `python3 tools/verify_evidence_chain.py` reports
+`ALL CHECKS PASSED` on HEAD. No recorded hash changed, nothing was re-signed, and
+the `results/`, `signed/bundle.json`, `registry/`, `examples/` history is
+untouched. See `signed/artifacts/README.md`.
+
 ## Scope compliance
 
 - Additive only: PHASE_LOG.md (P1-CLOSE section) + FINAL_ACCEPTANCE.md.
