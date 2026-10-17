@@ -40,7 +40,7 @@ deliberately documented FAIL on HEAD explained in place rather than hidden.
 pip install -r requirements.txt
 python tools/verify_evidence_chain.py    # 5-check chain; exits 1 on HEAD by design (see below)
 python tools/verify_question_provenance.py
-python -m pytest -q                      # 117 tests
+python -m pytest -q                      # 137 tests (135 fast + 2 needing a live model)
 python scripts/audit_gate_rules.py        # recomputes all 340 round-5 figures from pool rows
 python tools/check_publish.py             # publication gate
 ```
