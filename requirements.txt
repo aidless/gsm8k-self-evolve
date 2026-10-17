@@ -2,3 +2,8 @@
 # The evaluator and held-out runners use only the Python standard library
 # plus a local Ollama endpoint serving qwen2.5:7b.
 cryptography>=41
+
+# Test suite (`python -m pytest -q`): 136 tests pass on any checkout;
+# the single live-model counter-proof auto-skips without a running
+# Ollama endpoint (point EVO_OLLAMA_URL at one to run it).
+pytest>=8

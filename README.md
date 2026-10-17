@@ -41,7 +41,7 @@ any checkout instead of only on the machine that produced it.
 pip install -r requirements.txt
 python tools/verify_evidence_chain.py    # 5-check chain; all 5 pass on HEAD
 python tools/verify_question_provenance.py
-python -m pytest -q                      # 137 tests (135 fast + 2 needing a live model)
+python -m pytest -q                      # 137 tests (136 pass offline; 1 needs a live Ollama model and auto-skips)
 python scripts/audit_gate_rules.py        # recomputes all 340 round-5 figures from pool rows
 python tools/check_publish.py             # publication gate
 ```
