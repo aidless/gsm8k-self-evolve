@@ -11,3 +11,21 @@ docs/
 dist/
 # Track B inputs: fetched at runtime, never committed (ASDiv is CC-BY-NC-4.0)
 results/rounds/round4/inputs/
+
+
+# --- added by WorkBuddy takeover 2026-10-21 ---
+.env
+.env.*
+!.env.example
+!.env.template
+node_modules/
+.venv/
+venv/
+build/
+*.egg-info/
+data/
+models/
+.regression_tmp/
+*.bak
+
+*.bak*
