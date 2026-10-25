@@ -41,7 +41,7 @@ any checkout instead of only on the machine that produced it.
 pip install -r requirements.txt
 python tools/verify_evidence_chain.py    # 5-check chain; all 5 pass on HEAD
 python tools/verify_question_provenance.py
-python -m pytest -q                      # 137 tests (136 pass offline; 1 needs a live Ollama model and auto-skips)
+python -m pytest -q                      # 171 tests: 169 pass offline, 1 auto-skips (needs a live Ollama model), 1 (the noncitable gate) needs a git checkout rather than a tarball extract
 python scripts/audit_gate_rules.py        # recomputes all 340 round-5 figures from pool rows
 python tools/check_publish.py             # publication gate
 ```
@@ -130,6 +130,16 @@ The evolve loop itself ran under the `evoagent` engine
 this repo; `scripts/run_evolve_round2.py` documents the exact invocation.
 `examples/gsm8k_evaluator.py` + `scripts/run_heldout*.py` are self-contained
 given an Ollama endpoint (`EVO_OLLAMA_URL`, `EVO_MODEL` env overrides).
+
+## Environment
+
+- Python 3.12 (the version CI runs). Runtime deps are deliberately minimal:
+  `pip install -r requirements.txt` installs only `cryptography` (Ed25519
+  envelope check) and `pytest`; the evaluator and held-out runners use the
+  Python standard library plus a local Ollama endpoint.
+- Determinism: all model calls run at temperature 0; the round-5 ablation is
+  model-free and pins `SEED=20260912` (4 source pools x 200 nulls, zero model
+  calls — see `results/rounds/round5/PREREG-round5.md`).
 
 ## Layout
 

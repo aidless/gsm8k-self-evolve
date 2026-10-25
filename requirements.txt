@@ -3,7 +3,9 @@
 # plus a local Ollama endpoint serving qwen2.5:7b.
 cryptography>=41
 
-# Test suite (`python -m pytest -q`): 136 tests pass on any checkout;
+# Test suite (`python -m pytest -q`): 169 tests pass on any git checkout;
 # the single live-model counter-proof auto-skips without a running
-# Ollama endpoint (point EVO_OLLAMA_URL at one to run it).
+# Ollama endpoint (point EVO_OLLAMA_URL at one to run it), and the
+# noncitable-registry gate test needs git metadata (a tarball extract of
+# the repo is not enough for it).
 pytest>=8
