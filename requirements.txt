@@ -3,7 +3,7 @@
 # plus a local Ollama endpoint serving qwen2.5:7b.
 cryptography>=41,<51
 
-# Test suite (`python -m pytest -q`): 171 tests pass on a clean checkout
-# (verified 2026-11-01); the suite covers gate rules, evidence chain,
-# provenance, publish gate, and fail-closed behaviors.
+# Test suite (`python -m pytest -q`): 171 tests total. On a git checkout with a
+# live Ollama endpoint all 171 pass (verified 2026-11-03); offline, 1 auto-skips
+# without Ollama and 1 needs git metadata rather than a tarball extract.
 pytest>=8,<10
