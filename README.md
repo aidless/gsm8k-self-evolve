@@ -1,5 +1,8 @@
 # GSM8K Self-Evolve: direct → concise-reason → step-calc
 
+[![ci](https://github.com/aidless/gsm8k-self-evolve/actions/workflows/ci.yml/badge.svg)](https://github.com/aidless/gsm8k-self-evolve/actions/workflows/ci.yml)
+[![verify](https://github.com/aidless/gsm8k-self-evolve/actions/workflows/verify.yml/badge.svg)](https://github.com/aidless/gsm8k-self-evolve/actions/workflows/verify.yml)
+
 Two rounds of evaluation-gated prompt-policy evolution on **standard GSM8K test
 items** (240 questions redistributed verbatim from the official test split,
 verified disjoint from the GSM8K train split), run on cloud (Qwen2.5:7b via
@@ -113,6 +116,18 @@ Key IDs: stable version `eecacc0312d7` · bundle `step-calc@ad35903f5cb4`
   number within ≈±0.025–0.05; the qualitative verdicts are stable. (The older
   ≈±10% estimate from round 1 is not reproduced by this measurement; both are
   recorded in `results/rounds/round4/ROUND4-VARIANCE.md`.)
+
+## Install
+
+```bash
+git clone https://github.com/aidless/gsm8k-self-evolve && cd gsm8k-self-evolve
+python3 -m venv .venv && . .venv/bin/activate
+pip install -r requirements.txt   # cryptography (signature check) + pytest
+python3 -m pytest -q              # 171 passed
+```
+
+The signature-verification and test paths need no model and no network. Only
+re-running evaluation (step 2 below) needs a local Ollama serving `qwen2.5:7b`.
 
 ## Reproduce
 

@@ -1,9 +1,9 @@
 # Only needed for tools/verify_evidence_chain.py (Ed25519 envelope check).
 # The evaluator and held-out runners use only the Python standard library
 # plus a local Ollama endpoint serving qwen2.5:7b.
-cryptography>=41
+cryptography>=41,<51
 
 # Test suite (`python -m pytest -q`): 171 tests pass on a clean checkout
 # (verified 2026-11-01); the suite covers gate rules, evidence chain,
 # provenance, publish gate, and fail-closed behaviors.
-pytest>=8
+pytest>=8,<10
