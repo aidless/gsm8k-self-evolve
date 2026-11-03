@@ -390,7 +390,7 @@ Nothing was re-signed and no recorded hash changed. The check can still fail —
 the `mutation-control` CI job perturbs a hashed artifact and requires a non-zero
 exit. The in-tree copy also means verification works from a tarball or a shallow
 clone, where `git show` would not. See `signed/artifacts/README.md`,
-`FINAL_ACCEPTANCE.md`, and claim C7 in `paper/CLAIM_LEDGER.md`.
+`docs/history/FINAL_ACCEPTANCE.md`, and claim C7 in `paper/CLAIM_LEDGER.md`.
 
 ## License
 
