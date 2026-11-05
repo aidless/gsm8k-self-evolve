@@ -1,0 +1,40 @@
+[
+ {
+  "label": "seed: direct",
+  "policy": "direct",
+  "sources": [
+   "results/heldout-result.json#direct-baseline"
+  ],
+  "passed": 5,
+  "total": 40,
+  "score": 0.125,
+  "lo": 0.05459419773541284,
+  "hi": 0.26112420670238146
+ },
+ {
+  "label": "round 1: concise-reason",
+  "policy": "concise-reason",
+  "sources": [
+   "results/heldout-round2-result.json#concise_reason",
+   "results/heldout-batch2-result.json#concise_reason"
+  ],
+  "passed": 156,
+  "total": 200,
+  "score": 0.78,
+  "lo": 0.7176107720803744,
+  "hi": 0.8318354646053661
+ },
+ {
+  "label": "round 2: step-calc (stable)",
+  "policy": "step-calc",
+  "sources": [
+   "results/heldout-round2-result.json#step_calc",
+   "results/heldout-batch2-result.json#step_calc"
+  ],
+  "passed": 185,
+  "total": 200,
+  "score": 0.925,
+  "lo": 0.8799554020266798,
+  "hi": 0.9540254929427476
+ }
+]
