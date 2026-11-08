@@ -38,7 +38,7 @@ jobs:
       - name: Install the dependency the gate needs
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements.lock
 
       - name: Report which recorded artifact hashes still match
         run: |
@@ -83,7 +83,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements.lock
       - name: Run the pytest suite
         run: python -m pytest -q
 
@@ -99,7 +99,7 @@ jobs:
       - name: Install the dependency the gate needs
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements.lock
 
       - name: Corrupt one evaluation number and require a non-zero exit
         shell: bash

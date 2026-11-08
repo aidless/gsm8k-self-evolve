@@ -122,8 +122,8 @@ Key IDs: stable version `eecacc0312d7` · bundle `step-calc@ad35903f5cb4`
 ```bash
 git clone https://github.com/aidless/gsm8k-self-evolve && cd gsm8k-self-evolve
 python3 -m venv .venv && . .venv/bin/activate
-pip install -r requirements.txt   # cryptography (signature check) + pytest
-python3 -m pytest -q              # verified 2026-11-05: 169 passed, 2 skipped (offline, git checkout)
+pip install -r requirements.lock   # 钉死的 cryptography + pytest（requirements.txt 里仍是区间约束）
+python3 -m pytest -q              # 完整 git clone：170 passed, 1 skipped（2026-11-08 实测）；浅克隆下 git-metadata 用例也跳过 → 169 passed, 2 skipped
 ```
 
 One command for everything the README claims (install, evidence chain, tests,
