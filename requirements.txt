@@ -6,4 +6,4 @@ cryptography>=41,<51
 # Test suite (`python -m pytest -q`): 171 tests total. On a git checkout with a
 # live Ollama endpoint all 171 pass (verified 2026-11-03); offline, 1 auto-skips
 # without Ollama and 1 needs git metadata rather than a tarball extract.
-pytest>=8,<10
+pytest>=9.2.0,<10
