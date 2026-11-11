@@ -18,10 +18,42 @@ harness，绝不假装改过权重（AGENTS.md 第 17 条：实验上云，本�
 """
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
-from typing import Any, Callable, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 LEVERS = ("harness", "weight")
+
+ADAPTER_SHA_RE = re.compile(r"^[0-9a-f]{64}$")
+
+
+def validate_weight_receipt(receipt: Any, verifier_id: str) -> tuple[dict[str, Any] | None, str | None]:
+    """把 weight_updater.apply() 的返回值校验成可入证据链的回执。
+
+    返回 (清洗后的回执, 停机原因)，两者恰有一个非 None。契约：
+    - 必须是 mapping；
+    - `adapter_sha256` 为 64 位小写十六进制（权重产物的身份）；
+    - `steps` 为非负整数（含 bool 拒绝，bool 是 int 子类）；
+    - `verifier_id` 必须与循环冻结的 verifier 一致，否则判身份漂移。
+    """
+    if not isinstance(receipt, Mapping):
+        return None, "weight_receipt_invalid"
+    sha = receipt.get("adapter_sha256")
+    if not isinstance(sha, str) or not ADAPTER_SHA_RE.match(sha):
+        return None, "weight_receipt_invalid"
+    steps = receipt.get("steps")
+    if isinstance(steps, bool) or not isinstance(steps, int) or steps < 0:
+        return None, "weight_receipt_invalid"
+    observed = receipt.get("verifier_id")
+    if observed != verifier_id:
+        return None, "weight_verifier_drift"
+    cleaned: dict[str, Any] = {"adapter_sha256": sha, "verifier_id": observed, "steps": steps}
+    # 可选审计字段：有就透传，缺了不影响契约
+    for optional in ("adapter_path", "job_digest"):
+        value = receipt.get(optional)
+        if isinstance(value, str) and value:
+            cleaned[optional] = value
+    return cleaned, None
 
 
 @dataclass(frozen=True)
@@ -138,11 +170,25 @@ def run_interleaved_loop(*,
     for round_i in range(max(rounds, 0)):
         profile = diagnose(round_i)
         decision = select_lever(history, profile, weight_available)
+        weight_receipt: dict[str, Any] | None = None
         if decision.lever == "harness":
             candidate = propose_harness(round_i)
         else:
             candidate = propose_weight(round_i)
-            weight_updater.apply(candidate)
+            raw_receipt = weight_updater.apply(candidate)
+            weight_receipt, invalid_reason = validate_weight_receipt(raw_receipt, verifier_id)
+            if invalid_reason is not None:
+                # 拿不到合契约的回执 = 这次权重改动无法进证据链 → 一句都不接受
+                records.append({
+                    "round": round_i, "lever": decision.lever, "rule_id": decision.rule_id,
+                    "reason": decision.reason, "delta": None, "score": None,
+                    "accepted": False, "rollback": True,
+                    "observed_verifier": (raw_receipt.get("verifier_id")
+                                          if isinstance(raw_receipt, Mapping) else None),
+                    "expected_verifier": verifier_id, "weight_receipt": None,
+                })
+                stopped_reason = invalid_reason
+                break
         measurement = evaluate(candidate, round_i) or {}
         observed_verifier = measurement.get("verifier_id")
         if observed_verifier != verifier_id:
@@ -151,6 +197,7 @@ def run_interleaved_loop(*,
                 "reason": decision.reason, "delta": None, "score": None,
                 "accepted": False, "rollback": True,
                 "observed_verifier": observed_verifier, "expected_verifier": verifier_id,
+                "weight_receipt": weight_receipt,
             })
             stopped_reason = "verifier_drift"
             break
@@ -167,6 +214,7 @@ def run_interleaved_loop(*,
             "reason": decision.reason, "delta": delta, "score": score,
             "accepted": accepted, "rollback": rolled_back,
             "observed_verifier": observed_verifier, "expected_verifier": verifier_id,
+            "weight_receipt": weight_receipt,
         })
         history.append(LeverSignal(decision.lever, delta, verifier_id))
 

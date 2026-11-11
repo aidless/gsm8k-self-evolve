@@ -61,14 +61,22 @@ def test_invalid_profile_rejected():
 
 
 class _FakeWeightUpdater:
-    """纯记录用的权重杠杆替身：绝不训练，只记被调用过。"""
+    """纯记录用的权重杠杆替身：绝不训练，只记被调用过。
+
+    回执按 lever_selector.validate_weight_receipt() 的契约构造（sha/steps/verifier），
+    否则循环会按 fail-closed 停机——见 tests/test_weight_receipt_contract.py。
+    """
+
+    SHA = "b" * 64
+    VERIFIER = "v-fixed"
 
     def __init__(self):
         self.calls = 0
 
     def apply(self, payload):
         self.calls += 1
-        return {"applied": payload, "calls": self.calls}
+        return {"adapter_sha256": self.SHA, "verifier_id": self.VERIFIER,
+                "steps": self.calls}
 
 
 def test_loop_interleaves_and_rolls_back_on_no_gain():
