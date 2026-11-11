@@ -31,8 +31,8 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
-      - actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: "3.12"
       - name: Install the dependency the gate needs
@@ -76,8 +76,8 @@ jobs:
     # endpoint), which is its designed behaviour: skip loudly, not fail.
     runs-on: ubuntu-latest
     steps:
-      - actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
-      - actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: "3.12"
       - name: Install dependencies
@@ -92,8 +92,8 @@ jobs:
     # hashes, so a green mutation control cannot be a no-op.
     runs-on: ubuntu-latest
     steps:
-      - actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
-      - actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: "3.12"
       - name: Install the dependency the gate needs
@@ -160,7 +160,7 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     steps:
-      - actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
           # Full history: a key leaked in an old commit is still a live key.
           fetch-depth: 0
