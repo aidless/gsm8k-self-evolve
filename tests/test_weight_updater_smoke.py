@@ -88,3 +88,21 @@ def test_failed_command_raises(tmp_path):
         assert "rc=3" in str(exc)
     else:
         raise AssertionError("failing command must raise")
+
+
+def test_reported_sha_mismatch_raises(tmp_path):
+    # RED 反证：命令自报的哈希与盘上字节不一致 → 回执不可信，必须抛错
+    liar = tmp_path / "liar.sh"
+    liar.write_text(
+        "#!/bin/sh\n"
+        "printf 'x' > \"$2\"\n"
+        "printf '{\"steps\": 1, \"adapter_sha256\": \"%s\"}\\n' "
+        "0000000000000000000000000000000000000000000000000000000000000000\n",
+        encoding="utf-8")
+    updater = _updater(tmp_path, f"sh {shlex.quote(str(liar))} {{job_spec}} {{adapter_out}}")
+    try:
+        updater.apply({"lora_rank": 8})
+    except RuntimeError as exc:
+        assert "reported adapter sha mismatch" in str(exc)
+    else:
+        raise AssertionError("sha mismatch must raise")

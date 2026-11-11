@@ -104,7 +104,12 @@ class SubprocessWeightUpdater:
             raise RuntimeError(f"command did not report a non-negative integer steps: {reported!r}")
         if not adapter_path.is_file():
             raise RuntimeError(f"adapter artifact missing: {adapter_path}")
-        return {"adapter_sha256": sha256_file(adapter_path),
+        local_sha = sha256_file(adapter_path)
+        reported_sha = reported.get("adapter_sha256")
+        if isinstance(reported_sha, str) and reported_sha != local_sha:
+            # 命令自报的哈希与盘上字节不一致 → 这条回执不可信
+            raise RuntimeError(f"reported adapter sha mismatch: {reported_sha} != {local_sha}")
+        return {"adapter_sha256": local_sha,
                 "verifier_id": self.verifier_id, "steps": steps,
                 "job_digest": job.digest(), "adapter_path": str(adapter_path)}
 
@@ -120,10 +125,22 @@ def _last_json(stdout: str) -> dict[str, Any]:
     raise RuntimeError(f"no JSON object on stdout tail: {stdout[-300:]!r}")
 
 
-# 云端 LoRA 模板：在训练机上跑完把 adapter 落在 {adapter_out}，最后一行回 {"steps": N}。
-# 占位符 HOST / SCRATCH / TRAIN_SCRIPT / STEPS 由作业卡填入；本机不执行。
-CLOUD_LORA_TEMPLATE = (
-    "ssh -p {PORT} {HOST} "
-    "'cd {SCRATCH} && STEPS={STEPS} ADAPTER_OUT={adapter_out} "
-    "PYTHONPATH={SCRATCH} python3 {TRAIN_SCRIPT} {job_spec}'"
-)
+def cloud_lora_command(*, host: str, port: int, scratch: str, trainer: str,
+                       steps: int = 3) -> str:
+    """生成一条"云端训练 + 拉回产物"的命令（供 SubprocessWeightUpdater 用）。
+
+    形状：ssh 在训练机上跑 trainer（产物落远端 scratch），scp 把产物拉回
+    {adapter_out}，随后本机自己算 sha256。远端 trainer 自报的哈希也会被对表，
+    不一致即判失败——远端说成功不算成功，字节才算。
+    本函数只生成字符串，不执行；真跑由调用方在作业卡里决定。
+    """
+    remote_job = f"{scratch}/job.json"
+    remote_adapter = f"{scratch}/adapter.jsonl"
+    return (
+        # job spec 是本地文件，先送到训练机，否则远端 python 打不开它
+        f"scp -P {port} -o BatchMode=yes {{job_spec}} {host}:{remote_job} && "
+        f"ssh -p {port} -o BatchMode=yes {host} "
+        f"'mkdir -p {scratch} && cd {scratch} && "
+        f"STEPS={steps} python3 {trainer} {remote_job} {remote_adapter}' && "
+        f"scp -P {port} -o BatchMode=yes {host}:{remote_adapter} {{adapter_out}}"
+    )

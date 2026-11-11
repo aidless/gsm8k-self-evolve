@@ -43,7 +43,11 @@ def main() -> None:
     record = {"weights": w, "steps": STEPS, "final_loss": loss,
               "job_digest": spec.get("digest"), "verifier_id": spec.get("verifier_id")}
     out_path.write_text(json.dumps(record, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(json.dumps({"steps": STEPS, "final_loss": loss, "init_weights": INIT_WEIGHTS}))
+    # 自报产物哈希：调用方会与本地实算值对表，不一致即判失败（防"报告成功"）
+    import hashlib as _h
+    sha = _h.sha256(out_path.read_bytes()).hexdigest()
+    print(json.dumps({"steps": STEPS, "final_loss": loss,
+                      "adapter_sha256": sha, "init_weights": INIT_WEIGHTS}))
 
 
 if __name__ == "__main__":
