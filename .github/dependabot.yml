@@ -1,5 +1,7 @@
 # 依赖与 CI action 的自动更新（2026-11-14 补；此前只有 Renovate/无更新通道）
 # 只开 direct 依赖、每周一次、同时最多 3 个 PR，避免把仓库刷成噪音。
+# 合并冲突处置：origin/main 侧是 monthly/limit 5 的双生态版本，本侧是 weekly/limit 3 的
+# 双生态版本；取本侧的频率与上限（本仓是研究线，PR 噪音成本高于更新时延），生态取两侧并集。
 version: 2
 updates:
   - package-ecosystem: "github-actions"

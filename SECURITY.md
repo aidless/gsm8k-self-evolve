@@ -49,3 +49,4 @@ Defined in `OPEN_SOURCE_EXCLUSION.md` and enforced mechanically by
 
 - `docs/`, `.superpowers/`, `results/**/*.log`, `*.key` are excluded;
 - `*.json` evidence is retained; **history is never rewritten**.
+Release 资产用此密钥（SIGNING_KEY.asc）签名，验证命令 `gpg --verify <asset>.asc <asset>`。
