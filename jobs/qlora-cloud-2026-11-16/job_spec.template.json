@@ -1,0 +1,70 @@
+{
+  "job_id": "qlora-cloud-2026-11-16",
+  "prereg": "jobs/qlora-cloud-2026-11-16/PREREG.md",
+  "created_at_local": "2026-11-16T03:57:00-08:00",
+  "status": "blocked_on_compute",
+  "blocker": {
+    "reason": "gpu_host_unreachable",
+    "probes": [
+      {
+        "host": "36.150.116.206",
+        "port": 33100,
+        "rc": 255,
+        "note": "Connection refused (radeon-amd, noted auto-destroyed 2026-11-12)"
+      },
+      {
+        "host": "36.150.116.206",
+        "port": 34677,
+        "rc": 255,
+        "note": "Connection refused (amd-hz probed gpus=[none])"
+      }
+    ],
+    "checked_at_local": "2026-11-16T03:57:00-08:00"
+  },
+  "trainer": {
+    "entry": "paper_agent/train/train_dpo.py",
+    "base_model": "Qwen/Qwen3-4B",
+    "sft_adapter": "paper_agent/outputs/tmlr-qwen3-4b-p1v2/checkpoint-136",
+    "train_file": "paper_agent/data/dpo_p0v2.jsonl",
+    "smoke": {
+      "flag": "--smoke",
+      "max_steps": 10
+    },
+    "p2": {
+      "flag": "--p2",
+      "max_steps": -1,
+      "epochs": 1
+    },
+    "hyperparams": {
+      "beta": 0.1,
+      "lr": 5e-05,
+      "per_device_bs": 1,
+      "grad_accum": 8,
+      "max_len": 384,
+      "seed": 42
+    }
+  },
+  "verifier": {
+    "verifier_id": "verifier-frozen-v1",
+    "min_gain": 0.02
+  },
+  "receipt_contract": {
+    "required": [
+      "adapter_sha256",
+      "verifier_id",
+      "steps"
+    ],
+    "optional": [
+      "job_digest",
+      "adapter_path"
+    ],
+    "local_sha_must_match": true,
+    "fail_closed": true
+  },
+  "runbook": {
+    "detached": true,
+    "scratch": "$HOME/dsh-scratch/qlora-cloud-2026-11-16",
+    "resume_from_checkpoint": "save_steps=25 (p2)",
+    "command_template": "cloud_lora_command(host,port,scratch,trainer,steps) from evokit.weight_updater"
+  }
+}
