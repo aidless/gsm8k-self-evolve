@@ -1,0 +1,62 @@
+{
+  "evidence": {
+    "what_this_is": "weight lever driven by a real Qwen3-4B QLoRA SFT-continuation adapter on disk",
+    "adapter_dir": "paper_agent/outputs/tmlr-qwen3-4b-p2",
+    "training_log": "paper_agent/reports/train_p2.log",
+    "training_script": "paper_agent/train/train_agent.py (SFT continuation, not DPO)",
+    "training_ran_at": "2026-09-10T21:26:33-07:00 .. 21:34:18-07:00",
+    "training_wall_clock_s": 448.8,
+    "training_hardware": "NVIDIA GeForce RTX 3060 Laptop GPU 6144MiB (max_memory 4600MiB + CPU offload)",
+    "optimizer_steps": 25,
+    "pairs": 400,
+    "train_file_sha256": "a0e41f5bb07bb5086cf0668002eefc97095caad5afe93dc0bcf275529d5e13e8",
+    "not_claimed": [
+      "no GSM8K/TMLR metric improvement is claimed",
+      "this adapter is an SFT continuation, not a DPO product",
+      "evaluate() scores are injected synthetic values, not model outputs",
+      "this script does not train anything"
+    ]
+  },
+  "loop": {
+    "rounds": [
+      {
+        "round": 0,
+        "lever": "harness",
+        "rule_id": "R1_scaffold_bottleneck",
+        "reason": "scaffold/tool/format errors dominate",
+        "delta": 0.05999999999999994,
+        "score": 0.86,
+        "accepted": true,
+        "rollback": false,
+        "observed_verifier": "verifier-frozen-v1",
+        "expected_verifier": "verifier-frozen-v1",
+        "weight_receipt": null
+      },
+      {
+        "round": 1,
+        "lever": "weight",
+        "rule_id": "R2_capability_bottleneck",
+        "reason": "reasoning errors dominate: update weights",
+        "delta": 0.07000000000000006,
+        "score": 0.93,
+        "accepted": true,
+        "rollback": false,
+        "observed_verifier": "verifier-frozen-v1",
+        "expected_verifier": "verifier-frozen-v1",
+        "weight_receipt": {
+          "adapter_sha256": "f04022a947b3074eb440c14e6cee70da59354b0a7e809939c75a125875d659a1",
+          "verifier_id": "verifier-frozen-v1",
+          "steps": 25,
+          "adapter_path": "paper_agent/outputs/tmlr-qwen3-4b-p2/adapter_model.safetensors"
+        }
+      }
+    ],
+    "stopped_reason": null,
+    "accepted": [
+      0,
+      1
+    ],
+    "final_score": 0.93,
+    "verifier_id": "verifier-frozen-v1"
+  }
+}
