@@ -1,0 +1,94 @@
+{
+  "evidence": {
+    "what_this_is": "weight lever driven by a real Qwen3-4B DPO adapter trained on AMD Radeon Cloud",
+    "adapter_dir": "results/qlora-cloud-2026-11-21/p2",
+    "training_script": "train_dpo.py --p2 (chosen/rejected pairs, not SFT)",
+    "training_hardware": "AMD Radeon Graphics gfx1100 48GiB bf16 (no_4bit, bf16 LoRA)",
+    "optimizer_steps": 50,
+    "train_file_sha256": "520be7f85d599668b415a221fa4f3b80342129c6d93e8cc7c3fc99d50677c28f",
+    "adapter_sha256": "b9ef9253093034bab7e0cff0c72fa05dcdda6ab879fa4e3505c0927270bcc6a9",
+    "not_claimed": [
+      "no GSM8K/TMLR metric improvement is claimed",
+      "evaluate() scores are injected synthetic values, not model outputs",
+      "this script does not train anything; it only reads the adapter on disk"
+    ]
+  },
+  "loop": {
+    "rounds": [
+      {
+        "round": 0,
+        "lever": "harness",
+        "rule_id": "R1_scaffold_bottleneck",
+        "reason": "scaffold/tool/format errors dominate",
+        "delta": 0.05999999999999994,
+        "score": 0.86,
+        "accepted": true,
+        "rollback": false,
+        "observed_verifier": "verifier-frozen-v1",
+        "expected_verifier": "verifier-frozen-v1",
+        "weight_receipt": null
+      },
+      {
+        "round": 1,
+        "lever": "weight",
+        "rule_id": "R2_capability_bottleneck",
+        "reason": "reasoning errors dominate: update weights",
+        "delta": 0.07000000000000006,
+        "score": 0.93,
+        "accepted": true,
+        "rollback": false,
+        "observed_verifier": "verifier-frozen-v1",
+        "expected_verifier": "verifier-frozen-v1",
+        "weight_receipt": {
+          "adapter_sha256": "b9ef9253093034bab7e0cff0c72fa05dcdda6ab879fa4e3505c0927270bcc6a9",
+          "verifier_id": "verifier-frozen-v1",
+          "steps": 50,
+          "adapter_path": "gsm8k-self-evolve/results/qlora-cloud-2026-11-21/p2/adapter_model.safetensors"
+        }
+      }
+    ],
+    "stopped_reason": null,
+    "accepted": [
+      0,
+      1
+    ],
+    "final_score": 0.93,
+    "verifier_id": "verifier-frozen-v1"
+  },
+  "receipt_validation": {
+    "reason": null,
+    "valid": true
+  },
+  "receipt_crosscheck_local_vs_cloud": {
+    "adapter_sha256": {
+      "local": "b9ef9253093034bab7e0cff0c72fa05dcdda6ab879fa4e3505c0927270bcc6a9",
+      "cloud": "b9ef9253093034bab7e0cff0c72fa05dcdda6ab879fa4e3505c0927270bcc6a9",
+      "match": true
+    },
+    "verifier_id": {
+      "local": "verifier-frozen-v1",
+      "cloud": "verifier-frozen-v1",
+      "match": true
+    },
+    "steps": {
+      "local": 50,
+      "cloud": 50,
+      "match": true
+    },
+    "base_model": {
+      "local": "Qwen/Qwen3-4B",
+      "cloud": "Qwen/Qwen3-4B",
+      "match": true
+    },
+    "lora_r": {
+      "local": 32,
+      "cloud": 32,
+      "match": true
+    },
+    "bytes": {
+      "local": 264308896,
+      "cloud": 264308896,
+      "match": true
+    }
+  }
+}
