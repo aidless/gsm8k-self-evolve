@@ -1,0 +1,62 @@
+{
+  "job": "qlora-cloud-2026-11-21",
+  "status": "SMOKE_PASS_P2_WAITING_GPU_WINDOW",
+  "instance": {
+    "host": "36.150.116.206",
+    "ssh_port": 35361,
+    "hostname": "j-rmovspv3vqzvrbutonoj5l2qsu",
+    "image": "radeon-cloud-global/rc/base@sha256:25e9810c37ef",
+    "gpu": "AMD Radeon Graphics gfx1100, 47.98 GiB VRAM, capability (11,0), bf16=True",
+    "torch": "2.9.1+gitff65f5b, cuda.is_available=True, device_count=1",
+    "expires": "2026-11-23T20:40:00-08:00",
+    "shared_gpu": true
+  },
+  "inputs_sha256_local_eq_cloud": {
+    "train_dpo.py": "a2e541dbba22be30482a876ed43de4f4c9c49151002d9fc11175a05149c869b7",
+    "dpo_p0v2.jsonl": "520be7f85d599668b415a221fa4f3b80342129c6d93e8cc7c3fc99d50677c28f",
+    "sft_checkpoint-136_adapter": "6146767c7bdd2293ccbacffe4e6a0aa8eca68ea2395b70dac09afe2db4ceafbe"
+  },
+  "path": "no_4bit (bitsandbytes absent on ROCm base; bf16 full-finetune-LoRA fits 48 GiB)",
+  "smoke": {
+    "command_flags": "--smoke --no-4bit --gpu-mem-mib 20000",
+    "steps": 10,
+    "epoch": 0.2,
+    "train_runtime_s": 75.5,
+    "final_loss": 0.0003683001942407671,
+    "step1": {"loss": 0.0007, "reward_chosen": 13.99, "reward_rejected": -5.5, "accuracy": 1.0},
+    "step10": {"loss": 0.0, "accuracy": 1.0},
+    "adapter": {
+      "path_remote": "/workspace/qlora-job/out/smoke/adapter_model.safetensors",
+      "bytes": 264308896,
+      "sha256": "e44f8acdcc6fdfad0febc6a69c2207447dbcb237c3cf15960694bb626af743e9",
+      "config_sha256": "e086f294e77ad6fb1ea9353033f9364eb4e7ac1ccdd19c66db472361724e0e11"
+    },
+    "dpo_evidence": "train_dpo.py + dpo_p0v2.jsonl; log has loss/rewards/chosen/rejected (true DPO, NOT the local SFT-resume adapter f04022a9...)"
+  },
+  "receipt": {
+    "computed_on": "cloud via jobs/remote_receipt.py (no GPU, reads artifact bytes)",
+    "validated_by": "evokit.lever_selector.validate_weight_receipt(receipt, 'verifier-frozen-v1') -> None reason",
+    "adapter_sha256": "e44f8acdcc6fdfad0febc6a69c2207447dbcb237c3cf15960694bb626af743e9",
+    "steps": 10,
+    "verifier_id": "verifier-frozen-v1",
+    "base_model": "Qwen/Qwen3-4B",
+    "lora_r": 32,
+    "lora_alpha": 16,
+    "lora_b_nonzero": true,
+    "lora_b_tensors": 252
+  },
+  "p2": {
+    "status": "BLOCKED_ON_SHARED_GPU_CONTENTION",
+    "error": "torch.OutOfMemoryError: HIP out of memory. Tried to allocate 74~90 MiB. GPU 0 total 47.98 GiB of which 0 bytes free; PyTorch allocated only ~8 GiB",
+    "stage": "precompute_ref_log_probs -> selective_log_softmax -> F.log_softmax",
+    "root_cause": "co-tenant occupancy on shared instance (rocm-smi free fell to 3.7 GiB); not our peak (our allocated ~8 GiB)",
+    "retry": "jobs/run_p2_retry.sh daemon on cloud, needs 3 consecutive free>=36 GiB samples, up to 60 rounds; as of last probe attempt=6 free=3.7 GiB, still waiting",
+    "honesty": "smoke receipt MUST NOT be presented as p2; PREREG requires a distinct p2 job_digest-derived receipt if p2 ever completes"
+  },
+  "boundaries": [
+    "smoke = channel/escrow validation档, not a capability result; no GSM8K/TMLR claim",
+    "true DPO adapter distinguished from local paper_agent/outputs/tmlr-qwen3-4b-p2 SFT-resume adapter",
+    "shared GPU contention is environmental; p2 may not complete within the instance window",
+    "token usage != cost; no token-to-money conversion performed"
+  ]
+}

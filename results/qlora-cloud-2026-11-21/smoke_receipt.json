@@ -1,0 +1,13 @@
+{
+  "adapter_sha256": "e44f8acdcc6fdfad0febc6a69c2207447dbcb237c3cf15960694bb626af743e9",
+  "verifier_id": "verifier-frozen-v1",
+  "steps": 10,
+  "steps_source": "checkpoint-10/trainer_state.json",
+  "adapter_path": "out/smoke",
+  "base_model": "Qwen/Qwen3-4B",
+  "lora_r": 32,
+  "lora_alpha": 16,
+  "lora_b_nonzero": true,
+  "lora_b_tensors": 252,
+  "bytes": 264308896
+}
