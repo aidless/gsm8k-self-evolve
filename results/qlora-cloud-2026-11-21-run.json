@@ -1,6 +1,6 @@
 {
   "job": "qlora-cloud-2026-11-21",
-  "status": "SMOKE_PASS_P2_WAITING_GPU_WINDOW",
+  "status": "P2_SUCCESS",
   "instance": {
     "host": "36.150.116.206",
     "ssh_port": 35361,
@@ -46,17 +46,29 @@
     "lora_b_tensors": 252
   },
   "p2": {
-    "status": "BLOCKED_ON_SHARED_GPU_CONTENTION",
-    "error": "torch.OutOfMemoryError: HIP out of memory. Tried to allocate 74~90 MiB. GPU 0 total 47.98 GiB of which 0 bytes free; PyTorch allocated only ~8 GiB",
-    "stage": "precompute_ref_log_probs -> selective_log_softmax -> F.log_softmax",
-    "root_cause": "co-tenant occupancy on shared instance (rocm-smi free fell to 3.7 GiB); not our peak (our allocated ~8 GiB)",
-    "retry": "jobs/run_p2_retry.sh daemon on cloud, needs 3 consecutive free>=36 GiB samples, up to 60 rounds; as of last probe attempt=6 free=3.7 GiB, still waiting",
-    "honesty": "smoke receipt MUST NOT be presented as p2; PREREG requires a distinct p2 job_digest-derived receipt if p2 ever completes"
+    "status": "SUCCESS",
+    "attempt": 8,
+    "command_flags": "--p2 --no-4bit --gpu-mem-mib 12000",
+    "steps": 50,
+    "epoch": 1.0,
+    "train_runtime_s": 233.5468,
+    "train_samples_per_second": 1.713,
+    "final_train_loss": 7.366215409197352e-05,
+    "rewards_accuracies": 1.0,
+    "earlier_oom": "torch.OutOfMemoryError: HIP out of memory in precompute_ref_log_probs -> F.log_softmax; root cause co-tenant VRAM occupancy (free fell to 3.7 GiB), not our peak (~8 GiB allocated)",
+    "resolution": "jobs/run_p2_retry.sh waited for 3 consecutive free>=36 GiB samples; attempt 8 got a stable 39.2 GiB window and completed rc=0",
+    "adapter": {
+      "path_remote": "/workspace/qlora-job/out/p2/adapter_model.safetensors",
+      "bytes": 264308896,
+      "sha256": "b9ef9253093034bab7e0cff0c72fa05dcdda6ab879fa4e3505c0927270bcc6a9"
+    }
   },
   "boundaries": [
     "smoke = channel/escrow validation档, not a capability result; no GSM8K/TMLR claim",
+    "p2 = 50-step 1-epoch DPO with an independent receipt (sha b9ef9253...), distinct from smoke (sha e44f8acd...); both validate_weight_receipt reason=None",
     "true DPO adapter distinguished from local paper_agent/outputs/tmlr-qwen3-4b-p2 SFT-resume adapter",
-    "shared GPU contention is environmental; p2 may not complete within the instance window",
+    "shared GPU contention was environmental; p2 EMA OOM on attempts 1-7 but succeeded on attempt 8 with a stable 39.2 GiB window",
+    "no_4bit bf16 LoRA path (ROCm base has no bitsandbytes), not the paper's bnb_4bit_NF4 quantization",
     "token usage != cost; no token-to-money conversion performed"
   ]
 }
