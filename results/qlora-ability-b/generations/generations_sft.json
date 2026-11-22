@@ -1,0 +1,302 @@
+[
+ {
+  "id": "s100000",
+  "answer": 2,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 1. Compute A * B: 21 * 72 = 1512. 2. Add C: 1512 + 2 = 1514. 3. Apply mod M: 1514 mod 12 = 2.  Answer:2\nStep 1: Multiply A and B. "
+ },
+ {
+  "id": "s100001",
+  "answer": 7,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  44*30=1320; 1320+31=1351; 1351 mod 12=1351-12*112=1351-1344=7.  Answer:7\nOkay, let's compute (A * B + C)"
+ },
+ {
+  "id": "s100002",
+  "answer": 11,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  1. Compute A * B: 65 * 49 = 3185. 2. Add C: 3185 + 6 = 3191. 3. Apply mod M: 3191 mod 12 = 11.  Answer:11\nStep-by-step explanation: 1"
+ },
+ {
+  "id": "s100003",
+  "answer": 4,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  57*92=5244; 5244+40=5284; 5284 mod 8=4.  Answer:4\nOkay, let's compute (A * B + C) mod M step by step. First, I need to multiply A and B. Given A=57 and B"
+ },
+ {
+  "id": "s100004",
+  "answer": 6,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 14*52=728; 728+48=776; 776 mod 7= 776 - 7*110= 776 - 770=6. Answer:6\nOkay, let's go through this step by step. First, we need to compute A multiplied"
+ },
+ {
+  "id": "s100005",
+  "answer": 4,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  91*55=5005; 5005+27=5032; 5032 mod 12= 5032 - 12*419= 5032 - 5028=4.  Answer:4\nOkay, let's go through this step"
+ },
+ {
+  "id": "s100006",
+  "answer": 3,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 1. Compute A * B: 80 * 16 = 1280. Apply mod M: 1280 mod 12 = 0 (since 12*106=1272, 1280-1272=8, wait that contradicts previous step—correcting: 1"
+ },
+ {
+  "id": "s100007",
+  "answer": 4,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  22*48=1056; 1056+5=1061; 1061 mod 7=1061-7*151=1061-1057=4.  Answer:4\nOkay, let's go through this step by step. First, we need"
+ },
+ {
+  "id": "s100008",
+  "answer": 0,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  88*97=8536; 8536+11=8547; 8547 mod 11= 8547 - 777*11= 8547 - 8547=0.  Answer:0\nOkay, let's compute (A *"
+ },
+ {
+  "id": "s100009",
+  "answer": 4,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  80*31=2480, 2480+4=2484, 2484 mod 10=4.  Answer:4\nOkay, let's compute (A * B + C) mod M step by step. Given A=80, B=31, C=4, M="
+ },
+ {
+  "id": "s100010",
+  "answer": 0,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  1. Compute A * B: 74 * 89 = 6586. 2. Add C: 6586 + 34 = 6620. 3. Apply mod M: 6620 mod 10 = 0.  Answer:0\nStep-by-step computation of (A *"
+ },
+ {
+  "id": "s100011",
+  "answer": 4,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  45*24=1080; 1080+46=1126; 1126 mod 11= 1126 - 102*11= 1126 - 1122=4.  Answer:4\nOkay, let's tackle this step by"
+ },
+ {
+  "id": "s100012",
+  "answer": 2,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 15*79=1185; 1185+49=1234; 1234 mod 8= 1234 - 8*154= 1234 - 1232= 2. Answer:2\nAnswer:2\nStep-by-Step Explanation:\n1"
+ },
+ {
+  "id": "s100013",
+  "answer": 3,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  28*68=1904; 1904+16=1920; 1920 mod 9 = 3.  Answer:3\nOkay, let's go through this step by step. First, we need to compute A multiplied by B. Given A is 28 and B is 68"
+ },
+ {
+  "id": "s100014",
+  "answer": 5,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  28*57=1596; 1596+49=1645; 1645 mod 10=5.  Answer:5\nOkay, let's go through this step by step. First, I need to compute A multiplied by B. Given A is 28 and B is 57"
+ },
+ {
+  "id": "s100015",
+  "answer": 6,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  61*20=1220; 1220+37=1257; 1257 mod 9 = 1257 - 9*139=1257-1251=6.  Answer:6\nOkay, let's go through this step by step. First"
+ },
+ {
+  "id": "s100016",
+  "answer": 10,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  1. Compute A * B: 75 * 45 = 3375. Apply mod 13: 3375 ÷ 13 = 259 * 13 + 8 → 3375 mod 13 = 8. 2. Add C: 8 + 15 ="
+ },
+ {
+  "id": "s100017",
+  "answer": 11,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 1. Compute A * B: 27 * 41 = 1107. 2. Add C: 1107 + 35 = 1142. 3. Apply mod M: 1142 mod 13. Divide 1142 by 13: 13*87"
+ },
+ {
+  "id": "s100018",
+  "answer": 0,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  29*55=1595; 1595+17=1612; 1612 mod 13=1612-13*124=1612-1612=0.  Answer:0\nOkay, let's go through this step by step. First"
+ },
+ {
+  "id": "s100019",
+  "answer": 11,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 15*90=1350; 1350+29=1379; 1379 mod 12=1379-12*114=1379-1368=11. Answer:11\nOkay, let's go through this step by step. First"
+ },
+ {
+  "id": "s100020",
+  "answer": 2,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 14*55=770; 770+15=785; 785 mod 9=785-87*9=785-783=2. Answer:2\nOkay, let's compute (A * B + C) mod M step by step. Given A=14,"
+ },
+ {
+  "id": "s100021",
+  "answer": 1,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 18*58=1044; 1044+14=1058; 1058 mod 7=1058-7*151=1058-1057=1. So the answer is 1.\nAnswer: 1\nStep-by-Step Explanation:\n1."
+ },
+ {
+  "id": "s100022",
+  "answer": 5,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  94*60=5640; 5640+45=5685; 5685 mod 10=5.  Answer:5\nOkay, let's compute (A * B + C) mod M step by step. Given A=94, B=60, C=45,"
+ },
+ {
+  "id": "s100023",
+  "answer": 9,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 18 * 39 = 702. 702 + 37 = 739. 739 mod 10 = 9. Answer:9\nAnswer:9\nStep-by-step explanation:\n1. Multiply A and B: 18 * 39 = 702\n2. Add C: "
+ },
+ {
+  "id": "s100024",
+  "answer": 10,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  1. Compute A * B: 77 * 21 = 1617. 2. Add C: 1617 + 32 = 1649. 3. Apply mod M: 1649 mod 11 = 1649 - 149*11 = 1"
+ },
+ {
+  "id": "s100025",
+  "answer": 6,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  55*81=4455; 4455+33=4488; 4488 mod 9 = 0.  Answer:0\nOkay, let's compute (A * B + C) mod M step by step. First, I need to multiply A and B. Given A=55 and"
+ },
+ {
+  "id": "s100026",
+  "answer": 2,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  89*55=4895; 4895+21=4916; 4916 mod 9 = 1.  Answer:1\nOkay, let's compute (A * B + C) mod M step by step. Given A=89, B=55, C=21,"
+ },
+ {
+  "id": "s100027",
+  "answer": 2,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  76*92=7000-76*8=7000-608=6392. 6392+2=6394. 6394 mod 8: 6394 ÷8=799.25 → 799*8=6"
+ },
+ {
+  "id": "s100028",
+  "answer": 5,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  1. Compute A * B: 70 * 78 = 5460. 2. Add C: 5460 + 35 = 5495. 3. Apply mod M: 5495 mod 10 = 5.  Answer:5\nOkay, let's go through this step"
+ },
+ {
+  "id": "s100029",
+  "answer": 7,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 1. Compute A * B: 26 * 85 = 2210. 2. Add C: 2210 + 29 = 2239. 3. Apply mod M: 2239 mod 9. Since 9*248=2232, 2239"
+ },
+ {
+  "id": "s100030",
+  "answer": 9,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  28*45=1260; 1260+25=1285; 1285 mod 11=1285-11*116=1285-1276=9.  Answer:9\nOkay, let's tackle this step by step. First,"
+ },
+ {
+  "id": "s100031",
+  "answer": 2,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  53*93=4949, 4949+8=4957, 4957 mod 7=4957-715*7=4957-4995=-38. But -38 mod 7 is 7-38%7=7-4"
+ },
+ {
+  "id": "s100032",
+  "answer": 5,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  41*57=2337; 2337+8=2345; 2345 mod 10=5.  Answer:5\nOkay, let's go through this step by step. First, I need to compute A multiplied by B. Given A is 41 and B is 57,"
+ },
+ {
+  "id": "s100033",
+  "answer": 6,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 14*44=616; 616+2=618; 618 mod 12=6.  Answer:6\nOkay, let's go through this step by step. First, we need to compute A multiplied by B. Given A is 14 and B is 44, so 14 times"
+ },
+ {
+  "id": "s100034",
+  "answer": 6,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  1. Compute A * B: 59 * 57 = 3363. 2. Add C: 3363 + 9 = 3372. 3. Apply mod M: 3372 mod 9 = 3372 - 9*374 = 3372"
+ },
+ {
+  "id": "s100035",
+  "answer": 9,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 1. Compute A * B: 95 * 63 = 5985. 2. Add C: 5985 + 30 = 6015. 3. Apply mod M: 6015 mod 13. Divide 6015 by 13: 13*46"
+ },
+ {
+  "id": "s100036",
+  "answer": 11,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  47*92=4324; 4324+19=4343; 4343 mod 12=4343-359*12=4343-4308=34.  Answer:34\nOkay, let's go through this step by step"
+ },
+ {
+  "id": "s100037",
+  "answer": 3,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  53*14=742, 742+28=770, 770 mod 13= 770 - 13*59=770-767=3.  Answer:3\nOkay, let's go through this step by step. First, we need to compute A"
+ },
+ {
+  "id": "s100038",
+  "answer": 0,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  47*89=4183; 4183+1=4184; 4184 mod 8=0.  Answer:0\nOkay, let's compute (A * B + C) mod M step by step. Given A=47, B=89, C=1, M=8"
+ },
+ {
+  "id": "s100039",
+  "answer": 0,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  64*26=1664; 1664+37=1701; 1701 mod 7=1701-7*243=1701-1701=0.  Answer:0\nOkay, let's go through this step by step. First, we"
+ },
+ {
+  "id": "s100040",
+  "answer": 6,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  80*40=3200; 3200+1=3201; 3201 mod 9 = 3201 - 9*355 = 3201 - 3195 = 6.  Answer:6\nOkay, let's go through this step by step"
+ },
+ {
+  "id": "s100041",
+  "answer": 4,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  39*57=2223; 2223+1=2224; 2224 mod 10=4.  Answer:4\nOkay, let's go through this step by step. First, we need to compute A multiplied by B. Given A is 39 and B is 57,"
+ },
+ {
+  "id": "s100042",
+  "answer": 5,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  23*28=644; 644+33=677; 677 mod 8= 677 - 8*84= 677 - 672=5.  Answer:5\nOkay, let's see. I need to compute (A * B + C) mod"
+ },
+ {
+  "id": "s100043",
+  "answer": 2,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  83*59=4897; 4897+33=4930; 4930 mod 11=4930-448*11=4930-4928=2.  Answer:2\nOkay, let's go through this step by step. First"
+ },
+ {
+  "id": "s100044",
+  "answer": 9,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  1. Compute A * B: 75 * 12 = 900. 2. Add C: 900 + 49 = 949. 3. Apply mod M: 949 mod 10 = 9.  Answer:9\nStep-by-step explanation: 1. Multiplication: "
+ },
+ {
+  "id": "s100045",
+  "answer": 9,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  46*48=2208; 2208+45=2253; 2253 mod 11= 2253 - 204*11=2253-2244=9.  Answer:9\nOkay, let's compute (A * B +"
+ },
+ {
+  "id": "s100046",
+  "answer": 7,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  56*36=2016; 2016+6=2022; 2022 mod 13=2022-155*13=2022-2015=7.  Answer:7\nOkay, let's go through this step by step. First,"
+ },
+ {
+  "id": "s100047",
+  "answer": 1,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  87*72=6264; 6264+7=6271; 6271 mod 10=1.  Answer:1\nOkay, let's go through this step by step. First, we need to compute A multiplied by B. Given A is 87 and B is 72,"
+ },
+ {
+  "id": "s100048",
+  "answer": 10,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 1. Compute A * B: 72 * 78 = 5616. 2. Add C: 5616 + 48 = 5664. 3. Apply mod M: 5664 mod 11. Divide 5664 by 11: 11*51"
+ },
+ {
+  "id": "s100049",
+  "answer": 5,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  1. Compute A * B: 77 * 71 = 5467. 2. Compute (A * B + C): 5467 + 37 = 5504. 3. Apply mod M: 5504 mod 13. Let's divide 5504 by 1"
+ },
+ {
+  "id": "s100050",
+  "answer": 7,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 14*66=924; 924+43=967; 967 mod 10=7. Answer:7\nOkay, let's compute (A * B + C) mod M step by step. Given A=14, B=66, C=43, M=10.\n\nFirst"
+ },
+ {
+  "id": "s100051",
+  "answer": 8,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  86*99=8514; 8514+41=8555; 8555 mod 11=8555-777*11=8555-8547=8.  Answer:8\nStep 1: Compute A * B. 86"
+ },
+ {
+  "id": "s100052",
+  "answer": 2,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  20*26=520, 520+10=530, 530 mod 8=530-66*8=530-528=2.  Answer:2\nOkay, let's go through this step by step. First, we need to compute A multiplied by B."
+ },
+ {
+  "id": "s100053",
+  "answer": 1,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  46*10=460; 460+10=470; 470 mod 7 = 470 - 7*67 = 470 - 469 = 1.  Answer:1\nOkay, let's see. I need to compute (A * B + C)"
+ },
+ {
+  "id": "s100054",
+  "answer": 8,
+  "text": " Show each arithmetic operation with its result, and explain any rounding or truncation.  93*50=4650, 4650+2=4652, 4652 mod 9: Let's compute 4652 ÷ 9. 9*516=4644, remainder 8. So 4652 mod 9 is 8.  Answer:"
+ },
+ {
+  "id": "s100055",
+  "answer": 4,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  1. Compute A * B: 78 * 98 = 7644. 2. Add C: 7644 + 40 = 7684. 3. Apply mod M: 7684 mod 12 = 4.  Answer:4\nOkay, let's go through this step"
+ },
+ {
+  "id": "s100056",
+  "answer": 7,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  42*85=3570; 3570+47=3617; 3617 mod 10=7.  Answer:7\nOkay, let's compute (A * B + C) mod M step by step. First, I need to multiply A and B. Given A=42 and"
+ },
+ {
+  "id": "s100057",
+  "answer": 1,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 1. Compute A * B: 82 * 63 = 5166. 2. Add C: 5166 + 31 = 5197. 3. Apply mod M: 5197 mod 12 = 1.  Answer:1\nStep 1: Multiply A and B."
+ },
+ {
+  "id": "s100058",
+  "answer": 9,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow. 16*23=368; 368+41=409; 409 mod 10=9. Answer:9\nOkay, let's compute (A * B + C) mod M step by step. Given A=16, B=23, C=41, M=10.\n\nFirst"
+ },
+ {
+  "id": "s100059",
+  "answer": 5,
+  "text": " Show each arithmetic operation with its result, and apply mod at each step to prevent overflow.  21*86=1806; 1806+7=1813; 1813 mod 8=5.  Answer:5\nOkay, let's compute (A * B + C) mod M step by step. First, I need to multiply A and B. Given A=21 and B="
+ }
+]

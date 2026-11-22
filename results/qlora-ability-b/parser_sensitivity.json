@@ -1,0 +1,62 @@
+{
+ "per_parser": {
+  "last_int": {
+   "sft_passed": 26,
+   "dpo_passed": 34,
+   "total": 60,
+   "sft_accuracy": 0.4333,
+   "dpo_accuracy": 0.5667,
+   "delta": 0.1333,
+   "label": "GAIN"
+  },
+  "first_answer": {
+   "sft_passed": 45,
+   "dpo_passed": 35,
+   "total": 60,
+   "sft_accuracy": 0.75,
+   "dpo_accuracy": 0.5833,
+   "delta": -0.1667,
+   "label": "REGRESSION"
+  },
+  "last_answer": {
+   "sft_passed": 45,
+   "dpo_passed": 35,
+   "total": 60,
+   "sft_accuracy": 0.75,
+   "dpo_accuracy": 0.5833,
+   "delta": -0.1667,
+   "label": "REGRESSION"
+  },
+  "upto_answer": {
+   "sft_passed": 46,
+   "dpo_passed": 40,
+   "total": 60,
+   "sft_accuracy": 0.7667,
+   "dpo_accuracy": 0.6667,
+   "delta": -0.1,
+   "label": "REGRESSION"
+  },
+  "strict_last_line": {
+   "sft_passed": 0,
+   "dpo_passed": 2,
+   "total": 60,
+   "sft_accuracy": 0.0,
+   "dpo_accuracy": 0.0333,
+   "delta": 0.0333,
+   "label": "NO_GAIN"
+  }
+ },
+ "n": 60,
+ "min_delta": 0.05,
+ "labels": [
+  "GAIN",
+  "NO_GAIN",
+  "REGRESSION"
+ ],
+ "symbol_consistency": "UNSTABLE",
+ "format_compliance": {
+  "sft": 0,
+  "dpo": 5,
+  "total": 60
+ }
+}
