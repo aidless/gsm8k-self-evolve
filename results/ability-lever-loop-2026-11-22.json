@@ -1,0 +1,103 @@
+{
+  "evidence": {
+    "what_this_is": "weight lever driven by real ability-B DPO adapter; evaluate uses real ground-truth accuracy, not injected scores",
+    "adapter_dir": "results/qlora-ability-b",
+    "training_script": "train_dpo.py --p2 on synthetic (A*B+C) mod M task",
+    "training_hardware": "AMD Radeon Cloud gfx1100 48GiB bf16 (no_4bit)",
+    "optimizer_steps": 50,
+    "adapter_sha256": "b5e8ff39193247ce8e61f3b18724e13ff1dd8102506c8983959836086a089db9",
+    "objective_source": "parser_sensitivity.json last_int on ability-B heldout (60 questions, disjoint seed range)",
+    "prereg_accuracy": {
+      "base": 0.4333,
+      "adapter": 0.5667,
+      "base_passed": 26,
+      "adapter_passed": 34,
+      "total": 60,
+      "delta": 0.1333,
+      "symbol_consistency": "UNSTABLE"
+    },
+    "not_claimed": [
+      "this script does not train anything; it only reads the adapter on disk and re-judges stored generations",
+      "no capability improvement is claimed: the PREREG last_int +0.1333 GAIN is an artifact of output-shape convergence (SFT continues steps after Answer:, DPO does not); explicit-answer parsers give -0.1667 REGRESSION",
+      "symbol_consistency is UNSTABLE across parsers; a single-parser GAIN must not be reported as capability"
+    ]
+  },
+  "loop": {
+    "rounds": [
+      {
+        "round": 0,
+        "lever": "harness",
+        "rule_id": "R1_scaffold_bottleneck",
+        "reason": "scaffold/tool/format errors dominate",
+        "delta": 0.4333,
+        "score": 0.4333,
+        "accepted": true,
+        "rollback": false,
+        "observed_verifier": "verifier-frozen-v1",
+        "expected_verifier": "verifier-frozen-v1",
+        "weight_receipt": null
+      },
+      {
+        "round": 1,
+        "lever": "weight",
+        "rule_id": "R2_capability_bottleneck",
+        "reason": "reasoning errors dominate: update weights",
+        "delta": 0.13339999999999996,
+        "score": 0.5667,
+        "accepted": true,
+        "rollback": false,
+        "observed_verifier": "verifier-frozen-v1",
+        "expected_verifier": "verifier-frozen-v1",
+        "weight_receipt": {
+          "adapter_sha256": "b5e8ff39193247ce8e61f3b18724e13ff1dd8102506c8983959836086a089db9",
+          "verifier_id": "verifier-frozen-v1",
+          "steps": 50,
+          "adapter_path": "ability/out"
+        }
+      }
+    ],
+    "stopped_reason": null,
+    "accepted": [
+      0,
+      1
+    ],
+    "final_score": 0.5667,
+    "verifier_id": "verifier-frozen-v1"
+  },
+  "receipt_validation": {
+    "reason": null,
+    "valid": true
+  },
+  "receipt_crosscheck_local_vs_disk": {
+    "adapter_sha256": {
+      "local": "b5e8ff39193247ce8e61f3b18724e13ff1dd8102506c8983959836086a089db9",
+      "disk": "b5e8ff39193247ce8e61f3b18724e13ff1dd8102506c8983959836086a089db9",
+      "match": true
+    },
+    "verifier_id": {
+      "local": "verifier-frozen-v1",
+      "disk": "verifier-frozen-v1",
+      "match": true
+    },
+    "steps": {
+      "local": 50,
+      "disk": 50,
+      "match": true
+    },
+    "base_model": {
+      "local": "Qwen/Qwen3-4B",
+      "disk": "Qwen/Qwen3-4B",
+      "match": true
+    },
+    "lora_r": {
+      "local": 32,
+      "disk": 32,
+      "match": true
+    },
+    "bytes": {
+      "local": 264308896,
+      "disk": 264308896,
+      "match": true
+    }
+  }
+}
